@@ -1,4 +1,4 @@
-= AddressBook Level 4 - Developer Guide
+﻿= AddressBook Level 4 - Developer Guide
 :toc:
 :toc-title:
 :toc-placement: preamble
@@ -800,15 +800,31 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |Priority |As a ... |I want to ... |So that I can...
 |`* * *` |new user |see usage instructions |refer to instructions when I forget how to use the App
 
-|`* * *` |user |add a new person |
+|`* * *` |user |add a new job entry |
 
-|`* * *` |user |delete a person |remove entries that I no longer need
+|`* * *` |user |close an ongoing job entry |remove completed job and add it to jobs history
 
-|`* * *` |user |find a person by name |locate details of persons without having to go through the entire list
+|`* * *` |user |delete an ongoing job entry |remove unwanted ongoing job
 
-|`* *` |user |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
+|`* * *` |user |find a job entry by its assigned number |locate details of a job without having to go through the list of ongoing jobs
 
-|`*` |user with many persons in the address book |sort persons by name |locate a person easily
+|`* * *` |user |add remarks to an ongoing job entry |take not of details that are specific to the job
+
+|`* * *` |user |add a new employee |
+
+|`* * *` |user |delete an employee | update the list of employees that are in the company
+
+|`* * *` |user |find an employee by name | locate details of an employee without having to go through the list of employees
+
+|`* * *` |user |view all employees | decide who to assign to a job entry
+
+|`* *` |user |find job entries by the assigned employee's name |locate details of all jobs that are handled by an employee without having to go through the lists of jobs
+
+|`* *` |user |find job entries by client's name |locate details of all jobs belonging to a client without having to go through the lists of jobs
+
+|`* *` |user |find job entries by car number |locate details of all jobs related to a car number without having to go through the lists of jobs
+
+|`* *` |user |view employee's schedule on calender |
 |=======================================================================
 
 _{More to be added}_
