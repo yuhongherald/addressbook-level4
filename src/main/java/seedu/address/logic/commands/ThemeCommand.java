@@ -1,14 +1,14 @@
 package seedu.address.logic.commands;
 
-//@@author owzhenwei
-
 import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
+import seedu.address.commons.events.ui.SetThemeRequestEvent;
 import seedu.address.logic.commands.exceptions.CommandException;
 
+//@@author owzhenwei
 /**
- * Changes the theme
+ * Changes the theme of the application
  */
 public class ThemeCommand extends Command{
     public static final String COMMAND_WORD = "theme";
@@ -36,6 +36,7 @@ public class ThemeCommand extends Command{
         if (selectedIndex.getZeroBased() >= NUMBER_OF_THEMES) {
             throw new CommandException(Messages.MESSAGE_INVALID_THEME_INDEX);
         }
+        EventsCenter.getInstance().post(new SetThemeRequestEvent(selectedIndex));
         return new CommandResult(String.format(MESSAGE_THEME_CHANGE_SUCCESS, selectedIndex.getOneBased()));
     }
 
