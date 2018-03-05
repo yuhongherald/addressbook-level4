@@ -10,7 +10,7 @@ import seedu.servicing.model.tag.Tag;
 import seedu.servicing.model.tag.UniqueTagList;
 
 /**
- * Represents a Person in the servicing book.
+ * Represents a Person in the car servicing manager.
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 public class Person {

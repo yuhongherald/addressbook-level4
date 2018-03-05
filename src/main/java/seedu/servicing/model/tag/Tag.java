@@ -4,7 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.servicing.commons.util.AppUtil.checkArgument;
 
 /**
- * Represents a Tag in the servicing book.
+ * Represents a Tag in the car servicing manager.
  * Guarantees: immutable; name is valid as declared in {@link #isValidTagName(String)}
  */
 public class Tag {
