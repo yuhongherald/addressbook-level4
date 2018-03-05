@@ -804,8 +804,6 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |user |close an ongoing job entry |remove completed job and add it to jobs history
 
-|`* * *` |user |delete an ongoing job entry |remove unwanted ongoing job
-
 |`* * *` |user |find a job entry by its assigned number |locate details of a job without having to go through the list of ongoing jobs
 
 |`* * *` |user |add remarks to an ongoing job entry |take note of details that are specific to the job
