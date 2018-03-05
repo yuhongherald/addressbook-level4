@@ -816,6 +816,10 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |user |view all employees |decide which employee to assign a job
 
+|`* * *` |user |undo my commands |reverse commands done in error
+
+|`* * *` |user |redo my commands |redo undo commands
+
 |`* *` |user |find job entries by the assigned employee's name |locate details of all jobs that are handled by an employee without having to go through the lists of jobs
 
 |`* *` |user |find job entries by client's name |locate details of all jobs belonging to a client without having to go through the lists of jobs
@@ -824,7 +828,11 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |user |view employee's schedule on calender |easily make decision for assigning a job to an employee
 
-|`* *` |user |customize the colour label of job status |easily differentiate between the job statuses
+|`* *` |user |change the colour label of job status |easily differentiate between the job statuses
+
+|`* *` |user who likes customization |change the theme of the application |customize the theme to my preference
+
+|`*` |user |export completed jobs to other formats |print out all the completed job entries and view it with a better program
 |=======================================================================
 
 _{More to be added}_
