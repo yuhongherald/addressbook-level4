@@ -808,15 +808,15 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |user |find a job entry by its assigned number |locate details of a job without having to go through the list of ongoing jobs
 
-|`* * *` |user |add remarks to an ongoing job entry |take not of details that are specific to the job
+|`* * *` |user |add remarks to an ongoing job entry |take note of details that are specific to the job
 
 |`* * *` |user |add a new employee |
 
-|`* * *` |user |delete an employee | update the list of employees that are in the company
+|`* * *` |user |delete an employee |update the list of employees that are in the company
 
-|`* * *` |user |find an employee by name | locate details of an employee without having to go through the list of employees
+|`* * *` |user |find an employee by name |locate details of an employee without having to go through the list of employees
 
-|`* * *` |user |view all employees | decide who to assign to a job entry
+|`* * *` |user |view all employees |decide which employee to assign a job
 
 |`* *` |user |find job entries by the assigned employee's name |locate details of all jobs that are handled by an employee without having to go through the lists of jobs
 
@@ -824,7 +824,9 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |user |find job entries by car number |locate details of all jobs related to a car number without having to go through the lists of jobs
 
-|`* *` |user |view employee's schedule on calender |
+|`* *` |user |view employee's schedule on calender |easily make decision for assigning a job to an employee
+
+|`* *` |user |customize the colour label of job status |easily differentiate between the job statuses
 |=======================================================================
 
 _{More to be added}_
