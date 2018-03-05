@@ -10,9 +10,9 @@ ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
 endif::[]
-:repoURL: https://github.com/se-edu/addressbook-level4/tree/master
+:repoURL: https://github.com/W09-GroupB1/addressbook-level4.git
 
-By: `Team SE-EDU`      Since: `Jun 2016`      Licence: `MIT`
+By: `W09-GroupB1`      Since: `May 2018`      Licence: `MIT`
 
 == Setting up
 
@@ -816,17 +816,100 @@ _{More to be added}_
 [appendix]
 == Use Cases
 
-(For all use cases below, the *System* is the `AddressBook` and the *Actor* is the `user`, unless specified otherwise)
+(For all use cases below, the *System* is the `ServicingManager` and the *Actor* is the `user`, unless specified otherwise)
+
 
 [discrete]
-=== Use case: Delete person
+=== Use case: Add remarks to an ongoing job entry
 
 *MSS*
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+1.  User selects a job entry.
+2.  ServicingManager shows logged remarks in the job.
+3.  User requests to log a remark.
+4.  ServicingManager reflects the added remark at end of log.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The remarks list is empty.
++
+[none]
+** 2a1. ServicingManager shows an empty list.
++
+Use case resumes at step 3.
+
+* 3a. The given remark is empty.
++
+Use case resumes at step 3.
+
+[discrete]
+=== Use case: Tab auto-complete commands
+
+*MSS*
+
+1.  User types incomplete argument in command.
+2.  User presses tab key.
+3.  ServicingManager completes the command.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. Argument has more than one possible auto-complete.
++
+Use case resumes at step 1.
+
+[discrete]
+=== Use case: Navigate using the keyboard
+
+*MSS*
+
+1.  User presses a key to change selection.
+2.  ServicingManager changes selection.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a. ServicingManager is not focussed.
++
+[none]
+**  1a1. User presses global refocus hotkey.
+Use case resumes at step 1.
+
+[discrete]
+=== Use case: Add employee
+
+*MSS*
+
+1.  User requests to add an employee in the list.
+2.  ServicingManager adds the employee and updates the list.
++
+Use case ends.
+
+*Extensions*
+
+* 2a. The employee details are not valid.
++
+[none]
+** 2a1. AddressBook shows an error message.
++
+Use case resumes at step 1.
+
+[discrete]
+=== Use case: Delete employee
+
+*MSS*
+
+1.  User requests to list employees.
+2.  ServicingManager shows a list of employees.
+3.  User requests to delete a specific employee in the list.
+4.  ServicingManager deletes the employee and updates the list.
 +
 Use case ends.
 
@@ -840,9 +923,54 @@ Use case ends.
 * 3a. The given index is invalid.
 +
 [none]
-** 3a1. AddressBook shows an error message.
+** 3a1. ServicingManager shows an error message.
 +
 Use case resumes at step 2.
+
+[discrete]
+=== Use case: Find an employee by name
+
+*MSS*
+
+1.  User requests to find an employee by name.
+2.  ServicingManager shows a list of employees whose name contain the provided name.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
++
+Use case ends.
+
+[discrete]
+=== Use case: Customize the colour label of job status
+
+*MSS*
+
+1.  User specifies color label of a job status.
+2.  ServicingManager updates the label colors displayed.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a. The label provided is not valid.
++
+[none]
+** 1a1. ServicingManager shows an error message.
++
+Use case ends.
+
+[none]
+* 1b. The color provided is not valid.
++
+[none]
+** 1b1. ServicingManager shows an error message.
++
+Use case ends.
 
 _{More to be added}_
 
