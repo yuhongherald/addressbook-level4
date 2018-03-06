@@ -782,13 +782,15 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 
 *Target user profile*:
 
-* has a need to manage a significant number of contacts
+* has a need to manage a significant number of ongoing car servicing jobs and keep a record of past jobs
+* has a need to assign employees to jobs with ease
 * prefer desktop apps over other types
 * can type fast
 * prefers typing over mouse input
 * is reasonably comfortable using CLI apps
+* has a need to monitor employee’s performance through the number of jobs completed
 
-*Value proposition*: manage contacts faster than a typical mouse/GUI driven app
+*Value proposition*: A convenient App for car servicing managers to organize servicing jobs and assign specific employees.
 
 [appendix]
 == User Stories
@@ -1085,9 +1087,6 @@ _{More to be added}_
 
 [[mainstream-os]] Mainstream OS::
 Windows, Linux, Unix, OS-X
-
-[[private-contact-detail]] Private contact detail::
-A contact detail that is not meant to be shared with others
 
 [appendix]
 == Product Survey
