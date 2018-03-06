@@ -21,7 +21,7 @@ public class UserPrefs {
     }
 
     public CommandWords getCommandWords() {
-        commandWords = null; return commandWords == null ? new CommandWords() : commandWords;
+        return commandWords == null ? new CommandWords() : commandWords;
     }
 
     public GuiSettings getGuiSettings() {
