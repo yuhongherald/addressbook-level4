@@ -1,16 +1,15 @@
 package seedu.address.logic.commands;
 
-import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.logic.commands.exceptions.CommandWordException;
-import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.person.Person;
-import seedu.address.model.person.exceptions.DuplicatePersonException;
-
-import java.util.*;
-import java.util.stream.Collectors;
-
 import static java.util.Objects.requireNonNull;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import seedu.address.logic.commands.exceptions.CommandWordException;
+
+/**
+ * A data structure used to contain the mappings of a command to a word
+ */
 public class CommandWords {
     public static final String MESSAGE_INACTIVE = "%s is not an active command.";
     public final HashMap<String, String> commands;
