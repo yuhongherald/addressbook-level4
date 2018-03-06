@@ -825,9 +825,9 @@ _{More to be added}_
 *MSS*
 
 1.  User selects a job entry.
-2.  ServicingManager shows logged remarks in the job.
+2.  CarServicingManager shows logged remarks in the job.
 3.  User requests to log a remark.
-4.  ServicingManager reflects the added remark at end of log.
+4.  CarServicingManager reflects the added remark at end of log.
 +
 Use case ends.
 
@@ -837,7 +837,7 @@ Use case ends.
 * 2a. The remarks list is empty.
 +
 [none]
-** 2a1. ServicingManager shows an empty list.
+** 2a1. CarServicingManager shows an empty list.
 +
 Use case resumes at step 3.
 
@@ -852,7 +852,7 @@ Use case resumes at step 3.
 
 1.  User types incomplete argument in command.
 2.  User presses tab key.
-3.  ServicingManager completes the command.
+3.  CarServicingManager completes the command.
 +
 Use case ends.
 
@@ -869,14 +869,14 @@ Use case resumes at step 1.
 *MSS*
 
 1.  User presses a key to change selection.
-2.  ServicingManager changes selection.
+2.  CarServicingManager changes selection.
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-* 1a. ServicingManager is not focussed.
+* 1a. CarServicingManager is not focussed.
 +
 [none]
 **  1a1. User presses global refocus hotkey.
@@ -888,7 +888,7 @@ Use case resumes at step 1.
 *MSS*
 
 1.  User requests to add an employee in the list.
-2.  ServicingManager adds the employee and updates the list.
+2.  CarServicingManager adds the employee and updates the list.
 +
 Use case ends.
 
@@ -907,9 +907,9 @@ Use case resumes at step 1.
 *MSS*
 
 1.  User requests to list employees.
-2.  ServicingManager shows a list of employees.
+2.  CarServicingManager shows a list of employees.
 3.  User requests to delete a specific employee in the list.
-4.  ServicingManager deletes the employee and updates the list.
+4.  CarServicingManager deletes the employee and updates the list.
 +
 Use case ends.
 
@@ -923,7 +923,7 @@ Use case ends.
 * 3a. The given index is invalid.
 +
 [none]
-** 3a1. ServicingManager shows an error message.
+** 3a1. CarServicingManager shows an error message.
 +
 Use case resumes at step 2.
 
@@ -933,7 +933,7 @@ Use case resumes at step 2.
 *MSS*
 
 1.  User requests to find an employee by name.
-2.  ServicingManager shows a list of employees whose name contain the provided name.
+2.  CarServicingManager shows a list of employees whose name contain the provided name.
 +
 Use case ends.
 
@@ -950,7 +950,7 @@ Use case ends.
 *MSS*
 
 1.  User specifies color label of a job status.
-2.  ServicingManager updates the label colors displayed.
+2.  CarServicingManager updates the label colors displayed.
 +
 Use case ends.
 
@@ -960,7 +960,7 @@ Use case ends.
 * 1a. The label provided is not valid.
 +
 [none]
-** 1a1. ServicingManager shows an error message.
+** 1a1. CarServicingManager shows an error message.
 +
 Use case ends.
 
@@ -968,7 +968,7 @@ Use case ends.
 * 1b. The color provided is not valid.
 +
 [none]
-** 1b1. ServicingManager shows an error message.
+** 1b1. CarServicingManager shows an error message.
 +
 Use case ends.
 
