@@ -1036,51 +1036,6 @@ Use case resumes at step 2.
 +
 Use case ends.
 
-[discrete]
-=== Use case: Find an employee by name
-
-*MSS*
-
-1.  User requests to find an employee by name.
-2.  CarServicingManager shows a list of employees whose name contain the provided name.
-+
-Use case ends.
-
-*Extensions*
-
-[none]
-* 2a. The list is empty.
-+
-Use case ends.
-
-[discrete]
-=== Use case: Customize the colour label of job status
-
-*MSS*
-
-1.  User specifies color label of a job status.
-2.  CarServicingManager updates the label colors displayed.
-+
-Use case ends.
-
-*Extensions*
-
-[none]
-* 1a. The label provided is not valid.
-+
-[none]
-** 1a1. CarServicingManager shows an error message.
-+
-Use case ends.
-
-[none]
-* 1b. The color provided is not valid.
-+
-[none]
-** 1b1. CarServicingManager shows an error message.
-+
-Use case ends.
-
 _{More to be added}_
 
 [appendix]
