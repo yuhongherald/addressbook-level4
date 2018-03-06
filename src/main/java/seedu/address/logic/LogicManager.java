@@ -31,6 +31,10 @@ public class LogicManager extends ComponentManager implements Logic {
         undoRedoStack = new UndoRedoStack();
     }
 
+    public String getCommandList() {
+        return model.getCommandWords().toString();
+    }
+
     @Override
     public CommandResult execute(String commandText) throws CommandException, ParseException {
         logger.info("----------------[USER COMMAND][" + commandText + "]");

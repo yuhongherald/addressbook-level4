@@ -107,6 +107,11 @@ public class CommandWords {
      * @return String to be displayed
      */
     private String toStringWithMessage(String message) {
+        return message;
+    }
+
+    @Override
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         Iterator<Map.Entry<String, String>> commandList = commands.entrySet().iterator();
         Map.Entry<String, String> currentCommand;
@@ -114,13 +119,7 @@ public class CommandWords {
             currentCommand = commandList.next();
             builder.append(currentCommand.getKey() + ":" + currentCommand.getValue() + "\n");
         }
-        builder.append(message);
         return builder.toString();
-    }
-
-    @Override
-    public String toString() {
-        return toStringWithMessage("");
     }
 
 }

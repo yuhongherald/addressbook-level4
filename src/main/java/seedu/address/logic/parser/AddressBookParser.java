@@ -21,6 +21,7 @@ import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.SetCommand;
 import seedu.address.logic.commands.UndoCommand;
+
 import seedu.address.logic.commands.exceptions.CommandWordException;
 import seedu.address.logic.parser.exceptions.ParseException;
 
@@ -28,12 +29,16 @@ import seedu.address.logic.parser.exceptions.ParseException;
  * Parses user input.
  */
 public class AddressBookParser {
-    private final CommandWords commandWords;
 
     /**
      * Used for initial separation of command word and args.
      */
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
+
+    /**
+     * Reference to command words used.
+     */
+    private final CommandWords commandWords;
 
     /**
      * Used only for testing purposes.
