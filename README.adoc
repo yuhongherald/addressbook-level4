@@ -1,4 +1,4 @@
-= Car Servicing Manager (Level 4)
+= Car Servicing Manager
 ifdef::env-github,env-browser[:relfileprefix: docs/]
 
 https://travis-ci.org/W09-GroupB1/addressbook-level4[image:https://travis-ci.org/W09-GroupB1/addressbook-level4.svg?branch=master[Build Status]]
