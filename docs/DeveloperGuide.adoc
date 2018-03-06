@@ -823,22 +823,37 @@ _{More to be added}_
 
 *MSS*
 
-1.  User requests to add new job entry.
-2.  CarServicingManager adds the job entry.
+1.  User requests to list the employees.
+2.  CarServicingManager shows a list of employees.
+3.  User requests to add a job entry.
+4.  CarServicingManager adds the job entry.
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-* 2a. The list is empty.
-** 2a1. CarServicingManager shows an error message.
+* 2a. The list of employees is empty.
 +
-Use case ends
-* 3a. The given data for fields is invalid.
+Use case ends.
+
+* 3a. Format of details is invalid.
++
+[none]
 ** 3a1. CarServicingManager shows an error message.
 +
-Use case ends
+Use case resumes at step 3.
++
+Use case ends.
+
+* 3b. The given employee index is invalid.
++
+[none]
+** 3b1. CarServicingManager shows an error message.
++
+Use case resumes at step 3.
++
+Use case ends.
 
 [discrete]
 === Use case: Close job entry
@@ -855,36 +870,18 @@ Use case ends.
 *Extensions*
 
 [none]
-* 2a. The list is empty.
-+
-Use case ends
-* 3a. The given job id is invalid.
-** 3a1. CarServicingManager shows an error message.
-+
-Use case ends
-
-[discrete]
-=== Use case: Assign an employee to a job entry
-
-*MSS*
-
-1.  User requests to list the job entries and employees.
-2.  CarServicingManager shows both list of job entries and employees.
-3.  User requests to assign the job entry.
-4.  CarServicingManager assigns the employee to the job entry.
+* 2a. The list of jobs is empty.
 +
 Use case ends.
 
-*Extensions*
-
-[none]
-* 2a. The list of job entries/employees is empty.
+* 3a. The given job id is invalid.
 +
-Use case ends
-* 3a. The given job id/employee id is invalid.
+[none]
 ** 3a1. CarServicingManager shows an error message.
 +
-Use case resumes at step 2
+Use case resumes at step 2.
++
+Use case ends.
 
 _{More to be added}_
 
