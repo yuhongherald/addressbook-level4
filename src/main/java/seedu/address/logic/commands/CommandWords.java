@@ -2,14 +2,18 @@ package seedu.address.logic.commands;
 
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.commands.exceptions.CommandWordException;
+import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.person.Person;
+import seedu.address.model.person.exceptions.DuplicatePersonException;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.util.Objects.requireNonNull;
 
 public class CommandWords {
     public static final String MESSAGE_INACTIVE = "%s is not an active command.";
-    private HashMap<String, String> commands;
+    public final HashMap<String, String> commands;
     /**
      * Creates a data structure to maintain used command words.
      */
@@ -18,17 +22,54 @@ public class CommandWords {
         commands.put(AddCommand.COMMAND_WORD, AddCommand.COMMAND_WORD);
         commands.put(ClearCommand.COMMAND_WORD, ClearCommand.COMMAND_WORD);
         commands.put(DeleteCommand.COMMAND_WORD, DeleteCommand.COMMAND_WORD);
-
-
-        //...
+        commands.put(EditCommand.COMMAND_WORD, EditCommand.COMMAND_WORD);
+        commands.put(ExitCommand.COMMAND_WORD, ExitCommand.COMMAND_WORD);
+        commands.put(FindCommand.COMMAND_WORD, FindCommand.COMMAND_WORD);
+        commands.put(HelpCommand.COMMAND_WORD, HelpCommand.COMMAND_WORD);
+        commands.put(HistoryCommand.COMMAND_WORD, HistoryCommand.COMMAND_WORD);
+        commands.put(ListCommand.COMMAND_WORD, ListCommand.COMMAND_WORD);
+        commands.put(RedoCommand.COMMAND_WORD, RedoCommand.COMMAND_WORD);
+        commands.put(SelectCommand.COMMAND_WORD, SelectCommand.COMMAND_WORD);
+        commands.put(SetCommand.COMMAND_WORD, SetCommand.COMMAND_WORD);
+        commands.put(UndoCommand.COMMAND_WORD, UndoCommand.COMMAND_WORD);
     }
 
+    public CommandWords(CommandWords commandWords) {
+        requireNonNull(commandWords);
+        commands = new HashMap<>();
+        commands.putAll(commandWords.commands);
+    }
+
+    /**
+     * Retrieves a command word using a key
+     * @param key
+     * @return command
+     * @throws CommandWordException
+     */
     public String getCommandWord(String key) throws CommandWordException {
         String commandWord = commands.get(key);
         if (commandWord == null) {
-            throw new CommandWordException(String.format(MESSAGE_INACTIVE, key));
+            throw new CommandWordException(toStringWithMessage(String.format(MESSAGE_INACTIVE, key)));
         }
         return commandWord;
+    }
+
+    /**
+     * Retrieves a command key using word
+     * @param value
+     * @return command
+     * @throws CommandWordException
+     */
+    public String getCommandKey(String value) throws CommandWordException {
+        Iterator<Map.Entry<String, String>> commandList = commands.entrySet().iterator();
+        Map.Entry<String, String> currentCommand;
+        while (commandList.hasNext()) {
+            currentCommand = commandList.next();
+            if (currentCommand.getValue().equals(value)) {
+                return currentCommand.getKey();
+            }
+        }
+        throw new CommandWordException(toStringWithMessage(String.format(MESSAGE_INACTIVE, value)));
     }
 
     /**
@@ -48,6 +89,39 @@ public class CommandWords {
                 return;
             }
         }
-        throw new CommandWordException(String.format(MESSAGE_INACTIVE, currentWord));
+        StringBuilder builder = new StringBuilder();
+        throw new CommandWordException(toStringWithMessage(String.format(MESSAGE_INACTIVE, currentWord)));
     }
+
+    /**
+     * Resets the existing data of this {@code CommandWords} with {@code newCommandWords}.
+     */
+    public void resetData(CommandWords newCommandWords) {
+        requireNonNull(newCommandWords);
+        commands.clear();
+        commands.putAll(newCommandWords.commands);
+    }
+
+    /**
+     * String that shows command words, followed by a message
+     * @param message to be appended
+     * @return String to be displayed
+     */
+    private String toStringWithMessage(String message) {
+        StringBuilder builder = new StringBuilder();
+        Iterator<Map.Entry<String, String>> commandList = commands.entrySet().iterator();
+        Map.Entry<String, String> currentCommand;
+        while (commandList.hasNext()) {
+            currentCommand = commandList.next();
+            builder.append(currentCommand.getKey() + ":" + currentCommand.getValue() + "\n");
+        }
+        builder.append(message);
+        return builder.toString();
+    }
+
+    @Override
+    public String toString() {
+        return toStringWithMessage("");
+    }
+
 }

@@ -16,6 +16,9 @@ import seedu.address.logic.parser.exceptions.ParseException;
 public class AddressBookParser {
     private final CommandWords commandWords;
 
+    /**
+     * Used only for testing purposes.
+     */
     public AddressBookParser() {
         this.commandWords = new CommandWords();
     }
@@ -42,56 +45,57 @@ public class AddressBookParser {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
         }
 
-        final String commandWord = matcher.group("commandWord");
+        String commandWord = matcher.group("commandWord");
         final String arguments = matcher.group("arguments");
         try
         {
-            commandWords.getCommandWord(AddCommand.COMMAND_WORD);
-            switch (commandWord)
-            {
-                case AddCommand.COMMAND_WORD:
-                    return new AddCommandParser().parse(arguments);
-
-                case EditCommand.COMMAND_WORD:
-                    return new EditCommandParser().parse(arguments);
-
-                case SelectCommand.COMMAND_WORD:
-                    return new SelectCommandParser().parse(arguments);
-
-                case DeleteCommand.COMMAND_WORD:
-                    return new DeleteCommandParser().parse(arguments);
-
-                case ClearCommand.COMMAND_WORD:
-                    return new ClearCommand();
-
-                case FindCommand.COMMAND_WORD:
-                    return new FindCommandParser().parse(arguments);
-
-                case ListCommand.COMMAND_WORD:
-                    return new ListCommand();
-
-                case HistoryCommand.COMMAND_WORD:
-                    return new HistoryCommand();
-
-                case ExitCommand.COMMAND_WORD:
-                    return new ExitCommand();
-
-                case HelpCommand.COMMAND_WORD:
-                    return new HelpCommand();
-
-                case UndoCommand.COMMAND_WORD:
-                    return new UndoCommand();
-
-                case RedoCommand.COMMAND_WORD:
-                    return new RedoCommand();
-
-                case SetCommand.COMMAND_WORD:
-                    return new SetCommand("add", "add");
-                default:
-                    throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
-            }
+            commandWord = commandWords.getCommandKey(commandWord);
         } catch(CommandWordException e) {
             throw new ParseException(e.getMessage());
+        }
+
+        switch (commandWord)
+        {
+            case AddCommand.COMMAND_WORD:
+                return new AddCommandParser().parse(arguments);
+
+            case EditCommand.COMMAND_WORD:
+                return new EditCommandParser().parse(arguments);
+
+            case SelectCommand.COMMAND_WORD:
+                return new SelectCommandParser().parse(arguments);
+
+            case DeleteCommand.COMMAND_WORD:
+                return new DeleteCommandParser().parse(arguments);
+
+            case ClearCommand.COMMAND_WORD:
+                return new ClearCommand();
+
+            case FindCommand.COMMAND_WORD:
+                return new FindCommandParser().parse(arguments);
+
+            case ListCommand.COMMAND_WORD:
+                return new ListCommand();
+
+            case HistoryCommand.COMMAND_WORD:
+                return new HistoryCommand();
+
+            case ExitCommand.COMMAND_WORD:
+                return new ExitCommand();
+
+            case HelpCommand.COMMAND_WORD:
+                return new HelpCommand();
+
+            case UndoCommand.COMMAND_WORD:
+                return new UndoCommand();
+
+            case RedoCommand.COMMAND_WORD:
+                return new RedoCommand();
+
+            case SetCommand.COMMAND_WORD:
+                return new SetCommandParser().parse(arguments);
+            default:
+                throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
         }
     }
 

@@ -20,9 +20,8 @@ public class UserPrefs {
         commandWords = new CommandWords();
     }
 
-    public CommandWords getCommandWords()
-    {
-        return commandWords == null ? new CommandWords() : commandWords;
+    public CommandWords getCommandWords() {
+        commandWords = null; return commandWords == null ? new CommandWords() : commandWords;
     }
 
     public GuiSettings getGuiSettings() {

@@ -158,6 +158,25 @@ Selects the 2nd person in the address book.
 `select 1` +
 Selects the 1st person in the results of the `find` command.
 
+=== Changing a command word : `set`
+
+Selects the person identified by the index number used in the last person listing. +
+Format: `set OLD_COMMAND_WORD NEW_COMMAND_WORD`
+
+****
+* Sets the OLD_COMMAND_WORD to NEW_COMMAND_WORD
+* The OLD_COMMAND_WORD must be in user preferences
+* The NEW_COMMAND_WORD must be 1 word, with no spacing.
+****
+
+Examples:
+
+* `set add a` +
+Sets `add` command word to `a`
+* `set a add` +
+Sets `a` command word back to `add`
+
+
 === Listing entered commands : `history`
 
 Lists all the commands that you have entered in reverse chronological order. +
