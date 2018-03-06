@@ -10,6 +10,9 @@ import seedu.address.model.person.Person;
  * API of the Logic component
  */
 public interface Logic {
+    /** Returns a list of command word mappings*/
+    public String getCommandList();
+
     /**
      * Executes the command and returns the result.
      * @param commandText The command as entered by the user.

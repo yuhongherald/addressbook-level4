@@ -114,8 +114,15 @@ public class CommandBox extends UiPart<Region> {
             // handle command failure
             setStyleToIndicateCommandFailure();
             logger.info("Invalid command: " + commandTextField.getText());
-            raise(new NewResultAvailableEvent(e.getMessage()));
+            raise(new NewResultAvailableEvent(displayFeedbackAndCommandKeys(e.getMessage())));
         }
+    }
+
+    private String displayFeedbackAndCommandKeys(String message) {
+        StringBuilder builder = new StringBuilder(message);
+        builder.append("\n");
+        builder.append(logic.getCommandList());
+        return builder.toString();
     }
 
     /**

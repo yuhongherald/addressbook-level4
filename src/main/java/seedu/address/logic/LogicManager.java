@@ -31,6 +31,7 @@ public class LogicManager extends ComponentManager implements Logic {
         undoRedoStack = new UndoRedoStack();
     }
 
+    @Override
     public String getCommandList() {
         return model.getCommandWords().toString();
     }
