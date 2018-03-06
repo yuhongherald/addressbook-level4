@@ -107,6 +107,13 @@ public class AddCommandTest {
         }
 
         @Override
+        public CommandWords getCommandWords()
+        {
+            fail("This method should never be called");
+            return null;
+        }
+
+        @Override
         public ReadOnlyAddressBook getAddressBook() {
             fail("This method should not be called.");
             return null;
