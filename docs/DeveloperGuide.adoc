@@ -816,7 +816,7 @@ _{More to be added}_
 [appendix]
 == Use Cases
 
-(For all use cases below, the *System* is the `ServicingManager` and the *Actor* is the `user`, unless specified otherwise)
+(For all use cases below, the *System* is the `CarServicingManager` and the *Actor* is the `user`, unless specified otherwise)
 
 
 [discrete]
@@ -897,7 +897,7 @@ Use case ends.
 * 2a. The employee details are not valid.
 +
 [none]
-** 2a1. AddressBook shows an error message.
+** 2a1. CarServicingManager shows an error message.
 +
 Use case resumes at step 1.
 
