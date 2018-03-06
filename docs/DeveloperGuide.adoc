@@ -1,4 +1,4 @@
-= AddressBook Level 4 - Developer Guide
+﻿= Car Servicing Manager - Developer Guide
 :toc:
 :toc-title:
 :toc-placement: preamble
@@ -10,9 +10,9 @@ ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
 endif::[]
-:repoURL: https://github.com/se-edu/addressbook-level4/tree/master
+:repoURL: https://github.com/W09-GroupB1/addressbook-level4/tree/master
 
-By: `Team SE-EDU`      Since: `Jun 2016`      Licence: `MIT`
+By: `W09-GroupB1`      Since: `May 2018`      Licence: `MIT`
 
 == Setting up
 
@@ -782,13 +782,15 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 
 *Target user profile*:
 
-* has a need to manage a significant number of contacts
+* has a need to manage a significant number of ongoing car servicing jobs and keep a record of past jobs
+* has a need to assign employees to jobs with ease
 * prefer desktop apps over other types
 * can type fast
 * prefers typing over mouse input
 * is reasonably comfortable using CLI apps
+* has a need to monitor employee’s performance through the number of jobs completed
 
-*Value proposition*: manage contacts faster than a typical mouse/GUI driven app
+*Value proposition*: A convenient App for car servicing managers to organize servicing jobs and assign specific employees.
 
 [appendix]
 == User Stories
@@ -800,15 +802,39 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |Priority |As a ... |I want to ... |So that I can...
 |`* * *` |new user |see usage instructions |refer to instructions when I forget how to use the App
 
-|`* * *` |user |add a new person |
+|`* * *` |user |add a new job entry |
 
-|`* * *` |user |delete a person |remove entries that I no longer need
+|`* * *` |user |close an ongoing job entry |remove completed job and add it to jobs history
 
-|`* * *` |user |find a person by name |locate details of persons without having to go through the entire list
+|`* * *` |user |find a job entry by its assigned number |locate details of a job without having to go through the list of ongoing jobs
 
-|`* *` |user |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
+|`* * *` |user |add remarks to an ongoing job entry |take note of details that are specific to the job
 
-|`*` |user with many persons in the address book |sort persons by name |locate a person easily
+|`* * *` |user |add a new employee |
+
+|`* * *` |user |delete an employee |update the list of employees that are in the company
+
+|`* * *` |user |find an employee by name |locate details of an employee without having to go through the list of employees
+
+|`* * *` |user |view all employees |decide which employee to assign a job
+
+|`* * *` |user |undo my commands |reverse commands done in error
+
+|`* * *` |user |redo my commands |redo undo commands
+
+|`* *` |user |find job entries by the assigned employee's name |locate details of all jobs that are handled by an employee without having to go through the lists of jobs
+
+|`* *` |user |find job entries by client's name |locate details of all jobs belonging to a client without having to go through the lists of jobs
+
+|`* *` |user |find job entries by car number |locate details of all jobs related to a car number without having to go through the lists of jobs
+
+|`* *` |user |view employee's schedule on calender |easily make decision for assigning a job to an employee
+
+|`* *` |user |change the colour label of job status |easily differentiate between the job statuses
+
+|`* *` |user who likes customization |change the theme of the application |customize the theme to my preference
+
+|`*` |user |export completed jobs to other formats |print out all the completed job entries and view it with a better program
 |=======================================================================
 
 _{More to be added}_
@@ -816,17 +842,99 @@ _{More to be added}_
 [appendix]
 == Use Cases
 
-(For all use cases below, the *System* is the `AddressBook` and the *Actor* is the `user`, unless specified otherwise)
+(For all use cases below, the *System* is the `CarServicingManager` and the *Actor* is the `user`, unless specified otherwise)
 
 [discrete]
-=== Use case: Delete person
+=== Use case: Add remarks to an ongoing job entry
 
 *MSS*
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+1.  User selects a job entry.
+2.  CarServicingManager shows logged remarks in the job.
+3.  User requests to log a remark.
+4.  CarServicingManager reflects the added remark at end of log.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The remarks list is empty.
++
+[none]
+** 2a1. CarServicingManager shows an empty list.
++
+Use case resumes at step 3.
+
+* 3a. The given remark is empty.
++
+Use case resumes at step 3.
+
+[discrete]
+=== Use case: Tab auto-complete commands
+
+*MSS*
+
+1.  User types incomplete argument in command.
+2.  User presses tab key.
+3.  CarServicingManager completes the command.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. Argument has more than one possible auto-complete.
++
+Use case resumes at step 1.
+
+[discrete]
+=== Use case: Navigate using the keyboard
+
+*MSS*
+
+1.  User presses a key to change selection.
+2.  CarServicingManager changes selection.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a. CarServicingManager is not focussed.
++
+[none]
+**  1a1. User presses global refocus hotkey.
+Use case resumes at step 1.
+
+[discrete]
+=== Use case: Add employee
+
+*MSS*
+
+1.  User requests to add an employee in the list.
+2.  CarServicingManager adds the employee and updates the list.
++
+Use case ends.
+
+*Extensions*
+
+* 2a. The employee details are not valid.
++
+[none]
+** 2a1. CarServicingManager shows an error message.
++
+Use case resumes at step 1.
+
+[discrete]
+=== Use case: Delete employee
+
+*MSS*
+
+1.  User requests to list employees.
+2.  CarServicingManager shows a list of employees.
+3.  User requests to delete a specific employee in the list.
+4.  CarServicingManager deletes the employee and updates the list.
 +
 Use case ends.
 
@@ -840,9 +948,119 @@ Use case ends.
 * 3a. The given index is invalid.
 +
 [none]
-** 3a1. AddressBook shows an error message.
+** 3a1. CarServicingManager shows an error message.
 +
 Use case resumes at step 2.
+
+[discrete]
+=== Use case: Find an employee by name
+
+*MSS*
+
+1.  User requests to find an employee by name.
+2.  CarServicingManager shows a list of employees whose name contain the provided name.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
++
+Use case ends.
+
+[discrete]
+=== Use case: Customize the colour label of job status
+
+*MSS*
+
+1.  User specifies color label of a job status.
+2.  CarServicingManager updates the label colors displayed.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a. The label provided is not valid.
++
+[none]
+** 1a1. CarServicingManager shows an error message.
++
+Use case ends.
+
+[none]
+* 1b. The color provided is not valid.
++
+[none]
+** 1b1. CarServicingManager shows an error message.
++
+Use case ends.
+
+[discrete]
+=== Use case: Add job entry
+
+*MSS*
+
+1.  User requests to list the employees.
+2.  CarServicingManager shows a list of employees.
+3.  User requests to add a job entry.
+4.  CarServicingManager adds the job entry.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list of employees is empty.
++
+Use case ends.
+
+* 3a. Format of details is invalid.
++
+[none]
+** 3a1. CarServicingManager shows an error message.
++
+Use case resumes at step 3.
++
+Use case ends.
+
+* 3b. The given employee index is invalid.
++
+[none]
+** 3b1. CarServicingManager shows an error message.
++
+Use case resumes at step 3.
++
+Use case ends.
+
+[discrete]
+=== Use case: Close job entry
+
+*MSS*
+
+1.  User requests to list the job entries.
+2.  CarServicingManager shows a list of job entries.
+3.  User requests to close a specific job entry in the list.
+4.  CarServicingManager close the job entry.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list of jobs is empty.
++
+Use case ends.
+
+* 3a. The given job id is invalid.
++
+[none]
+** 3a1. CarServicingManager shows an error message.
++
+Use case resumes at step 2.
++
+Use case ends.
 
 _{More to be added}_
 
@@ -850,8 +1068,17 @@ _{More to be added}_
 == Non Functional Requirements
 
 .  Should work on any <<mainstream-os,mainstream OS>> as long as it has Java `1.8.0_60` or higher installed.
-.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
+.  Should be able to hold up to 1000 employees without a noticeable sluggishness in performance for typical usage.
+.  Should be able to hold up to 10000 jobs without a noticeable sluggishness in performance for typical usage.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+.  Should work on both 32-bit and 64-bit environments.
+.  Should have short and comprehensible English commands.
+.  Should be able to retain information in event of crash or force shutdown.
+.  Should be able to work without internet connection.
+.  Should respond to user command within 2 seconds.
+.  Should be usable by a novice who has never used an electronic job management app before.
+.  User interface should be intuitive enough for users who are not IT-savvy.
+.  View should fit the screen of any computer screen size.
 
 _{More to be added}_
 
@@ -860,9 +1087,6 @@ _{More to be added}_
 
 [[mainstream-os]] Mainstream OS::
 Windows, Linux, Unix, OS-X
-
-[[private-contact-detail]] Private contact detail::
-A contact detail that is not meant to be shared with others
 
 [appendix]
 == Product Survey
