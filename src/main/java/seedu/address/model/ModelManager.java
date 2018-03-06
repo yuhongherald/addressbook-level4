@@ -54,7 +54,9 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public CommandWords getCommandWords() { return commandWords; }
+    public CommandWords getCommandWords() {
+        return commandWords;
+    }
 
     @Override
     public ReadOnlyAddressBook getAddressBook() {
