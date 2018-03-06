@@ -4,7 +4,10 @@ import seedu.address.commons.core.Messages;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.commands.exceptions.CommandWordException;
 import seedu.address.model.Model;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Represents a command with hidden internal logic and the ability to be executed.
@@ -22,6 +25,11 @@ public abstract class Command {
      */
     public static String getMessageForPersonListShownSummary(int displaySize) {
         return String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, displaySize);
+    }
+
+    public String getCommandWord(String key) throws CommandWordException {
+        requireNonNull(model);
+        return model.getCommandWords().getCommandWord(key);
     }
 
     /**

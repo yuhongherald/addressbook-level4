@@ -3,6 +3,7 @@ package seedu.address.model;
 import java.util.Objects;
 
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.logic.commands.CommandWords;
 
 /**
  * Represents User's preferences.
@@ -12,9 +13,16 @@ public class UserPrefs {
     private GuiSettings guiSettings;
     private String addressBookFilePath = "data/addressbook.xml";
     private String addressBookName = "MyAddressBook";
+    private CommandWords commandWords;
 
     public UserPrefs() {
         this.setGuiSettings(500, 500, 0, 0);
+        commandWords = new CommandWords();
+    }
+
+    public CommandWords getCommandWords()
+    {
+        return commandWords == null ? new CommandWords() : commandWords;
     }
 
     public GuiSettings getGuiSettings() {
