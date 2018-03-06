@@ -21,7 +21,6 @@ import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.SetCommand;
 import seedu.address.logic.commands.UndoCommand;
-
 import seedu.address.logic.commands.exceptions.CommandWordException;
 import seedu.address.logic.parser.exceptions.ParseException;
 
