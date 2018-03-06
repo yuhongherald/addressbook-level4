@@ -10,7 +10,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 /**
  * Changes the theme of the application
  */
-public class ThemeCommand extends Command{
+public class ThemeCommand extends Command {
     public static final String COMMAND_WORD = "theme";
 
     private static final int NUMBER_OF_THEMES = 3;
