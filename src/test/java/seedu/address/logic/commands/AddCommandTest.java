@@ -39,7 +39,12 @@ public class AddCommandTest {
 
     @Test
     public void execute_personAcceptedByModel_addSuccessful() throws Exception {
-        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded() {
+            @Override
+            public CommandWords getCommandWords() {
+                return new CommandWords();
+            }
+        };
         Person validPerson = new PersonBuilder().build();
 
         CommandResult commandResult = getAddCommandForPerson(validPerson, modelStub).execute();
@@ -50,7 +55,12 @@ public class AddCommandTest {
 
     @Test
     public void execute_duplicatePerson_throwsCommandException() throws Exception {
-        ModelStub modelStub = new ModelStubThrowingDuplicatePersonException();
+        ModelStub modelStub = new ModelStubThrowingDuplicatePersonException() {
+            @Override
+            public CommandWords getCommandWords() {
+                return new CommandWords();
+            }
+        };
         Person validPerson = new PersonBuilder().build();
 
         thrown.expect(CommandException.class);
@@ -73,11 +83,7 @@ public class AddCommandTest {
         AddCommand addAliceCommandCopy = new AddCommand(alice);
         assertTrue(addAliceCommand.equals(addAliceCommandCopy));
 
-        // different types -> returns false
-        assertFalse(addAliceCommand.equals(1));
-
-        // null -> returns false
-        assertFalse(addAliceCommand.equals(null));
+        // different types -
 
         // different person -> returns false
         assertFalse(addAliceCommand.equals(addBobCommand));

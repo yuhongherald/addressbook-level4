@@ -66,7 +66,7 @@ public class AddressBookParser {
         {
             commandWord = commandWords.getCommandKey(commandWord);
         } catch(CommandWordException e) {
-            throw new ParseException(e.getMessage());
+            throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
         }
 
         switch (commandWord)

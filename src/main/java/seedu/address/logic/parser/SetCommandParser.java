@@ -19,7 +19,8 @@ import static seedu.address.logic.parser.CliSyntax.*;
 public class SetCommandParser implements Parser<SetCommand> {
     public static final String MESSAGE_COMMANDS_INVALID_NUMBER = "%s command requires 2 command words.";
     /**
-     * Parses the given {@code String} of arguments in the context of the AddCommand
+     * Parses the given {@code String} of arg
+     * uments in the context of the AddCommand
      * and returns an AddCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
