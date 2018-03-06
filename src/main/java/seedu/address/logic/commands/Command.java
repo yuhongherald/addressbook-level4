@@ -27,6 +27,11 @@ public abstract class Command {
         return String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, displaySize);
     }
 
+    /**
+     * @param key used to reference Command Word
+     * @return  Command word used
+     * @throws CommandWordException command word is not valid
+     */
     public String getCommandWord(String key) throws CommandWordException {
         requireNonNull(model);
         return model.getCommandWords().getCommandWord(key);
