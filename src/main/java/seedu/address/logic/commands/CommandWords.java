@@ -114,6 +114,7 @@ public class CommandWords {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
+        builder.append("Commands: \n");
         Iterator<Map.Entry<String, String>> commandList = commands.entrySet().iterator();
         Map.Entry<String, String> currentCommand;
         while (commandList.hasNext()) {

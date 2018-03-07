@@ -19,7 +19,10 @@ public interface Model {
     void resetData(ReadOnlyAddressBook newData, CommandWords newCommandWords);
 
     /** Returns the command words set by the user. */
-    public CommandWords getCommandWords();
+    CommandWords getCommandWords();
+
+    /** Returns the command words set by the user. */
+    String appendCommandKeyToMessage(String message);
 
 
     /** Returns the AddressBook */

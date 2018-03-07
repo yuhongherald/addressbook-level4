@@ -59,6 +59,14 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
+    public String appendCommandKeyToMessage(String message) {
+        StringBuilder builder = new StringBuilder(commandWords.toString());
+        builder.append("\n");
+        builder.append(message);
+        return builder.toString();
+    }
+
+    @Override
     public ReadOnlyAddressBook getAddressBook() {
         return addressBook;
     }

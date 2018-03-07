@@ -10,9 +10,6 @@ import seedu.address.model.person.Person;
  * API of the Logic component
  */
 public interface Logic {
-    /** Returns a list of command word mappings*/
-    public String getCommandList();
-
     /**
      * Executes the command and returns the result.
      * @param commandText The command as entered by the user.
@@ -21,6 +18,9 @@ public interface Logic {
      * @throws ParseException If an error occurs during parsing.
      */
     CommandResult execute(String commandText) throws CommandException, ParseException;
+
+    /** Returns the command words set by the user. */
+    String appendCommandKeyToMessage(String message);
 
     /** Returns an unmodifiable view of the filtered list of persons */
     ObservableList<Person> getFilteredPersonList();

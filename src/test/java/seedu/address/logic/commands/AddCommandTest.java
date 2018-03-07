@@ -119,6 +119,11 @@ public class AddCommandTest {
             return null;
         }
 
+        @Override public String appendCommandKeyToMessage(String message) {
+            fail("This method should never be called");
+            return null;
+        }
+
         @Override
         public ReadOnlyAddressBook getAddressBook() {
             fail("This method should not be called.");

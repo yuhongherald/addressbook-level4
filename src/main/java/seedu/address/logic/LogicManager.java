@@ -32,11 +32,6 @@ public class LogicManager extends ComponentManager implements Logic {
     }
 
     @Override
-    public String getCommandList() {
-        return model.getCommandWords().toString();
-    }
-
-    @Override
     public CommandResult execute(String commandText) throws CommandException, ParseException {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
         try {
@@ -48,6 +43,10 @@ public class LogicManager extends ComponentManager implements Logic {
         } finally {
             history.add(commandText);
         }
+    }
+
+    @Override public String appendCommandKeyToMessage(String message) {
+        return model.appendCommandKeyToMessage(message);
     }
 
     @Override
