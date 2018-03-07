@@ -118,6 +118,11 @@ public class CommandBox extends UiPart<Region> {
         }
     }
 
+    /**
+     * Appends command key mappings to the end of a message string
+     * @param message string to be shown to user
+     * @return message with key mappings appended
+     */
     private String displayFeedbackAndCommandKeys(String message) {
         StringBuilder builder = new StringBuilder(message);
         builder.append("\n");
