@@ -13,31 +13,42 @@ import seedu.address.logic.commands.exceptions.CommandWordException;
  */
 public class CommandWords {
     public static final String MESSAGE_INACTIVE = "%s is not an active command.";
+    public static final String MESSAGE_DUPLICATE = "%s is already used.";
     public final HashMap<String, String> commands;
     /**
      * Creates a data structure to maintain used command words.
      */
     public CommandWords() {
         commands = new HashMap<>();
-        commands.put(AddCommand.COMMAND_WORD, AddCommand.COMMAND_WORD);
-        commands.put(ClearCommand.COMMAND_WORD, ClearCommand.COMMAND_WORD);
-        commands.put(DeleteCommand.COMMAND_WORD, DeleteCommand.COMMAND_WORD);
-        commands.put(EditCommand.COMMAND_WORD, EditCommand.COMMAND_WORD);
-        commands.put(ExitCommand.COMMAND_WORD, ExitCommand.COMMAND_WORD);
-        commands.put(FindCommand.COMMAND_WORD, FindCommand.COMMAND_WORD);
-        commands.put(HelpCommand.COMMAND_WORD, HelpCommand.COMMAND_WORD);
-        commands.put(HistoryCommand.COMMAND_WORD, HistoryCommand.COMMAND_WORD);
-        commands.put(ListCommand.COMMAND_WORD, ListCommand.COMMAND_WORD);
-        commands.put(RedoCommand.COMMAND_WORD, RedoCommand.COMMAND_WORD);
-        commands.put(SelectCommand.COMMAND_WORD, SelectCommand.COMMAND_WORD);
-        commands.put(SetCommand.COMMAND_WORD, SetCommand.COMMAND_WORD);
-        commands.put(UndoCommand.COMMAND_WORD, UndoCommand.COMMAND_WORD);
+        for (String command : Command.commands) {
+            commands.put(command, command);
+        }
+    }
+
+    /**
+     * Moves (@code command from (@code commands) to (@param verifiedCommands). Creates a new entry if missing.
+     */
+    private void moveVerifiedWord(String command, HashMap<String, String> verifiedCommands) {
+        verifiedCommands.put(command, commands.getOrDefault(command, command));
     }
 
     public CommandWords(CommandWords commandWords) {
         requireNonNull(commandWords);
         commands = new HashMap<>();
         commands.putAll(commandWords.commands);
+    }
+
+    /**
+     * Checks if hashmap contains invalid command keys and adds any missing
+     * command keys
+     */
+    public void checkIntegrity() {
+        HashMap<String, String> verifiedCommands = new HashMap<>();
+        for (String command : Command.commands) {
+            moveVerifiedWord(command, verifiedCommands);
+        }
+        commands.clear();
+        commands.putAll(verifiedCommands);
     }
 
     /**
@@ -49,7 +60,7 @@ public class CommandWords {
     public String getCommandWord(String key) throws CommandWordException {
         String commandWord = commands.get(key);
         if (commandWord == null) {
-            throw new CommandWordException(toStringWithMessage(String.format(MESSAGE_INACTIVE, key)));
+            throw new CommandWordException(String.format(MESSAGE_INACTIVE, key));
         }
         return commandWord;
     }
@@ -69,7 +80,7 @@ public class CommandWords {
                 return currentCommand.getKey();
             }
         }
-        throw new CommandWordException(toStringWithMessage(String.format(MESSAGE_INACTIVE, value)));
+        throw new CommandWordException(String.format(MESSAGE_INACTIVE, value));
     }
 
     /**
@@ -79,6 +90,13 @@ public class CommandWords {
      * @throws CommandWordException currentWord is not valid
      */
     public void setCommandWord(String currentWord, String newWord) throws CommandWordException {
+        requireNonNull(currentWord, newWord);
+        if (currentWord.equals(newWord)) {
+            return;
+        }
+        if (commands.containsValue(newWord)) {
+            throw new CommandWordException(String.format(MESSAGE_DUPLICATE, newWord));
+        }
         Iterator<Map.Entry<String, String>> commandList = commands.entrySet().iterator();
         Map.Entry<String, String> currentCommand;
         while (commandList.hasNext()) {
@@ -90,7 +108,7 @@ public class CommandWords {
             }
         }
         StringBuilder builder = new StringBuilder();
-        throw new CommandWordException(toStringWithMessage(String.format(MESSAGE_INACTIVE, currentWord)));
+        throw new CommandWordException(String.format(MESSAGE_INACTIVE, currentWord));
     }
 
     /**
@@ -100,15 +118,6 @@ public class CommandWords {
         requireNonNull(newCommandWords);
         commands.clear();
         commands.putAll(newCommandWords.commands);
-    }
-
-    /**
-     * String that shows command words, followed by a message
-     * @param message to be appended
-     * @return String to be displayed
-     */
-    private String toStringWithMessage(String message) {
-        return message;
     }
 
     @Override

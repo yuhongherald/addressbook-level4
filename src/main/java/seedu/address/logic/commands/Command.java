@@ -13,6 +13,25 @@ import seedu.address.model.Model;
  * Represents a command with hidden internal logic and the ability to be executed.
  */
 public abstract class Command {
+    /**
+     * Stores a list of commands by their command word
+     */
+    public static final String[] commands = {
+            AddCommand.COMMAND_WORD,
+            ClearCommand.COMMAND_WORD,
+            DeleteCommand.COMMAND_WORD,
+            EditCommand.COMMAND_WORD,
+            ExitCommand.COMMAND_WORD,
+            FindCommand.COMMAND_WORD,
+            HelpCommand.COMMAND_WORD,
+            HistoryCommand.COMMAND_WORD,
+            ListCommand.COMMAND_WORD,
+            RedoCommand.COMMAND_WORD,
+            SelectCommand.COMMAND_WORD,
+            SetCommand.COMMAND_WORD,
+            UndoCommand.COMMAND_WORD
+    };
+
     protected Model model;
     protected CommandHistory history;
     protected UndoRedoStack undoRedoStack;
