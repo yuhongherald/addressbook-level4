@@ -25,17 +25,17 @@ public class CommandWords {
         }
     }
 
-    /**
-     * Moves (@code command from (@code commands) to (@param verifiedCommands). Creates a new entry if missing.
-     */
-    private void moveVerifiedWord(String command, HashMap<String, String> verifiedCommands) {
-        verifiedCommands.put(command, commands.getOrDefault(command, command));
-    }
-
     public CommandWords(CommandWords commandWords) {
         requireNonNull(commandWords);
         commands = new HashMap<>();
         commands.putAll(commandWords.commands);
+    }
+
+    /**
+     * Moves (@code command from (@code commands) to (@code verifiedCommands). Creates a new entry if missing.
+     */
+    private void moveVerifiedWord(String command, HashMap<String, String> verifiedCommands) {
+        verifiedCommands.put(command, commands.getOrDefault(command, command));
     }
 
     /**
