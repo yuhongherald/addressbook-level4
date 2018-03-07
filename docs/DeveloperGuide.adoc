@@ -790,8 +790,7 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 * is reasonably comfortable using CLI apps
 * has a need to monitor employee’s performance through the number of jobs completed
 
-
-*Value proposition*: A convenient App for car servicing managers to organize servicing jobs and assign specific employees. 
+*Value proposition*: A convenient App for car servicing managers to organize servicing jobs and assign specific employees.
 
 [appendix]
 == User Stories
@@ -1088,9 +1087,6 @@ _{More to be added}_
 
 [[mainstream-os]] Mainstream OS::
 Windows, Linux, Unix, OS-X
-
-[[job]] Job::
-Servicing activity
 
 [appendix]
 == Product Survey
