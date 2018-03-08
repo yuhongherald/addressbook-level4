@@ -6,36 +6,23 @@ import java.util.Objects;
 
 import seedu.address.model.person.Person;
 
+//@author owzhenwei
 /**
  * Represents a Job in the car servicing manager
  */
 public class Job {
     private final Person customer;
     private final VehicleID vehicleID;
-    private final int jobNumber;
-
-    private static int nextJobNumber;
-
-    public Job(Person customer, VehicleID vehicleID) {
+    private final JobNumber jobNumber;
+    
+    public Job(Person customer, VehicleID vehicleID, JobNumber jobNumber) {
         requireAllNonNull(customer, vehicleID);
         this.customer = customer;
         this.vehicleID = vehicleID;
-        this.jobNumber = nextJobNumber;
-        incrementNextJobNumber();
+        this.jobNumber = jobNumber;
     }
 
-    /**
-     * Initialize the next job number of the car servicing manager
-     */
-    public static void initNextJobNumber(int num) {
-        nextJobNumber = num;
-    }
-
-    public static void incrementNextJobNumber() {
-        nextJobNumber++;
-    }
-
-    public int getJobNumber() {
+    public JobNumber getJobNumber() {
         return jobNumber;
     }
 

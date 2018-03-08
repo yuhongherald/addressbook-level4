@@ -3,6 +3,7 @@ package seedu.address.model.job;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+//@author owzhenwei
 /**
  * Represents a Vehicle ID in the Job
  */
