@@ -12,13 +12,13 @@ import seedu.address.model.person.Person;
  */
 public class Job {
     private final Person customer;
-    private final VehicleID vehicleID;
+    private final VehicleNumber vehicleNumber;
     private final JobNumber jobNumber;
 
-    public Job(Person customer, VehicleID vehicleID, JobNumber jobNumber) {
-        requireAllNonNull(customer, vehicleID);
+    public Job(Person customer, VehicleNumber vehicleNumber, JobNumber jobNumber) {
+        requireAllNonNull(customer, vehicleNumber);
         this.customer = customer;
-        this.vehicleID = vehicleID;
+        this.vehicleNumber = vehicleNumber;
         this.jobNumber = jobNumber;
     }
 
@@ -26,8 +26,8 @@ public class Job {
         return jobNumber;
     }
 
-    public VehicleID getVehicleID() {
-        return vehicleID;
+    public VehicleNumber getVehicleNumber() {
+        return vehicleNumber;
     }
 
     public Person getCustomer() {
@@ -46,14 +46,14 @@ public class Job {
 
         Job otherJob = (Job) other;
         return otherJob.getCustomer().equals(this.getCustomer())
-                && otherJob.getVehicleID().equals(this.getVehicleID())
+                && otherJob.getVehicleNumber().equals(this.getVehicleNumber())
                 && otherJob.getJobNumber() == this.getJobNumber();
 
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(customer, vehicleID, jobNumber);
+        return Objects.hash(customer, vehicleNumber, jobNumber);
     }
 
     @Override
@@ -62,8 +62,8 @@ public class Job {
         builder.append("Job Number: ")
                 .append(getJobNumber())
                 .append(" Vehicle ID: ")
-                .append(getVehicleID())
-                .append( " Name: ")
+                .append(getVehicleNumber())
+                .append(" Name: ")
                 .append(customer.getName())
                 .append(" Email: ")
                 .append(customer.getEmail());

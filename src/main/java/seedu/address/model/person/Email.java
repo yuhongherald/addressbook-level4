@@ -4,11 +4,8 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
 /**
-<<<<<<< HEAD:src/main/java/seedu/servicing/model/person/Email.java
- * Represents a Person's email in the car servicing manager.
-=======
  * Represents a Person's email in the address book.
->>>>>>> parent of f5760bb... Rename package 'seedu.address' to  'seedu.servicing':src/main/java/seedu/address/model/person/Email.java
+ *
  * Guarantees: immutable; is valid as declared in {@link #isValidEmail(String)}
  */
 public class Email {

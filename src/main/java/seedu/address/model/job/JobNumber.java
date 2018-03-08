@@ -5,12 +5,12 @@ package seedu.address.model.job;
  * Represent a job number in the servicing manager
  */
 public class JobNumber {
-    private static int NEXT_JOB_NUMBER;
+    private static int nextJobNumber;
 
     public final String jobNumber;
 
     public JobNumber() {
-        jobNumber = Integer.toString(NEXT_JOB_NUMBER);
+        jobNumber = Integer.toString(nextJobNumber);
         incrementNextJobNumber();
     }
 
@@ -18,11 +18,11 @@ public class JobNumber {
      * Initialize the next job number of the car servicing manager
      */
     public static void initNextJobNumber(String args) {
-        NEXT_JOB_NUMBER = Integer.parseInt(args);
+        nextJobNumber = Integer.parseInt(args);
     }
 
     public static void incrementNextJobNumber() {
-        NEXT_JOB_NUMBER++;
+        nextJobNumber++;
     }
 
     @Override

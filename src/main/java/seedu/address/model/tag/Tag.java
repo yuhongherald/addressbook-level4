@@ -4,11 +4,8 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
 /**
-<<<<<<< HEAD:src/main/java/seedu/servicing/model/tag/Tag.java
- * Represents a Tag in the car servicing manager.
-=======
  * Represents a Tag in the address book.
->>>>>>> parent of f5760bb... Rename package 'seedu.address' to  'seedu.servicing':src/main/java/seedu/address/model/tag/Tag.java
+ *
  * Guarantees: immutable; name is valid as declared in {@link #isValidTagName(String)}
  */
 public class Tag {

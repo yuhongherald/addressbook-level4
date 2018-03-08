@@ -10,11 +10,8 @@ import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
 /**
-<<<<<<< HEAD:src/main/java/seedu/servicing/model/person/Person.java
- * Represents a Person in the car servicing manager.
-=======
  * Represents a Person in the address book.
->>>>>>> parent of f5760bb... Rename package 'seedu.address' to  'seedu.servicing':src/main/java/seedu/address/model/person/Person.java
+ *
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 public class Person {
