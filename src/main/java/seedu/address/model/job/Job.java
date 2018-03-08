@@ -14,7 +14,7 @@ public class Job {
     private final Person customer;
     private final VehicleID vehicleID;
     private final JobNumber jobNumber;
-    
+
     public Job(Person customer, VehicleID vehicleID, JobNumber jobNumber) {
         requireAllNonNull(customer, vehicleID);
         this.customer = customer;
