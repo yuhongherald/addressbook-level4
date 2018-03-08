@@ -16,7 +16,7 @@ plugins {
 }
 
 // Specifies the entry point of the application
-mainClassName = 'seedu.servicing.MainApp'
+mainClassName = 'seedu.address.MainApp'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
@@ -132,16 +132,16 @@ test {
         }
 
         if (runNonGuiTests) {
-            test.include 'seedu/servicing/**'
+            test.include 'seedu/address/**'
         }
 
         if (runGuiTests) {
             test.include 'systemtests/**'
-            test.include 'seedu/servicing/ui/**'
+            test.include 'seedu/address/ui/**'
         }
 
         if (!runGuiTests) {
-            test.exclude 'seedu/servicing/ui/**'
+            test.exclude 'seedu/address/ui/**'
         }
     }
 }
