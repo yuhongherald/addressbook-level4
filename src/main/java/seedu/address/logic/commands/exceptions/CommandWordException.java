@@ -1,5 +1,6 @@
 package seedu.address.logic.commands.exceptions;
 
+//@author
 /**
  * Represents an error which occurs during execution of {@link SetCommand}.
  */
