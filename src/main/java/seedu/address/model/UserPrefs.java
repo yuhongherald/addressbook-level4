@@ -3,6 +3,7 @@ package seedu.address.model;
 import java.util.Objects;
 
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.logic.commands.CommandWords;
 
 /**
  * Represents User's preferences.
@@ -12,9 +13,28 @@ public class UserPrefs {
     private GuiSettings guiSettings;
     private String addressBookFilePath = "data/addressbook.xml";
     private String addressBookName = "MyAddressBook";
+    private CommandWords commandWords;
 
     public UserPrefs() {
-        this.setGuiSettings(500, 500, 0, 0);
+        setGuiSettingsDefault();
+        commandWords = new CommandWords();
+    }
+
+    /**
+     * Checks the integrity of the user preferences file and reinitializes any corrupted fields.
+     */
+    public void checkIntegrity() {
+        if (commandWords == null) {
+            commandWords = new CommandWords();
+        }
+        if (guiSettings == null) {
+            setGuiSettingsDefault();
+        }
+        commandWords.checkIntegrity();
+    }
+
+    public CommandWords getCommandWords() {
+        return commandWords == null ? new CommandWords() : commandWords;
     }
 
     public GuiSettings getGuiSettings() {
@@ -27,6 +47,10 @@ public class UserPrefs {
 
     public void setGuiSettings(double width, double height, int x, int y) {
         guiSettings = new GuiSettings(width, height, x, y);
+    }
+
+    public void setGuiSettingsDefault() {
+        this.setGuiSettings(500, 500, 0, 0);
     }
 
     public String getAddressBookFilePath() {
