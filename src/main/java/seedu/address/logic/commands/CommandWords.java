@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -10,9 +11,9 @@ import seedu.address.logic.commands.exceptions.CommandWordException;
 
 //@author yuhongherald
 /**
- * A data structure used to contain the mappings of a command to a word
+ * A serializable data structure used to contain the mappings of a command to a word
  */
-public class CommandWords {
+public class CommandWords implements Serializable {
     public static final String MESSAGE_INACTIVE = "%s is not an active command.";
     public static final String MESSAGE_DUPLICATE = "%s is already used.";
     public final HashMap<String, String> commands;

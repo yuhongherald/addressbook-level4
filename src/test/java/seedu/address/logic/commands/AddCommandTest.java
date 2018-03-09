@@ -83,7 +83,11 @@ public class AddCommandTest {
         AddCommand addAliceCommandCopy = new AddCommand(alice);
         assertTrue(addAliceCommand.equals(addAliceCommandCopy));
 
-        // different types -
+        // different types -> returns false
+        assertFalse(addAliceCommand.equals(1));
+
+        // null -> returns false
+        assertFalse(addAliceCommand.equals(null));
 
         // different person -> returns false
         assertFalse(addAliceCommand.equals(addBobCommand));

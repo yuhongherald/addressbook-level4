@@ -16,8 +16,18 @@ public class UserPrefs {
     private CommandWords commandWords;
 
     public UserPrefs() {
-        this.setGuiSettings(500, 500, 0, 0);
+        setGuiSettingsDefault();
         commandWords = new CommandWords();
+    }
+
+    public void checkIntegrity() {
+        if (commandWords == null) {
+            commandWords = new CommandWords();
+        }
+        if (guiSettings == null) {
+            setGuiSettingsDefault();
+        }
+        commandWords.checkIntegrity();
     }
 
     public CommandWords getCommandWords() {
@@ -34,6 +44,10 @@ public class UserPrefs {
 
     public void setGuiSettings(double width, double height, int x, int y) {
         guiSettings = new GuiSettings(width, height, x, y);
+    }
+
+    public void setGuiSettingsDefault() {
+        this.setGuiSettings(500, 500, 0, 0);
     }
 
     public String getAddressBookFilePath() {

@@ -114,17 +114,8 @@ public class CommandBox extends UiPart<Region> {
             // handle command failure
             setStyleToIndicateCommandFailure();
             logger.info("Invalid command: " + commandTextField.getText());
-            raise(new NewResultAvailableEvent(appendCommandKeyToMessage(e.getMessage())));
+            raise(new NewResultAvailableEvent(logic.appendCommandKeyToMessage(e.getMessage())));
         }
-    }
-
-    /**
-     * Appends command key mappings to the end of a message string
-     * @param message string to be shown to user
-     * @return message with key mappings appended
-     */
-    public String appendCommandKeyToMessage(String message) {
-        return logic.appendCommandKeyToMessage(message);
     }
 
     /**
