@@ -15,6 +15,10 @@ public class SetThemeRequestEvent extends BaseEvent {
         this.selectedIndex = selectedIndex.getOneBased();
     }
 
+    public int getSelectedIndex() {
+        return selectedIndex;
+    }
+
     @Override
     public String toString() {
         return this.getClass().getSimpleName();
