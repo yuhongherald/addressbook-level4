@@ -4,7 +4,6 @@ import java.util.logging.Logger;
 
 import com.google.common.eventbus.Subscribe;
 
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
@@ -211,25 +210,24 @@ public class MainWindow extends UiPart<Stage> {
     private void setTheme(int selectedIndex) throws CommandException {
         String themeName = "";
 
-       switch (selectedIndex) {
-       case 1:
-           themeName = themes[THEME_INDEX_TEAL];
-           break;
-       case 2:
-           themeName = themes[THEME_INDEX_DARK];
-           break;
-       default:
-           break;
+        switch (selectedIndex) {
+        case 1:
+            themeName = themes[THEME_INDEX_TEAL];
+            break;
+        case 2:
+            themeName = themes[THEME_INDEX_DARK];
+            break;
+        default:
+            break;
+        }
 
-       }
+        if (MainApp.class.getResource(FXML_FILE_FOLDER + themeName + "Theme.css") == null) {
+            throw new CommandException(Messages.MESSAGE_INVALID_FILE_PATH);
+        }
 
-       if(MainApp.class.getResource(FXML_FILE_FOLDER + themeName + "Theme.css") == null) {
-           throw new CommandException(Messages.MESSAGE_INVALID_FILE_PATH);
-       }
-
-       getRoot().getScene().getStylesheets().clear();
-       getRoot().getScene().getStylesheets().add(FXML_FILE_FOLDER + themeName + "Theme.css");
-       getRoot().getScene().getStylesheets().add(FXML_FILE_FOLDER + "Extensions" + themeName + ".css");
+        getRoot().getScene().getStylesheets().clear();
+        getRoot().getScene().getStylesheets().add(FXML_FILE_FOLDER + themeName + "Theme.css");
+        getRoot().getScene().getStylesheets().add(FXML_FILE_FOLDER + "Extensions" + themeName + ".css");
     }
 
     @Subscribe
