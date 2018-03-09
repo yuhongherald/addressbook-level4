@@ -1074,7 +1074,6 @@ _{More to be added}_
 .  Should work on both 32-bit and 64-bit environments.
 .  Should have short and comprehensible English commands.
 .  Should be able to retain information in event of crash or force shutdown.
-.  Should be able to work without internet connection.
 .  Should respond to user command within 2 seconds.
 .  Should be usable by a novice who has never used an electronic job management app before.
 .  User interface should be intuitive enough for users who are not IT-savvy.
