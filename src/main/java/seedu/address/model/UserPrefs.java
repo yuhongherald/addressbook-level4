@@ -20,6 +20,9 @@ public class UserPrefs {
         commandWords = new CommandWords();
     }
 
+    /**
+     * Checks the integrity of the user preferences file and reinitializes any corrupted fields.
+     */
     public void checkIntegrity() {
         if (commandWords == null) {
             commandWords = new CommandWords();

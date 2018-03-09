@@ -167,7 +167,7 @@ public class MainApp extends Application {
             initializedPrefs = new UserPrefs();
         }
 
-        initializedPrefs.getCommandWords().checkIntegrity();
+        initializedPrefs.checkIntegrity();
 
         //Update prefs file in case it was missing to begin with or there are new/unused fields
         try {
