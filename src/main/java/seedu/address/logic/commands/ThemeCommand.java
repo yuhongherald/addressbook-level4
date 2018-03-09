@@ -13,17 +13,16 @@ import seedu.address.logic.commands.exceptions.CommandException;
 public class ThemeCommand extends Command {
     public static final String COMMAND_WORD = "theme";
 
-    private static final int NUMBER_OF_THEMES = 3;
+    private static final int NUMBER_OF_THEMES = 2;
 
     private static final String MESSAGE_THEME_CHANGE_SUCCESS = "Theme updated: %1$s";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Applies selected theme\n"
-            + "1. Default theme\n"
-            + "2. Teal theme\n"
-            + "3. Dark theme\n"
+            + "1. Teal theme\n"
+            + "2. Dark theme\n"
             + "Parameters: INDEX (positive integer)\n"
-            + "Example: " + COMMAND_WORD + " 3";
+            + "Example: " + COMMAND_WORD + " 2";
 
     private final Index selectedIndex;
 
