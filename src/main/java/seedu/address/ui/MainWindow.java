@@ -228,6 +228,9 @@ public class MainWindow extends UiPart<Stage> {
         getRoot().getScene().getStylesheets().clear();
         getRoot().getScene().getStylesheets().add(FXML_FILE_FOLDER + themeName + "Theme.css");
         getRoot().getScene().getStylesheets().add(FXML_FILE_FOLDER + "Extensions" + themeName + ".css");
+        prefs.setExtensionName("Extensions" + themeName);
+        prefs.setThemeName(themeName + "Theme");
+
     }
 
     @Subscribe
