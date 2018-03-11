@@ -31,7 +31,7 @@ endif::[]
 * <<ContactUs#, Contact Us>>
 
 == Acknowledgements
-* Car Servicing Manager is built on a fork of https://github.com/nus-cs2103-AY1718S2/addressbook-level4[AddressBook - Level 4], which was developed by the https://se-edu.github.io/docs/Team.html[se-edu] team. +
+* CerviciM is built on a fork of https://github.com/nus-cs2103-AY1718S2/addressbook-level4[AddressBook - Level 4], which was developed by the https://se-edu.github.io/docs/Team.html[se-edu] team. +
 * Some parts of this sample application were inspired by the excellent http://code.makery.ch/library/javafx-8-tutorial/[Java FX tutorial] by
 _Marco Jakob_.
 * Libraries used: https://github.com/TomasMikula/EasyBind[EasyBind], https://github.com/TestFX/TestFX[TextFX], https://bitbucket.org/controlsfx/controlsfx/[ControlsFX], https://github.com/FasterXML/jackson[Jackson], https://github.com/google/guava[Guava], https://github.com/junit-team/junit4[JUnit4]
