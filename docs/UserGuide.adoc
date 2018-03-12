@@ -176,6 +176,22 @@ Sets `add` command word to `a`
 * `set a add` +
 Sets `a` command word back to `add`
 
+=== Setting a theme : `theme`
+
+Sets the theme of the application. +
+Format: `theme INDEX`
+
+****
+* Sets the theme based on the specified 'INDEX'
+* The index refers to the index number shown in the most recent listing
+* The index *must be a positive integer* 1, 2, 3,...
+****
+
+Examples:
+
+* `theme` +
+`theme 1` +
+Sets the first theme shown by the result of `theme` command.
 
 === Listing entered commands : `history`
 
