@@ -1026,6 +1026,7 @@ Use case ends.
 +
 Use case ends.
 
+[none]
 * 3a. Format of details is invalid.
 +
 [none]
@@ -1035,6 +1036,7 @@ Use case resumes at step 3.
 +
 Use case ends.
 
+[none]
 * 3b. The given employee index is invalid.
 +
 [none]
@@ -1072,19 +1074,71 @@ Use case resumes at step 2.
 +
 Use case ends.
 
+[discrete]
+=== Use case: Import job entries
 
-==
-|`* * *` |user |import job entries |add multiple job entries at once
+*MSS*
 
-|`* *` |user |accept and reject imported changes |have control when over bulk imports
+1.  User specifies the path to a file to import.
+2.  CarviciM shows the user the new job entries.
+3.  User approves the new job entries.
+4.  CarviciM imports the approved entries.
++
+Use case ends.
 
-|`* *` |user |modify imported job entries |import incomplete or invalid job entries
+*Extensions*
 
-|`* *` |user |add comments on job entries |record feedback to employees
+[none]
+* 1a. The file specified in the path is invalid or does not have read permission.
+[none]
+** 1a1. CarviciM shows an error message.
++
+Use case ends.
 
-|`* *` |user |export changes |provide feedback to employees regarding the changes
+[none]
+* 1b. The file specified in the path has formatting errors.
+[none]
+** 1b1. CarviciM shows an error message.
++
+Use case ends.
 
-==
+[none]
+* 2a. The file contains conflict job entries with the application data.
+[none]
+** 2a1. CarviciM shows the users the conflicts.
+** 2a2. The user reviews the conflicts and chooses which copy to keep.
++
+Use case resumes at step 2.
+
+[none]
+* 3a. User rejects some job entries.
+[none]
+** CarviciM discards rejected job entries while importing the remaining new job entries.
++
+Use case ends.
+
+
+[discrete]
+=== Use case: Export feedback for imported job entries
+
+*MSS*
+
+1.  User imports job entries from a file.
+2.	CarviciM imports the accepted new jobs.
+3.	User adds comments to reviewed new job entries.
+4.	User specifies path to export the comments.
+5.	CarviciM exports the comments of the reviewed new job entries.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 5a. CarviciM does not have write permission to file path.
+[none]
+** 5a1. CarviciM shows an error message.
++
+Use case resumes at step 5.
 
 _{More to be added}_
 
