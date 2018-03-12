@@ -230,6 +230,15 @@ Classes used by multiple components are in the `seedu.addressbook.commons` packa
 
 This section describes some noteworthy details on how certain features are implemented.
 
+// tag::importexport[]
+=== Import/Export feature #Coming in v2.0#
+==== Current Implementation
+
+image::blank.png[width="800"]
+
+==== Design Considerations
+// end::importexport[]
+
 // tag::undoredo[]
 === Undo/Redo feature
 ==== Current Implementation
@@ -854,7 +863,7 @@ _{More to be added}_
 [appendix]
 == Use Cases
 
-(For all use cases below, the *System* is the `CarServicingManager` and the *Actor* is the `user`, unless specified otherwise)
+(For all use cases below, the *System* is the `CarviciM` and the *Actor* is the `user`, unless specified otherwise)
 
 [discrete]
 === Use case: Add remarks to an ongoing job entry
@@ -862,9 +871,9 @@ _{More to be added}_
 *MSS*
 
 1.  User selects a job entry.
-2.  CarServicingManager shows logged remarks in the job.
+2.  CarviciM shows logged remarks in the job.
 3.  User requests to log a remark.
-4.  CarServicingManager reflects the added remark at end of log.
+4.  CarviciM reflects the added remark at end of log.
 +
 Use case ends.
 
@@ -874,7 +883,7 @@ Use case ends.
 * 2a. The remarks list is empty.
 +
 [none]
-** 2a1. CarServicingManager shows an empty list.
+** 2a1. CarviciM shows an empty list.
 +
 Use case resumes at step 3.
 
@@ -889,7 +898,7 @@ Use case resumes at step 3.
 
 1.  User types incomplete argument in command.
 2.  User presses tab key.
-3.  CarServicingManager completes the command.
+3.  CarviciM completes the command.
 +
 Use case ends.
 
@@ -906,14 +915,14 @@ Use case resumes at step 1.
 *MSS*
 
 1.  User presses a key to change selection.
-2.  CarServicingManager changes selection.
+2.  CarviciM changes selection.
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-* 1a. CarServicingManager is not focussed.
+* 1a. CarviciM is not focussed.
 +
 [none]
 **  1a1. User presses global refocus hotkey.
@@ -925,7 +934,7 @@ Use case resumes at step 1.
 *MSS*
 
 1.  User requests to add an employee in the list.
-2.  CarServicingManager adds the employee and updates the list.
+2.  CarviciM adds the employee and updates the list.
 +
 Use case ends.
 
@@ -934,7 +943,7 @@ Use case ends.
 * 2a. The employee details are not valid.
 +
 [none]
-** 2a1. CarServicingManager shows an error message.
+** 2a1. CarviciM shows an error message.
 +
 Use case resumes at step 1.
 
@@ -944,9 +953,9 @@ Use case resumes at step 1.
 *MSS*
 
 1.  User requests to list employees.
-2.  CarServicingManager shows a list of employees.
+2.  CarviciM shows a list of employees.
 3.  User requests to delete a specific employee in the list.
-4.  CarServicingManager deletes the employee and updates the list.
+4.  CarviciM deletes the employee and updates the list.
 +
 Use case ends.
 
@@ -960,7 +969,7 @@ Use case ends.
 * 3a. The given index is invalid.
 +
 [none]
-** 3a1. CarServicingManager shows an error message.
+** 3a1. CarviciM shows an error message.
 +
 Use case resumes at step 2.
 
@@ -970,7 +979,7 @@ Use case resumes at step 2.
 *MSS*
 
 1.  User requests to find an employee by name.
-2.  CarServicingManager shows a list of employees whose name contain the provided name.
+2.  CarviciM shows a list of employees whose name contain the provided name.
 +
 Use case ends.
 
@@ -987,7 +996,7 @@ Use case ends.
 *MSS*
 
 1.  User specifies color label of a job status.
-2.  CarServicingManager updates the label colors displayed.
+2.  CarviciM updates the label colors displayed.
 +
 Use case ends.
 
@@ -997,7 +1006,7 @@ Use case ends.
 * 1a. The label provided is not valid.
 +
 [none]
-** 1a1. CarServicingManager shows an error message.
+** 1a1. CarviciM shows an error message.
 +
 Use case ends.
 
@@ -1005,7 +1014,7 @@ Use case ends.
 * 1b. The color provided is not valid.
 +
 [none]
-** 1b1. CarServicingManager shows an error message.
+** 1b1. CarviciM shows an error message.
 +
 Use case ends.
 
@@ -1015,9 +1024,9 @@ Use case ends.
 *MSS*
 
 1.  User requests to list the employees.
-2.  CarServicingManager shows a list of employees.
+2.  CarviciM shows a list of employees.
 3.  User requests to add a job entry.
-4.  CarServicingManager adds the job entry.
+4.  CarviciM adds the job entry.
 +
 Use case ends.
 
@@ -1032,7 +1041,7 @@ Use case ends.
 * 3a. Format of details is invalid.
 +
 [none]
-** 3a1. CarServicingManager shows an error message.
+** 3a1. CarviciM shows an error message.
 +
 Use case resumes at step 3.
 +
@@ -1042,7 +1051,7 @@ Use case ends.
 * 3b. The given employee index is invalid.
 +
 [none]
-** 3b1. CarServicingManager shows an error message.
+** 3b1. CarviciM shows an error message.
 +
 Use case resumes at step 3.
 +
@@ -1054,9 +1063,9 @@ Use case ends.
 *MSS*
 
 1.  User requests to list the job entries.
-2.  CarServicingManager shows a list of job entries.
+2.  CarviciM shows a list of job entries.
 3.  User requests to close a specific job entry in the list.
-4.  CarServicingManager close the job entry.
+4.  CarviciM close the job entry.
 +
 Use case ends.
 
@@ -1070,7 +1079,7 @@ Use case ends.
 * 3a. The given job id is invalid.
 +
 [none]
-** 3a1. CarServicingManager shows an error message.
+** 3a1. CarviciM shows an error message.
 +
 Use case resumes at step 2.
 +
