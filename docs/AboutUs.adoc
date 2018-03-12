@@ -3,7 +3,7 @@
 :imagesDir: images
 :stylesDir: stylesheets
 
-CerviciM is built on a fork of https://github.com/nus-cs2103-AY1718S2/addressbook-level4[AddressBook -
+CarviciM is built on a fork of https://github.com/nus-cs2103-AY1718S2/addressbook-level4[AddressBook -
 Level
  4],
 which was developed by the https://se-edu.github.io/docs/Team.html[se-edu] team. +
@@ -17,6 +17,15 @@ image::whenzei.png[width="130", align="left"]
 
 Role: Team Lead, Code Quality, Developer +
 Responsibilities: Model
+
+'''
+
+=== Yu Hong Herald
+image::yuhongherald.jpg[width="150", align="left"]
+{empty} [https://github.com/yuhongherald[github]] [<<yuhongherald#, portfolio>>]
+
+Role: Developer _Integration, Scheduling and tracking_ +
+Responsibilities: Storage
 
 '''
 
