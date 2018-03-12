@@ -31,6 +31,18 @@ public class SetCommand extends UndoableCommand {
         this.newWord = newWord;
     }
 
+    public String getMessageSuccess() {
+        return String.format(MESSAGE_SUCCESS, currentWord, newWord);
+    }
+
+    public String getMessageUsed() {
+        return String.format(CommandWords.MESSAGE_DUPLICATE, newWord);
+    }
+
+    public String getMessageUnused() {
+        return String.format(CommandWords.MESSAGE_INACTIVE, currentWord);
+    }
+
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
         requireNonNull(model);
@@ -39,7 +51,7 @@ public class SetCommand extends UndoableCommand {
         } catch (CommandWordException e) {
             throw new CommandException(e.getMessage());
         }
-        return new CommandResult(String.format(MESSAGE_SUCCESS, currentWord, newWord));
+        return new CommandResult(getMessageSuccess());
     }
 
     @Override
