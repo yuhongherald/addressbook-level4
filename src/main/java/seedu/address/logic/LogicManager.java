@@ -27,7 +27,7 @@ public class LogicManager extends ComponentManager implements Logic {
     public LogicManager(Model model) {
         this.model = model;
         history = new CommandHistory();
-        addressBookParser = new AddressBookParser();
+        addressBookParser = new AddressBookParser(model.getCommandWords());
         undoRedoStack = new UndoRedoStack();
     }
 
@@ -43,6 +43,10 @@ public class LogicManager extends ComponentManager implements Logic {
         } finally {
             history.add(commandText);
         }
+    }
+
+    @Override public String appendCommandKeyToMessage(String message) {
+        return model.appendCommandKeyToMessage(message);
     }
 
     @Override
