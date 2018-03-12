@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
+import seedu.address.logic.commands.CommandWords;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.ExitCommand;
@@ -18,7 +19,10 @@ import seedu.address.logic.commands.HistoryCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.SelectCommand;
+import seedu.address.logic.commands.SetCommand;
 import seedu.address.logic.commands.UndoCommand;
+
+import seedu.address.logic.commands.exceptions.CommandWordException;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
@@ -30,6 +34,22 @@ public class AddressBookParser {
      * Used for initial separation of command word and args.
      */
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
+
+    /**
+     * Reference to command words used.
+     */
+    private final CommandWords commandWords;
+
+    /**
+     * Used only for testing purposes.
+     */
+    public AddressBookParser() {
+        this.commandWords = new CommandWords();
+    }
+
+    public AddressBookParser(CommandWords commandWords) {
+        this.commandWords = commandWords;
+    }
 
     /**
      * Parses user input into command for execution.
@@ -44,10 +64,15 @@ public class AddressBookParser {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
         }
 
-        final String commandWord = matcher.group("commandWord");
+        String commandWord = matcher.group("commandWord");
         final String arguments = matcher.group("arguments");
-        switch (commandWord) {
+        try {
+            commandWord = commandWords.getCommandKey(commandWord);
+        } catch (CommandWordException e) {
+            throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
+        }
 
+        switch (commandWord) {
         case AddCommand.COMMAND_WORD:
             return new AddCommandParser().parse(arguments);
 
@@ -84,6 +109,8 @@ public class AddressBookParser {
         case RedoCommand.COMMAND_WORD:
             return new RedoCommand();
 
+        case SetCommand.COMMAND_WORD:
+            return new SetCommandParser().parse(arguments);
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
         }
