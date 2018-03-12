@@ -820,7 +820,9 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |user |undo my commands |reverse commands done in error
 
-|`* * *` |user |redo my commands |redo undo commands
+|`* * *` |user |redo my commands |reverse my undos if I changed my mind
+
+|`* * *` |user |import job entries |add multiple job entries at once
 
 |`* *` |user |find job entries by the assigned employee's name |locate details of all jobs that are handled by an employee without having to go through the lists of jobs
 
@@ -833,6 +835,14 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |`* *` |user |change the colour label of job status |easily differentiate between the job statuses
 
 |`* *` |user who likes customization |change the theme of the application |customize the theme to my preference
+
+|`* *` |user |accept and reject imported changes |have control when over bulk imports
+
+|`* *` |user |modify imported job entries |import incomplete or invalid job entries
+
+|`* *` |user |add comments on job entries |record feedback to employees
+
+|`* *` |user |export changes |provide feedback to employees regarding the changes
 
 |`*` |user |export completed jobs to other formats |print out all the completed job entries and view it with a better program
 |=======================================================================
@@ -1061,6 +1071,20 @@ Use case ends.
 Use case resumes at step 2.
 +
 Use case ends.
+
+
+==
+|`* * *` |user |import job entries |add multiple job entries at once
+
+|`* *` |user |accept and reject imported changes |have control when over bulk imports
+
+|`* *` |user |modify imported job entries |import incomplete or invalid job entries
+
+|`* *` |user |add comments on job entries |record feedback to employees
+
+|`* *` |user |export changes |provide feedback to employees regarding the changes
+
+==
 
 _{More to be added}_
 
