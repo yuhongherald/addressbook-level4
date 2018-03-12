@@ -37,9 +37,9 @@ image::Ui.png[width="790"]
 e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 .  Some example commands you can try:
 
-* *`list`* : lists all contacts
-* **`add`**`n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : adds a contact named `John Doe` to the Address Book.
-* **`delete`**`3` : deletes the 3rd contact shown in the current list
+* *`liste`* : lists all employees' contacts
+* **`adde`**`n/John Doe p/98765432 e/johnd@example.com` : adds an employee named `John Doe` to the Car Servicing Manager.
+* **`deletee`**`3` : deletes the 3rd employee shown in the current list
 * *`exit`* : exits the app
 
 .  Refer to <<Features>> for details of each command.
@@ -50,9 +50,9 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 ====
 *Command Format*
 
-* Words in `UPPER_CASE` are the parameters to be supplied by the user e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
-* Items in square brackets are optional e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
-* Items with `…`​ after them can be used multiple times including zero times e.g. `[t/TAG]...` can be used as `{nbsp}` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
+* Words in `UPPER_CASE` are the parameters to be supplied by the user e.g. in `adde n/NAME`, `NAME` is a parameter which can be used as `adde n/John Doe`.
+* Items in square brackets are optional e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/mechanic` or as `n/John Doe`.
+* Items with `…`​ after them can be used multiple times including zero times e.g. `[t/TAG]...` can be used as `{nbsp}` (i.e. 0 times), `t/mechanic`, `t/technician` etc.
 * Parameters can be in any order e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 ====
 
@@ -60,103 +60,96 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 
 Format: `help`
 
-=== Adding a person: `add`
+=== Adding an job entry: `addj`
 
-Adds a person to the address book +
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...`
-
-[TIP]
-A person can have any number of tags (including 0)
+Adds a job entry to the car servicing manager +
+Format: `addj n/NAME p/PHONE_NUMBER e/EMAIL v/VEHICLE_NUMBER w/EMPLOYEE_INDEX`
 
 Examples:
 
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+* `addj n/John Doe p/98765432 e/johnd@example.com v/bhj123 w/33`
+* `addj n/Betsy Crowe p/93939393 e/betsycrowe@example.com v/ss888 w/2`
 
-=== Listing all persons : `list`
+=== Closing a job entry: `closej`
 
-Shows a list of all persons in the address book. +
-Format: `list`
+Closes an ongoing job entry in the car servicing manager based on the specified job number +
+Format: `closej JOB_NUMBER`
 
-=== Editing a person : `edit`
+Examples:
 
-Edits an existing person in the address book. +
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...`
+* `closej 1232`
+* `closej 3333`
+
+=== Adding an employee: `adde`
+
+Adds an employee to the car servicing manager +
+Format: `adde n/NAME p/PHONE_NUMBER e/EMAIL`
+
+Examples:
+
+* `adde n/John Doe p/98765432 e/johnd@example.com`
+* `adde n/Betsy Crowe p/93939393 e/betsycrowe@example.com`
+
+=== Listing all employees : `liste`
+
+Shows a list of all employees in the car servicing manager . +
+Format: `liste`
+
+=== Editing a employee : `edite`
+
+Edits an existing employee in the car servicing manager . +
+Format: `edite INDEX [p/PHONE] [e/EMAIL] [t/TAG]...`
 
 ****
-* Edits the person at the specified `INDEX`. The index refers to the index number shown in the last person listing. The index *must be a positive integer* 1, 2, 3, ...
+* Edits the employee at the specified `INDEX`. The index refers to the index number shown in the last employee listing. The index *must be a positive integer* 1, 2, 3, ...
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
-* When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
-* You can remove all the person's tags by typing `t/` without specifying any tags after it.
 ****
 
 Examples:
 
-* `edit 1 p/91234567 e/johndoe@example.com` +
-Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
-* `edit 2 n/Betsy Crower t/` +
-Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+* `edite 1 p/91234567 e/johndoe@example.com` +
+Edits the phone number and email address of the 1st employee to be `91234567` and `johndoe@example.com` respectively.
 
-=== Locating persons by name: `find`
+=== Locating employees by name: `finde`
 
-Finds persons whose names contain any of the given keywords. +
-Format: `find KEYWORD [MORE_KEYWORDS]`
+Find employees whose names contain any of the given keywords. +
+Format: `finde KEYWORD [MORE_KEYWORDS]`
 
 ****
 * The search is case insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Only the name is searched.
 * Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* Employees matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 ****
 
 Examples:
 
-* `find John` +
+* `finde John` +
 Returns `john` and `John Doe`
-* `find Betsy Tim John` +
-Returns any person having names `Betsy`, `Tim`, or `John`
+* `finde Betsy Tim John` +
+Returns any employee having names `Betsy`, `Tim`, or `John`
 
-=== Deleting a person : `delete`
+=== Deleting an employee : `deletee`
 
-Deletes the specified person from the address book. +
-Format: `delete INDEX`
+Deletes the specified employee from the car servicing manager. +
+Format: `deletee INDEX`
 
 ****
-* Deletes the person at the specified `INDEX`.
+* Deletes the employee at the specified `INDEX`.
 * The index refers to the index number shown in the most recent listing.
 * The index *must be a positive integer* 1, 2, 3, ...
 ****
 
 Examples:
 
-* `list` +
-`delete 2` +
-Deletes the 2nd person in the address book.
-* `find Betsy` +
-`delete 1` +
-Deletes the 1st person in the results of the `find` command.
-
-=== Selecting a person : `select`
-
-Selects the person identified by the index number used in the last person listing. +
-Format: `select INDEX`
-
-****
-* Selects the person and loads the Google search page the person at the specified `INDEX`.
-* The index refers to the index number shown in the most recent listing.
-* The index *must be a positive integer* `1, 2, 3, ...`
-****
-
-Examples:
-
-* `list` +
-`select 2` +
-Selects the 2nd person in the address book.
-* `find Betsy` +
-`select 1` +
-Selects the 1st person in the results of the `find` command.
+* `liste` +
+`deletee 2` +
+Deletes the 2nd employee in the car servicing manager.
+* `finde Betsy` +
+`deletee 1` +
+Deletes the 1st employee in the results of the `findE` command.
 
 === Changing a command word : `set`
 
@@ -176,6 +169,22 @@ Sets `add` command word to `a`
 * `set a add` +
 Sets `a` command word back to `add`
 
+=== Setting a theme : `theme`
+
+Sets the theme of the application. +
+Format: `theme INDEX`
+
+****
+* Sets the theme based on the specified 'INDEX'
+* The index refers to the index number shown in the most recent listing
+* The index *must be a positive integer* 1, 2, 3,...
+****
+
+Examples:
+
+* `theme` +
+`theme 1` +
+Sets the first theme shown by the result of `theme` command.
 
 === Listing entered commands : `history`
 
@@ -221,19 +230,19 @@ Format: `redo`
 
 Examples:
 
-* `delete 1` +
+* `deletee 1` +
 `undo` (reverses the `delete 1` command) +
 `redo` (reapplies the `delete 1` command) +
 
-* `delete 1` +
+* `deletee 1` +
 `redo` +
 The `redo` command fails as there are no `undo` commands executed previously.
 
-* `delete 1` +
+* `deletee 1` +
 `clear` +
 `undo` (reverses the `clear` command) +
-`undo` (reverses the `delete 1` command) +
-`redo` (reapplies the `delete 1` command) +
+`undo` (reverses the `deletee 1` command) +
+`redo` (reapplies the `deletee 1` command) +
 `redo` (reapplies the `clear` command) +
 // end::undoredo[]
 
@@ -265,19 +274,21 @@ _{explain how the user can enable/disable data encryption}_
 
 == Command Summary
 
-* *Add* `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...` +
-e.g. `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+* *Add Job* `adde n/NAME p/PHONE_NUMBER e/EMAIL v/VEHICLE_NUMBER w/EMPLOYEE_INDEX` +
+e.g. `addj n/James Ho p/22224444 e/jamesho@example.com v/saa213 w/22`
+* *Close Job* `closej JOB_NUMBER` +
+e.g. `closej 1232`
+* *Add Employee* `adde n/NAME p/PHONE_NUMBER e/EMAIL [t/TAG]...` +
+e.g. `adde n/James Ho p/22224444 e/jamesho@example.com t/mechanic`
 * *Clear* : `clear`
-* *Delete* : `delete INDEX` +
-e.g. `delete 3`
-* *Edit* : `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` +
-e.g. `edit 2 n/James Lee e/jameslee@example.com`
-* *Find* : `find KEYWORD [MORE_KEYWORDS]` +
-e.g. `find James Jake`
-* *List* : `list`
+* *Delete Employee* : `deletee INDEX` +
+e.g. `deletee 3`
+* *Edit* : `edite INDEX [p/PHONE_NUMBER] [e/EMAIL] [t/TAG]...` +
+e.g. `edite 2 e/jameslee@example.com`
+* *Find Employee* : `finde KEYWORD [MORE_KEYWORDS]` +
+e.g. `finde James Jake`
+* *List Employee* : `liste`
 * *Help* : `help`
-* *Select* : `select INDEX` +
-e.g.`select 2`
 * *History* : `history`
 * *Undo* : `undo`
 * *Redo* : `redo`
