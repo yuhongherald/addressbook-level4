@@ -2,12 +2,7 @@ package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
@@ -151,6 +146,19 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     public void addTag(Tag t) throws UniqueTagList.DuplicateTagException {
         tags.add(t);
+    }
+
+    /**
+     * Sort all persons' name in list alphabetically.
+     */
+    public UniquePersonList sortList(){
+        persons.sortName(new Comparator<Person>() {
+            @Override
+            public int compare(Person person1, Person person2) {
+                return person1.getName().toString().compareToIgnoreCase(person2.getName().toString());
+            }
+        });
+        return persons;
     }
 
     //// util methods

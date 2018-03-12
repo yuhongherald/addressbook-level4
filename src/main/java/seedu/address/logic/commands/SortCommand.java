@@ -1,10 +1,6 @@
 package seedu.address.logic.commands;
 
-import seedu.address.model.ReadOnlyAddressBook;
-
-import java.util.List;
-
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
+import seedu.address.model.*;
 
 public class SortCommand extends Command {
 
@@ -16,9 +12,11 @@ public class SortCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Sorted all persons";
 
+    protected AddressBook addressBook;
+
     @Override
     public CommandResult execute() {
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        model.sortPersonList();
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }
