@@ -20,12 +20,12 @@ public class ThemeCommandTest {
     public final EventsCollectorRule eventsCollectorRule = new EventsCollectorRule();
 
     @Test
-    public void execute_SetTheme_success() {
+    public void execute_setTheme_success() {
         assertExecutionSuccess(INDEX_FIRST_THEME);
     }
 
     @Test
-    public void execute_SetTheme_failure() {
+    public void execute_setTheme_failure() {
         Index outOfBoundsIndex = Index.fromOneBased(NUMBER_OF_THEMES + 1);
         assertExecutionFailure(outOfBoundsIndex, Messages.MESSAGE_INVALID_THEME_INDEX);
     }
