@@ -1,6 +1,11 @@
 package seedu.address.logic.commands;
 
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+
 import org.junit.Test;
+
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.exceptions.CommandWordException;
@@ -8,14 +13,11 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
-
+//@author yuhongherald
 public class SetCommandTest {
 
     @Test
-    public void execute_change_add_success() throws CommandWordException {
+    public void execute_changeAdd_success() throws CommandWordException {
         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         String currentWord = AddCommand.COMMAND_WORD;
@@ -27,7 +29,7 @@ public class SetCommandTest {
     }
 
     @Test
-    public void execute_change_set_success() throws CommandWordException {
+    public void execute_changeSet_success() throws CommandWordException {
         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         String currentWord = SetCommand.COMMAND_WORD;
@@ -43,7 +45,7 @@ public class SetCommandTest {
     }
 
     @Test
-    public void execute_change_command_failure_used() throws CommandWordException {
+    public void execute_changeCommand_failureUsed() throws CommandWordException {
         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         String currentWord = AddCommand.COMMAND_WORD;
         String newWord = SetCommand.COMMAND_WORD;
@@ -53,7 +55,7 @@ public class SetCommandTest {
     }
 
     @Test
-    public void execute_change_command_failure_unused() throws CommandWordException {
+    public void execute_changeCommand_failureUnused() throws CommandWordException {
         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         Model testModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         String currentWord = getUnusedCommandWord(actualModel);
@@ -64,7 +66,7 @@ public class SetCommandTest {
     }
 
     @Test
-    public void execute_change_command_short_circuit() throws CommandWordException {
+    public void execute_changeCommand_shortCircuit() throws CommandWordException {
         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         String currentWord = AddCommand.COMMAND_WORD;
