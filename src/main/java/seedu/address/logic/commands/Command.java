@@ -30,7 +30,8 @@ public abstract class Command {
         SelectCommand.COMMAND_WORD,
         SetCommand.COMMAND_WORD,
         UndoCommand.COMMAND_WORD,
-        ThemeCommand.COMMAND_WORD
+        ThemeCommand.COMMAND_WORD,
+        SortCommand.COMMAND_WORD
     };
 
     protected Model model;
