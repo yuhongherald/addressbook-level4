@@ -1179,6 +1179,31 @@ Use case ends.
 +
 Use case ends.
 
+=== Use case: Set theme of application
+
+*MSS*
+
+1.  User request to change theme.
+2.  CarviciM changes the theme
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a. The list of theme is empty.
+[none]
+** 1a1. CarviciM shows an error message.
++
+Use case ends.
+
+[none]
+* 1b. The given theme index is invalid.
+[none]
+** 1b1. CarviciM shows an error message.
++
+Use case ends.
+
 _{More to be added}_
 
 [appendix]
