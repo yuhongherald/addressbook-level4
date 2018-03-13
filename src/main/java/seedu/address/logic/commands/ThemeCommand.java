@@ -13,9 +13,9 @@ import seedu.address.logic.commands.exceptions.CommandException;
 public class ThemeCommand extends Command {
     public static final String COMMAND_WORD = "theme";
 
-    private static final int NUMBER_OF_THEMES = 2;
+    public static final int NUMBER_OF_THEMES = 2;
 
-    private static final String MESSAGE_THEME_CHANGE_SUCCESS = "Theme updated: %1$s";
+    public static final String MESSAGE_THEME_CHANGE_SUCCESS = "Theme updated: %1$s";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Applies selected theme\n"
