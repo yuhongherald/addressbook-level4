@@ -24,7 +24,7 @@ public class SortCommandTest {
     public void setUp() {
         model = new ModelManager(getTypicalAddressBookNonAlphabetically(), new UserPrefs());
         expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-        
+
         sortCommand = new SortCommand();
         sortCommand.setData(model, new CommandHistory(), new UndoRedoStack());
     }
@@ -33,5 +33,5 @@ public class SortCommandTest {
     public void executeSuccess() {
         assertCommandSuccess(sortCommand, model, SortCommand.MESSAGE_SUCCESS, expectedModel);
     }
-    
+
 }
