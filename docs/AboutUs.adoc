@@ -29,11 +29,11 @@ Responsibilities: Storage
 
 '''
 
-=== John Roe
-image::lejolly.jpg[width="150", align="left"]
-{empty}[http://github.com/lejolly[github]] [<<johndoe#, portfolio>>]
+=== Wee Jia Sheng Richardson
+image::richardson0694.jpg[width="150", align="left"]
+{empty}[http://github.com/Richardson0694[github]] [<<Richardson0694#, portfolio>>]
 
-Role: Team Lead +
+Role: Developer, Documentation, Integration +
 Responsibilities: UI
 
 '''

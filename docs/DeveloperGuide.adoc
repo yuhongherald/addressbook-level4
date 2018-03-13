@@ -853,6 +853,8 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |user |add comments on job entries |record feedback to employees
 
+|`* *` |user |sort by employees' name |sort employee list alphabetically
+
 |`* *` |user |export changes |provide feedback to employees regarding the changes
 
 |`*` |user |export completed jobs to other formats |print out all the completed job entries and view it with a better program
