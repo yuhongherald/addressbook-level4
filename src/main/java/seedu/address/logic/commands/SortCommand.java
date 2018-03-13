@@ -19,4 +19,5 @@ public class SortCommand extends Command {
         model.sortPersonList();
         return new CommandResult(MESSAGE_SUCCESS);
     }
+    
 }

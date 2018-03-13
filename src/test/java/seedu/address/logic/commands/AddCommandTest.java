@@ -116,7 +116,7 @@ public class AddCommandTest {
         public void deletePerson(Person target) throws PersonNotFoundException {
             fail("This method should not be called.");
         }
-
+        
         @Override
         public void sortPersonList() {
             fail("This method should not be called.");
