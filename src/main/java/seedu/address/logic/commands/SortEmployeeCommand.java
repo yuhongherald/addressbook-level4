@@ -7,7 +7,7 @@ import seedu.address.model.AddressBook;
  */
 public class SortEmployeeCommand extends Command {
 
-    public static final String COMMAND_WORD = "sort";
+    public static final String COMMAND_WORD = "sorte";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Displays all persons in the address book as a list in alphabetical order.\n"
