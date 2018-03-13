@@ -39,7 +39,12 @@ public class AddCommandTest {
 
     @Test
     public void execute_personAcceptedByModel_addSuccessful() throws Exception {
-        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded() {
+            @Override
+            public CommandWords getCommandWords() {
+                return new CommandWords();
+            }
+        };
         Person validPerson = new PersonBuilder().build();
 
         CommandResult commandResult = getAddCommandForPerson(validPerson, modelStub).execute();
@@ -50,7 +55,12 @@ public class AddCommandTest {
 
     @Test
     public void execute_duplicatePerson_throwsCommandException() throws Exception {
-        ModelStub modelStub = new ModelStubThrowingDuplicatePersonException();
+        ModelStub modelStub = new ModelStubThrowingDuplicatePersonException() {
+            @Override
+            public CommandWords getCommandWords() {
+                return new CommandWords();
+            }
+        };
         Person validPerson = new PersonBuilder().build();
 
         thrown.expect(CommandException.class);
@@ -102,10 +112,22 @@ public class AddCommandTest {
         }
 
         @Override
-        public void resetData(ReadOnlyAddressBook newData) {
+        public void resetData(ReadOnlyAddressBook newData, CommandWords newCommandWords) {
             fail("This method should not be called.");
         }
         
+        @Override
+        public CommandWords getCommandWords()
+        {
+            fail("This method should never be called");
+            return null;
+        }
+
+        @Override public String appendCommandKeyToMessage(String message) {
+            fail("This method should never be called");
+            return null;
+        }
+
         @Override
         public ReadOnlyAddressBook getAddressBook() {
             fail("This method should not be called.");
