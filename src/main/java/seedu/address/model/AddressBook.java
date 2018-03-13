@@ -157,7 +157,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     /**
      * Sort all persons' name in list alphabetically.
      */
-    public UniquePersonList sortList(){
+    public UniquePersonList sortList() {
         persons.sortName(new Comparator<Person>() {
             @Override
             public int compare(Person person1, Person person2) {
