@@ -15,6 +15,7 @@ import seedu.address.commons.events.ui.SetThemeRequestEvent;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.ui.testutil.EventsCollectorRule;
 
+//@author owzhenwei
 public class ThemeCommandTest {
     @Rule
     public final EventsCollectorRule eventsCollectorRule = new EventsCollectorRule();
