@@ -39,7 +39,7 @@ public class UniquePersonList implements Iterable<Person> {
      *
      * @throws DuplicatePersonException if the person to add is a duplicate of an existing person in the list.
      */
-    public void add(Person toAdd) throws DuplicatePersonException {
+    public void add(Person toAdd) throws DuplicatePersonException { 
         requireNonNull(toAdd);
         if (contains(toAdd)) {
             throw new DuplicatePersonException();
