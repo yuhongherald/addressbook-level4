@@ -6,7 +6,7 @@ https://ci.appveyor.com/project/damithc/addressbook-level4[image:https://ci.appv
 https://coveralls.io/github/se-edu/addressbook-level4?branch=master[image:https://coveralls.io/repos/github/se-edu/addressbook-level4/badge.svg?branch=master[Coverage Status]]
 https://gitter.im/se-edu/Lobby[image:https://badges.gitter.im/se-edu/Lobby.svg[Gitter chat]]
 
-image::docs/images/CarviciM_logo.png[width="150", align="left"]
+image::docs/images/CarviciM_logo.PNG[width="150", align="left"]
 CarviciM is your go-to desktop application for managing car servicing jobs. If you prefer to perform your tasks with minimal usage of the mouse, this is the application just for you!
 
 ifdef::env-github[]
