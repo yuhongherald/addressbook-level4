@@ -3,6 +3,7 @@ package seedu.address.model;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
+import seedu.address.logic.commands.CommandWords;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
@@ -16,7 +17,14 @@ public interface Model {
     Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
 
     /** Clears existing backing model and replaces with the provided new data. */
-    void resetData(ReadOnlyAddressBook newData);
+    void resetData(ReadOnlyAddressBook newData, CommandWords newCommandWords);
+
+    /** Returns the command words set by the user. */
+    CommandWords getCommandWords();
+
+    /** Returns the command words set by the user. */
+    String appendCommandKeyToMessage(String message);
+
 
     /** Returns the AddressBook */
     ReadOnlyAddressBook getAddressBook();
