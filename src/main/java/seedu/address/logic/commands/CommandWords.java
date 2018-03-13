@@ -123,6 +123,29 @@ public class CommandWords implements Serializable {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        // short circuit if same object
+        if (obj == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(obj instanceof CommandWords)) {
+            return false;
+        }
+
+        // state check
+        CommandWords other = (CommandWords) obj;
+        for (String commandKey : commands.keySet()) {
+            if (!commands.get(commandKey).equals(other.commands.get(commandKey))) {
+                return false;
+            }
+        }
+        return commands.size() == other.commands.size();
+    }
+
+
+    @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("Commands: \n");
