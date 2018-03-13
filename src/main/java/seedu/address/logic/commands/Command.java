@@ -17,7 +17,7 @@ public abstract class Command {
      * Stores a list of COMMANDS by their command word
      */
     public static final String[] COMMANDS = {
-        AddCommand.COMMAND_WORD,
+        AddEmployeeCommand.COMMAND_WORD,
         ClearCommand.COMMAND_WORD,
         DeleteCommand.COMMAND_WORD,
         EditCommand.COMMAND_WORD,
