@@ -31,7 +31,7 @@ public abstract class Command {
         SetCommand.COMMAND_WORD,
         UndoCommand.COMMAND_WORD,
         ThemeCommand.COMMAND_WORD,
-        SortCommand.COMMAND_WORD    
+        SortCommand.COMMAND_WORD
     };
 
     protected Model model;
