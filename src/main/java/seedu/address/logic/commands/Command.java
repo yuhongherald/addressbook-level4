@@ -22,16 +22,16 @@ public abstract class Command {
         DeleteEmployeeCommand.COMMAND_WORD,
         EditEmployeeCommand.COMMAND_WORD,
         ExitCommand.COMMAND_WORD,
-        FindCommand.COMMAND_WORD,
+        FindEmployeeCommand.COMMAND_WORD,
         HelpCommand.COMMAND_WORD,
         HistoryCommand.COMMAND_WORD,
-        ListCommand.COMMAND_WORD,
+        ListEmployeeCommand.COMMAND_WORD,
         RedoCommand.COMMAND_WORD,
         SelectCommand.COMMAND_WORD,
         SetCommand.COMMAND_WORD,
         UndoCommand.COMMAND_WORD,
         ThemeCommand.COMMAND_WORD,
-        SortCommand.COMMAND_WORD
+        SortEmployeeCommand.COMMAND_WORD
     };
 
     protected Model model;
