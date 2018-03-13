@@ -117,8 +117,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public CommandWords getCommandWords()
-        {
+        public CommandWords getCommandWords() {
             fail("This method should never be called");
             return null;
         }
@@ -136,6 +135,11 @@ public class AddCommandTest {
 
         @Override
         public void deletePerson(Person target) throws PersonNotFoundException {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public void sortPersonList() {
             fail("This method should not be called.");
         }
 
