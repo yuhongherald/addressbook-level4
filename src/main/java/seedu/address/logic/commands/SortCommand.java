@@ -1,7 +1,10 @@
 package seedu.address.logic.commands;
 
-import seedu.address.model.*;
+import seedu.address.model.AddressBook;
 
+/**
+ * Sorts all persons alphabetically by names in the address book to the user.
+ */
 public class SortCommand extends Command {
 
     public static final String COMMAND_WORD = "sort";
