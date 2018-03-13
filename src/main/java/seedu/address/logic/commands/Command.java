@@ -19,8 +19,8 @@ public abstract class Command {
     public static final String[] COMMANDS = {
         AddEmployeeCommand.COMMAND_WORD,
         ClearCommand.COMMAND_WORD,
-        DeleteCommand.COMMAND_WORD,
-        EditCommand.COMMAND_WORD,
+        DeleteEmployeeCommand.COMMAND_WORD,
+        EditEmployeeCommand.COMMAND_WORD,
         ExitCommand.COMMAND_WORD,
         FindCommand.COMMAND_WORD,
         HelpCommand.COMMAND_WORD,
