@@ -95,21 +95,21 @@ public class UniquePersonList implements Iterable<Person> {
         }
         setPersons(replacement);
     }
-    
+
     /**
      * Returns the backing list as an unmodifiable {@code ObservableList}.
      */
     public ObservableList<Person> asObservableList() {
         return FXCollections.unmodifiableObservableList(internalList);
     }
-    
+
     /**
      * Sort all persons' name in list alphabetically.
      */
     public void sortName(Comparator comparator){
         Collections.sort(internalList, comparator);
     }
-    
+
     @Override
     public Iterator<Person> iterator() {
         return internalList.iterator();
