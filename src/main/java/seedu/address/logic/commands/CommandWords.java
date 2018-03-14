@@ -16,13 +16,14 @@ import seedu.address.logic.commands.exceptions.CommandWordException;
 public class CommandWords implements Serializable {
     public static final String MESSAGE_INACTIVE = "%s is not an active command.";
     public static final String MESSAGE_DUPLICATE = "%s is already used.";
+    public static final String MESSAGE_OVERWRITE_DEFAULT = "%s is a default command.";
     public final HashMap<String, String> commands;
     /**
      * Creates a data structure to maintain used command words.
      */
     public CommandWords() {
         commands = new HashMap<>();
-        for (String command : Command.commands) {
+        for (String command : Command.COMMANDS) {
             commands.put(command, command);
         }
     }
@@ -34,7 +35,7 @@ public class CommandWords implements Serializable {
     }
 
     /**
-     * Moves (@code command from (@code commands) to (@code verifiedCommands). Creates a new entry if missing.
+     * Moves (@code command from (@code COMMANDS) to (@code verifiedCommands). Creates a new entry if missing.
      */
     private void moveVerifiedWord(String command, HashMap<String, String> verifiedCommands) {
         verifiedCommands.put(command, commands.getOrDefault(command, command));
@@ -46,7 +47,7 @@ public class CommandWords implements Serializable {
      */
     public void checkIntegrity() {
         HashMap<String, String> verifiedCommands = new HashMap<>();
-        for (String command : Command.commands) {
+        for (String command : Command.COMMANDS) {
             moveVerifiedWord(command, verifiedCommands);
         }
         commands.clear();
@@ -95,6 +96,9 @@ public class CommandWords implements Serializable {
         requireNonNull(currentWord, newWord);
         if (currentWord.equals(newWord)) {
             return;
+        }
+        if (commands.containsKey(newWord)) {
+            throw new CommandWordException(String.format(MESSAGE_OVERWRITE_DEFAULT, newWord));
         }
         if (commands.containsValue(newWord)) {
             throw new CommandWordException(String.format(MESSAGE_DUPLICATE, newWord));

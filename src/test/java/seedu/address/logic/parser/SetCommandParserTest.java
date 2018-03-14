@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.SetCommandTest.getUnusedCommandWord;
+import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
@@ -27,10 +28,16 @@ public class SetCommandParserTest {
     }
 
     @Test
-    public void parse_currentCommandUnused_failure() {
+    public void parse_currentCommandUnused_failure() throws CommandWordException {
+        Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        String currentWord = AddCommand.COMMAND_WORD;
+        String command = actualModel.getCommandWords().getCommandWord(SetCommand.COMMAND_WORD);
+        String newWord = getUnusedCommandWord(actualModel);
+        String args = String.join(" ", command, currentWord, newWord);
+
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE);
-        
-        //assertParseFailure
+
+        assertParseFailure(parser, "", expectedMessage);
     }
 
 //    @Test
