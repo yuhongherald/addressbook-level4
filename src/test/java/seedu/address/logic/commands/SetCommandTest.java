@@ -82,7 +82,7 @@ public class SetCommandTest {
         expectedModel.getCommandWords().setCommandWord(currentWord, newWord);
     }
 
-    private String getUnusedCommandWord(Model actualModel) {
+    public static String getUnusedCommandWord(Model actualModel) {
         String newWord = "a";
         for (int i = 0; i < actualModel.getCommandWords().commands.size(); i++) {
             if (!actualModel.getCommandWords().commands.containsValue(newWord)) {
@@ -93,7 +93,7 @@ public class SetCommandTest {
         return newWord;
     }
 
-    private String getUnusedCommandWord(Model actualModel, String otherWord) {
+    public static String getUnusedCommandWord(Model actualModel, String otherWord) {
         if (otherWord == null || otherWord.equals("")) {
             return  getUnusedCommandWord(actualModel);
         }
