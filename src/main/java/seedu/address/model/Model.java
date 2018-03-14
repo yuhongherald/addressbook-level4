@@ -34,6 +34,9 @@ public interface Model {
     /** Adds the given person */
     void addPerson(Person person) throws DuplicatePersonException;
 
+    /** Sort all persons' name in list alphabetically. */
+    void sortPersonList();
+
     /**
      * Replaces the given person {@code target} with {@code editedPerson}.
      *
@@ -52,5 +55,4 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
-
 }
