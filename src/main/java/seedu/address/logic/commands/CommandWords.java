@@ -34,7 +34,8 @@ public class CommandWords implements Serializable {
     }
 
     /**
-     * Moves (@code command from (@code commands) to (@code verifiedCommands). Creates a new entry if missing.
+     * Copies key and value of (@code command) from (@code commands)
+     * to (@code verifiedCommands). Creates a new entry if missing.
      */
     private void moveVerifiedWord(String command, HashMap<String, String> verifiedCommands) {
         verifiedCommands.put(command, commands.getOrDefault(command, command));

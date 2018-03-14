@@ -10,6 +10,8 @@ import seedu.address.logic.parser.exceptions.ParseException;
  */
 public class SetCommandParser implements Parser<SetCommand> {
     public static final String MESSAGE_COMMANDS_INVALID_NUMBER = "%s command requires 2 command words.";
+    public static final String WHITESPACE = "\\s+";
+
     /**
      * Parses the given {@code String} of arg
      * uments in the context of the AddCommand
@@ -17,7 +19,7 @@ public class SetCommandParser implements Parser<SetCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public SetCommand parse(String args) throws ParseException {
-        String[] commandWords = args.split("\\s+");
+        String[] commandWords = args.split(WHITESPACE);
         if (commandWords.length != 3) {
             IllegalValueException ive = new IllegalValueException(
                     String.format(SetCommand.MESSAGE_USAGE, commandWords[0]));

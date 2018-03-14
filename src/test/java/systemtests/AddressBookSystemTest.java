@@ -189,7 +189,7 @@ public abstract class AddressBookSystemTest {
      * and the person list panel displays the persons in the model correctly.
      */
     protected void assertApplicationDisplaysExpectedError(String expectedCommandInput, String expectedResultMessage,
-                                                     Model expectedModel) {
+            Model expectedModel) {
         assertEquals(expectedCommandInput, getCommandBox().getInput());
         assertEquals(getModel().appendCommandKeyToMessage(expectedResultMessage), getResultDisplay().getText());
         assertEquals(expectedModel, getModel());
