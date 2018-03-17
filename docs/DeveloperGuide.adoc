@@ -805,7 +805,7 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 
 - Importing job entries from an excel file (major enhancement)
 Done by: yuhongherald
-User can specify the file path to an excel file containing the job entries in columns, and header fields to indicate the 
+User can specify the file path to an excel file containing the job entries in columns, and header fields to indicate the
 field contents for each row. User then reviews the changes and generates a feedback document.
 
 - Setting custom command keywords (minor enhancement)
