@@ -107,7 +107,7 @@ public class SetCommandTest {
     @Test
     public void execute_changeCommand_failureNoChange() throws CommandWordException {
         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-        String currentWord = AddCommand.COMMAND_WORD;
+        String currentWord = AddEmployeeCommand.COMMAND_WORD;
         String newWord = currentWord;
 
         SetCommand newCommand = prepareCommand(actualModel, currentWord, newWord);
