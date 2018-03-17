@@ -799,7 +799,19 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 * is reasonably comfortable using CLI apps
 * has a need to monitor employee’s performance through the number of jobs completed
 
-*Value proposition*: A convenient App for car servicing managers to organize servicing jobs and assign specific employees.
+*Value Proposition*: A convenient App for car servicing managers to organize servicing jobs and assign specific employees.
+
+*Feature Contributions*:
+
+* Changing of theme in the application. (Minor)
++
+[none]
+** The theme changing feature allow users to work on an environment that they are comfortable with.
+
+* Managing of jobs which include - adding of jobs, closing of jobs and adding remarks to jobs. (Major)
++
+[none]
+** The feature to manage jobs is the basis of the application.
 
 *Feature contributions*:
 
