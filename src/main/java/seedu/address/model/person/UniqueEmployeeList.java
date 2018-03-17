@@ -3,10 +3,7 @@ package seedu.address.model.person;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -94,6 +91,15 @@ public class UniqueEmployeeList implements Iterable<Employee> {
             replacement.add(employee);
         }
         setEmployees(replacement);
+    }
+
+    /**
+     * Returns all tags in this list as a Set.
+     * This set is mutable and change-insulated against the internal list.
+     */
+    public Set<Employee> toSet() {
+        assert CollectionUtil.elementsAreUnique(internalList);
+        return new HashSet<>(internalList);
     }
 
     /**
