@@ -1,0 +1,1531 @@
+From e069278c0fb9dcffafedbbb9453e4692f396d8dd Mon Sep 17 00:00:00 2001
+From: Yu Hong Herald <yuhongherald@gmail.com>
+Date: Sat, 17 Mar 2018 23:33:41 +0800
+Subject: [PATCH] minor edits
+
+---
+ .../seedu/address/logic/commands/CommandWords.java | 30 +++++++++++-----------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
+
+diff --git a/src/main/java/seedu/address/logic/commands/CommandWords.java b/src/main/java/seedu/address/logic/commands/CommandWords.java
+index 8c49b0b..d737c47 100644
+--- a/src/main/java/seedu/address/logic/commands/CommandWords.java
++++ b/src/main/java/seedu/address/logic/commands/CommandWords.java
+@@ -22,21 +22,21 @@ public class CommandWords implements Serializable {
+      * Stores a list of COMMANDS by their command word
+      */
+     public static final String[] COMMANDS = {
+-            AddEmployeeCommand.COMMAND_WORD,
+-            ClearCommand.COMMAND_WORD,
+-            DeleteEmployeeCommand.COMMAND_WORD,
+-            EditEmployeeCommand.COMMAND_WORD,
+-            ExitCommand.COMMAND_WORD,
+-            FindEmployeeCommand.COMMAND_WORD,
+-            HelpCommand.COMMAND_WORD,
+-            HistoryCommand.COMMAND_WORD,
+-            ListEmployeeCommand.COMMAND_WORD,
+-            RedoCommand.COMMAND_WORD,
+-            SelectCommand.COMMAND_WORD,
+-            SetCommand.COMMAND_WORD,
+-            UndoCommand.COMMAND_WORD,
+-            ThemeCommand.COMMAND_WORD,
+-            SortEmployeeCommand.COMMAND_WORD
++        AddEmployeeCommand.COMMAND_WORD,
++        ClearCommand.COMMAND_WORD,
++        DeleteEmployeeCommand.COMMAND_WORD,
++        EditEmployeeCommand.COMMAND_WORD,
++        ExitCommand.COMMAND_WORD,
++        FindEmployeeCommand.COMMAND_WORD,
++        HelpCommand.COMMAND_WORD,
++        HistoryCommand.COMMAND_WORD,
++        ListEmployeeCommand.COMMAND_WORD,
++        RedoCommand.COMMAND_WORD,
++        SelectCommand.COMMAND_WORD,
++        SetCommand.COMMAND_WORD,
++        UndoCommand.COMMAND_WORD,
++        ThemeCommand.COMMAND_WORD,
++        SortEmployeeCommand.COMMAND_WORD
+     };
+ 
+     public final HashMap<String, String> commands;
+-- 
+2.16.1.windows.1
+
+From 9bfa9c16473dfb7d2888b3f2046a6bfb8a6730c2 Mon Sep 17 00:00:00 2001
+From: Yu Hong Herald <yuhongherald@gmail.com>
+Date: Sat, 17 Mar 2018 23:25:57 +0800
+Subject: [PATCH] Fix test case by switching to static command word references.
+
+---
+ .../java/seedu/address/logic/commands/Command.java | 20 ---------------
+ .../seedu/address/logic/commands/CommandWords.java | 30 +++++++++++-----------
+ .../java/seedu/address/logic/LogicManagerTest.java |  3 ++-
+ .../address/logic/commands/SetCommandTest.java     | 12 ++++-----
+ .../address/logic/parser/SetCommandParserTest.java |  6 ++---
+ src/test/java/seedu/address/ui/CommandBoxTest.java |  2 +-
+ 6 files changed, 27 insertions(+), 46 deletions(-)
+
+diff --git a/src/main/java/seedu/address/logic/commands/Command.java b/src/main/java/seedu/address/logic/commands/Command.java
+index 0f588a1..831593a 100644
+--- a/src/main/java/seedu/address/logic/commands/Command.java
++++ b/src/main/java/seedu/address/logic/commands/Command.java
+@@ -10,26 +10,6 @@ import seedu.address.model.Model;
+  * Represents a command with hidden internal logic and the ability to be executed.
+  */
+ public abstract class Command {
+-    /**
+-     * Stores a list of COMMANDS by their command word
+-     */
+-    public static final String[] COMMANDS = {
+-        AddEmployeeCommand.COMMAND_WORD,
+-        ClearCommand.COMMAND_WORD,
+-        DeleteEmployeeCommand.COMMAND_WORD,
+-        EditEmployeeCommand.COMMAND_WORD,
+-        ExitCommand.COMMAND_WORD,
+-        FindEmployeeCommand.COMMAND_WORD,
+-        HelpCommand.COMMAND_WORD,
+-        HistoryCommand.COMMAND_WORD,
+-        ListEmployeeCommand.COMMAND_WORD,
+-        RedoCommand.COMMAND_WORD,
+-        SelectCommand.COMMAND_WORD,
+-        SetCommand.COMMAND_WORD,
+-        UndoCommand.COMMAND_WORD,
+-        ThemeCommand.COMMAND_WORD,
+-        SortEmployeeCommand.COMMAND_WORD
+-    };
+ 
+     protected Model model;
+     protected CommandHistory history;
+diff --git a/src/main/java/seedu/address/logic/commands/CommandWords.java b/src/main/java/seedu/address/logic/commands/CommandWords.java
+index 0897f81..8c49b0b 100644
+--- a/src/main/java/seedu/address/logic/commands/CommandWords.java
++++ b/src/main/java/seedu/address/logic/commands/CommandWords.java
+@@ -22,21 +22,21 @@ public class CommandWords implements Serializable {
+      * Stores a list of COMMANDS by their command word
+      */
+     public static final String[] COMMANDS = {
+-        AddCommand.COMMAND_WORD,
+-        ClearCommand.COMMAND_WORD,
+-        DeleteCommand.COMMAND_WORD,
+-        EditCommand.COMMAND_WORD,
+-        ExitCommand.COMMAND_WORD,
+-        FindCommand.COMMAND_WORD,
+-        HelpCommand.COMMAND_WORD,
+-        HistoryCommand.COMMAND_WORD,
+-        ListCommand.COMMAND_WORD,
+-        RedoCommand.COMMAND_WORD,
+-        SelectCommand.COMMAND_WORD,
+-        SetCommand.COMMAND_WORD,
+-        UndoCommand.COMMAND_WORD,
+-        ThemeCommand.COMMAND_WORD,
+-        SortCommand.COMMAND_WORD
++            AddEmployeeCommand.COMMAND_WORD,
++            ClearCommand.COMMAND_WORD,
++            DeleteEmployeeCommand.COMMAND_WORD,
++            EditEmployeeCommand.COMMAND_WORD,
++            ExitCommand.COMMAND_WORD,
++            FindEmployeeCommand.COMMAND_WORD,
++            HelpCommand.COMMAND_WORD,
++            HistoryCommand.COMMAND_WORD,
++            ListEmployeeCommand.COMMAND_WORD,
++            RedoCommand.COMMAND_WORD,
++            SelectCommand.COMMAND_WORD,
++            SetCommand.COMMAND_WORD,
++            UndoCommand.COMMAND_WORD,
++            ThemeCommand.COMMAND_WORD,
++            SortEmployeeCommand.COMMAND_WORD
+     };
+ 
+     public final HashMap<String, String> commands;
+diff --git a/src/test/java/seedu/address/logic/LogicManagerTest.java b/src/test/java/seedu/address/logic/LogicManagerTest.java
+index 30bc559..42454cb 100644
+--- a/src/test/java/seedu/address/logic/LogicManagerTest.java
++++ b/src/test/java/seedu/address/logic/LogicManagerTest.java
+@@ -9,6 +9,7 @@ import org.junit.Test;
+ import org.junit.rules.ExpectedException;
+ 
+ import seedu.address.logic.commands.CommandResult;
++import seedu.address.logic.commands.DeleteEmployeeCommand;
+ import seedu.address.logic.commands.HistoryCommand;
+ import seedu.address.logic.commands.ListEmployeeCommand;
+ import seedu.address.logic.commands.exceptions.CommandException;
+@@ -34,7 +35,7 @@ public class LogicManagerTest {
+ 
+     @Test
+     public void execute_commandExecutionError_throwsCommandException() {
+-        String deleteCommand = "delete 9";
++        String deleteCommand = String.join(" ", DeleteEmployeeCommand.COMMAND_WORD, "9");
+         assertCommandException(deleteCommand, MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+         assertHistoryCorrect(deleteCommand);
+     }
+diff --git a/src/test/java/seedu/address/logic/commands/SetCommandTest.java b/src/test/java/seedu/address/logic/commands/SetCommandTest.java
+index ed3418a..4604984 100644
+--- a/src/test/java/seedu/address/logic/commands/SetCommandTest.java
++++ b/src/test/java/seedu/address/logic/commands/SetCommandTest.java
+@@ -20,7 +20,7 @@ public class SetCommandTest {
+     public void execute_changeAdd_success() throws CommandWordException {
+         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+-        String currentWord = AddCommand.COMMAND_WORD;
++        String currentWord = AddEmployeeCommand.COMMAND_WORD;
+         String newWord = getUnusedCommandWord(actualModel);
+ 
+         setCommandWord(expectedModel, currentWord, newWord);
+@@ -32,7 +32,7 @@ public class SetCommandTest {
+     public void execute_changeAddUsingDefault_success() throws CommandWordException {
+         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+-        String currentWord = AddCommand.COMMAND_WORD;
++        String currentWord = AddEmployeeCommand.COMMAND_WORD;
+         String newWord = getUnusedCommandWord(actualModel);
+ 
+         setCommandWord(actualModel, currentWord, newWord);
+@@ -46,7 +46,7 @@ public class SetCommandTest {
+     public void execute_changeAddBackToDefault_success() throws CommandWordException {
+         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+-        String currentWord = AddCommand.COMMAND_WORD;
++        String currentWord = AddEmployeeCommand.COMMAND_WORD;
+         String newWord = getUnusedCommandWord(actualModel);
+ 
+         setCommandWord(actualModel, currentWord, newWord);
+@@ -74,7 +74,7 @@ public class SetCommandTest {
+     @Test
+     public void execute_changeCommand_failureUsed() throws CommandWordException {
+         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+-        String currentWord = AddCommand.COMMAND_WORD;
++        String currentWord = AddEmployeeCommand.COMMAND_WORD;
+         String newWord = getUnusedCommandWord(actualModel);
+ 
+         setCommandWord(actualModel, SetCommand.COMMAND_WORD, newWord);
+@@ -85,7 +85,7 @@ public class SetCommandTest {
+     @Test
+     public void execute_changeCommand_failureDefault() throws CommandWordException {
+         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+-        String currentWord = AddCommand.COMMAND_WORD;
++        String currentWord = AddEmployeeCommand.COMMAND_WORD;
+         String newWord = SetCommand.COMMAND_WORD;
+ 
+         SetCommand newCommand = prepareCommand(actualModel, currentWord, newWord);
+@@ -107,7 +107,7 @@ public class SetCommandTest {
+     @Test
+     public void execute_changeCommand_failureNoChange() throws CommandWordException {
+         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+-        String currentWord = AddCommand.COMMAND_WORD;
++        String currentWord = AddEmployeeCommand.COMMAND_WORD;
+         String newWord = currentWord;
+ 
+         SetCommand newCommand = prepareCommand(actualModel, currentWord, newWord);
+diff --git a/src/test/java/seedu/address/logic/parser/SetCommandParserTest.java b/src/test/java/seedu/address/logic/parser/SetCommandParserTest.java
+index 49d7cba..e25c4ff 100644
+--- a/src/test/java/seedu/address/logic/parser/SetCommandParserTest.java
++++ b/src/test/java/seedu/address/logic/parser/SetCommandParserTest.java
+@@ -6,7 +6,7 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSucces
+ 
+ import org.junit.Test;
+ 
+-import seedu.address.logic.commands.AddCommand;
++import seedu.address.logic.commands.AddEmployeeCommand;
+ import seedu.address.logic.commands.SetCommand;
+ 
+ public class SetCommandParserTest {
+@@ -14,7 +14,7 @@ public class SetCommandParserTest {
+ 
+     @Test
+     public void parse_twoCommandWords_success() {
+-        String currentWord = AddCommand.COMMAND_WORD;
++        String currentWord = AddEmployeeCommand.COMMAND_WORD;
+         String newWord = getWord();
+         String args = String.join(" ", currentWord, newWord);
+         assertParseSuccess(parser, args, new SetCommand(currentWord, newWord));
+@@ -29,7 +29,7 @@ public class SetCommandParserTest {
+ 
+     @Test
+     public void parse_oneCommandWord_failure() {
+-        String currentWord = AddCommand.COMMAND_WORD;
++        String currentWord = AddEmployeeCommand.COMMAND_WORD;
+         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, SetCommand.MESSAGE_USAGE);
+         assertParseFailure(parser, currentWord, expectedMessage);
+     }
+diff --git a/src/test/java/seedu/address/ui/CommandBoxTest.java b/src/test/java/seedu/address/ui/CommandBoxTest.java
+index c3131c1..0fd4d73 100644
+--- a/src/test/java/seedu/address/ui/CommandBoxTest.java
++++ b/src/test/java/seedu/address/ui/CommandBoxTest.java
+@@ -91,7 +91,7 @@ public class CommandBoxTest extends GuiUnitTest {
+ 
+         // insert command in the middle of retrieving previous COMMANDS
+         guiRobot.push(KeyCode.UP);
+-        String thirdCommand = "list";
++        String thirdCommand = ListEmployeeCommand.COMMAND_WORD;
+         commandBoxHandle.run(thirdCommand);
+         assertInputHistory(KeyCode.UP, thirdCommand);
+         assertInputHistory(KeyCode.UP, COMMAND_THAT_FAILS);
+-- 
+2.16.1.windows.1
+
+From f02b8f5097f8f8f5b5d9e73239ba8bf8b3a337a0 Mon Sep 17 00:00:00 2001
+From: Yu Hong Herald <yuhongherald@gmail.com>
+Date: Sat, 17 Mar 2018 22:25:28 +0800
+Subject: [PATCH] Add set command functionality to keep set of custom command
+ words on top of default command words. Include test cases.
+
+---
+ .../java/seedu/address/logic/commands/Command.java |  20 ----
+ .../seedu/address/logic/commands/CommandWords.java | 112 +++++++++++++++------
+ .../seedu/address/logic/commands/SetCommand.java   |   4 +-
+ .../address/logic/commands/SetCommandTest.java     |  49 +++++++--
+ .../address/logic/parser/SetCommandParserTest.java |  68 ++++---------
+ 5 files changed, 143 insertions(+), 110 deletions(-)
+
+diff --git a/src/main/java/seedu/address/logic/commands/Command.java b/src/main/java/seedu/address/logic/commands/Command.java
+index b337128..831593a 100644
+--- a/src/main/java/seedu/address/logic/commands/Command.java
++++ b/src/main/java/seedu/address/logic/commands/Command.java
+@@ -10,26 +10,6 @@ import seedu.address.model.Model;
+  * Represents a command with hidden internal logic and the ability to be executed.
+  */
+ public abstract class Command {
+-    /**
+-     * Stores a list of COMMANDS by their command word
+-     */
+-    public static final String[] COMMANDS = {
+-        AddCommand.COMMAND_WORD,
+-        ClearCommand.COMMAND_WORD,
+-        DeleteCommand.COMMAND_WORD,
+-        EditCommand.COMMAND_WORD,
+-        ExitCommand.COMMAND_WORD,
+-        FindCommand.COMMAND_WORD,
+-        HelpCommand.COMMAND_WORD,
+-        HistoryCommand.COMMAND_WORD,
+-        ListCommand.COMMAND_WORD,
+-        RedoCommand.COMMAND_WORD,
+-        SelectCommand.COMMAND_WORD,
+-        SetCommand.COMMAND_WORD,
+-        UndoCommand.COMMAND_WORD,
+-        ThemeCommand.COMMAND_WORD,
+-        SortCommand.COMMAND_WORD
+-    };
+ 
+     protected Model model;
+     protected CommandHistory history;
+diff --git a/src/main/java/seedu/address/logic/commands/CommandWords.java b/src/main/java/seedu/address/logic/commands/CommandWords.java
+index 9d8a92e..0897f81 100644
+--- a/src/main/java/seedu/address/logic/commands/CommandWords.java
++++ b/src/main/java/seedu/address/logic/commands/CommandWords.java
+@@ -14,10 +14,30 @@ import seedu.address.logic.commands.exceptions.CommandWordException;
+  * A serializable data structure used to contain the mappings of a command to a word
+  */
+ public class CommandWords implements Serializable {
+-    public static final String MESSAGE_INACTIVE = "%s is not an active command.";
+-    public static final String MESSAGE_DUPLICATE = "%s is already used.";
++    public static final String MESSAGE_UNUSED = "%s is not an active command.";
++    public static final String MESSAGE_USED = "%s is already used.";
+     public static final String MESSAGE_NO_CHANGE = "Old and new command word is the same.";
+     public static final String MESSAGE_OVERWRITE_DEFAULT = "%s is a default command.";
++    /**
++     * Stores a list of COMMANDS by their command word
++     */
++    public static final String[] COMMANDS = {
++        AddCommand.COMMAND_WORD,
++        ClearCommand.COMMAND_WORD,
++        DeleteCommand.COMMAND_WORD,
++        EditCommand.COMMAND_WORD,
++        ExitCommand.COMMAND_WORD,
++        FindCommand.COMMAND_WORD,
++        HelpCommand.COMMAND_WORD,
++        HistoryCommand.COMMAND_WORD,
++        ListCommand.COMMAND_WORD,
++        RedoCommand.COMMAND_WORD,
++        SelectCommand.COMMAND_WORD,
++        SetCommand.COMMAND_WORD,
++        UndoCommand.COMMAND_WORD,
++        ThemeCommand.COMMAND_WORD,
++        SortCommand.COMMAND_WORD
++    };
+ 
+     public final HashMap<String, String> commands;
+     /**
+@@ -25,7 +45,7 @@ public class CommandWords implements Serializable {
+      */
+     public CommandWords() {
+         commands = new HashMap<>();
+-        for (String command : Command.COMMANDS) {
++        for (String command : COMMANDS) {
+             commands.put(command, command);
+         }
+     }
+@@ -37,29 +57,31 @@ public class CommandWords implements Serializable {
+     }
+ 
+     /**
+-<<<<<<< HEAD
+-     * Copies key and value of (@code command) from (@code commands)
+-     * to (@code verifiedCommands). Creates a new entry with default
+-     * key = value if missing.
+-=======
+-     * Moves (@code command from (@code COMMANDS) to (@code verifiedCommands). Creates a new entry if missing.
+->>>>>>> v1.1-enhancement
++     * Returns whether (@code commandWord) is in (@code COMMANDS)
+      */
+-    private void moveVerifiedWord(String command, HashMap<String, String> verifiedCommands) {
+-        verifiedCommands.put(command, commands.getOrDefault(command, command));
++    public static boolean isDefaultCommandWord(String commandWord) {
++        for (String command: COMMANDS) {
++            if (command.equals(commandWord)) {
++                return true;
++            }
++        }
++        return false;
+     }
+ 
+-    /**
+-     * Checks if hashmap contains invalid command keys and adds any missing
+-     * command keys
+-     */
+-    public void checkIntegrity() {
+-        HashMap<String, String> verifiedCommands = new HashMap<>();
+-        for (String command : Command.COMMANDS) {
+-            moveVerifiedWord(command, verifiedCommands);
+-        }
+-        commands.clear();
+-        commands.putAll(verifiedCommands);
++    public static String getMessageUnused(String commandWord) {
++        return String.format(MESSAGE_UNUSED, commandWord);
++    }
++
++    public static String getMessageOverwriteDefault(String commandWord) {
++        return String.format(MESSAGE_OVERWRITE_DEFAULT, commandWord);
++    }
++
++    public static String getMessageUsed(String commandWord) {
++        return String.format(MESSAGE_USED, commandWord);
++    }
++
++    public static String getMessageNoChange() {
++        return MESSAGE_NO_CHANGE;
+     }
+ 
+     /**
+@@ -71,7 +93,7 @@ public class CommandWords implements Serializable {
+     public String getCommandWord(String key) throws CommandWordException {
+         String commandWord = commands.get(key);
+         if (commandWord == null) {
+-            throw new CommandWordException(String.format(MESSAGE_INACTIVE, key));
++            throw new CommandWordException(getMessageUnused(key));
+         }
+         return commandWord;
+     }
+@@ -91,7 +113,7 @@ public class CommandWords implements Serializable {
+                 return currentCommand.getKey();
+             }
+         }
+-        throw new CommandWordException(String.format(MESSAGE_INACTIVE, value));
++        throw new CommandWordException(getMessageUnused(value));
+     }
+ 
+     /**
+@@ -103,13 +125,19 @@ public class CommandWords implements Serializable {
+     public void setCommandWord(String currentWord, String newWord) throws CommandWordException {
+         requireNonNull(currentWord, newWord);
+         if (currentWord.equals(newWord)) {
+-            throw new CommandWordException(MESSAGE_NO_CHANGE);
++            throw new CommandWordException(getMessageNoChange());
+         }
+-        if (commands.containsKey(newWord)) {
+-            throw new CommandWordException(String.format(MESSAGE_OVERWRITE_DEFAULT, newWord));
++        if (isDefaultCommandWord(newWord)
++                && !commands.get(newWord).equals(currentWord)) {
++            throw new CommandWordException(getMessageOverwriteDefault(newWord));
+         }
+         if (commands.containsValue(newWord)) {
+-            throw new CommandWordException(String.format(MESSAGE_DUPLICATE, newWord));
++            throw new CommandWordException(getMessageUsed(newWord));
++        }
++        if (isDefaultCommandWord(currentWord)) {
++            commands.remove(currentWord);
++            commands.put(currentWord, newWord);
++            return;
+         }
+         Iterator<Map.Entry<String, String>> commandList = commands.entrySet().iterator();
+         Map.Entry<String, String> currentCommand;
+@@ -121,10 +149,32 @@ public class CommandWords implements Serializable {
+                 return;
+             }
+         }
+-        StringBuilder builder = new StringBuilder();
+-        throw new CommandWordException(String.format(MESSAGE_INACTIVE, currentWord));
++        throw new CommandWordException(getMessageUnused(currentWord));
++    }
++
++    /**
++     * Copies key and value of (@code command) from (@code commands)
++     * to (@code verifiedCommands). Creates a new entry with default
++     * key = value if missing.
++     */
++    private void moveVerifiedWord(String command, HashMap<String, String> verifiedCommands) {
++        verifiedCommands.put(command, commands.getOrDefault(command, command));
++    }
++
++    /**
++     * Checks if hashmap contains invalid command keys and adds any missing
++     * command keys
++     */
++    public void checkIntegrity() {
++        HashMap<String, String> verifiedCommands = new HashMap<>();
++        for (String command : COMMANDS) {
++            moveVerifiedWord(command, verifiedCommands);
++        }
++        commands.clear();
++        commands.putAll(verifiedCommands);
+     }
+ 
++
+     /**
+      * Resets the existing data of this {@code CommandWords} with {@code newCommandWords}.
+      */
+diff --git a/src/main/java/seedu/address/logic/commands/SetCommand.java b/src/main/java/seedu/address/logic/commands/SetCommand.java
+index 615b85a..537e926 100644
+--- a/src/main/java/seedu/address/logic/commands/SetCommand.java
++++ b/src/main/java/seedu/address/logic/commands/SetCommand.java
+@@ -36,11 +36,11 @@ public class SetCommand extends UndoableCommand {
+     }
+ 
+     public String getMessageUsed() {
+-        return String.format(CommandWords.MESSAGE_DUPLICATE, newWord);
++        return CommandWords.getMessageUsed(newWord);
+     }
+ 
+     public String getMessageUnused() {
+-        return String.format(CommandWords.MESSAGE_INACTIVE, currentWord);
++        return CommandWords.getMessageUnused(currentWord);
+     }
+ 
+     @Override
+diff --git a/src/test/java/seedu/address/logic/commands/SetCommandTest.java b/src/test/java/seedu/address/logic/commands/SetCommandTest.java
+index 9bc9165..ed3418a 100644
+--- a/src/test/java/seedu/address/logic/commands/SetCommandTest.java
++++ b/src/test/java/seedu/address/logic/commands/SetCommandTest.java
+@@ -28,6 +28,33 @@ public class SetCommandTest {
+         assertCommandSuccess(newCommand, actualModel, newCommand.getMessageSuccess(), expectedModel);
+     }
+ 
++    @Test
++    public void execute_changeAddUsingDefault_success() throws CommandWordException {
++        Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
++        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
++        String currentWord = AddCommand.COMMAND_WORD;
++        String newWord = getUnusedCommandWord(actualModel);
++
++        setCommandWord(actualModel, currentWord, newWord);
++        newWord = getUnusedCommandWord(actualModel);
++        setCommandWord(expectedModel, currentWord, newWord);
++        SetCommand newCommand = prepareCommand(actualModel, currentWord, newWord);
++        assertCommandSuccess(newCommand, actualModel, newCommand.getMessageSuccess(), expectedModel);
++    }
++
++    @Test
++    public void execute_changeAddBackToDefault_success() throws CommandWordException {
++        Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
++        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
++        String currentWord = AddCommand.COMMAND_WORD;
++        String newWord = getUnusedCommandWord(actualModel);
++
++        setCommandWord(actualModel, currentWord, newWord);
++        SetCommand newCommand = prepareCommand(actualModel, newWord, currentWord);
++        assertCommandSuccess(newCommand, actualModel, newCommand.getMessageSuccess(), expectedModel);
++    }
++
++
+     @Test
+     public void execute_changeSet_success() throws CommandWordException {
+         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+@@ -48,14 +75,26 @@ public class SetCommandTest {
+     public void execute_changeCommand_failureUsed() throws CommandWordException {
+         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+         String currentWord = AddCommand.COMMAND_WORD;
+-        String newWord = SetCommand.COMMAND_WORD;
++        String newWord = getUnusedCommandWord(actualModel);
+ 
++        setCommandWord(actualModel, SetCommand.COMMAND_WORD, newWord);
+         SetCommand newCommand = prepareCommand(actualModel, currentWord, newWord);
+         assertCommandFailure(newCommand, actualModel, newCommand.getMessageUsed());
+     }
+ 
+     @Test
+-    public void execute_changeCommand_failureUnused() throws CommandWordException {
++    public void execute_changeCommand_failureDefault() throws CommandWordException {
++        Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
++        String currentWord = AddCommand.COMMAND_WORD;
++        String newWord = SetCommand.COMMAND_WORD;
++
++        SetCommand newCommand = prepareCommand(actualModel, currentWord, newWord);
++        assertCommandFailure(newCommand, actualModel, CommandWords.getMessageOverwriteDefault(newWord));
++    }
++
++
++    @Test
++    public void execute_changeCommand_failureUnused() {
+         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+         Model testModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+         String currentWord = getUnusedCommandWord(actualModel);
+@@ -66,15 +105,13 @@ public class SetCommandTest {
+     }
+ 
+     @Test
+-    public void execute_changeCommand_shortCircuit() throws CommandWordException {
++    public void execute_changeCommand_failureNoChange() throws CommandWordException {
+         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+-        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+         String currentWord = AddCommand.COMMAND_WORD;
+         String newWord = currentWord;
+ 
+-        setCommandWord(expectedModel, currentWord, newWord);
+         SetCommand newCommand = prepareCommand(actualModel, currentWord, newWord);
+-        assertCommandSuccess(newCommand, actualModel, newCommand.getMessageSuccess(), expectedModel);
++        assertCommandFailure(newCommand, actualModel, CommandWords.getMessageNoChange());
+     }
+ 
+ 
+diff --git a/src/test/java/seedu/address/logic/parser/SetCommandParserTest.java b/src/test/java/seedu/address/logic/parser/SetCommandParserTest.java
+index 5b6ebe1..49d7cba 100644
+--- a/src/test/java/seedu/address/logic/parser/SetCommandParserTest.java
++++ b/src/test/java/seedu/address/logic/parser/SetCommandParserTest.java
+@@ -1,74 +1,40 @@
+ package seedu.address.logic.parser;
+ 
+ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+-import static seedu.address.logic.commands.SetCommandTest.getUnusedCommandWord;
+ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
+ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
+-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+ 
+ import org.junit.Test;
++
+ import seedu.address.logic.commands.AddCommand;
+ import seedu.address.logic.commands.SetCommand;
+-import seedu.address.logic.commands.exceptions.CommandWordException;
+-import seedu.address.model.Model;
+-import seedu.address.model.ModelManager;
+-import seedu.address.model.UserPrefs;
+ 
+ public class SetCommandParserTest {
+     private SetCommandParser parser = new SetCommandParser();
+ 
+     @Test
+-    public void parse_bothCommandWordsValid_success() throws CommandWordException {
+-        Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
++    public void parse_twoCommandWords_success() {
+         String currentWord = AddCommand.COMMAND_WORD;
+-        String command = actualModel.getCommandWords().getCommandWord(SetCommand.COMMAND_WORD);
+-        String newWord = getUnusedCommandWord(actualModel);
+-        String args = String.join(" ", command, currentWord, newWord);
++        String newWord = getWord();
++        String args = String.join(" ", currentWord, newWord);
+         assertParseSuccess(parser, args, new SetCommand(currentWord, newWord));
+     }
+ 
+     @Test
+-    public void parse_currentCommandUnused_failure() throws CommandWordException {
+-        Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+-        String currentWord = AddCommand.COMMAND_WORD;
+-        String command = actualModel.getCommandWords().getCommandWord(SetCommand.COMMAND_WORD);
+-        String newWord = getUnusedCommandWord(actualModel);
+-        String args = String.join(" ", command, currentWord, newWord);
+-
+-        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE);
++    public void parse_noCommandWord_failure() {
++        String currentWord = "";
++        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, SetCommand.MESSAGE_USAGE);
++        assertParseFailure(parser, currentWord, expectedMessage);
++    }
+ 
+-        assertParseFailure(parser, "", expectedMessage);
++    @Test
++    public void parse_oneCommandWord_failure() {
++        String currentWord = AddCommand.COMMAND_WORD;
++        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, SetCommand.MESSAGE_USAGE);
++        assertParseFailure(parser, currentWord, expectedMessage);
+     }
+ 
+-//    @Test
+-//    public void parse_newCommand_failure() {
+-//        // invalid name
+-//        assertParseFailure(parser, INVALID_NAME_DESC + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
+-//                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Name.MESSAGE_NAME_CONSTRAINTS);
+-//
+-//        // invalid phone
+-//        assertParseFailure(parser, NAME_DESC_BOB + INVALID_PHONE_DESC + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
+-//                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Phone.MESSAGE_PHONE_CONSTRAINTS);
+-//
+-//        // invalid email
+-//        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + INVALID_EMAIL_DESC + ADDRESS_DESC_BOB
+-//                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Email.MESSAGE_EMAIL_CONSTRAINTS);
+-//
+-//        // invalid address
+-//        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + INVALID_ADDRESS_DESC
+-//                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Address.MESSAGE_ADDRESS_CONSTRAINTS);
+-//
+-//        // invalid tag
+-//        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
+-//                + INVALID_TAG_DESC + VALID_TAG_FRIEND, Tag.MESSAGE_TAG_CONSTRAINTS);
+-//
+-//        // two invalid values, only first invalid value reported
+-//        assertParseFailure(parser, INVALID_NAME_DESC + PHONE_DESC_BOB + EMAIL_DESC_BOB + INVALID_ADDRESS_DESC,
+-//                Name.MESSAGE_NAME_CONSTRAINTS);
+-//
+-//        // non-empty preamble
+-//        assertParseFailure(parser, PREAMBLE_NON_EMPTY + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+-//                + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
+-//                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+-//    }
++    public static String getWord() {
++        return "a";
++    }
+ }
+-- 
+2.16.1.windows.1
+
+From f02b8f5097f8f8f5b5d9e73239ba8bf8b3a337a0 Mon Sep 17 00:00:00 2001
+From: Yu Hong Herald <yuhongherald@gmail.com>
+Date: Sat, 17 Mar 2018 22:25:28 +0800
+Subject: [PATCH] Add set command functionality to keep set of custom command
+ words on top of default command words. Include test cases.
+
+---
+ .../java/seedu/address/logic/commands/Command.java |  20 ----
+ .../seedu/address/logic/commands/CommandWords.java | 112 +++++++++++++++------
+ .../seedu/address/logic/commands/SetCommand.java   |   4 +-
+ .../address/logic/commands/SetCommandTest.java     |  49 +++++++--
+ .../address/logic/parser/SetCommandParserTest.java |  68 ++++---------
+ 5 files changed, 143 insertions(+), 110 deletions(-)
+
+diff --git a/src/main/java/seedu/address/logic/commands/Command.java b/src/main/java/seedu/address/logic/commands/Command.java
+index b337128..831593a 100644
+--- a/src/main/java/seedu/address/logic/commands/Command.java
++++ b/src/main/java/seedu/address/logic/commands/Command.java
+@@ -10,26 +10,6 @@ import seedu.address.model.Model;
+  * Represents a command with hidden internal logic and the ability to be executed.
+  */
+ public abstract class Command {
+-    /**
+-     * Stores a list of COMMANDS by their command word
+-     */
+-    public static final String[] COMMANDS = {
+-        AddCommand.COMMAND_WORD,
+-        ClearCommand.COMMAND_WORD,
+-        DeleteCommand.COMMAND_WORD,
+-        EditCommand.COMMAND_WORD,
+-        ExitCommand.COMMAND_WORD,
+-        FindCommand.COMMAND_WORD,
+-        HelpCommand.COMMAND_WORD,
+-        HistoryCommand.COMMAND_WORD,
+-        ListCommand.COMMAND_WORD,
+-        RedoCommand.COMMAND_WORD,
+-        SelectCommand.COMMAND_WORD,
+-        SetCommand.COMMAND_WORD,
+-        UndoCommand.COMMAND_WORD,
+-        ThemeCommand.COMMAND_WORD,
+-        SortCommand.COMMAND_WORD
+-    };
+ 
+     protected Model model;
+     protected CommandHistory history;
+diff --git a/src/main/java/seedu/address/logic/commands/CommandWords.java b/src/main/java/seedu/address/logic/commands/CommandWords.java
+index 9d8a92e..0897f81 100644
+--- a/src/main/java/seedu/address/logic/commands/CommandWords.java
++++ b/src/main/java/seedu/address/logic/commands/CommandWords.java
+@@ -14,10 +14,30 @@ import seedu.address.logic.commands.exceptions.CommandWordException;
+  * A serializable data structure used to contain the mappings of a command to a word
+  */
+ public class CommandWords implements Serializable {
+-    public static final String MESSAGE_INACTIVE = "%s is not an active command.";
+-    public static final String MESSAGE_DUPLICATE = "%s is already used.";
++    public static final String MESSAGE_UNUSED = "%s is not an active command.";
++    public static final String MESSAGE_USED = "%s is already used.";
+     public static final String MESSAGE_NO_CHANGE = "Old and new command word is the same.";
+     public static final String MESSAGE_OVERWRITE_DEFAULT = "%s is a default command.";
++    /**
++     * Stores a list of COMMANDS by their command word
++     */
++    public static final String[] COMMANDS = {
++        AddCommand.COMMAND_WORD,
++        ClearCommand.COMMAND_WORD,
++        DeleteCommand.COMMAND_WORD,
++        EditCommand.COMMAND_WORD,
++        ExitCommand.COMMAND_WORD,
++        FindCommand.COMMAND_WORD,
++        HelpCommand.COMMAND_WORD,
++        HistoryCommand.COMMAND_WORD,
++        ListCommand.COMMAND_WORD,
++        RedoCommand.COMMAND_WORD,
++        SelectCommand.COMMAND_WORD,
++        SetCommand.COMMAND_WORD,
++        UndoCommand.COMMAND_WORD,
++        ThemeCommand.COMMAND_WORD,
++        SortCommand.COMMAND_WORD
++    };
+ 
+     public final HashMap<String, String> commands;
+     /**
+@@ -25,7 +45,7 @@ public class CommandWords implements Serializable {
+      */
+     public CommandWords() {
+         commands = new HashMap<>();
+-        for (String command : Command.COMMANDS) {
++        for (String command : COMMANDS) {
+             commands.put(command, command);
+         }
+     }
+@@ -37,29 +57,31 @@ public class CommandWords implements Serializable {
+     }
+ 
+     /**
+-<<<<<<< HEAD
+-     * Copies key and value of (@code command) from (@code commands)
+-     * to (@code verifiedCommands). Creates a new entry with default
+-     * key = value if missing.
+-=======
+-     * Moves (@code command from (@code COMMANDS) to (@code verifiedCommands). Creates a new entry if missing.
+->>>>>>> v1.1-enhancement
++     * Returns whether (@code commandWord) is in (@code COMMANDS)
+      */
+-    private void moveVerifiedWord(String command, HashMap<String, String> verifiedCommands) {
+-        verifiedCommands.put(command, commands.getOrDefault(command, command));
++    public static boolean isDefaultCommandWord(String commandWord) {
++        for (String command: COMMANDS) {
++            if (command.equals(commandWord)) {
++                return true;
++            }
++        }
++        return false;
+     }
+ 
+-    /**
+-     * Checks if hashmap contains invalid command keys and adds any missing
+-     * command keys
+-     */
+-    public void checkIntegrity() {
+-        HashMap<String, String> verifiedCommands = new HashMap<>();
+-        for (String command : Command.COMMANDS) {
+-            moveVerifiedWord(command, verifiedCommands);
+-        }
+-        commands.clear();
+-        commands.putAll(verifiedCommands);
++    public static String getMessageUnused(String commandWord) {
++        return String.format(MESSAGE_UNUSED, commandWord);
++    }
++
++    public static String getMessageOverwriteDefault(String commandWord) {
++        return String.format(MESSAGE_OVERWRITE_DEFAULT, commandWord);
++    }
++
++    public static String getMessageUsed(String commandWord) {
++        return String.format(MESSAGE_USED, commandWord);
++    }
++
++    public static String getMessageNoChange() {
++        return MESSAGE_NO_CHANGE;
+     }
+ 
+     /**
+@@ -71,7 +93,7 @@ public class CommandWords implements Serializable {
+     public String getCommandWord(String key) throws CommandWordException {
+         String commandWord = commands.get(key);
+         if (commandWord == null) {
+-            throw new CommandWordException(String.format(MESSAGE_INACTIVE, key));
++            throw new CommandWordException(getMessageUnused(key));
+         }
+         return commandWord;
+     }
+@@ -91,7 +113,7 @@ public class CommandWords implements Serializable {
+                 return currentCommand.getKey();
+             }
+         }
+-        throw new CommandWordException(String.format(MESSAGE_INACTIVE, value));
++        throw new CommandWordException(getMessageUnused(value));
+     }
+ 
+     /**
+@@ -103,13 +125,19 @@ public class CommandWords implements Serializable {
+     public void setCommandWord(String currentWord, String newWord) throws CommandWordException {
+         requireNonNull(currentWord, newWord);
+         if (currentWord.equals(newWord)) {
+-            throw new CommandWordException(MESSAGE_NO_CHANGE);
++            throw new CommandWordException(getMessageNoChange());
+         }
+-        if (commands.containsKey(newWord)) {
+-            throw new CommandWordException(String.format(MESSAGE_OVERWRITE_DEFAULT, newWord));
++        if (isDefaultCommandWord(newWord)
++                && !commands.get(newWord).equals(currentWord)) {
++            throw new CommandWordException(getMessageOverwriteDefault(newWord));
+         }
+         if (commands.containsValue(newWord)) {
+-            throw new CommandWordException(String.format(MESSAGE_DUPLICATE, newWord));
++            throw new CommandWordException(getMessageUsed(newWord));
++        }
++        if (isDefaultCommandWord(currentWord)) {
++            commands.remove(currentWord);
++            commands.put(currentWord, newWord);
++            return;
+         }
+         Iterator<Map.Entry<String, String>> commandList = commands.entrySet().iterator();
+         Map.Entry<String, String> currentCommand;
+@@ -121,10 +149,32 @@ public class CommandWords implements Serializable {
+                 return;
+             }
+         }
+-        StringBuilder builder = new StringBuilder();
+-        throw new CommandWordException(String.format(MESSAGE_INACTIVE, currentWord));
++        throw new CommandWordException(getMessageUnused(currentWord));
++    }
++
++    /**
++     * Copies key and value of (@code command) from (@code commands)
++     * to (@code verifiedCommands). Creates a new entry with default
++     * key = value if missing.
++     */
++    private void moveVerifiedWord(String command, HashMap<String, String> verifiedCommands) {
++        verifiedCommands.put(command, commands.getOrDefault(command, command));
++    }
++
++    /**
++     * Checks if hashmap contains invalid command keys and adds any missing
++     * command keys
++     */
++    public void checkIntegrity() {
++        HashMap<String, String> verifiedCommands = new HashMap<>();
++        for (String command : COMMANDS) {
++            moveVerifiedWord(command, verifiedCommands);
++        }
++        commands.clear();
++        commands.putAll(verifiedCommands);
+     }
+ 
++
+     /**
+      * Resets the existing data of this {@code CommandWords} with {@code newCommandWords}.
+      */
+diff --git a/src/main/java/seedu/address/logic/commands/SetCommand.java b/src/main/java/seedu/address/logic/commands/SetCommand.java
+index 615b85a..537e926 100644
+--- a/src/main/java/seedu/address/logic/commands/SetCommand.java
++++ b/src/main/java/seedu/address/logic/commands/SetCommand.java
+@@ -36,11 +36,11 @@ public class SetCommand extends UndoableCommand {
+     }
+ 
+     public String getMessageUsed() {
+-        return String.format(CommandWords.MESSAGE_DUPLICATE, newWord);
++        return CommandWords.getMessageUsed(newWord);
+     }
+ 
+     public String getMessageUnused() {
+-        return String.format(CommandWords.MESSAGE_INACTIVE, currentWord);
++        return CommandWords.getMessageUnused(currentWord);
+     }
+ 
+     @Override
+diff --git a/src/test/java/seedu/address/logic/commands/SetCommandTest.java b/src/test/java/seedu/address/logic/commands/SetCommandTest.java
+index 9bc9165..ed3418a 100644
+--- a/src/test/java/seedu/address/logic/commands/SetCommandTest.java
++++ b/src/test/java/seedu/address/logic/commands/SetCommandTest.java
+@@ -28,6 +28,33 @@ public class SetCommandTest {
+         assertCommandSuccess(newCommand, actualModel, newCommand.getMessageSuccess(), expectedModel);
+     }
+ 
++    @Test
++    public void execute_changeAddUsingDefault_success() throws CommandWordException {
++        Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
++        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
++        String currentWord = AddCommand.COMMAND_WORD;
++        String newWord = getUnusedCommandWord(actualModel);
++
++        setCommandWord(actualModel, currentWord, newWord);
++        newWord = getUnusedCommandWord(actualModel);
++        setCommandWord(expectedModel, currentWord, newWord);
++        SetCommand newCommand = prepareCommand(actualModel, currentWord, newWord);
++        assertCommandSuccess(newCommand, actualModel, newCommand.getMessageSuccess(), expectedModel);
++    }
++
++    @Test
++    public void execute_changeAddBackToDefault_success() throws CommandWordException {
++        Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
++        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
++        String currentWord = AddCommand.COMMAND_WORD;
++        String newWord = getUnusedCommandWord(actualModel);
++
++        setCommandWord(actualModel, currentWord, newWord);
++        SetCommand newCommand = prepareCommand(actualModel, newWord, currentWord);
++        assertCommandSuccess(newCommand, actualModel, newCommand.getMessageSuccess(), expectedModel);
++    }
++
++
+     @Test
+     public void execute_changeSet_success() throws CommandWordException {
+         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+@@ -48,14 +75,26 @@ public class SetCommandTest {
+     public void execute_changeCommand_failureUsed() throws CommandWordException {
+         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+         String currentWord = AddCommand.COMMAND_WORD;
+-        String newWord = SetCommand.COMMAND_WORD;
++        String newWord = getUnusedCommandWord(actualModel);
+ 
++        setCommandWord(actualModel, SetCommand.COMMAND_WORD, newWord);
+         SetCommand newCommand = prepareCommand(actualModel, currentWord, newWord);
+         assertCommandFailure(newCommand, actualModel, newCommand.getMessageUsed());
+     }
+ 
+     @Test
+-    public void execute_changeCommand_failureUnused() throws CommandWordException {
++    public void execute_changeCommand_failureDefault() throws CommandWordException {
++        Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
++        String currentWord = AddCommand.COMMAND_WORD;
++        String newWord = SetCommand.COMMAND_WORD;
++
++        SetCommand newCommand = prepareCommand(actualModel, currentWord, newWord);
++        assertCommandFailure(newCommand, actualModel, CommandWords.getMessageOverwriteDefault(newWord));
++    }
++
++
++    @Test
++    public void execute_changeCommand_failureUnused() {
+         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+         Model testModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+         String currentWord = getUnusedCommandWord(actualModel);
+@@ -66,15 +105,13 @@ public class SetCommandTest {
+     }
+ 
+     @Test
+-    public void execute_changeCommand_shortCircuit() throws CommandWordException {
++    public void execute_changeCommand_failureNoChange() throws CommandWordException {
+         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+-        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+         String currentWord = AddCommand.COMMAND_WORD;
+         String newWord = currentWord;
+ 
+-        setCommandWord(expectedModel, currentWord, newWord);
+         SetCommand newCommand = prepareCommand(actualModel, currentWord, newWord);
+-        assertCommandSuccess(newCommand, actualModel, newCommand.getMessageSuccess(), expectedModel);
++        assertCommandFailure(newCommand, actualModel, CommandWords.getMessageNoChange());
+     }
+ 
+ 
+diff --git a/src/test/java/seedu/address/logic/parser/SetCommandParserTest.java b/src/test/java/seedu/address/logic/parser/SetCommandParserTest.java
+index 5b6ebe1..49d7cba 100644
+--- a/src/test/java/seedu/address/logic/parser/SetCommandParserTest.java
++++ b/src/test/java/seedu/address/logic/parser/SetCommandParserTest.java
+@@ -1,74 +1,40 @@
+ package seedu.address.logic.parser;
+ 
+ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+-import static seedu.address.logic.commands.SetCommandTest.getUnusedCommandWord;
+ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
+ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
+-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+ 
+ import org.junit.Test;
++
+ import seedu.address.logic.commands.AddCommand;
+ import seedu.address.logic.commands.SetCommand;
+-import seedu.address.logic.commands.exceptions.CommandWordException;
+-import seedu.address.model.Model;
+-import seedu.address.model.ModelManager;
+-import seedu.address.model.UserPrefs;
+ 
+ public class SetCommandParserTest {
+     private SetCommandParser parser = new SetCommandParser();
+ 
+     @Test
+-    public void parse_bothCommandWordsValid_success() throws CommandWordException {
+-        Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
++    public void parse_twoCommandWords_success() {
+         String currentWord = AddCommand.COMMAND_WORD;
+-        String command = actualModel.getCommandWords().getCommandWord(SetCommand.COMMAND_WORD);
+-        String newWord = getUnusedCommandWord(actualModel);
+-        String args = String.join(" ", command, currentWord, newWord);
++        String newWord = getWord();
++        String args = String.join(" ", currentWord, newWord);
+         assertParseSuccess(parser, args, new SetCommand(currentWord, newWord));
+     }
+ 
+     @Test
+-    public void parse_currentCommandUnused_failure() throws CommandWordException {
+-        Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+-        String currentWord = AddCommand.COMMAND_WORD;
+-        String command = actualModel.getCommandWords().getCommandWord(SetCommand.COMMAND_WORD);
+-        String newWord = getUnusedCommandWord(actualModel);
+-        String args = String.join(" ", command, currentWord, newWord);
+-
+-        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE);
++    public void parse_noCommandWord_failure() {
++        String currentWord = "";
++        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, SetCommand.MESSAGE_USAGE);
++        assertParseFailure(parser, currentWord, expectedMessage);
++    }
+ 
+-        assertParseFailure(parser, "", expectedMessage);
++    @Test
++    public void parse_oneCommandWord_failure() {
++        String currentWord = AddCommand.COMMAND_WORD;
++        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, SetCommand.MESSAGE_USAGE);
++        assertParseFailure(parser, currentWord, expectedMessage);
+     }
+ 
+-//    @Test
+-//    public void parse_newCommand_failure() {
+-//        // invalid name
+-//        assertParseFailure(parser, INVALID_NAME_DESC + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
+-//                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Name.MESSAGE_NAME_CONSTRAINTS);
+-//
+-//        // invalid phone
+-//        assertParseFailure(parser, NAME_DESC_BOB + INVALID_PHONE_DESC + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
+-//                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Phone.MESSAGE_PHONE_CONSTRAINTS);
+-//
+-//        // invalid email
+-//        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + INVALID_EMAIL_DESC + ADDRESS_DESC_BOB
+-//                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Email.MESSAGE_EMAIL_CONSTRAINTS);
+-//
+-//        // invalid address
+-//        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + INVALID_ADDRESS_DESC
+-//                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Address.MESSAGE_ADDRESS_CONSTRAINTS);
+-//
+-//        // invalid tag
+-//        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
+-//                + INVALID_TAG_DESC + VALID_TAG_FRIEND, Tag.MESSAGE_TAG_CONSTRAINTS);
+-//
+-//        // two invalid values, only first invalid value reported
+-//        assertParseFailure(parser, INVALID_NAME_DESC + PHONE_DESC_BOB + EMAIL_DESC_BOB + INVALID_ADDRESS_DESC,
+-//                Name.MESSAGE_NAME_CONSTRAINTS);
+-//
+-//        // non-empty preamble
+-//        assertParseFailure(parser, PREAMBLE_NON_EMPTY + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+-//                + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
+-//                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+-//    }
++    public static String getWord() {
++        return "a";
++    }
+ }
+-- 
+2.16.1.windows.1
+
+From f02b8f5097f8f8f5b5d9e73239ba8bf8b3a337a0 Mon Sep 17 00:00:00 2001
+From: Yu Hong Herald <yuhongherald@gmail.com>
+Date: Sat, 17 Mar 2018 22:25:28 +0800
+Subject: [PATCH] Add set command functionality to keep set of custom command
+ words on top of default command words. Include test cases.
+
+---
+ .../java/seedu/address/logic/commands/Command.java |  20 ----
+ .../seedu/address/logic/commands/CommandWords.java | 112 +++++++++++++++------
+ .../seedu/address/logic/commands/SetCommand.java   |   4 +-
+ .../address/logic/commands/SetCommandTest.java     |  49 +++++++--
+ .../address/logic/parser/SetCommandParserTest.java |  68 ++++---------
+ 5 files changed, 143 insertions(+), 110 deletions(-)
+
+diff --git a/src/main/java/seedu/address/logic/commands/Command.java b/src/main/java/seedu/address/logic/commands/Command.java
+index b337128..831593a 100644
+--- a/src/main/java/seedu/address/logic/commands/Command.java
++++ b/src/main/java/seedu/address/logic/commands/Command.java
+@@ -10,26 +10,6 @@ import seedu.address.model.Model;
+  * Represents a command with hidden internal logic and the ability to be executed.
+  */
+ public abstract class Command {
+-    /**
+-     * Stores a list of COMMANDS by their command word
+-     */
+-    public static final String[] COMMANDS = {
+-        AddCommand.COMMAND_WORD,
+-        ClearCommand.COMMAND_WORD,
+-        DeleteCommand.COMMAND_WORD,
+-        EditCommand.COMMAND_WORD,
+-        ExitCommand.COMMAND_WORD,
+-        FindCommand.COMMAND_WORD,
+-        HelpCommand.COMMAND_WORD,
+-        HistoryCommand.COMMAND_WORD,
+-        ListCommand.COMMAND_WORD,
+-        RedoCommand.COMMAND_WORD,
+-        SelectCommand.COMMAND_WORD,
+-        SetCommand.COMMAND_WORD,
+-        UndoCommand.COMMAND_WORD,
+-        ThemeCommand.COMMAND_WORD,
+-        SortCommand.COMMAND_WORD
+-    };
+ 
+     protected Model model;
+     protected CommandHistory history;
+diff --git a/src/main/java/seedu/address/logic/commands/CommandWords.java b/src/main/java/seedu/address/logic/commands/CommandWords.java
+index 9d8a92e..0897f81 100644
+--- a/src/main/java/seedu/address/logic/commands/CommandWords.java
++++ b/src/main/java/seedu/address/logic/commands/CommandWords.java
+@@ -14,10 +14,30 @@ import seedu.address.logic.commands.exceptions.CommandWordException;
+  * A serializable data structure used to contain the mappings of a command to a word
+  */
+ public class CommandWords implements Serializable {
+-    public static final String MESSAGE_INACTIVE = "%s is not an active command.";
+-    public static final String MESSAGE_DUPLICATE = "%s is already used.";
++    public static final String MESSAGE_UNUSED = "%s is not an active command.";
++    public static final String MESSAGE_USED = "%s is already used.";
+     public static final String MESSAGE_NO_CHANGE = "Old and new command word is the same.";
+     public static final String MESSAGE_OVERWRITE_DEFAULT = "%s is a default command.";
++    /**
++     * Stores a list of COMMANDS by their command word
++     */
++    public static final String[] COMMANDS = {
++        AddCommand.COMMAND_WORD,
++        ClearCommand.COMMAND_WORD,
++        DeleteCommand.COMMAND_WORD,
++        EditCommand.COMMAND_WORD,
++        ExitCommand.COMMAND_WORD,
++        FindCommand.COMMAND_WORD,
++        HelpCommand.COMMAND_WORD,
++        HistoryCommand.COMMAND_WORD,
++        ListCommand.COMMAND_WORD,
++        RedoCommand.COMMAND_WORD,
++        SelectCommand.COMMAND_WORD,
++        SetCommand.COMMAND_WORD,
++        UndoCommand.COMMAND_WORD,
++        ThemeCommand.COMMAND_WORD,
++        SortCommand.COMMAND_WORD
++    };
+ 
+     public final HashMap<String, String> commands;
+     /**
+@@ -25,7 +45,7 @@ public class CommandWords implements Serializable {
+      */
+     public CommandWords() {
+         commands = new HashMap<>();
+-        for (String command : Command.COMMANDS) {
++        for (String command : COMMANDS) {
+             commands.put(command, command);
+         }
+     }
+@@ -37,29 +57,31 @@ public class CommandWords implements Serializable {
+     }
+ 
+     /**
+-<<<<<<< HEAD
+-     * Copies key and value of (@code command) from (@code commands)
+-     * to (@code verifiedCommands). Creates a new entry with default
+-     * key = value if missing.
+-=======
+-     * Moves (@code command from (@code COMMANDS) to (@code verifiedCommands). Creates a new entry if missing.
+->>>>>>> v1.1-enhancement
++     * Returns whether (@code commandWord) is in (@code COMMANDS)
+      */
+-    private void moveVerifiedWord(String command, HashMap<String, String> verifiedCommands) {
+-        verifiedCommands.put(command, commands.getOrDefault(command, command));
++    public static boolean isDefaultCommandWord(String commandWord) {
++        for (String command: COMMANDS) {
++            if (command.equals(commandWord)) {
++                return true;
++            }
++        }
++        return false;
+     }
+ 
+-    /**
+-     * Checks if hashmap contains invalid command keys and adds any missing
+-     * command keys
+-     */
+-    public void checkIntegrity() {
+-        HashMap<String, String> verifiedCommands = new HashMap<>();
+-        for (String command : Command.COMMANDS) {
+-            moveVerifiedWord(command, verifiedCommands);
+-        }
+-        commands.clear();
+-        commands.putAll(verifiedCommands);
++    public static String getMessageUnused(String commandWord) {
++        return String.format(MESSAGE_UNUSED, commandWord);
++    }
++
++    public static String getMessageOverwriteDefault(String commandWord) {
++        return String.format(MESSAGE_OVERWRITE_DEFAULT, commandWord);
++    }
++
++    public static String getMessageUsed(String commandWord) {
++        return String.format(MESSAGE_USED, commandWord);
++    }
++
++    public static String getMessageNoChange() {
++        return MESSAGE_NO_CHANGE;
+     }
+ 
+     /**
+@@ -71,7 +93,7 @@ public class CommandWords implements Serializable {
+     public String getCommandWord(String key) throws CommandWordException {
+         String commandWord = commands.get(key);
+         if (commandWord == null) {
+-            throw new CommandWordException(String.format(MESSAGE_INACTIVE, key));
++            throw new CommandWordException(getMessageUnused(key));
+         }
+         return commandWord;
+     }
+@@ -91,7 +113,7 @@ public class CommandWords implements Serializable {
+                 return currentCommand.getKey();
+             }
+         }
+-        throw new CommandWordException(String.format(MESSAGE_INACTIVE, value));
++        throw new CommandWordException(getMessageUnused(value));
+     }
+ 
+     /**
+@@ -103,13 +125,19 @@ public class CommandWords implements Serializable {
+     public void setCommandWord(String currentWord, String newWord) throws CommandWordException {
+         requireNonNull(currentWord, newWord);
+         if (currentWord.equals(newWord)) {
+-            throw new CommandWordException(MESSAGE_NO_CHANGE);
++            throw new CommandWordException(getMessageNoChange());
+         }
+-        if (commands.containsKey(newWord)) {
+-            throw new CommandWordException(String.format(MESSAGE_OVERWRITE_DEFAULT, newWord));
++        if (isDefaultCommandWord(newWord)
++                && !commands.get(newWord).equals(currentWord)) {
++            throw new CommandWordException(getMessageOverwriteDefault(newWord));
+         }
+         if (commands.containsValue(newWord)) {
+-            throw new CommandWordException(String.format(MESSAGE_DUPLICATE, newWord));
++            throw new CommandWordException(getMessageUsed(newWord));
++        }
++        if (isDefaultCommandWord(currentWord)) {
++            commands.remove(currentWord);
++            commands.put(currentWord, newWord);
++            return;
+         }
+         Iterator<Map.Entry<String, String>> commandList = commands.entrySet().iterator();
+         Map.Entry<String, String> currentCommand;
+@@ -121,10 +149,32 @@ public class CommandWords implements Serializable {
+                 return;
+             }
+         }
+-        StringBuilder builder = new StringBuilder();
+-        throw new CommandWordException(String.format(MESSAGE_INACTIVE, currentWord));
++        throw new CommandWordException(getMessageUnused(currentWord));
++    }
++
++    /**
++     * Copies key and value of (@code command) from (@code commands)
++     * to (@code verifiedCommands). Creates a new entry with default
++     * key = value if missing.
++     */
++    private void moveVerifiedWord(String command, HashMap<String, String> verifiedCommands) {
++        verifiedCommands.put(command, commands.getOrDefault(command, command));
++    }
++
++    /**
++     * Checks if hashmap contains invalid command keys and adds any missing
++     * command keys
++     */
++    public void checkIntegrity() {
++        HashMap<String, String> verifiedCommands = new HashMap<>();
++        for (String command : COMMANDS) {
++            moveVerifiedWord(command, verifiedCommands);
++        }
++        commands.clear();
++        commands.putAll(verifiedCommands);
+     }
+ 
++
+     /**
+      * Resets the existing data of this {@code CommandWords} with {@code newCommandWords}.
+      */
+diff --git a/src/main/java/seedu/address/logic/commands/SetCommand.java b/src/main/java/seedu/address/logic/commands/SetCommand.java
+index 615b85a..537e926 100644
+--- a/src/main/java/seedu/address/logic/commands/SetCommand.java
++++ b/src/main/java/seedu/address/logic/commands/SetCommand.java
+@@ -36,11 +36,11 @@ public class SetCommand extends UndoableCommand {
+     }
+ 
+     public String getMessageUsed() {
+-        return String.format(CommandWords.MESSAGE_DUPLICATE, newWord);
++        return CommandWords.getMessageUsed(newWord);
+     }
+ 
+     public String getMessageUnused() {
+-        return String.format(CommandWords.MESSAGE_INACTIVE, currentWord);
++        return CommandWords.getMessageUnused(currentWord);
+     }
+ 
+     @Override
+diff --git a/src/test/java/seedu/address/logic/commands/SetCommandTest.java b/src/test/java/seedu/address/logic/commands/SetCommandTest.java
+index 9bc9165..ed3418a 100644
+--- a/src/test/java/seedu/address/logic/commands/SetCommandTest.java
++++ b/src/test/java/seedu/address/logic/commands/SetCommandTest.java
+@@ -28,6 +28,33 @@ public class SetCommandTest {
+         assertCommandSuccess(newCommand, actualModel, newCommand.getMessageSuccess(), expectedModel);
+     }
+ 
++    @Test
++    public void execute_changeAddUsingDefault_success() throws CommandWordException {
++        Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
++        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
++        String currentWord = AddCommand.COMMAND_WORD;
++        String newWord = getUnusedCommandWord(actualModel);
++
++        setCommandWord(actualModel, currentWord, newWord);
++        newWord = getUnusedCommandWord(actualModel);
++        setCommandWord(expectedModel, currentWord, newWord);
++        SetCommand newCommand = prepareCommand(actualModel, currentWord, newWord);
++        assertCommandSuccess(newCommand, actualModel, newCommand.getMessageSuccess(), expectedModel);
++    }
++
++    @Test
++    public void execute_changeAddBackToDefault_success() throws CommandWordException {
++        Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
++        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
++        String currentWord = AddCommand.COMMAND_WORD;
++        String newWord = getUnusedCommandWord(actualModel);
++
++        setCommandWord(actualModel, currentWord, newWord);
++        SetCommand newCommand = prepareCommand(actualModel, newWord, currentWord);
++        assertCommandSuccess(newCommand, actualModel, newCommand.getMessageSuccess(), expectedModel);
++    }
++
++
+     @Test
+     public void execute_changeSet_success() throws CommandWordException {
+         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+@@ -48,14 +75,26 @@ public class SetCommandTest {
+     public void execute_changeCommand_failureUsed() throws CommandWordException {
+         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+         String currentWord = AddCommand.COMMAND_WORD;
+-        String newWord = SetCommand.COMMAND_WORD;
++        String newWord = getUnusedCommandWord(actualModel);
+ 
++        setCommandWord(actualModel, SetCommand.COMMAND_WORD, newWord);
+         SetCommand newCommand = prepareCommand(actualModel, currentWord, newWord);
+         assertCommandFailure(newCommand, actualModel, newCommand.getMessageUsed());
+     }
+ 
+     @Test
+-    public void execute_changeCommand_failureUnused() throws CommandWordException {
++    public void execute_changeCommand_failureDefault() throws CommandWordException {
++        Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
++        String currentWord = AddCommand.COMMAND_WORD;
++        String newWord = SetCommand.COMMAND_WORD;
++
++        SetCommand newCommand = prepareCommand(actualModel, currentWord, newWord);
++        assertCommandFailure(newCommand, actualModel, CommandWords.getMessageOverwriteDefault(newWord));
++    }
++
++
++    @Test
++    public void execute_changeCommand_failureUnused() {
+         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+         Model testModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+         String currentWord = getUnusedCommandWord(actualModel);
+@@ -66,15 +105,13 @@ public class SetCommandTest {
+     }
+ 
+     @Test
+-    public void execute_changeCommand_shortCircuit() throws CommandWordException {
++    public void execute_changeCommand_failureNoChange() throws CommandWordException {
+         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+-        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+         String currentWord = AddCommand.COMMAND_WORD;
+         String newWord = currentWord;
+ 
+-        setCommandWord(expectedModel, currentWord, newWord);
+         SetCommand newCommand = prepareCommand(actualModel, currentWord, newWord);
+-        assertCommandSuccess(newCommand, actualModel, newCommand.getMessageSuccess(), expectedModel);
++        assertCommandFailure(newCommand, actualModel, CommandWords.getMessageNoChange());
+     }
+ 
+ 
+diff --git a/src/test/java/seedu/address/logic/parser/SetCommandParserTest.java b/src/test/java/seedu/address/logic/parser/SetCommandParserTest.java
+index 5b6ebe1..49d7cba 100644
+--- a/src/test/java/seedu/address/logic/parser/SetCommandParserTest.java
++++ b/src/test/java/seedu/address/logic/parser/SetCommandParserTest.java
+@@ -1,74 +1,40 @@
+ package seedu.address.logic.parser;
+ 
+ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+-import static seedu.address.logic.commands.SetCommandTest.getUnusedCommandWord;
+ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
+ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
+-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+ 
+ import org.junit.Test;
++
+ import seedu.address.logic.commands.AddCommand;
+ import seedu.address.logic.commands.SetCommand;
+-import seedu.address.logic.commands.exceptions.CommandWordException;
+-import seedu.address.model.Model;
+-import seedu.address.model.ModelManager;
+-import seedu.address.model.UserPrefs;
+ 
+ public class SetCommandParserTest {
+     private SetCommandParser parser = new SetCommandParser();
+ 
+     @Test
+-    public void parse_bothCommandWordsValid_success() throws CommandWordException {
+-        Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
++    public void parse_twoCommandWords_success() {
+         String currentWord = AddCommand.COMMAND_WORD;
+-        String command = actualModel.getCommandWords().getCommandWord(SetCommand.COMMAND_WORD);
+-        String newWord = getUnusedCommandWord(actualModel);
+-        String args = String.join(" ", command, currentWord, newWord);
++        String newWord = getWord();
++        String args = String.join(" ", currentWord, newWord);
+         assertParseSuccess(parser, args, new SetCommand(currentWord, newWord));
+     }
+ 
+     @Test
+-    public void parse_currentCommandUnused_failure() throws CommandWordException {
+-        Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+-        String currentWord = AddCommand.COMMAND_WORD;
+-        String command = actualModel.getCommandWords().getCommandWord(SetCommand.COMMAND_WORD);
+-        String newWord = getUnusedCommandWord(actualModel);
+-        String args = String.join(" ", command, currentWord, newWord);
+-
+-        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE);
++    public void parse_noCommandWord_failure() {
++        String currentWord = "";
++        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, SetCommand.MESSAGE_USAGE);
++        assertParseFailure(parser, currentWord, expectedMessage);
++    }
+ 
+-        assertParseFailure(parser, "", expectedMessage);
++    @Test
++    public void parse_oneCommandWord_failure() {
++        String currentWord = AddCommand.COMMAND_WORD;
++        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, SetCommand.MESSAGE_USAGE);
++        assertParseFailure(parser, currentWord, expectedMessage);
+     }
+ 
+-//    @Test
+-//    public void parse_newCommand_failure() {
+-//        // invalid name
+-//        assertParseFailure(parser, INVALID_NAME_DESC + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
+-//                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Name.MESSAGE_NAME_CONSTRAINTS);
+-//
+-//        // invalid phone
+-//        assertParseFailure(parser, NAME_DESC_BOB + INVALID_PHONE_DESC + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
+-//                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Phone.MESSAGE_PHONE_CONSTRAINTS);
+-//
+-//        // invalid email
+-//        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + INVALID_EMAIL_DESC + ADDRESS_DESC_BOB
+-//                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Email.MESSAGE_EMAIL_CONSTRAINTS);
+-//
+-//        // invalid address
+-//        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + INVALID_ADDRESS_DESC
+-//                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Address.MESSAGE_ADDRESS_CONSTRAINTS);
+-//
+-//        // invalid tag
+-//        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
+-//                + INVALID_TAG_DESC + VALID_TAG_FRIEND, Tag.MESSAGE_TAG_CONSTRAINTS);
+-//
+-//        // two invalid values, only first invalid value reported
+-//        assertParseFailure(parser, INVALID_NAME_DESC + PHONE_DESC_BOB + EMAIL_DESC_BOB + INVALID_ADDRESS_DESC,
+-//                Name.MESSAGE_NAME_CONSTRAINTS);
+-//
+-//        // non-empty preamble
+-//        assertParseFailure(parser, PREAMBLE_NON_EMPTY + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+-//                + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
+-//                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+-//    }
++    public static String getWord() {
++        return "a";
++    }
+ }
+-- 
+2.16.1.windows.1
+
