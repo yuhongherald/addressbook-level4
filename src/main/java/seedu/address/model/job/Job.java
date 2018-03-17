@@ -14,12 +14,14 @@ public class Job {
     private final Employee customer;
     private final VehicleNumber vehicleNumber;
     private final JobNumber jobNumber;
+    private final Date date;
 
     public Job(Employee customer, VehicleNumber vehicleNumber, JobNumber jobNumber) {
         requireAllNonNull(customer, vehicleNumber);
         this.customer = customer;
         this.vehicleNumber = vehicleNumber;
         this.jobNumber = jobNumber;
+        this.date = new Date();
     }
 
     public JobNumber getJobNumber() {
@@ -32,6 +34,10 @@ public class Job {
 
     public Employee getCustomer() {
         return customer;
+    }
+
+    public Date getDate() {
+        return date;
     }
 
     @Override
@@ -47,8 +53,8 @@ public class Job {
         Job otherJob = (Job) other;
         return otherJob.getCustomer().equals(this.getCustomer())
                 && otherJob.getVehicleNumber().equals(this.getVehicleNumber())
-                && otherJob.getJobNumber() == this.getJobNumber();
-
+                && otherJob.getJobNumber() == this.getJobNumber()
+                && otherJob.getDate() == this.getDate();
     }
 
     @Override
