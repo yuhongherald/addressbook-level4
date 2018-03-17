@@ -29,6 +29,33 @@ public class SetCommandTest {
     }
 
     @Test
+    public void execute_changeAddUsingDefault_success() throws CommandWordException {
+        Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        String currentWord = AddCommand.COMMAND_WORD;
+        String newWord = getUnusedCommandWord(actualModel);
+
+        setCommandWord(actualModel, currentWord, newWord);
+        newWord = getUnusedCommandWord(actualModel);
+        setCommandWord(expectedModel, currentWord, newWord);
+        SetCommand newCommand = prepareCommand(actualModel, currentWord, newWord);
+        assertCommandSuccess(newCommand, actualModel, newCommand.getMessageSuccess(), expectedModel);
+    }
+
+    @Test
+    public void execute_changeAddBackToDefault_success() throws CommandWordException {
+        Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        String currentWord = AddCommand.COMMAND_WORD;
+        String newWord = getUnusedCommandWord(actualModel);
+
+        setCommandWord(actualModel, currentWord, newWord);
+        SetCommand newCommand = prepareCommand(actualModel, newWord, currentWord);
+        assertCommandSuccess(newCommand, actualModel, newCommand.getMessageSuccess(), expectedModel);
+    }
+
+
+    @Test
     public void execute_changeSet_success() throws CommandWordException {
         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
@@ -48,14 +75,26 @@ public class SetCommandTest {
     public void execute_changeCommand_failureUsed() throws CommandWordException {
         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         String currentWord = AddCommand.COMMAND_WORD;
-        String newWord = SetCommand.COMMAND_WORD;
+        String newWord = getUnusedCommandWord(actualModel);
 
+        setCommandWord(actualModel, SetCommand.COMMAND_WORD, newWord);
         SetCommand newCommand = prepareCommand(actualModel, currentWord, newWord);
         assertCommandFailure(newCommand, actualModel, newCommand.getMessageUsed());
     }
 
     @Test
-    public void execute_changeCommand_failureUnused() throws CommandWordException {
+    public void execute_changeCommand_failureDefault() throws CommandWordException {
+        Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        String currentWord = AddCommand.COMMAND_WORD;
+        String newWord = SetCommand.COMMAND_WORD;
+
+        SetCommand newCommand = prepareCommand(actualModel, currentWord, newWord);
+        assertCommandFailure(newCommand, actualModel, CommandWords.getMessageOverwriteDefault(newWord));
+    }
+
+
+    @Test
+    public void execute_changeCommand_failureUnused() {
         Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         Model testModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         String currentWord = getUnusedCommandWord(actualModel);
@@ -65,11 +104,21 @@ public class SetCommandTest {
         assertCommandFailure(newCommand, actualModel, newCommand.getMessageUnused());
     }
 
+    @Test
+    public void execute_changeCommand_failureNoChange() throws CommandWordException {
+        Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        String currentWord = AddCommand.COMMAND_WORD;
+        String newWord = currentWord;
+
+        SetCommand newCommand = prepareCommand(actualModel, currentWord, newWord);
+        assertCommandFailure(newCommand, actualModel, CommandWords.getMessageNoChange());
+    }
+
     private void setCommandWord(Model expectedModel, String currentWord, String newWord) throws CommandWordException {
         expectedModel.getCommandWords().setCommandWord(currentWord, newWord);
     }
 
-    private String getUnusedCommandWord(Model actualModel) {
+    public static String getUnusedCommandWord(Model actualModel) {
         String newWord = "a";
         for (int i = 0; i < actualModel.getCommandWords().commands.size(); i++) {
             if (!actualModel.getCommandWords().commands.containsValue(newWord)) {
@@ -80,7 +129,7 @@ public class SetCommandTest {
         return newWord;
     }
 
-    private String getUnusedCommandWord(Model actualModel, String otherWord) {
+    public static String getUnusedCommandWord(Model actualModel, String otherWord) {
         if (otherWord == null || otherWord.equals("")) {
             return  getUnusedCommandWord(actualModel);
         }
