@@ -91,7 +91,7 @@ public class CommandBoxTest extends GuiUnitTest {
 
         // insert command in the middle of retrieving previous COMMANDS
         guiRobot.push(KeyCode.UP);
-        String thirdCommand = "list";
+        String thirdCommand = ListEmployeeCommand.COMMAND_WORD;
         commandBoxHandle.run(thirdCommand);
         assertInputHistory(KeyCode.UP, thirdCommand);
         assertInputHistory(KeyCode.UP, COMMAND_THAT_FAILS);
