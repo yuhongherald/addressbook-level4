@@ -28,7 +28,7 @@ Having any Java 8 version is not enough. +
 This app will not work with earlier versions of Java 8.
 +
 .  Download the latest `addressbook.jar` link:{repoURL}/releases[here].
-.  Copy the file to the folder you want to use as the home folder for your Address Book.
+.  Copy the file to the folder you want to use as the home folder for your CarviciM.
 .  Double-click the file to start the app. The GUI should appear in a few seconds.
 +
 image::Ui.png[width="790"]
@@ -38,7 +38,7 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 .  Some example commands you can try:
 
 * *`liste`* : lists all employees' contacts
-* **`adde`**`n/John Doe p/98765432 e/johnd@example.com` : adds an employee named `John Doe` to the Car Servicing Manager.
+* **`adde`**`n/John Doe p/98765432 e/johnd@example.com` : adds an employee named `John Doe` to CarviciM.
 * **`deletee`**`3` : deletes the 3rd employee shown in the current list
 * *`exit`* : exits the app
 
@@ -62,7 +62,7 @@ Format: `help`
 
 === Adding an job entry: `addj`
 
-Adds a job entry to the car servicing manager +
+Adds a job entry to CarviciM +
 Format: `addj n/NAME p/PHONE_NUMBER e/EMAIL v/VEHICLE_NUMBER w/EMPLOYEE_INDEX`
 
 Examples:
@@ -72,7 +72,7 @@ Examples:
 
 === Closing a job entry: `closej`
 
-Closes an ongoing job entry in the car servicing manager based on the specified job number +
+Closes an ongoing job entry in CarviciM based on the specified job number +
 Format: `closej JOB_NUMBER`
 
 Examples:
@@ -82,7 +82,7 @@ Examples:
 
 === Adding an employee: `adde`
 
-Adds an employee to the car servicing manager +
+Adds an employee to CarviciM +
 Format: `adde n/NAME p/PHONE_NUMBER e/EMAIL`
 
 Examples:
@@ -92,12 +92,12 @@ Examples:
 
 === Listing all employees : `liste`
 
-Shows a list of all employees in the car servicing manager . +
+Shows a list of all employees in CarviciM . +
 Format: `liste`
 
 === Editing a employee : `edite`
 
-Edits an existing employee in the car servicing manager . +
+Edits an existing employee in CarviciM . +
 Format: `edite INDEX [p/PHONE] [e/EMAIL] [t/TAG]...`
 
 ****
@@ -133,7 +133,7 @@ Returns any employee having names `Betsy`, `Tim`, or `John`
 
 === Deleting an employee : `deletee`
 
-Deletes the specified employee from the car servicing manager. +
+Deletes the specified employee from CarviciM. +
 Format: `deletee INDEX`
 
 ****
@@ -146,7 +146,7 @@ Examples:
 
 * `liste` +
 `deletee 2` +
-Deletes the 2nd employee in the car servicing manager.
+Deletes the 2nd employee in CarviciM.
 * `finde Betsy` +
 `deletee 1` +
 Deletes the 1st employee in the results of the `findE` command.
@@ -199,12 +199,12 @@ Pressing the kbd:[&uarr;] and kbd:[&darr;] arrows will display the previous and 
 // tag::undoredo[]
 === Undoing previous command : `undo`
 
-Restores the address book to the state before the previous _undoable_ command was executed. +
+Restores CarviciM to the state before the previous _undoable_ command was executed. +
 Format: `undo`
 
 [NOTE]
 ====
-Undoable commands: those commands that modify the address book's content (`add`, `delete`, `edit` and `clear`).
+Undoable commands: those commands that modify CarviciM's content (`add`, `delete`, `edit` and `clear`).
 ====
 
 Examples:
@@ -248,7 +248,7 @@ The `redo` command fails as there are no `undo` commands executed previously.
 
 === Clearing all entries : `clear`
 
-Clears all entries from the address book. +
+Clears all entries from CarviciM. +
 Format: `clear`
 
 === Exiting the program : `exit`
@@ -258,7 +258,7 @@ Format: `exit`
 
 === Saving the data
 
-Address book data are saved in the hard disk automatically after any command that changes the data. +
+CarviciM data are saved in the hard disk automatically after any command that changes the data. +
 There is no need to save manually.
 
 === Email employees : `email`
@@ -288,12 +288,14 @@ e.g. `adde n/James Ho p/22224444 e/jamesho@example.com t/mechanic`
 * *Clear* : `clear`
 * *Delete Employee* : `deletee INDEX` +
 e.g. `deletee 3`
-* *Edit* : `edite INDEX [p/PHONE_NUMBER] [e/EMAIL] [t/TAG]...` +
+* *Edit Employee* : `edite INDEX [p/PHONE_NUMBER] [e/EMAIL] [t/TAG]...` +
 e.g. `edite 2 e/jameslee@example.com`
-* *Find Employee* : `finde KEYWORD [MORE_KEYWORDS]` +
+* *Find Employees* : `finde KEYWORD [MORE_KEYWORDS]` +
 e.g. `finde James Jake`
-* *List Employee* : `liste`
+* *List Employees* : `liste`
 * *Help* : `help`
 * *History* : `history`
 * *Undo* : `undo`
 * *Redo* : `redo`
+* *Theme* : `theme INDEX` +
+e.g. `theme 1`
