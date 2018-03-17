@@ -36,11 +36,11 @@ public class SetCommand extends UndoableCommand {
     }
 
     public String getMessageUsed() {
-        return String.format(CommandWords.MESSAGE_DUPLICATE, newWord);
+        return CommandWords.getMessageUsed(newWord);
     }
 
     public String getMessageUnused() {
-        return String.format(CommandWords.MESSAGE_INACTIVE, currentWord);
+        return CommandWords.getMessageUnused(currentWord);
     }
 
     @Override
