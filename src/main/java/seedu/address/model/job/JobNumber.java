@@ -26,6 +26,11 @@ public class JobNumber {
     }
 
     @Override
+    public String toString() {
+        return jobNumber;
+    }
+
+    @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof JobNumber // instanceof handles nulls
