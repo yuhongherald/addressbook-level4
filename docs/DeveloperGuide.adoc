@@ -801,16 +801,18 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 
 *Value proposition*: A convenient App for car servicing managers to organize servicing jobs and assign specific employees.
 
-*Feature contribution*:
+*Feature contributions*:
 
-- Importing job entries from an excel file (major enhancement)
-Done by: yuhongherald
-User can specify the file path to an excel file containing the job entries in columns, and header fields to indicate the
-field contents for each row. User then reviews the changes and generates a feedback document.
+* Importing job entries from an excel file (Major)
++
+[none]
+** User can specify the file path to an excel file containing the job entries in columns, and header fields to indicate the
+** field contents for each row. User then reviews the changes and generates a feedback document.
 
-- Setting custom command keywords (minor enhancement)
-Done by: yuhongherald
-User can set a custom keyword that is not used on top of the original command word.
+* Setting custom command keywords (Minor)
++
+[none]
+** User can set a custom keyword that is not used on top of the original command word.
 
 [appendix]
 == User Stories
