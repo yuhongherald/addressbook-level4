@@ -136,7 +136,7 @@ public class DeleteCommandSystemTest extends AddressBookSystemTest {
         Employee deletedEmployee = removePerson(expectedModel, toDelete);
         String expectedResultMessage = String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedEmployee);
 
-        assertCommandSuccess(DeleteCommand.COMMAND_WORD + " " 
+        assertCommandSuccess(DeleteCommand.COMMAND_WORD + " "
                 + toDelete.getOneBased(), expectedModel, expectedResultMessage);
     }
 
