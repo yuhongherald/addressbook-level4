@@ -864,6 +864,8 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |user |add comments on job entries |record feedback to employees
 
+|`* *` |user |sort by employees' name |sort employee list alphabetically
+
 |`* *` |user |export changes |provide feedback to employees regarding the changes
 
 |`*` |user |export completed jobs to other formats |print out all the completed job entries and view it with a better program
@@ -1173,6 +1175,31 @@ Use case ends.
 * 1c. The new command word is a default command word for another command.
 [none]
 ** 1c1. CarviciM shows an error message.
++
+Use case ends.
+
+=== Use case: Set theme of application
+
+*MSS*
+
+1.  User request to change theme.
+2.  CarviciM changes the theme
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a. The list of theme is empty.
+[none]
+** 1a1. CarviciM shows an error message.
++
+Use case ends.
+
+[none]
+* 1b. The given theme index is invalid.
+[none]
+** 1b1. CarviciM shows an error message.
 +
 Use case ends.
 

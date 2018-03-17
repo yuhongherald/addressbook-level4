@@ -23,7 +23,7 @@ public class CommandWords implements Serializable {
      */
     public CommandWords() {
         commands = new HashMap<>();
-        for (String command : Command.commands) {
+        for (String command : Command.COMMANDS) {
             commands.put(command, command);
         }
     }
@@ -49,7 +49,7 @@ public class CommandWords implements Serializable {
      */
     public void checkIntegrity() {
         HashMap<String, String> verifiedCommands = new HashMap<>();
-        for (String command : Command.commands) {
+        for (String command : Command.COMMANDS) {
             moveVerifiedWord(command, verifiedCommands);
         }
         commands.clear();
@@ -124,6 +124,29 @@ public class CommandWords implements Serializable {
         commands.clear();
         commands.putAll(newCommandWords.commands);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        // short circuit if same object
+        if (obj == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(obj instanceof CommandWords)) {
+            return false;
+        }
+
+        // state check
+        CommandWords other = (CommandWords) obj;
+        for (String commandKey : commands.keySet()) {
+            if (!commands.get(commandKey).equals(other.commands.get(commandKey))) {
+                return false;
+            }
+        }
+        return commands.size() == other.commands.size();
+    }
+
 
     @Override
     public String toString() {
