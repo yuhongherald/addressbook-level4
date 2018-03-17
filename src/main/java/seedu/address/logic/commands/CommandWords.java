@@ -16,6 +16,7 @@ import seedu.address.logic.commands.exceptions.CommandWordException;
 public class CommandWords implements Serializable {
     public static final String MESSAGE_INACTIVE = "%s is not an active command.";
     public static final String MESSAGE_DUPLICATE = "%s is already used.";
+    public static final String MESSAGE_NO_CHANGE = "Old and new command word is the same.";
     public final HashMap<String, String> commands;
     /**
      * Creates a data structure to maintain used command words.
@@ -34,7 +35,9 @@ public class CommandWords implements Serializable {
     }
 
     /**
-     * Moves (@code command from (@code COMMANDS) to (@code verifiedCommands). Creates a new entry if missing.
+     * Copies key and value of (@code command) from (@code commands)
+     * to (@code verifiedCommands). Creates a new entry with default
+     * key = value if missing.
      */
     private void moveVerifiedWord(String command, HashMap<String, String> verifiedCommands) {
         verifiedCommands.put(command, commands.getOrDefault(command, command));
@@ -94,7 +97,7 @@ public class CommandWords implements Serializable {
     public void setCommandWord(String currentWord, String newWord) throws CommandWordException {
         requireNonNull(currentWord, newWord);
         if (currentWord.equals(newWord)) {
-            return;
+            throw new CommandWordException(MESSAGE_NO_CHANGE);
         }
         if (commands.containsValue(newWord)) {
             throw new CommandWordException(String.format(MESSAGE_DUPLICATE, newWord));

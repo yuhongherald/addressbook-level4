@@ -65,19 +65,6 @@ public class SetCommandTest {
         assertCommandFailure(newCommand, actualModel, newCommand.getMessageUnused());
     }
 
-    @Test
-    public void execute_changeCommand_shortCircuit() throws CommandWordException {
-        Model actualModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-        String currentWord = AddCommand.COMMAND_WORD;
-        String newWord = currentWord;
-
-        setCommandWord(expectedModel, currentWord, newWord);
-        SetCommand newCommand = prepareCommand(actualModel, currentWord, newWord);
-        assertCommandSuccess(newCommand, actualModel, newCommand.getMessageSuccess(), expectedModel);
-    }
-
-
     private void setCommandWord(Model expectedModel, String currentWord, String newWord) throws CommandWordException {
         expectedModel.getCommandWords().setCommandWord(currentWord, newWord);
     }
