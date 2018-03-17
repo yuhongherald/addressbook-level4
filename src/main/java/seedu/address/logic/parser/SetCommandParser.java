@@ -9,14 +9,14 @@ import seedu.address.logic.parser.exceptions.ParseException;
 
 //@author yuhongherald
 /**
- * Parses input arguments and creates a new AddCommand object
+ * Parses input arguments and creates a new AddEmployeeCommand object
  */
 public class SetCommandParser implements Parser<SetCommand> {
 
     /**
      * Parses the given {@code String} of arg
-     * uments in the context of the AddCommand
-     * and returns an AddCommand object for execution.
+     * uments in the context of the AddEmployeeCommand
+     * and returns an AddEmployeeCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
     public SetCommand parse(String args) throws ParseException {
