@@ -25,6 +25,11 @@ public class Date {
     }
 
     @Override
+    public String toString() {
+        return date;
+    }
+
+    @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof Date // instanceof handles nulls
