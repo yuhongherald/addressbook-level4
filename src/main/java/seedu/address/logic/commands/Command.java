@@ -47,16 +47,6 @@ public abstract class Command {
     }
 
     /**
-     * @param key used to reference Command Word
-     * @return  Command word used
-     * @throws CommandWordException command word is not valid
-     */
-    public String getCommandWord(String key) throws CommandWordException {
-        requireNonNull(model);
-        return model.getCommandWords().getCommandWord(key);
-    }
-
-    /**
      * Executes the command and returns the result message.
      *
      * @return feedback message of the operation result for display

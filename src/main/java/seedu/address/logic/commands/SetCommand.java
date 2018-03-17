@@ -15,7 +15,7 @@ public class SetCommand extends UndoableCommand {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Sets a command word to user preference. "
             + "Parameters: CURRENT_COMMAND_WORD NEW_COMMAND_WORD"
-            + "Example: " + "%s" + " "
+            + "Example: " + "set" + " "
             + "OLD_COMMAND" + "NEW_COMMAND";
 
     public static final String MESSAGE_SUCCESS = "%s has been replaced with %s!";
