@@ -17,6 +17,8 @@ public class CommandWords implements Serializable {
     public static final String MESSAGE_INACTIVE = "%s is not an active command.";
     public static final String MESSAGE_DUPLICATE = "%s is already used.";
     public static final String MESSAGE_NO_CHANGE = "Old and new command word is the same.";
+    public static final String MESSAGE_OVERWRITE_DEFAULT = "%s is a default command.";
+
     public final HashMap<String, String> commands;
     /**
      * Creates a data structure to maintain used command words.
@@ -35,9 +37,13 @@ public class CommandWords implements Serializable {
     }
 
     /**
+<<<<<<< HEAD
      * Copies key and value of (@code command) from (@code commands)
      * to (@code verifiedCommands). Creates a new entry with default
      * key = value if missing.
+=======
+     * Moves (@code command from (@code COMMANDS) to (@code verifiedCommands). Creates a new entry if missing.
+>>>>>>> v1.1-enhancement
      */
     private void moveVerifiedWord(String command, HashMap<String, String> verifiedCommands) {
         verifiedCommands.put(command, commands.getOrDefault(command, command));
@@ -98,6 +104,9 @@ public class CommandWords implements Serializable {
         requireNonNull(currentWord, newWord);
         if (currentWord.equals(newWord)) {
             throw new CommandWordException(MESSAGE_NO_CHANGE);
+        }
+        if (commands.containsKey(newWord)) {
+            throw new CommandWordException(String.format(MESSAGE_OVERWRITE_DEFAULT, newWord));
         }
         if (commands.containsValue(newWord)) {
             throw new CommandWordException(String.format(MESSAGE_DUPLICATE, newWord));
