@@ -20,7 +20,6 @@ import seedu.address.model.job.Status;
 import seedu.address.model.job.VehicleNumber;
 import seedu.address.model.person.Customer;
 import seedu.address.model.person.Employee;
-import seedu.address.model.person.Person;
 import seedu.address.model.person.UniqueEmployeeList;
 import seedu.address.model.person.exceptions.DuplicateEmployeeException;
 import seedu.address.model.person.exceptions.EmployeeNotFoundException;
