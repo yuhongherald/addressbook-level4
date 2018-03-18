@@ -2,6 +2,7 @@ package seedu.address.ui;
 
 import java.util.logging.Logger;
 
+import javafx.collections.FXCollections;
 import org.fxmisc.easybind.EasyBind;
 
 import com.google.common.eventbus.Subscribe;
@@ -14,7 +15,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.JumpToListRequestEvent;
+import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.model.job.Job;
+import seedu.address.model.job.JobList;
+import seedu.address.model.person.Employee;
 
 //@author yuhongherald
 /**
@@ -24,11 +28,14 @@ public class JobListPanel extends UiPart<Region> {
     private static final String FXML = "JobListPanel.fxml";
     private final Logger logger = LogsCenter.getLogger(JobListPanel.class);
 
+    private ObservableList<Job> jobList;
+
     @FXML
     private ListView<JobCard> jobListView;
 
     public JobListPanel(ObservableList<Job> jobList) {
         super(FXML);
+        this.jobList = jobList;
         setConnections(jobList);
         registerAsAnEventHandler(this);
     }
@@ -77,6 +84,18 @@ public class JobListPanel extends UiPart<Region> {
                 setGraphic(person.getRoot());
             }
         }
+    }
+
+    @Subscribe
+    private void handlePersonPanelSelectionChangedEvent(PersonPanelSelectionChangedEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        updateList(event.getNewSelection().employee);
+    }
+
+    private void updateList(Employee employee) {
+        ObservableList<Job> filteredList = FXCollections.unmodifiableObservableList(
+                jobList.filtered(JobList.filterByEmployee(jobList, employee)));
+        setConnections(filteredList);
     }
 
 }

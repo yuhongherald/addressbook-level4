@@ -6,6 +6,8 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import java.util.Iterator;
 
 import java.util.List;
+import java.util.function.Predicate;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.job.exceptions.JobNotFoundException;
@@ -67,6 +69,18 @@ public class JobList implements Iterable<Job> {
         setJobs(replacement);
     }
 
+    /**
+     * Filters (@code jobList) for jobs assigned to (@code employee).
+     */
+    public static Predicate<Job> filterByEmployee(ObservableList<Job> jobList, Employee employee) {
+        Predicate<Job> predicate = new Predicate<Job>() {
+            @Override
+            public boolean test(Job job) {
+                return job.getAssignedEmployees().contains(employee);
+            }
+        };
+        return predicate;
+    }
 
     @Override
     public Iterator<Job> iterator() {
