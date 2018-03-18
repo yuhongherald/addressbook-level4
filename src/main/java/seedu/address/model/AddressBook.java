@@ -77,8 +77,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         List<Employee> syncedEmployeeList = newData.getEmployeeList().stream()
                 .map(this::syncWithMasterTagList)
                 .collect(Collectors.toList());
-        List<Job> syncedJobList = newData.getJobList().stream()
-                .collect(Collectors.toList());
+        List<Job> syncedJobList = newData.getJobList();
         setJobs(syncedJobList);
 
         try {

@@ -90,7 +90,7 @@ public class AddressBookTest {
         }
 
         @Override public ObservableList<Job> getJobList() {
-            return null;
+            return jobs;
         }
 
         @Override
