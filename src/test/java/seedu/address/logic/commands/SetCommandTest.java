@@ -114,7 +114,6 @@ public class SetCommandTest {
         assertCommandFailure(newCommand, actualModel, CommandWords.getMessageNoChange());
     }
 
-
     private void setCommandWord(Model expectedModel, String currentWord, String newWord) throws CommandWordException {
         expectedModel.getCommandWords().setCommandWord(currentWord, newWord);
     }
