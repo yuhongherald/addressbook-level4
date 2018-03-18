@@ -12,6 +12,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
+import seedu.address.model.job.Job;
+import seedu.address.model.job.JobList;
 import seedu.address.model.person.Employee;
 import seedu.address.model.person.UniqueEmployeeList;
 import seedu.address.model.person.exceptions.DuplicateEmployeeException;
@@ -26,6 +28,7 @@ import seedu.address.model.tag.UniqueTagList;
 public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniqueEmployeeList employees;
+    private final JobList jobList;
     private final UniqueTagList tags;
 
     /*
@@ -37,13 +40,14 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     {
         employees = new UniqueEmployeeList();
+        jobList = new JobList();
         tags = new UniqueTagList();
     }
 
     public AddressBook() {}
 
     /**
-     * Creates an AddressBook using the Persons and Tags in the {@code toBeCopied}
+     * Creates an AddressBook using the Persons, Jobs and Tags in the {@code toBeCopied}
      */
     public AddressBook(ReadOnlyAddressBook toBeCopied) {
         this();
@@ -54,6 +58,10 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     public void setEmployees(List<Employee> employees) throws DuplicateEmployeeException {
         this.employees.setEmployees(employees);
+    }
+
+    public void setJobs(List<Job> jobs) {
+        this.jobList.setJobs(jobs);
     }
 
     public void setTags(Set<Tag> tags) {
@@ -69,6 +77,9 @@ public class AddressBook implements ReadOnlyAddressBook {
         List<Employee> syncedEmployeeList = newData.getEmployeeList().stream()
                 .map(this::syncWithMasterTagList)
                 .collect(Collectors.toList());
+        List<Job> syncedJobList = newData.getJobList().stream()
+                .collect(Collectors.toList());
+        setJobs(syncedJobList);
 
         try {
             setEmployees(syncedEmployeeList);
@@ -178,6 +189,10 @@ public class AddressBook implements ReadOnlyAddressBook {
     @Override
     public ObservableList<Employee> getEmployeeList() {
         return employees.asObservableList();
+    }
+
+    @Override public ObservableList<Job> getJobList() {
+        return jobList.asObservableList();
     }
 
     @Override

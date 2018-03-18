@@ -4,6 +4,7 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.logic.commands.CommandWords;
+import seedu.address.model.job.Job;
 import seedu.address.model.person.Employee;
 import seedu.address.model.person.exceptions.DuplicateEmployeeException;
 import seedu.address.model.person.exceptions.EmployeeNotFoundException;
@@ -49,6 +50,9 @@ public interface Model {
 
     /** Returns an unmodifiable view of the filtered employee list */
     ObservableList<Employee> getFilteredPersonList();
+
+    /** Returns an unmodifiable view of the filtered employee list */
+    ObservableList<Job> getFilteredJobList();
 
     /**
      * Updates the filter of the filtered employee list to filter by the given {@code predicate}.

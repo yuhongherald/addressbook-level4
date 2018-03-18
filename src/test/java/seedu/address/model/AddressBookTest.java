@@ -16,6 +16,7 @@ import org.junit.rules.ExpectedException;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.address.model.job.Job;
 import seedu.address.model.person.Employee;
 import seedu.address.model.tag.Tag;
 
@@ -49,8 +50,9 @@ public class AddressBookTest {
     public void resetData_withDuplicatePersons_throwsAssertionError() {
         // Repeat ALICE twice
         List<Employee> newEmployees = Arrays.asList(ALICE, ALICE);
+        List<Job> newJobs = new ArrayList<>();
         List<Tag> newTags = new ArrayList<>(ALICE.getTags());
-        AddressBookStub newData = new AddressBookStub(newEmployees, newTags);
+        AddressBookStub newData = new AddressBookStub(newEmployees, newJobs, newTags);
 
         thrown.expect(AssertionError.class);
         addressBook.resetData(newData);
@@ -73,16 +75,22 @@ public class AddressBookTest {
      */
     private static class AddressBookStub implements ReadOnlyAddressBook {
         private final ObservableList<Employee> employees = FXCollections.observableArrayList();
+        private final ObservableList<Job> jobs = FXCollections.observableArrayList();
         private final ObservableList<Tag> tags = FXCollections.observableArrayList();
 
-        AddressBookStub(Collection<Employee> employees, Collection<? extends Tag> tags) {
+        AddressBookStub(Collection<Employee> employees, Collection<Job> jobs, Collection<? extends Tag> tags) {
             this.employees.setAll(employees);
+            this.jobs.setAll(jobs);
             this.tags.setAll(tags);
         }
 
         @Override
         public ObservableList<Employee> getEmployeeList() {
             return employees;
+        }
+
+        @Override public ObservableList<Job> getJobList() {
+            return null;
         }
 
         @Override
