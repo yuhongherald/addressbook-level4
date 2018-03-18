@@ -824,7 +824,7 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 * Setting custom command keywords (Minor)
 +
 [none]
-** User can set a custom keyword that is not used on top of the original command word. This allows them to use shorthand 
+** User can set a custom keyword that is not used on top of the original command word. This allows them to use shorthand
 ** or a custom command word that is easy to remember.
 
 [appendix]
