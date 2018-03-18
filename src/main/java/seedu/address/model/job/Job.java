@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
+import seedu.address.model.person.Customer;
 import seedu.address.model.person.Employee;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniqueEmployeeList;
@@ -17,7 +18,7 @@ import seedu.address.model.remark.RemarkList;
  * Represents a Job in the car servicing manager
  */
 public class Job {
-    private final Person customer;
+    private final Customer customer;
     private final VehicleNumber vehicleNumber;
     private final JobNumber jobNumber;
     private final Date date;
@@ -26,7 +27,7 @@ public class Job {
     private final UniqueEmployeeList assignedEmployees;
     private final RemarkList remarks;
 
-    public Job(Person customer, VehicleNumber vehicleNumber, JobNumber jobNumber,
+    public Job(Customer customer, VehicleNumber vehicleNumber, JobNumber jobNumber,
                Date date, UniqueEmployeeList assignedEmployees, Status status, RemarkList remarks) {
 
         requireAllNonNull(customer, vehicleNumber, jobNumber, date, assignedEmployees, status);

@@ -12,12 +12,19 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
+import seedu.address.model.job.Date;
 import seedu.address.model.job.Job;
 import seedu.address.model.job.JobList;
+import seedu.address.model.job.JobNumber;
+import seedu.address.model.job.Status;
+import seedu.address.model.job.VehicleNumber;
+import seedu.address.model.person.Customer;
 import seedu.address.model.person.Employee;
+import seedu.address.model.person.Person;
 import seedu.address.model.person.UniqueEmployeeList;
 import seedu.address.model.person.exceptions.DuplicateEmployeeException;
 import seedu.address.model.person.exceptions.EmployeeNotFoundException;
+import seedu.address.model.remark.RemarkList;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
@@ -51,7 +58,9 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public AddressBook(ReadOnlyAddressBook toBeCopied) {
         this();
+        // For initial testing, a random job will be created for each employee
         resetData(toBeCopied);
+        createRandomJobForEachEmployee();
     }
 
     //// list overwrite operations
@@ -175,6 +184,29 @@ public class AddressBook implements ReadOnlyAddressBook {
             }
         });
         return employees;
+    }
+
+    /**
+     * Generates a random job for each employee
+     */
+    private void createRandomJobForEachEmployee() {
+        Job newJob;
+        for (Employee employee : employees) {
+            Customer customer = Customer.generateCustomer();
+            VehicleNumber vehicleNumber = new VehicleNumber("SXX0000X");
+            JobNumber jobNumber = new JobNumber();
+            Date date = new Date();
+            UniqueEmployeeList assignedEmployees = new UniqueEmployeeList();
+            try {
+                assignedEmployees.add(employee);
+            } catch (DuplicateEmployeeException e) {
+                // we just ignore
+            }
+            Status status = new Status("pending");
+            RemarkList remarks = new RemarkList();
+            newJob = new Job(customer, vehicleNumber, jobNumber, date, assignedEmployees, status, remarks);
+            jobList.add(newJob);
+        }
     }
 
     //// util methods
