@@ -23,33 +23,31 @@ public class JobCard extends UiPart<Region> {
      * @see <a href="https://github.com/se-edu/addressbook-level4/issues/336">The issue on AddressBook level 4</a>
      */
 
-    public final Job employee;
+    public final Job job;
 
     @FXML
     private HBox cardPane;
     @FXML
-    private Label name;
+    private Label customer;
     @FXML
     private Label id;
     @FXML
-    private Label phone;
+    private Label vehicleNumber;
     @FXML
-    private Label address;
+    private Label startDate;
     @FXML
-    private Label email;
-    @FXML
-    private FlowPane tags;
+    private FlowPane employees;
 
     public JobCard(Job job) {
         super(FXML);
-        this.employee = job;
-        // WIP
+        this.job = job;
         id.setText(job.getJobNumber().toString() + ". ");
-        name.setText(job.getCustomer().toString());
-        phone.setText(job.getVehicleNumber().toString());
-        address.setText(job.getDate().toString());
-        email.setText(job.getJobNumber().toString());
-        job.getAssignedEmployees().forEach(employee -> tags.getChildren().add(new Label(employee.toString())));
+        customer.setText(job.getCustomer().getName().toString());
+        job.getAssignedEmployees().forEach(employee -> employees.getChildren().add(
+                new Label(employee.getName().toString())));
+        vehicleNumber.setText(job.getVehicleNumber().toString());
+        startDate.setText(job.getDate().toString());
+        // remarks are not supported in this version, might want to expand into new window due to space constraints
     }
 
     @Override
@@ -67,6 +65,6 @@ public class JobCard extends UiPart<Region> {
         // state check
         JobCard card = (JobCard) other;
         return id.getText().equals(card.id.getText())
-                && employee.equals(card.employee);
+                && job.equals(card.job);
     }
 }
