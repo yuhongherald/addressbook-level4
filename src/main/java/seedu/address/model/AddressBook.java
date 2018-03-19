@@ -185,6 +185,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         return employees;
     }
 
+    //@@author yuhongherald
     /**
      * Generates a random job for each employee
      */
@@ -209,7 +210,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     //// util methods
-
+    //@@author
     @Override
     public String toString() {
         return employees.asObservableList().size() + " employees, " + tags.asObservableList().size() +  " tags";

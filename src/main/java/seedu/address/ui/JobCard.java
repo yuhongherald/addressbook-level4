@@ -7,7 +7,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.job.Job;
 
-//@author yuhongherald
+//@@author yuhongherald
 /**
  * An UI component that displays information of a {@code Employee}.
  */

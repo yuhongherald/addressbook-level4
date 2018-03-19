@@ -13,6 +13,7 @@ import javafx.collections.ObservableList;
 import seedu.address.model.job.exceptions.JobNotFoundException;
 import seedu.address.model.person.Employee;
 
+//@@author owzhenwei
 /**
  * A list of jobs that does not allow nulls
  */
@@ -69,6 +70,7 @@ public class JobList implements Iterable<Job> {
         setJobs(replacement);
     }
 
+    //@@author yuhongherald
     /**
      * Filters (@code jobList) for jobs assigned to (@code employee).
      */
@@ -82,6 +84,7 @@ public class JobList implements Iterable<Job> {
         return predicate;
     }
 
+    //@@author owzhenwei
     @Override
     public Iterator<Job> iterator() {
         return internalList.iterator();
