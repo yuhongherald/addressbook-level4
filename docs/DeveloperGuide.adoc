@@ -818,13 +818,14 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 * Importing job entries from an excel file (Major)
 +
 [none]
-** User can specify the file path to an excel file containing the job entries in columns, and header fields to indicate the
-** field contents for each row. User then reviews the changes and generates a feedback document.
+** User can import job entries, reviews them and comments on the changes before generating a feedback document.
+** This allows easy collation of data from their employee's progress reports into CarviciM, and providing feedback based on their reports.
 
 * Setting custom command keywords (Minor)
 +
 [none]
-** User can set a custom keyword that is not used on top of the original command word.
+** User can set a custom keyword that is not used on top of the original command word. This allows them to use shorthand
+** or a custom command word that is easy to remember.
 
 [appendix]
 == User Stories
