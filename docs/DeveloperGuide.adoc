@@ -230,6 +230,15 @@ Classes used by multiple components are in the `seedu.addressbook.commons` packa
 
 This section describes some noteworthy details on how certain features are implemented.
 
+// tag::set[]
+=== Import/Export feature #Documentation coming in v2.0#
+==== Current Implementation
+
+image::blank.png[width="800"]
+
+==== Design Considerations
+// end::set[]
+
 // tag::importexport[]
 === Import/Export feature #Coming in v2.0#
 ==== Current Implementation
