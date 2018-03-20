@@ -52,30 +52,30 @@ public class AddEmployeeCommandParserTest {
 
         // whitespace only preamble
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + TAG_DESC_FRIEND, new AddEmployeeCommand(expectedEmployee));
+                + ADDRESS_DESC_BOB + TAG_DESC_FRIEND, new AddEmployeeCommand(expectedPerson));
 
         // multiple names - last name accepted
         assertParseSuccess(parser, NAME_DESC_AMY + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + TAG_DESC_FRIEND, new AddEmployeeCommand(expectedEmployee));
+                + ADDRESS_DESC_BOB + TAG_DESC_FRIEND, new AddEmployeeCommand(expectedPerson));
 
         // multiple phones - last phone accepted
         assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_AMY + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + TAG_DESC_FRIEND, new AddEmployeeCommand(expectedEmployee));
+                + ADDRESS_DESC_BOB + TAG_DESC_FRIEND, new AddEmployeeCommand(expectedPerson));
 
         // multiple emails - last email accepted
         assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_AMY + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + TAG_DESC_FRIEND, new AddEmployeeCommand(expectedEmployee));
+                + ADDRESS_DESC_BOB + TAG_DESC_FRIEND, new AddEmployeeCommand(expectedPerson));
 
         // multiple addresses - last address accepted
         assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_AMY
-                + ADDRESS_DESC_BOB + TAG_DESC_FRIEND, new AddEmployeeCommand(expectedEmployee));
+                + ADDRESS_DESC_BOB + TAG_DESC_FRIEND, new AddEmployeeCommand(expectedPerson));
 
         // multiple tags - all accepted
         Employee expectedEmployeeMultipleTags = new EmployeeBuilder().withName(VALID_NAME_BOB)
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB)
                 .withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND).build();
         assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, new AddEmployeeCommand(expectedEmployeeMultipleTags));
+                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, new AddEmployeeCommand(expectedPersonMultipleTags));
     }
 
     @Test
@@ -84,7 +84,7 @@ public class AddEmployeeCommandParserTest {
         Employee expectedEmployee = new EmployeeBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
                 .withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withTags().build();
         assertParseSuccess(parser, NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY,
-                new AddEmployeeCommand(expectedEmployee));
+                new AddEmployeeCommand(expectedPerson));
     }
 
     @Test

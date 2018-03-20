@@ -34,8 +34,8 @@ public class DeleteEmployeeCommandSystemTest extends AddressBookSystemTest {
         Model expectedModel = getModel();
         String command = "     " + DeleteEmployeeCommand.COMMAND_WORD + "      " + INDEX_FIRST_PERSON.getOneBased()
                 + "       ";
-        Employee deletedEmployee = removePerson(expectedModel, INDEX_FIRST_PERSON);
-        String expectedResultMessage = String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedEmployee);
+        Person deletedPerson = removePerson(expectedModel, INDEX_FIRST_PERSON);
+        String expectedResultMessage = String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedPerson);
         assertCommandSuccess(command, expectedModel, expectedResultMessage);
 
         /* Case: delete the last employee in the list -> deleted */
@@ -70,7 +70,7 @@ public class DeleteEmployeeCommandSystemTest extends AddressBookSystemTest {
          * -> rejected
          */
         showPersonsWithName(KEYWORD_MATCHING_MEIER);
-        int invalidIndex = getModel().getAddressBook().getEmployeeList().size();
+        int invalidIndex = getModel().getAddressBook().getPersonList().size();
         command = DeleteEmployeeCommand.COMMAND_WORD + " " + invalidIndex;
         assertCommandFailure(command, MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
 
@@ -83,8 +83,8 @@ public class DeleteEmployeeCommandSystemTest extends AddressBookSystemTest {
         Index expectedIndex = Index.fromZeroBased(selectedIndex.getZeroBased() - 1);
         selectPerson(selectedIndex);
         command = DeleteEmployeeCommand.COMMAND_WORD + " " + selectedIndex.getOneBased();
-        deletedEmployee = removePerson(expectedModel, selectedIndex);
-        expectedResultMessage = String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedEmployee);
+        deletedPerson = removePerson(expectedModel, selectedIndex);
+        expectedResultMessage = String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedPerson);
         assertCommandSuccess(command, expectedModel, expectedResultMessage, expectedIndex);
 
         /* ------------------------------- Performing invalid delete operation ---------------------------------- */
@@ -99,7 +99,7 @@ public class DeleteEmployeeCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: invalid index (size + 1) -> rejected */
         Index outOfBoundsIndex = Index.fromOneBased(
-                getModel().getAddressBook().getEmployeeList().size() + 1);
+                getModel().getAddressBook().getPersonList().size() + 1);
         command = DeleteEmployeeCommand.COMMAND_WORD + " " + outOfBoundsIndex.getOneBased();
         assertCommandFailure(command, MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
 

@@ -48,7 +48,7 @@ public class AddCommandParser implements Parser<AddEmployeeCommand> {
 
             Employee employee = new Employee(name, phone, email, address, tagList);
 
-            return new AddEmployeeCommand(employee);
+            return new AddEmployeeCommand(person);
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);
         }

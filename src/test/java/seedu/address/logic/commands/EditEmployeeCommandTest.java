@@ -42,11 +42,11 @@ public class EditEmployeeCommandTest {
 
     @Test
     public void execute_allFieldsSpecifiedUnfilteredList_success() throws Exception {
-        Employee editedEmployee = new EmployeeBuilder().build();
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedEmployee).build();
+        Person editedPerson = new PersonBuilder().build();
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedPerson).build();
         EditEmployeeCommand editEmployeeCommand = prepareCommand(INDEX_FIRST_PERSON, descriptor);
 
-        String expectedMessage = String.format(EditEmployeeCommand.MESSAGE_EDIT_PERSON_SUCCESS, editedEmployee);
+        String expectedMessage = String.format(EditEmployeeCommand.MESSAGE_EDIT_PERSON_SUCCESS, editedPerson);
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.updatePerson(model.getFilteredPersonList().get(0), editedEmployee);
@@ -67,7 +67,7 @@ public class EditEmployeeCommandTest {
                 .withPhone(VALID_PHONE_BOB).withTags(VALID_TAG_HUSBAND).build();
         EditEmployeeCommand editEmployeeCommand = prepareCommand(indexLastPerson, descriptor);
 
-        String expectedMessage = String.format(EditEmployeeCommand.MESSAGE_EDIT_PERSON_SUCCESS, editedEmployee);
+        String expectedMessage = String.format(EditEmployeeCommand.MESSAGE_EDIT_PERSON_SUCCESS, editedPerson);
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.updatePerson(lastEmployee, editedEmployee);
@@ -78,9 +78,9 @@ public class EditEmployeeCommandTest {
     @Test
     public void execute_noFieldSpecifiedUnfilteredList_success() {
         EditEmployeeCommand editEmployeeCommand = prepareCommand(INDEX_FIRST_PERSON, new EditPersonDescriptor());
-        Employee editedEmployee = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person editedPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
 
-        String expectedMessage = String.format(EditEmployeeCommand.MESSAGE_EDIT_PERSON_SUCCESS, editedEmployee);
+        String expectedMessage = String.format(EditEmployeeCommand.MESSAGE_EDIT_PERSON_SUCCESS, editedPerson);
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
 
@@ -91,12 +91,12 @@ public class EditEmployeeCommandTest {
     public void execute_filteredList_success() throws Exception {
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
 
-        Employee employeeInFilteredList = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        Employee editedEmployee = new EmployeeBuilder(employeeInFilteredList).withName(VALID_NAME_BOB).build();
+        Person personInFilteredList = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person editedPerson = new PersonBuilder(personInFilteredList).withName(VALID_NAME_BOB).build();
         EditEmployeeCommand editEmployeeCommand = prepareCommand(INDEX_FIRST_PERSON,
                 new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build());
 
-        String expectedMessage = String.format(EditEmployeeCommand.MESSAGE_EDIT_PERSON_SUCCESS, editedEmployee);
+        String expectedMessage = String.format(EditEmployeeCommand.MESSAGE_EDIT_PERSON_SUCCESS, editedPerson);
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.updatePerson(model.getFilteredPersonList().get(0), editedEmployee);
@@ -106,8 +106,8 @@ public class EditEmployeeCommandTest {
 
     @Test
     public void execute_duplicatePersonUnfilteredList_failure() {
-        Employee firstEmployee = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(firstEmployee).build();
+        Person firstPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(firstPerson).build();
         EditEmployeeCommand editEmployeeCommand = prepareCommand(INDEX_SECOND_PERSON, descriptor);
 
         assertCommandFailure(editEmployeeCommand, model, EditEmployeeCommand.MESSAGE_DUPLICATE_PERSON);
@@ -118,9 +118,9 @@ public class EditEmployeeCommandTest {
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
 
         // edit person in filtered list into a duplicate in address book
-        Employee employeeInList = model.getAddressBook().getEmployeeList().get(INDEX_SECOND_PERSON.getZeroBased());
+        Person personInList = model.getAddressBook().getPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
         EditEmployeeCommand editEmployeeCommand = prepareCommand(INDEX_FIRST_PERSON,
-                new EditPersonDescriptorBuilder(employeeInList).build());
+                new EditPersonDescriptorBuilder(personInList).build());
 
         assertCommandFailure(editEmployeeCommand, model, EditEmployeeCommand.MESSAGE_DUPLICATE_PERSON);
     }
@@ -156,9 +156,9 @@ public class EditEmployeeCommandTest {
         UndoRedoStack undoRedoStack = new UndoRedoStack();
         UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-        Employee editedEmployee = new EmployeeBuilder().build();
-        Employee employeeToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedEmployee).build();
+        Person editedPerson = new PersonBuilder().build();
+        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedPerson).build();
         EditEmployeeCommand editEmployeeCommand = prepareCommand(INDEX_FIRST_PERSON, descriptor);
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
 
@@ -203,13 +203,13 @@ public class EditEmployeeCommandTest {
         UndoRedoStack undoRedoStack = new UndoRedoStack();
         UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-        Employee editedEmployee = new EmployeeBuilder().build();
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedEmployee).build();
+        Person editedPerson = new PersonBuilder().build();
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedPerson).build();
         EditEmployeeCommand editEmployeeCommand = prepareCommand(INDEX_FIRST_PERSON, descriptor);
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
 
         showPersonAtIndex(model, INDEX_SECOND_PERSON);
-        Employee employeeToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         // edit -> edits second person in unfiltered person list / first person in filtered person list
         editEmployeeCommand.execute();
         undoRedoStack.push(editEmployeeCommand);

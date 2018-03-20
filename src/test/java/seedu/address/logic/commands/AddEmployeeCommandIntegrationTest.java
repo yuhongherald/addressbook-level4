@@ -34,21 +34,21 @@ public class AddEmployeeCommandIntegrationTest {
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
         expectedModel.addPerson(validEmployee);
 
-        assertCommandSuccess(prepareCommand(validEmployee, model), model,
-                String.format(AddEmployeeCommand.MESSAGE_SUCCESS, validEmployee), expectedModel);
+        assertCommandSuccess(prepareCommand(validPerson, model), model,
+                String.format(AddEmployeeCommand.MESSAGE_SUCCESS, validPerson), expectedModel);
     }
 
     @Test
     public void execute_duplicatePerson_throwsCommandException() {
-        Employee employeeInList = model.getAddressBook().getEmployeeList().get(0);
-        assertCommandFailure(prepareCommand(employeeInList, model), model, AddEmployeeCommand.MESSAGE_DUPLICATE_PERSON);
+        Person personInList = model.getAddressBook().getPersonList().get(0);
+        assertCommandFailure(prepareCommand(personInList, model), model, AddEmployeeCommand.MESSAGE_DUPLICATE_PERSON);
     }
 
     /**
      * Generates a new {@code AddEmployeeCommand} which upon execution, adds {@code person} into the {@code model}.
      */
-    private AddEmployeeCommand prepareCommand(Employee employee, Model model) {
-        AddEmployeeCommand command = new AddEmployeeCommand(employee);
+    private AddEmployeeCommand prepareCommand(Person person, Model model) {
+        AddEmployeeCommand command = new AddEmployeeCommand(person);
         command.setData(model, new CommandHistory(), new UndoRedoStack());
         return command;
     }

@@ -76,8 +76,7 @@ public class FindEmployeeCommandTest {
      */
     private FindEmployeeCommand prepareCommand(String userInput) {
         FindEmployeeCommand command =
-                new FindEmployeeCommand(new NameContainsKeywordsPredicate(
-                        Arrays.asList(userInput.split("\\s+"))));
+                new FindEmployeeCommand(new NameContainsKeywordsPredicate(Arrays.asList(userInput.split("\\s+"))));
         command.setData(model, new CommandHistory(), new UndoRedoStack());
         return command;
     }
@@ -88,8 +87,7 @@ public class FindEmployeeCommandTest {
      *     - the {@code FilteredList<Employee>} is equal to {@code expectedList}<br>
      *     - the {@code AddressBook} in model remains the same after executing the {@code command}
      */
-    private void assertCommandSuccess(FindEmployeeCommand command,
-                                      String expectedMessage, List<Employee> expectedList) {
+    private void assertCommandSuccess(FindEmployeeCommand command, String expectedMessage, List<Person> expectedList) {
         AddressBook expectedAddressBook = new AddressBook(model.getAddressBook());
         CommandResult commandResult = command.execute();
 

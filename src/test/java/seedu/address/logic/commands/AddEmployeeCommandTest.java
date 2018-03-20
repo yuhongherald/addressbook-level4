@@ -50,8 +50,8 @@ public class AddEmployeeCommandTest {
 
         CommandResult commandResult = getAddCommandForPerson(validEmployee, modelStub).execute();
 
-        assertEquals(String.format(AddEmployeeCommand.MESSAGE_SUCCESS, validEmployee), commandResult.feedbackToUser);
-        assertEquals(Arrays.asList(validEmployee), modelStub.personsAdded);
+        assertEquals(String.format(AddEmployeeCommand.MESSAGE_SUCCESS, validPerson), commandResult.feedbackToUser);
+        assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
     }
 
     @Test
@@ -72,8 +72,8 @@ public class AddEmployeeCommandTest {
 
     @Test
     public void equals() {
-        Employee alice = new EmployeeBuilder().withName("Alice").build();
-        Employee bob = new EmployeeBuilder().withName("Bob").build();
+        Person alice = new PersonBuilder().withName("Alice").build();
+        Person bob = new PersonBuilder().withName("Bob").build();
         AddEmployeeCommand addAliceCommand = new AddEmployeeCommand(alice);
         AddEmployeeCommand addBobCommand = new AddEmployeeCommand(bob);
 
@@ -97,8 +97,8 @@ public class AddEmployeeCommandTest {
     /**
      * Generates a new AddEmployeeCommand with the details of the given person.
      */
-    private AddEmployeeCommand getAddCommandForPerson(Employee employee, Model model) {
-        AddEmployeeCommand command = new AddEmployeeCommand(employee);
+    private AddEmployeeCommand getAddCommandForPerson(Person person, Model model) {
+        AddEmployeeCommand command = new AddEmployeeCommand(person);
         command.setData(model, new CommandHistory(), new UndoRedoStack());
         return command;
     }
