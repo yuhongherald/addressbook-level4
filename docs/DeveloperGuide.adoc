@@ -827,6 +827,18 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 ** User can set a custom keyword that is not used on top of the original command word. This allows them to use shorthand
 ** or a custom command word that is easy to remember.
 
+*Feature Contributions*:
+
+* Sorting the employee list. (Minor)
++
+[none]
+** The sort command arranges the employee list alphabetically according to their names.
+
+* Archiving and analysing job entries. (Major)
++
+[none]
+** User can archive that may be needed for future reference. Job entries can also be analyse to keep track of the the employees' performance.
+
 [appendix]
 == User Stories
 
@@ -884,6 +896,10 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |`* *` |user |export changes |provide feedback to employees regarding the changes
 
 |`*` |user |export completed jobs to other formats |print out all the completed job entries and view it with a better program
+
+|`**` |user |archive job entries |extract job entries within the selected range for archiving
+
+|`**` |user |analyse job entries |keep track of employees' performance
 |=======================================================================
 
 _{More to be added}_
@@ -1193,6 +1209,7 @@ Use case ends.
 +
 Use case ends.
 
+[discrete]
 === Use case: Set theme of application
 
 *MSS*
@@ -1215,6 +1232,26 @@ Use case ends.
 * 1b. The given theme index is invalid.
 [none]
 ** 1b1. CarviciM shows an error message.
++
+Use case ends.
+
+[discrete]
+=== Use case: Sort employee list
+
+*MSS*
+
+1.  User request to sort employee list.
+2.  CarviciM sorts employee list alphabetically according to their names.
++
+Use case ends.
+
+[discrete]
+=== Use case: Archiving of job entries
+
+*MSS*
+
+1.  User specifies the date range for archiving.
+2.  CarviciM extracts the job entries within the selected range and archive them.
 +
 Use case ends.
 
