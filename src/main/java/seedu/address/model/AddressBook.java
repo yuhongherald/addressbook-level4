@@ -12,10 +12,18 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
+import seedu.address.model.job.Date;
+import seedu.address.model.job.Job;
+import seedu.address.model.job.JobList;
+import seedu.address.model.job.JobNumber;
+import seedu.address.model.job.Status;
+import seedu.address.model.job.VehicleNumber;
+import seedu.address.model.person.Customer;
 import seedu.address.model.person.Employee;
 import seedu.address.model.person.UniqueEmployeeList;
 import seedu.address.model.person.exceptions.DuplicateEmployeeException;
 import seedu.address.model.person.exceptions.EmployeeNotFoundException;
+import seedu.address.model.remark.RemarkList;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
@@ -26,6 +34,7 @@ import seedu.address.model.tag.UniqueTagList;
 public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniqueEmployeeList employees;
+    private final JobList jobList;
     private final UniqueTagList tags;
 
     /*
@@ -37,23 +46,30 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     {
         employees = new UniqueEmployeeList();
+        jobList = new JobList();
         tags = new UniqueTagList();
     }
 
     public AddressBook() {}
 
     /**
-     * Creates an AddressBook using the Persons and Tags in the {@code toBeCopied}
+     * Creates an AddressBook using the Persons, Jobs and Tags in the {@code toBeCopied}
      */
     public AddressBook(ReadOnlyAddressBook toBeCopied) {
         this();
+        // For initial testing, a random job will be created for each employee
         resetData(toBeCopied);
+        createRandomJobForEachEmployee();
     }
 
     //// list overwrite operations
 
     public void setEmployees(List<Employee> employees) throws DuplicateEmployeeException {
         this.employees.setEmployees(employees);
+    }
+
+    public void setJobs(List<Job> jobs) {
+        this.jobList.setJobs(jobs);
     }
 
     public void setTags(Set<Tag> tags) {
@@ -69,6 +85,8 @@ public class AddressBook implements ReadOnlyAddressBook {
         List<Employee> syncedEmployeeList = newData.getEmployeeList().stream()
                 .map(this::syncWithMasterTagList)
                 .collect(Collectors.toList());
+        List<Job> syncedJobList = newData.getJobList();
+        setJobs(syncedJobList);
 
         try {
             setEmployees(syncedEmployeeList);
@@ -154,6 +172,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         tags.add(t);
     }
 
+    //@@author richardson0694
     /**
      * Sort all employees' name in list alphabetically.
      */
@@ -167,8 +186,32 @@ public class AddressBook implements ReadOnlyAddressBook {
         return employees;
     }
 
-    //// util methods
+    //@@author yuhongherald
+    /**
+     * Generates a random job for each employee
+     */
+    private void createRandomJobForEachEmployee() {
+        Job newJob;
+        for (Employee employee : employees) {
+            Customer customer = Customer.generateCustomer();
+            VehicleNumber vehicleNumber = new VehicleNumber("SXX0000X");
+            JobNumber jobNumber = new JobNumber();
+            Date date = new Date();
+            UniqueEmployeeList assignedEmployees = new UniqueEmployeeList();
+            try {
+                assignedEmployees.add(employee);
+            } catch (DuplicateEmployeeException e) {
+                // we just ignore
+            }
+            Status status = new Status("pending");
+            RemarkList remarks = new RemarkList();
+            newJob = new Job(customer, vehicleNumber, jobNumber, date, assignedEmployees, status, remarks);
+            jobList.add(newJob);
+        }
+    }
 
+    //// util methods
+    //@@author
     @Override
     public String toString() {
         return employees.asObservableList().size() + " employees, " + tags.asObservableList().size() +  " tags";
@@ -178,6 +221,10 @@ public class AddressBook implements ReadOnlyAddressBook {
     @Override
     public ObservableList<Employee> getEmployeeList() {
         return employees.asObservableList();
+    }
+
+    @Override public ObservableList<Job> getJobList() {
+        return jobList.asObservableList();
     }
 
     @Override

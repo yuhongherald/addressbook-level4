@@ -13,6 +13,7 @@ import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
 import seedu.address.logic.commands.CommandWords;
+import seedu.address.model.job.Job;
 import seedu.address.model.person.Employee;
 import seedu.address.model.person.exceptions.DuplicateEmployeeException;
 import seedu.address.model.person.exceptions.EmployeeNotFoundException;
@@ -26,6 +27,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     private final AddressBook addressBook;
     private final FilteredList<Employee> filteredEmployees;
+    private final FilteredList<Job> filteredJobs;
     private final CommandWords commandWords;
 
     /**
@@ -39,6 +41,7 @@ public class ModelManager extends ComponentManager implements Model {
 
         this.addressBook = new AddressBook(addressBook);
         filteredEmployees = new FilteredList<>(this.addressBook.getEmployeeList());
+        filteredJobs = new FilteredList<>(this.addressBook.getJobList());
         this.commandWords = userPrefs.getCommandWords();
     }
 
@@ -113,6 +116,10 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public ObservableList<Employee> getFilteredPersonList() {
         return FXCollections.unmodifiableObservableList(filteredEmployees);
+    }
+
+    @Override public ObservableList<Job> getFilteredJobList() {
+        return FXCollections.unmodifiableObservableList(filteredJobs);
     }
 
     @Override

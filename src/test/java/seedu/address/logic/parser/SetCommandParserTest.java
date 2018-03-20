@@ -6,15 +6,16 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSucces
 
 import org.junit.Test;
 
-import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.AddEmployeeCommand;
 import seedu.address.logic.commands.SetCommand;
 
+//@@author yuhongherald
 public class SetCommandParserTest {
     private SetCommandParser parser = new SetCommandParser();
 
     @Test
     public void parse_twoCommandWords_success() {
-        String currentWord = AddCommand.COMMAND_WORD;
+        String currentWord = AddEmployeeCommand.COMMAND_WORD;
         String newWord = getWord();
         String args = String.join(" ", currentWord, newWord);
         assertParseSuccess(parser, args, new SetCommand(currentWord, newWord));
@@ -29,7 +30,7 @@ public class SetCommandParserTest {
 
     @Test
     public void parse_oneCommandWord_failure() {
-        String currentWord = AddCommand.COMMAND_WORD;
+        String currentWord = AddEmployeeCommand.COMMAND_WORD;
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, SetCommand.MESSAGE_USAGE);
         assertParseFailure(parser, currentWord, expectedMessage);
     }

@@ -1,13 +1,19 @@
 package seedu.address.model.job;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Iterator;
+
+import java.util.List;
+import java.util.function.Predicate;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.job.exceptions.JobNotFoundException;
+import seedu.address.model.person.Employee;
 
+//@@author owzhenwei
 /**
  * A list of jobs that does not allow nulls
  */
@@ -43,6 +49,42 @@ public class JobList implements Iterable<Job> {
         return jobFoundAndDeleted;
     }
 
+    /**
+     * Returns the backing list as an unmodifiable {@code ObservableList}.
+     */
+    public ObservableList<Job> asObservableList() {
+        return FXCollections.unmodifiableObservableList(internalList);
+    }
+
+
+    public void setJobs(JobList replacement) {
+        this.internalList.setAll(replacement.internalList);
+    }
+
+    public void setJobs(List<Job> jobs) {
+        requireAllNonNull(jobs);
+        final JobList replacement = new JobList();
+        for (final Job job : jobs) {
+            replacement.add(job);
+        }
+        setJobs(replacement);
+    }
+
+    //@@author yuhongherald
+    /**
+     * Filters (@code jobList) for jobs assigned to (@code employee).
+     */
+    public static Predicate<Job> filterByEmployee(ObservableList<Job> jobList, Employee employee) {
+        Predicate<Job> predicate = new Predicate<Job>() {
+            @Override
+            public boolean test(Job job) {
+                return job.getAssignedEmployees().contains(employee);
+            }
+        };
+        return predicate;
+    }
+
+    //@@author owzhenwei
     @Override
     public Iterator<Job> iterator() {
         return internalList.iterator();
