@@ -981,6 +981,17 @@ field contents for each row. User then reviews the changes and generates a feedb
 Done by: yuhongherald
 User can set a custom keyword that is not used on top of the original command word.
 
+*Feature contribution*:
+
+- Importing job entries from an excel file (major enhancement)
+Done by: yuhongherald
+User can specify the file path to an excel file containing the job entries in columns, and header fields to indicate the
+field contents for each row. User then reviews the changes and generates a feedback document.
+
+- Setting custom command keywords (minor enhancement)
+Done by: yuhongherald
+User can set a custom keyword that is not used on top of the original command word.
+
 [appendix]
 == User Stories
 
@@ -1351,7 +1362,6 @@ Use case ends.
 +
 Use case ends.
 
-[discrete]
 === Use case: Set theme of application
 
 *MSS*
