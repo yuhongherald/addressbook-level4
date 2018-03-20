@@ -22,21 +22,21 @@ public class CommandWords implements Serializable {
      * Stores a list of COMMANDS by their command word
      */
     public static final String[] COMMANDS = {
-        AddCommand.COMMAND_WORD,
+        AddEmployeeCommand.COMMAND_WORD,
         ClearCommand.COMMAND_WORD,
-        DeleteCommand.COMMAND_WORD,
-        EditCommand.COMMAND_WORD,
+        DeleteEmployeeCommand.COMMAND_WORD,
+        EditEmployeeCommand.COMMAND_WORD,
         ExitCommand.COMMAND_WORD,
-        FindCommand.COMMAND_WORD,
+        FindEmployeeCommand.COMMAND_WORD,
         HelpCommand.COMMAND_WORD,
         HistoryCommand.COMMAND_WORD,
-        ListCommand.COMMAND_WORD,
+        ListEmployeeCommand.COMMAND_WORD,
         RedoCommand.COMMAND_WORD,
         SelectCommand.COMMAND_WORD,
         SetCommand.COMMAND_WORD,
         UndoCommand.COMMAND_WORD,
         ThemeCommand.COMMAND_WORD,
-        SortCommand.COMMAND_WORD
+        SortEmployeeCommand.COMMAND_WORD
     };
 
     public final HashMap<String, String> commands;
