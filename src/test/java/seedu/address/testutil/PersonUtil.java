@@ -7,7 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import seedu.address.logic.commands.AddEmployeeCommand;
-import seedu.address.model.person.Person;
+import seedu.address.model.person.Employee;
 
 /**
  * A utility class for Employee.
@@ -17,8 +17,8 @@ public class PersonUtil {
     /**
      * Returns an add command string for adding the {@code employee}.
      */
-    public static String getAddCommand(Person person) {
-        return AddEmployeeCommand.COMMAND_WORD + " " + getPersonDetails(person);
+    public static String getAddCommand(Employee employee) {
+        return AddEmployeeCommand.COMMAND_WORD + " " + getPersonDetails(employee);
     }
 
     /**

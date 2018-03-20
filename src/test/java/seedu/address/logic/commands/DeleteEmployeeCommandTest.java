@@ -33,10 +33,10 @@ public class DeleteEmployeeCommandTest {
 
     @Test
     public void execute_validIndexUnfilteredList_success() throws Exception {
-        Person personToDelete = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Employee employeeToDelete = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         DeleteEmployeeCommand deleteEmployeeCommand = prepareCommand(INDEX_FIRST_PERSON);
 
-        String expectedMessage = String.format(DeleteEmployeeCommand.MESSAGE_DELETE_PERSON_SUCCESS, personToDelete);
+        String expectedMessage = String.format(DeleteEmployeeCommand.MESSAGE_DELETE_PERSON_SUCCESS, employeeToDelete);
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
         expectedModel.deletePerson(employeeToDelete);
@@ -56,10 +56,10 @@ public class DeleteEmployeeCommandTest {
     public void execute_validIndexFilteredList_success() throws Exception {
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
 
-        Person personToDelete = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Employee employeeToDelete = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         DeleteEmployeeCommand deleteEmployeeCommand = prepareCommand(INDEX_FIRST_PERSON);
 
-        String expectedMessage = String.format(DeleteEmployeeCommand.MESSAGE_DELETE_PERSON_SUCCESS, personToDelete);
+        String expectedMessage = String.format(DeleteEmployeeCommand.MESSAGE_DELETE_PERSON_SUCCESS, employeeToDelete);
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
         expectedModel.deletePerson(employeeToDelete);
@@ -86,7 +86,7 @@ public class DeleteEmployeeCommandTest {
         UndoRedoStack undoRedoStack = new UndoRedoStack();
         UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-        Person personToDelete = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Employee employeeToDelete = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         DeleteEmployeeCommand deleteEmployeeCommand = prepareCommand(INDEX_FIRST_PERSON);
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
 
@@ -134,7 +134,7 @@ public class DeleteEmployeeCommandTest {
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
 
         showPersonAtIndex(model, INDEX_SECOND_PERSON);
-        Person personToDelete = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Employee employeeToDelete = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         // delete -> deletes second person in unfiltered person list / first person in filtered person list
         deleteEmployeeCommand.execute();
         undoRedoStack.push(deleteEmployeeCommand);

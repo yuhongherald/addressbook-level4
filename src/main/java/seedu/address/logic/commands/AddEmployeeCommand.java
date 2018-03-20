@@ -41,9 +41,9 @@ public class AddEmployeeCommand extends UndoableCommand {
     /**
      * Creates an AddEmployeeCommand to add the specified {@code Person}
      */
-    public AddEmployeeCommand(Person person) {
-        requireNonNull(person);
-        toAdd = person;
+    public AddEmployeeCommand(Employee employee) {
+        requireNonNull(employee);
+        toAdd = employee;
     }
 
     @Override

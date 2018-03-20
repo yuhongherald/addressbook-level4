@@ -63,7 +63,7 @@ public class AddEmployeeCommandSystemTest extends AddressBookSystemTest {
         /* Case: add a employee without tags to a non-empty address book, command with leading spaces and
          * trailing spaces -> added
          */
-        Person toAdd = AMY;
+        Employee toAdd = AMY;
         String command = "   " + AddEmployeeCommand.COMMAND_WORD + "  " + NAME_DESC_AMY + "  " + PHONE_DESC_AMY + " "
                 + EMAIL_DESC_AMY + "   " + ADDRESS_DESC_AMY + "   " + TAG_DESC_FRIEND + " ";
         assertCommandSuccess(command, toAdd);
@@ -212,7 +212,7 @@ public class AddEmployeeCommandSystemTest extends AddressBookSystemTest {
     /**
      * Performs the same verification as {@code assertCommandSuccess(Employee)}. Executes {@code command}
      * instead.
-     * @see AddEmployeeCommandSystemTest#assertCommandSuccess(Person)
+     * @see AddEmployeeCommandSystemTest#assertCommandSuccess(Employee)
      */
     private void assertCommandSuccess(String command, Employee toAdd) {
         Model expectedModel = getModel();
@@ -232,7 +232,7 @@ public class AddEmployeeCommandSystemTest extends AddressBookSystemTest {
      * 1. Result display box displays {@code expectedResultMessage}.<br>
      * 2. {@code Model}, {@code Storage} and {@code PersonListPanel} equal to the corresponding components in
      * {@code expectedModel}.<br>
-     * @see AddEmployeeCommandSystemTest#assertCommandSuccess(String, Person)
+     * @see AddEmployeeCommandSystemTest#assertCommandSuccess(String, Employee)
      */
     private void assertCommandSuccess(String command, Model expectedModel, String expectedResultMessage) {
         executeCommand(command);

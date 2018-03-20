@@ -63,7 +63,7 @@ public class EditEmployeeCommandSystemTest extends AddressBookSystemTest {
         Index index = INDEX_FIRST_PERSON;
         String command = " " + EditEmployeeCommand.COMMAND_WORD + "  " + index.getOneBased() + "  " + NAME_DESC_BOB
                 + "  " + PHONE_DESC_BOB + " " + EMAIL_DESC_BOB + "  " + ADDRESS_DESC_BOB + " " + TAG_DESC_HUSBAND + " ";
-        Person editedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
+        Employee editedEmployee = new EmployeeBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
                 .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND).build();
         assertCommandSuccess(command, index, editedEmployee);
 
@@ -87,15 +87,15 @@ public class EditEmployeeCommandSystemTest extends AddressBookSystemTest {
         /* Case: edit some fields -> edited */
         index = INDEX_FIRST_PERSON;
         command = EditEmployeeCommand.COMMAND_WORD + " " + index.getOneBased() + TAG_DESC_FRIEND;
-        Person personToEdit = getModel().getFilteredPersonList().get(index.getZeroBased());
-        editedPerson = new PersonBuilder(personToEdit).withTags(VALID_TAG_FRIEND).build();
-        assertCommandSuccess(command, index, editedPerson);
+        Employee employeeToEdit = getModel().getFilteredPersonList().get(index.getZeroBased());
+        editedEmployee = new EmployeeBuilder(employeeToEdit).withTags(VALID_TAG_FRIEND).build();
+        assertCommandSuccess(command, index, editedEmployee);
 
         /* Case: clear tags -> cleared */
         index = INDEX_FIRST_PERSON;
         command = EditEmployeeCommand.COMMAND_WORD + " " + index.getOneBased() + " " + PREFIX_TAG.getPrefix();
-        editedPerson = new PersonBuilder(personToEdit).withTags().build();
-        assertCommandSuccess(command, index, editedPerson);
+        editedEmployee = new EmployeeBuilder(employeeToEdit).withTags().build();
+        assertCommandSuccess(command, index, editedEmployee);
 
         /* ------------------ Performing edit operation while a filtered list is being shown ------------------------ */
 
@@ -104,15 +104,15 @@ public class EditEmployeeCommandSystemTest extends AddressBookSystemTest {
         index = INDEX_FIRST_PERSON;
         assertTrue(index.getZeroBased() < getModel().getFilteredPersonList().size());
         command = EditEmployeeCommand.COMMAND_WORD + " " + index.getOneBased() + " " + NAME_DESC_BOB;
-        personToEdit = getModel().getFilteredPersonList().get(index.getZeroBased());
-        editedPerson = new PersonBuilder(personToEdit).withName(VALID_NAME_BOB).build();
-        assertCommandSuccess(command, index, editedPerson);
+        employeeToEdit = getModel().getFilteredPersonList().get(index.getZeroBased());
+        editedEmployee = new EmployeeBuilder(employeeToEdit).withName(VALID_NAME_BOB).build();
+        assertCommandSuccess(command, index, editedEmployee);
 
         /* Case: filtered employee list, edit index within bounds of address book but out of bounds of employee list
          * -> rejected
          */
         showPersonsWithName(KEYWORD_MATCHING_MEIER);
-        int invalidIndex = getModel().getAddressBook().getPersonList().size();
+        int invalidIndex = getModel().getAddressBook().getEmployeeList().size();
         assertCommandFailure(EditEmployeeCommand.COMMAND_WORD + " " + invalidIndex + NAME_DESC_BOB,
                 Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
 
@@ -197,7 +197,7 @@ public class EditEmployeeCommandSystemTest extends AddressBookSystemTest {
      * Performs the same verification as {@code assertCommandSuccess(String, Index, Employee, Index)} except that
      * the browser url and selected card remain unchanged.
      * @param toEdit the index of the current model's filtered list
-     * @see EditEmployeeCommandSystemTest#assertCommandSuccess(String, Index, Person, Index)
+     * @see EditEmployeeCommandSystemTest#assertCommandSuccess(String, Index, Employee, Index)
      */
     private void assertCommandSuccess(String command, Index toEdit, Employee editedEmployee) {
         assertCommandSuccess(command, toEdit, editedEmployee, null);
@@ -224,7 +224,7 @@ public class EditEmployeeCommandSystemTest extends AddressBookSystemTest {
         }
 
         assertCommandSuccess(command, expectedModel,
-                String.format(EditEmployeeCommand.MESSAGE_EDIT_PERSON_SUCCESS, editedPerson),
+                String.format(EditEmployeeCommand.MESSAGE_EDIT_PERSON_SUCCESS, editedEmployee),
                 expectedSelectedCardIndex);
     }
 

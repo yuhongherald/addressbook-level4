@@ -62,6 +62,6 @@ public class DeleteEmployeeCommand extends UndoableCommand {
         return other == this // short circuit if same object
                 || (other instanceof DeleteEmployeeCommand // instanceof handles nulls
                 && this.targetIndex.equals(((DeleteEmployeeCommand) other).targetIndex) // state check
-                && Objects.equals(this.personToDelete, ((DeleteEmployeeCommand) other).personToDelete));
+                && Objects.equals(this.employeeToDelete, ((DeleteEmployeeCommand) other).employeeToDelete));
     }
 }
