@@ -14,9 +14,9 @@ import seedu.address.model.person.exceptions.DuplicateEmployeeException;
 /**
  * Adds a employee to the address book.
  */
-public class AddCommand extends UndoableCommand {
+public class AddEmployeeCommand extends UndoableCommand {
 
-    public static final String COMMAND_WORD = "add";
+    public static final String COMMAND_WORD = "adde";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a employee to the address book. "
             + "Parameters: "
@@ -39,11 +39,11 @@ public class AddCommand extends UndoableCommand {
     private final Employee toAdd;
 
     /**
-     * Creates an AddCommand to add the specified {@code Employee}
+     * Creates an AddEmployeeCommand to add the specified {@code Person}
      */
-    public AddCommand(Employee employee) {
-        requireNonNull(employee);
-        toAdd = employee;
+    public AddEmployeeCommand(Person person) {
+        requireNonNull(person);
+        toAdd = person;
     }
 
     @Override
@@ -61,7 +61,7 @@ public class AddCommand extends UndoableCommand {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof AddCommand // instanceof handles nulls
-                && toAdd.equals(((AddCommand) other).toAdd));
+                || (other instanceof AddEmployeeCommand // instanceof handles nulls
+                && toAdd.equals(((AddEmployeeCommand) other).toAdd));
     }
 }
