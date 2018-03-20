@@ -74,7 +74,8 @@ public class TypicalPersons {
         }
         return ab;
     }
-
+    
+    //@@author richardson0694
     /**
      * Returns an {@code AddressBook} with all the typical persons' name non alphabetically.
      */

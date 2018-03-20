@@ -153,7 +153,8 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void addTag(Tag t) throws UniqueTagList.DuplicateTagException {
         tags.add(t);
     }
-
+    
+    //@@author richardson0694
     /**
      * Sort all persons' name in list alphabetically.
      */
