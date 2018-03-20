@@ -12,18 +12,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
-import seedu.address.model.job.Date;
 import seedu.address.model.job.Job;
 import seedu.address.model.job.JobList;
-import seedu.address.model.job.JobNumber;
-import seedu.address.model.job.Status;
-import seedu.address.model.job.VehicleNumber;
-import seedu.address.model.person.Customer;
 import seedu.address.model.person.Employee;
 import seedu.address.model.person.UniqueEmployeeList;
 import seedu.address.model.person.exceptions.DuplicateEmployeeException;
 import seedu.address.model.person.exceptions.EmployeeNotFoundException;
-import seedu.address.model.remark.RemarkList;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
@@ -34,8 +28,8 @@ import seedu.address.model.tag.UniqueTagList;
 public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniqueEmployeeList employees;
-    private final JobList jobList;
     private final UniqueTagList tags;
+    private final JobList jobs;
 
     /*
      * The 'unusual' code block below is an non-static initialization block, sometimes used to avoid duplication
@@ -46,20 +40,18 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     {
         employees = new UniqueEmployeeList();
-        jobList = new JobList();
         tags = new UniqueTagList();
+        jobs = new JobList();
     }
 
     public AddressBook() {}
 
     /**
-     * Creates an AddressBook using the Persons, Jobs and Tags in the {@code toBeCopied}
+     * Creates an AddressBook using the Persons and Tags in the {@code toBeCopied}
      */
     public AddressBook(ReadOnlyAddressBook toBeCopied) {
         this();
-        // For initial testing, a random job will be created for each employee
         resetData(toBeCopied);
-        createRandomJobForEachEmployee();
     }
 
     //// list overwrite operations
@@ -69,7 +61,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     public void setJobs(List<Job> jobs) {
-        this.jobList.setJobs(jobs);
+        this.jobs.setJobs(jobs);
     }
 
     public void setTags(Set<Tag> tags) {
@@ -85,14 +77,22 @@ public class AddressBook implements ReadOnlyAddressBook {
         List<Employee> syncedEmployeeList = newData.getEmployeeList().stream()
                 .map(this::syncWithMasterTagList)
                 .collect(Collectors.toList());
-        List<Job> syncedJobList = newData.getJobList();
-        setJobs(syncedJobList);
 
         try {
             setEmployees(syncedEmployeeList);
         } catch (DuplicateEmployeeException e) {
             throw new AssertionError("AddressBooks should not have duplicate employees");
         }
+    }
+
+    //// job-level operations
+
+    //@@author whenzei
+    /**
+     * Adds a job to CarviciM.
+     */
+    public void addJob(Job job) {
+        jobs.add(job);
     }
 
     //// employee-level operations
@@ -151,7 +151,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         final Set<Tag> correctTagReferences = new HashSet<>();
         employeeTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
         return new Employee(employee.getName(), employee.getPhone(), employee.getEmail(),
-                employee.getAddress(), correctTagReferences);
+                correctTagReferences);
     }
 
     /**
@@ -186,32 +186,9 @@ public class AddressBook implements ReadOnlyAddressBook {
         return employees;
     }
 
-    //@@author yuhongherald
-    /**
-     * Generates a random job for each employee
-     */
-    private void createRandomJobForEachEmployee() {
-        Job newJob;
-        for (Employee employee : employees) {
-            Customer customer = Customer.generateCustomer();
-            VehicleNumber vehicleNumber = new VehicleNumber("SXX0000X");
-            JobNumber jobNumber = new JobNumber();
-            Date date = new Date();
-            UniqueEmployeeList assignedEmployees = new UniqueEmployeeList();
-            try {
-                assignedEmployees.add(employee);
-            } catch (DuplicateEmployeeException e) {
-                // we just ignore
-            }
-            Status status = new Status("pending");
-            RemarkList remarks = new RemarkList();
-            newJob = new Job(customer, vehicleNumber, jobNumber, date, assignedEmployees, status, remarks);
-            jobList.add(newJob);
-        }
-    }
-
-    //// util methods
     //@@author
+    //// util methods
+
     @Override
     public String toString() {
         return employees.asObservableList().size() + " employees, " + tags.asObservableList().size() +  " tags";
@@ -223,8 +200,9 @@ public class AddressBook implements ReadOnlyAddressBook {
         return employees.asObservableList();
     }
 
-    @Override public ObservableList<Job> getJobList() {
-        return jobList.asObservableList();
+    @Override
+    public ObservableList<Job> getJobList() {
+        return jobs.asObservableList();
     }
 
     @Override

@@ -1,6 +1,6 @@
 package seedu.address.logic.commands.exceptions;
 
-//@@author yuhongherald
+//@author
 /**
  * Represents an error which occurs during execution of {@link SetCommand}.
  */

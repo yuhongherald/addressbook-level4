@@ -33,8 +33,8 @@ import seedu.address.TestApp;
 import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.ClearCommand;
-import seedu.address.logic.commands.FindEmployeeCommand;
-import seedu.address.logic.commands.ListEmployeeCommand;
+import seedu.address.logic.commands.FindCommand;
+import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
@@ -140,16 +140,16 @@ public abstract class AddressBookSystemTest {
      * Displays all persons in the address book.
      */
     protected void showAllPersons() {
-        executeCommand(ListEmployeeCommand.COMMAND_WORD);
-        assertEquals(getModel().getAddressBook().getPersonList().size(), getModel().getFilteredPersonList().size());
+        executeCommand(ListCommand.COMMAND_WORD);
+        assertEquals(getModel().getAddressBook().getEmployeeList().size(), getModel().getFilteredPersonList().size());
     }
 
     /**
      * Displays all persons with any parts of their names matching {@code keyword} (case-insensitive).
      */
     protected void showPersonsWithName(String keyword) {
-        executeCommand(FindEmployeeCommand.COMMAND_WORD + " " + keyword);
-        assertTrue(getModel().getFilteredPersonList().size() < getModel().getAddressBook().getPersonList().size());
+        executeCommand(FindCommand.COMMAND_WORD + " " + keyword);
+        assertTrue(getModel().getFilteredPersonList().size() < getModel().getAddressBook().getEmployeeList().size());
     }
 
     /**

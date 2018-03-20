@@ -22,12 +22,13 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.job.Job;
+import seedu.address.model.job.exceptions.JobNotFoundException;
 import seedu.address.model.person.Employee;
 import seedu.address.model.person.exceptions.DuplicateEmployeeException;
 import seedu.address.model.person.exceptions.EmployeeNotFoundException;
 import seedu.address.testutil.EmployeeBuilder;
 
-public class AddEmployeeCommandTest {
+public class AddCommandTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -35,7 +36,7 @@ public class AddEmployeeCommandTest {
     @Test
     public void constructor_nullPerson_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
-        new AddEmployeeCommand(null);
+        new AddCommand(null);
     }
 
     @Test
@@ -50,8 +51,8 @@ public class AddEmployeeCommandTest {
 
         CommandResult commandResult = getAddCommandForPerson(validEmployee, modelStub).execute();
 
-        assertEquals(String.format(AddEmployeeCommand.MESSAGE_SUCCESS, validPerson), commandResult.feedbackToUser);
-        assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, validEmployee), commandResult.feedbackToUser);
+        assertEquals(Arrays.asList(validEmployee), modelStub.personsAdded);
     }
 
     @Test
@@ -65,23 +66,23 @@ public class AddEmployeeCommandTest {
         Employee validEmployee = new EmployeeBuilder().build();
 
         thrown.expect(CommandException.class);
-        thrown.expectMessage(AddEmployeeCommand.MESSAGE_DUPLICATE_PERSON);
+        thrown.expectMessage(AddCommand.MESSAGE_DUPLICATE_PERSON);
 
         getAddCommandForPerson(validEmployee, modelStub).execute();
     }
 
     @Test
     public void equals() {
-        Person alice = new PersonBuilder().withName("Alice").build();
-        Person bob = new PersonBuilder().withName("Bob").build();
-        AddEmployeeCommand addAliceCommand = new AddEmployeeCommand(alice);
-        AddEmployeeCommand addBobCommand = new AddEmployeeCommand(bob);
+        Employee alice = new EmployeeBuilder().withName("Alice").build();
+        Employee bob = new EmployeeBuilder().withName("Bob").build();
+        AddCommand addAliceCommand = new AddCommand(alice);
+        AddCommand addBobCommand = new AddCommand(bob);
 
         // same object -> returns true
         assertTrue(addAliceCommand.equals(addAliceCommand));
 
         // same values -> returns true
-        AddEmployeeCommand addAliceCommandCopy = new AddEmployeeCommand(alice);
+        AddCommand addAliceCommandCopy = new AddCommand(alice);
         assertTrue(addAliceCommand.equals(addAliceCommandCopy));
 
         // different types -> returns false
@@ -95,10 +96,10 @@ public class AddEmployeeCommandTest {
     }
 
     /**
-     * Generates a new AddEmployeeCommand with the details of the given person.
+     * Generates a new AddCommand with the details of the given employee.
      */
-    private AddEmployeeCommand getAddCommandForPerson(Person person, Model model) {
-        AddEmployeeCommand command = new AddEmployeeCommand(person);
+    private AddCommand getAddCommandForPerson(Employee employee, Model model) {
+        AddCommand command = new AddCommand(employee);
         command.setData(model, new CommandHistory(), new UndoRedoStack());
         return command;
     }
@@ -135,6 +136,16 @@ public class AddEmployeeCommandTest {
         }
 
         @Override
+        public void addJob(Job job) {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public void closeJob(Job target) throws JobNotFoundException {
+            fail("This method should not be called.");
+        }
+
+        @Override
         public void deletePerson(Employee target) throws EmployeeNotFoundException {
             fail("This method should not be called.");
         }
@@ -156,13 +167,19 @@ public class AddEmployeeCommandTest {
             return null;
         }
 
-        @Override public ObservableList<Job> getFilteredJobList() {
+        @Override
+        public void updateFilteredPersonList(Predicate<Employee> predicate) {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Job> getFilteredJobList() {
             fail("This method should not be called.");
             return null;
         }
 
         @Override
-        public void updateFilteredPersonList(Predicate<Employee> predicate) {
+        public void updateFilteredJobList(Predicate<Job> predicate) {
             fail("This method should not be called.");
         }
     }
