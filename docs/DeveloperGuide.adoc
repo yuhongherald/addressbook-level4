@@ -236,9 +236,9 @@ This section describes some noteworthy details on how certain features are imple
 
 Set command keeps 2 lists of command words, the default command words and the custom user command words, which are both managed by the class `CommandWords`.
 
-The default command words are stored as a class level reference `COMMANDS`, while the custom command words are stored as a field `commands` in the object. 
+The default command words are stored as a class level reference `COMMANDS`, while the custom command words are stored as a field `commands` in the object.
 
-`CommandWords` is in the `Logic` component, under `Commands`, as it is required to parse commands in `AddressBookParser`. 
+`CommandWords` is in the `Logic` component, under `Commands`, as it is required to parse commands in `AddressBookParser`.
 
 `CommandWords` only deal with commands that have their default command word declared in the class level reference.
 
