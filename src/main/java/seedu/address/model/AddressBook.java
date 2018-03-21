@@ -59,7 +59,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         this();
         // For initial testing, a random job will be created for each employee
         resetData(toBeCopied);
-        createRandomJobForEachEmployee();
+        //createRandomJobForEachEmployee();
     }
 
     //// list overwrite operations
