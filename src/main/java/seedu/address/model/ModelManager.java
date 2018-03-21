@@ -14,6 +14,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
 import seedu.address.logic.commands.CommandWords;
 import seedu.address.model.job.Job;
+import seedu.address.model.job.exceptions.JobNotFoundException;
 import seedu.address.model.person.Employee;
 import seedu.address.model.person.exceptions.DuplicateEmployeeException;
 import seedu.address.model.person.exceptions.EmployeeNotFoundException;
@@ -80,6 +81,14 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
+    public synchronized void addJob(Job job) {
+    }
+
+    @Override
+    public synchronized void closeJob(Job target) throws JobNotFoundException {
+    }
+
+    @Override
     public synchronized void deletePerson(Employee target) throws EmployeeNotFoundException {
         addressBook.removeEmployee(target);
         indicateAddressBookChanged();
@@ -118,14 +127,27 @@ public class ModelManager extends ComponentManager implements Model {
         return FXCollections.unmodifiableObservableList(filteredEmployees);
     }
 
-    @Override public ObservableList<Job> getFilteredJobList() {
-        return FXCollections.unmodifiableObservableList(filteredJobs);
-    }
-
     @Override
     public void updateFilteredPersonList(Predicate<Employee> predicate) {
         requireNonNull(predicate);
         filteredEmployees.setPredicate(predicate);
+    }
+
+    //=========== Filtered Job List Accessors =============================================================
+
+    /**
+     * Returns an unmodifiable view of the list of {@code Job} backed by the internal list of
+     * {@code addressBook}
+     */
+    @Override
+    public ObservableList<Job> getFilteredJobList() {
+        return FXCollections.unmodifiableObservableList(filteredJobs);
+    }
+
+    @Override
+    public void updateFilteredJobList(Predicate<Job> predicate) {
+        requireNonNull(predicate);
+        filteredJobs.setPredicate(predicate);
     }
 
     @Override
@@ -144,6 +166,7 @@ public class ModelManager extends ComponentManager implements Model {
         ModelManager other = (ModelManager) obj;
         return addressBook.equals(other.addressBook)
                 && filteredEmployees.equals(other.filteredEmployees)
+                && filteredJobs.equals(other.filteredJobs)
                 && commandWords.equals(other.getCommandWords());
     }
 

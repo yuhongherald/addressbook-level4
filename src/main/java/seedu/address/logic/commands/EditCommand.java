@@ -1,7 +1,6 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
@@ -19,7 +18,6 @@ import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Employee;
 import seedu.address.model.person.Name;
@@ -31,9 +29,9 @@ import seedu.address.model.tag.Tag;
 /**
  * Edits the details of an existing employee in the address book.
  */
-public class EditEmployeeCommand extends UndoableCommand {
+public class EditCommand extends UndoableCommand {
 
-    public static final String COMMAND_WORD = "edite";
+    public static final String COMMAND_WORD = "edit";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the employee identified "
             + "by the index number used in the last employee listing. "
@@ -42,7 +40,6 @@ public class EditEmployeeCommand extends UndoableCommand {
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
-            + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
@@ -62,7 +59,7 @@ public class EditEmployeeCommand extends UndoableCommand {
      * @param index of the employee in the filtered employee list to edit
      * @param editPersonDescriptor details to edit the employee with
      */
-    public EditEmployeeCommand(Index index, EditPersonDescriptor editPersonDescriptor) {
+    public EditCommand(Index index, EditPersonDescriptor editPersonDescriptor) {
         requireNonNull(index);
         requireNonNull(editPersonDescriptor);
 
@@ -105,10 +102,9 @@ public class EditEmployeeCommand extends UndoableCommand {
         Name updatedName = editPersonDescriptor.getName().orElse(employeeToEdit.getName());
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(employeeToEdit.getPhone());
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(employeeToEdit.getEmail());
-        Address updatedAddress = editPersonDescriptor.getAddress().orElse(employeeToEdit.getAddress());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(employeeToEdit.getTags());
 
-        return new Employee(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+        return new Employee(updatedName, updatedPhone, updatedEmail, updatedTags);
     }
 
     @Override
@@ -119,12 +115,12 @@ public class EditEmployeeCommand extends UndoableCommand {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof EditEmployeeCommand)) {
+        if (!(other instanceof EditCommand)) {
             return false;
         }
 
         // state check
-        EditEmployeeCommand e = (EditEmployeeCommand) other;
+        EditCommand e = (EditCommand) other;
         return index.equals(e.index)
                 && editPersonDescriptor.equals(e.editPersonDescriptor)
                 && Objects.equals(employeeToEdit, e.employeeToEdit);
@@ -138,7 +134,6 @@ public class EditEmployeeCommand extends UndoableCommand {
         private Name name;
         private Phone phone;
         private Email email;
-        private Address address;
         private Set<Tag> tags;
 
         public EditPersonDescriptor() {}
@@ -151,7 +146,6 @@ public class EditEmployeeCommand extends UndoableCommand {
             setName(toCopy.name);
             setPhone(toCopy.phone);
             setEmail(toCopy.email);
-            setAddress(toCopy.address);
             setTags(toCopy.tags);
         }
 
@@ -159,7 +153,7 @@ public class EditEmployeeCommand extends UndoableCommand {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(this.name, this.phone, this.email, this.address, this.tags);
+            return CollectionUtil.isAnyNonNull(this.name, this.phone, this.email, this.tags);
         }
 
         public void setName(Name name) {
@@ -184,14 +178,6 @@ public class EditEmployeeCommand extends UndoableCommand {
 
         public Optional<Email> getEmail() {
             return Optional.ofNullable(email);
-        }
-
-        public void setAddress(Address address) {
-            this.address = address;
-        }
-
-        public Optional<Address> getAddress() {
-            return Optional.ofNullable(address);
         }
 
         /**
@@ -229,7 +215,6 @@ public class EditEmployeeCommand extends UndoableCommand {
             return getName().equals(e.getName())
                     && getPhone().equals(e.getPhone())
                     && getEmail().equals(e.getEmail())
-                    && getAddress().equals(e.getAddress())
                     && getTags().equals(e.getTags());
         }
     }

@@ -46,8 +46,7 @@ public class LogicManager extends ComponentManager implements Logic {
         }
     }
 
-    @Override
-    public String appendCommandKeyToMessage(String message) {
+    @Override public String appendCommandKeyToMessage(String message) {
         return model.appendCommandKeyToMessage(message);
     }
 
@@ -56,7 +55,8 @@ public class LogicManager extends ComponentManager implements Logic {
         return model.getFilteredPersonList();
     }
 
-    @Override public ObservableList<Job> getFilteredJobList() {
+    @Override
+    public ObservableList<Job> getFilteredJobList() {
         return model.getFilteredJobList();
     }
 
