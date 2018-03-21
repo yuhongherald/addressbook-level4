@@ -67,9 +67,6 @@ public interface Model {
      */
     void updateFilteredPersonList(Predicate<Employee> predicate);
 
-    /** Returns an unmodifiable view of the filtered job list */
-    ObservableList<Job> getFilteredJobList();
-
     /**
      * Updates the filter of the filtered job list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
