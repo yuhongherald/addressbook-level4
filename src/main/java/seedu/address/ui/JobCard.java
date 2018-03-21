@@ -42,7 +42,7 @@ public class JobCard extends UiPart<Region> {
         super(FXML);
         this.job = job;
         id.setText(job.getJobNumber().toString() + ". ");
-        customer.setText(job.getCustomer().getName().toString());
+        customer.setText(job.getClient().getName().toString());
         job.getAssignedEmployees().forEach(employee -> employees.getChildren().add(
                 new Label(employee.getName().toString())));
         vehicleNumber.setText(job.getVehicleNumber().toString());
