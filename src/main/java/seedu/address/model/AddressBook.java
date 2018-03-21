@@ -34,8 +34,8 @@ import seedu.address.model.tag.UniqueTagList;
 public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniqueEmployeeList employees;
-    private final JobList jobList;
     private final UniqueTagList tags;
+    private final JobList jobs;
 
     /*
      * The 'unusual' code block below is an non-static initialization block, sometimes used to avoid duplication
@@ -46,8 +46,8 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     {
         employees = new UniqueEmployeeList();
-        jobList = new JobList();
         tags = new UniqueTagList();
+        jobs = new JobList();
     }
 
     public AddressBook() {}
@@ -69,7 +69,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     public void setJobs(List<Job> jobs) {
-        this.jobList.setJobs(jobs);
+        this.jobs.setJobs(jobs);
     }
 
     public void setTags(Set<Tag> tags) {
@@ -93,6 +93,16 @@ public class AddressBook implements ReadOnlyAddressBook {
         } catch (DuplicateEmployeeException e) {
             throw new AssertionError("AddressBooks should not have duplicate employees");
         }
+    }
+
+    //// job-level operations
+
+    //@@author whenzei
+    /**
+     * Adds a job to CarviciM.
+     */
+    public void addJob(Job job) {
+        jobs.add(job);
     }
 
     //// employee-level operations
@@ -151,7 +161,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         final Set<Tag> correctTagReferences = new HashSet<>();
         employeeTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
         return new Employee(employee.getName(), employee.getPhone(), employee.getEmail(),
-                employee.getAddress(), correctTagReferences);
+                correctTagReferences);
     }
 
     /**
@@ -172,6 +182,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         tags.add(t);
     }
 
+    //@@author richardson0694
     /**
      * Sort all employees' name in list alphabetically.
      */
@@ -205,7 +216,7 @@ public class AddressBook implements ReadOnlyAddressBook {
             Status status = new Status("pending");
             RemarkList remarks = new RemarkList();
             newJob = new Job(customer, vehicleNumber, jobNumber, date, assignedEmployees, status, remarks);
-            jobList.add(newJob);
+            jobs.add(newJob);
         }
     }
 
@@ -223,7 +234,12 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     @Override public ObservableList<Job> getJobList() {
-        return jobList.asObservableList();
+        return jobs.asObservableList();
+    }
+
+    @Override
+    public ObservableList<Job> getJobList() {
+        return jobs.asObservableList();
     }
 
     @Override

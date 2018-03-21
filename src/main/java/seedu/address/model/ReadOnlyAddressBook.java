@@ -28,4 +28,8 @@ public interface ReadOnlyAddressBook {
      */
     ObservableList<Tag> getTagList();
 
+    /**
+     * Returns an unmodifiable view of the jobs list.
+     */
+    ObservableList<Job> getJobList();
 }
