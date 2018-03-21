@@ -70,19 +70,6 @@ public class JobList implements Iterable<Job> {
         return FXCollections.unmodifiableObservableList(internalList);
     }
 
-    public void setJobs(JobList replacement) {
-        this.internalList.setAll(replacement.internalList);
-    }
-
-    public void setJobs(List<Job> jobs) {
-        requireAllNonNull(jobs);
-        final JobList replacement = new JobList();
-        for (final Job job : jobs) {
-            replacement.add(job);
-        }
-        setJobs(replacement);
-    }
-
     //@@author yuhongherald
     /**
      * Filters (@code jobList) for jobs assigned to (@code employee).
