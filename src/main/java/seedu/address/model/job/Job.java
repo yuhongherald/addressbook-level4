@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
-import seedu.address.model.person.Customer;
 import seedu.address.model.person.Employee;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniqueEmployeeList;
