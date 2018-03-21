@@ -10,7 +10,7 @@ public class Customer extends Person {
      * Every field must be present and not null.
      */
     public Customer(Name name, Phone phone, Email email, Address address) {
-        super(name, phone, email, address);
+        super(name, phone, email);
     }
 
     /**
