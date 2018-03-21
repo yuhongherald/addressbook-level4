@@ -127,10 +127,6 @@ public class ModelManager extends ComponentManager implements Model {
         return FXCollections.unmodifiableObservableList(filteredEmployees);
     }
 
-    @Override public ObservableList<Job> getFilteredJobList() {
-        return FXCollections.unmodifiableObservableList(filteredJobs);
-    }
-
     @Override
     public void updateFilteredPersonList(Predicate<Employee> predicate) {
         requireNonNull(predicate);
