@@ -13,15 +13,19 @@ import seedu.address.model.remark.RemarkList;
 /**
  * Represents a job entry in an (@link ImportSession)
  */
-public class JobEntry extends Job {
+public class JobEntry extends Job implements ExcelRowReference {
+    private final int sheetNumber;
+    private final int rowNumber;
 
     private boolean reviewed;
     private boolean approved;
     private String comments;
 
-    JobEntry(Person client, VehicleNumber vehicleNumber, JobNumber jobNumber, Date date,
-                    UniqueEmployeeList assignedEmployees, Status status, RemarkList remarks) {
+    JobEntry (Person client, VehicleNumber vehicleNumber, JobNumber jobNumber, Date date,
+              UniqueEmployeeList assignedEmployees, Status status, RemarkList remarks, int sheetNumber, int rowNumber) {
         super(client, vehicleNumber, jobNumber, date, assignedEmployees, status, remarks);
+        this.sheetNumber = sheetNumber;
+        this.rowNumber = rowNumber;
         reviewed = false;
     }
 
@@ -45,5 +49,13 @@ public class JobEntry extends Job {
 
     public String getComments() {
         return comments;
+    }
+
+    @Override public int getSheetNumber() {
+        return sheetNumber;
+    }
+
+    @Override public int getRowNumber() {
+        return rowNumber;
     }
 }

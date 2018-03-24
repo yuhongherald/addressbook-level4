@@ -7,6 +7,8 @@ import java.util.ArrayList;
  */
 public class SessionData {
     public static final String COMMENT_FORMAT = "[A-Za-z0-9]+";
+    public static final String ERROR_MESSAGE_OUT_OF_BOUNDS = "Expected index 0 to %d, but got %d";
+    public static final String ERROR_MESSAGE_EMPTY_UNREVIWED_JOB_LIST = "There are no unreviewed job entries left!";
     private final ArrayList<JobEntry> unreviewedJobEntries;
     private final ArrayList<JobEntry> reviewedJobEntries;
     // will be using an ObservableList
@@ -42,13 +44,14 @@ public class SessionData {
      */
     public void reviewJobEntry(int listIndex, boolean approved, String comments) {
         if (unreviewedJobEntries.isEmpty()) {
-            // @TODO throw exception
+            throw new IllegalStateException(ERROR_MESSAGE_EMPTY_UNREVIWED_JOB_LIST);
         } else if (listIndex < 0 || listIndex >= unreviewedJobEntries.size()) {
-            // @TODO throw exception
+            throw new ArrayIndexOutOfBoundsException(
+                    String.format(ERROR_MESSAGE_OUT_OF_BOUNDS, unreviewedJobEntries.size(), listIndex));
         }
 
         if (!comments.matches(COMMENT_FORMAT)) {
-            // @TODO throw exception comment must be alphanumeric
+            //throw new ArgumentE
         }
 
         JobEntry jobEntry = unreviewedJobEntries.get(listIndex);
