@@ -1,7 +1,7 @@
 package seedu.address.model.session;
 
 /**
- *
+ * For row entries of an excel sheet
  */
 public interface ExcelRowReference {
 

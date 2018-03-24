@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import java.util.HashMap;
+
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -17,8 +19,12 @@ import seedu.address.model.session.exceptions.InitializeSessionException;
  * exporting (@code Job) with commens to (@code outFile)
  */
 public class ImportSession {
-    // NOTE: currently writing to support single sheet excel files
-    private static final String FILE_NAME = "/tmp/MyFirstExcel.xlsx";
+    public static final String[] JOB_ENTRY_COMPULSORY_FIELDS = { // ignore case when reading headings
+        "Client name", "Client phone", "Client email", "Vehicle number", "Assigned Employees"
+    };
+    public static final String[] JOB_ENTRY_OPTIONAL_FIELDS = { // ignore case when reading headings
+        "Job number", "Date", "Status", "Remarks"
+    };
     private static ImportSession session;
 
     private boolean initialized;
@@ -27,6 +33,7 @@ public class ImportSession {
     private Workbook outWorkbook;
     private SessionData sessionData;
     private File outFile;
+    private HashMap<String, RowData> rowData;
 
     private ImportSession() {
         initialized = false;
@@ -63,7 +70,6 @@ public class ImportSession {
         } else if (!file.canRead()) {
             throw  new InitializeSessionException("Please enable file read permission.");
         }
-        Workbook workbook;
         try {
             inWorkbook = createWorkBook(file);
             outWorkbook = createWorkBook(file);
@@ -75,6 +81,15 @@ public class ImportSession {
         }
         // the file is good to go
         inFile = file;
+        initializeSessionData();
+    }
+
+    /**
+     *
+     */
+    public void initializeSessionData() {
+        sessionData = new SessionData();
+
     }
 
     /**

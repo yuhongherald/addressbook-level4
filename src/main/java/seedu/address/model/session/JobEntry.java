@@ -44,7 +44,7 @@ public class JobEntry extends Job implements ExcelRowReference {
      */
     public void review(boolean approved, String comments) {
         this.approved = approved;
-        this.comments = comments;
+        this.comments = comments; // TODO: remember to add to remarkslist when its online
     }
 
     public String getComments() {
