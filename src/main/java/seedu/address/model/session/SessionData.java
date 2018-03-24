@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import seedu.address.model.session.exceptions.DataIndexOutOfBoundsException;
 
+//@@author yuhongherald
 /**
  * A data structure used to keep track of job entries in an (@code ImportSession)
  */

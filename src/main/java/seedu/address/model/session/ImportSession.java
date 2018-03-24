@@ -11,7 +11,8 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-import seedu.address.model.session.exceptions.InitializeSessionException;
+import seedu.address.model.session.exceptions.FileAccessException;
+import seedu.address.model.session.exceptions.FileFormatException;
 
 //@@author yuhongherald
 /**
@@ -58,26 +59,26 @@ public class ImportSession {
     }
 
     /**
-     *
+     *  Opens excel file specified by (@code filepath) and initializes (@code SessionData) to support import operations
      */
-    public void initializeSession(String filePath) throws InitializeSessionException {
+    public void initializeSession(String filePath) throws FileAccessException, FileFormatException {
         if (inFile != null) {
-            throw new InitializeSessionException("An excel file is already open.");
+            throw new FileAccessException("An excel file is already open.");
         }
         File file = new File (filePath);
         if (!file.exists()) {
-            throw new InitializeSessionException("Please check the path to your file.");
+            throw new FileAccessException("Please check the path to your file.");
         } else if (!file.canRead()) {
-            throw  new InitializeSessionException("Please enable file read permission.");
+            throw new FileFormatException("Please enable file read permission.");
         }
         try {
             inWorkbook = createWorkBook(file);
             outWorkbook = createWorkBook(file);
         } catch (InvalidFormatException e) {
-            throw new InitializeSessionException("Unable to read the format of file. "
+            throw new FileFormatException("Unable to read the format of file. "
                     + "Please ensure the file is in .xls or .xlsx format");
         } catch (IOException e) {
-            throw new InitializeSessionException("Unable to read file. Please close the file and try again.");
+            throw new FileFormatException("Unable to read file. Please close the file and try again.");
         }
         // the file is good to go
         inFile = file;
@@ -85,15 +86,20 @@ public class ImportSession {
     }
 
     /**
-     *
+     * Attempts to parse the column headers and retrieve job entries
      */
     public void initializeSessionData() {
         sessionData = new SessionData();
-
+        for (String field : JOB_ENTRY_COMPULSORY_FIELDS) {
+            ;
+        }
+        for (String field : JOB_ENTRY_OPTIONAL_FIELDS) {
+            ;
+        }
     }
 
     /**
-     *
+     * Attempts to create a (@code Workbook) for a given (@code File)
      */
     private Workbook createWorkBook(File file) throws IOException, InvalidFormatException {
         Workbook workbook = WorkbookFactory.create(file);
@@ -138,7 +144,9 @@ public class ImportSession {
         try {
             importSession.initializeSession(
                     ".\\src\\test\\resources\\model.session.ImportSessionTest\\CS2103-testsheet.xlsx");
-        } catch (InitializeSessionException e) {
+        } catch (FileAccessException e) {
+            e.printStackTrace();
+        } catch (FileFormatException e) {
             e.printStackTrace();
         }
 
