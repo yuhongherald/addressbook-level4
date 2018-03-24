@@ -1,13 +1,17 @@
 package seedu.address.model.session;
 
+import static seedu.address.model.session.JobEntry.readJobEntry;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import java.util.HashMap;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
@@ -34,7 +38,7 @@ public class ImportSession {
     private Workbook outWorkbook;
     private SessionData sessionData;
     private File outFile;
-    private HashMap<String, RowData> rowData;
+    private ArrayList<HashMap<String, RowData>> rowData;
 
     private ImportSession() {
         initialized = false;
@@ -88,13 +92,28 @@ public class ImportSession {
     /**
      * Attempts to parse the column headers and retrieve job entries
      */
-    public void initializeSessionData() {
+    public void initializeSessionData() throws FileFormatException {
+        rowData = new ArrayList<>();
+        HashMap<String, RowData> sheetRowData;
+        Sheet sheet;
+        JobEntry jobEntry;
         sessionData = new SessionData();
-        for (String field : JOB_ENTRY_COMPULSORY_FIELDS) {
-            ;
-        }
-        for (String field : JOB_ENTRY_OPTIONAL_FIELDS) {
-            ;
+
+        for (int i = 0; i < inWorkbook.getNumberOfSheets(); i++) {
+            sheet = inWorkbook.getSheetAt(i);
+            sheetRowData = new HashMap<>();
+            //TODO: Extract row data initialization
+            for (String field : JOB_ENTRY_COMPULSORY_FIELDS) {
+                ;
+            }
+            for (String field : JOB_ENTRY_OPTIONAL_FIELDS) {
+                ;
+            }
+            rowData.add(sheetRowData);
+            for (int j = 0; j < sheet.getPhysicalNumberOfRows(); j++) {
+                jobEntry = readJobEntry(sheet, sheetRowData, j);
+                sessionData.addUnreviewedJobEntry(jobEntry);
+            }
         }
     }
 

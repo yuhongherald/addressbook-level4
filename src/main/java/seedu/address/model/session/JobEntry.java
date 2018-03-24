@@ -1,5 +1,9 @@
 package seedu.address.model.session;
 
+import java.util.HashMap;
+
+import org.apache.poi.ss.usermodel.Sheet;
+
 import seedu.address.model.job.Date;
 import seedu.address.model.job.Job;
 import seedu.address.model.job.JobNumber;
@@ -27,6 +31,14 @@ public class JobEntry extends Job implements ExcelRowReference {
         this.sheetNumber = sheetNumber;
         this.rowNumber = rowNumber;
         reviewed = false;
+    }
+
+    /**
+     * Creates a job entry from an excel (@code sheet) using column headers specified in (@code sheetRowData)
+     * from (@code row)
+     */
+    static JobEntry readJobEntry(Sheet sheet, HashMap<String, RowData> sheetRowData, int row) {
+        return null;
     }
 
     public boolean isReviewed() {
