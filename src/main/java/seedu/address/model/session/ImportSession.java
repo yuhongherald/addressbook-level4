@@ -17,6 +17,7 @@ import seedu.address.model.session.exceptions.InitializeSessionException;
  * exporting (@code Job) with commens to (@code outFile)
  */
 public class ImportSession {
+    // NOTE: currently writing to support single sheet excel files
     private static final String FILE_NAME = "/tmp/MyFirstExcel.xlsx";
     private static ImportSession session;
 
@@ -24,6 +25,7 @@ public class ImportSession {
     private File inFile;
     private Workbook inWorkbook;
     private Workbook outWorkbook;
+    private SessionData sessionData;
     private File outFile;
 
     private ImportSession() {
