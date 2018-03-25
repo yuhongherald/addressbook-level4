@@ -233,10 +233,6 @@ public class AddressBook implements ReadOnlyAddressBook {
         return employees.asObservableList();
     }
 
-    @Override public ObservableList<Job> getJobList() {
-        return jobs.asObservableList();
-    }
-
     @Override
     public ObservableList<Job> getJobList() {
         return jobs.asObservableList();
