@@ -1,14 +1,13 @@
 package seedu.address.model.session;
 
 import static seedu.address.model.session.JobEntry.readJobEntry;
+import static seedu.address.model.session.SheetHeaderFields.createHeaderField;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
-import java.util.HashMap;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -21,15 +20,9 @@ import seedu.address.model.session.exceptions.FileFormatException;
 //@@author yuhongherald
 /**
  * Used to store data relevant to importing of (@code Job) from (@code inFile) and
- * exporting (@code Job) with commens to (@code outFile)
+ * exporting (@code Job) with commens to (@code outFile). Implements a Singleton design pattern.
  */
 public class ImportSession {
-    public static final String[] JOB_ENTRY_COMPULSORY_FIELDS = { // ignore case when reading headings
-        "Client name", "Client phone", "Client email", "Vehicle number", "Assigned Employees"
-    };
-    public static final String[] JOB_ENTRY_OPTIONAL_FIELDS = { // ignore case when reading headings
-        "Job number", "Date", "Status", "Remarks"
-    };
     private static ImportSession session;
 
     private boolean initialized;
@@ -38,7 +31,7 @@ public class ImportSession {
     private Workbook outWorkbook;
     private SessionData sessionData;
     private File outFile;
-    private ArrayList<HashMap<String, RowData>> rowData;
+    private ArrayList<SheetHeaderFields> headerFields;
 
     private ImportSession() {
         initialized = false;
@@ -93,25 +86,18 @@ public class ImportSession {
      * Attempts to parse the column headers and retrieve job entries
      */
     public void initializeSessionData() throws FileFormatException {
-        rowData = new ArrayList<>();
-        HashMap<String, RowData> sheetRowData;
+        ArrayList<SheetHeaderFields> headerFields = new ArrayList<>();
+        SheetHeaderFields sheetHeaderFields;
         Sheet sheet;
         JobEntry jobEntry;
         sessionData = new SessionData();
 
         for (int i = 0; i < inWorkbook.getNumberOfSheets(); i++) {
-            sheet = inWorkbook.getSheetAt(i);
-            sheetRowData = new HashMap<>();
-            //TODO: Extract row data initialization
-            for (String field : JOB_ENTRY_COMPULSORY_FIELDS) {
-                ;
-            }
-            for (String field : JOB_ENTRY_OPTIONAL_FIELDS) {
-                ;
-            }
-            rowData.add(sheetRowData);
+            sheet = inWorkbook.getSheetAt(inWorkbook.getFirstVisibleTab() + i);
+            sheetHeaderFields = createHeaderField(sheet);
+            //createRowData(sheet);
             for (int j = 0; j < sheet.getPhysicalNumberOfRows(); j++) {
-                jobEntry = readJobEntry(sheet, sheetRowData, j);
+                jobEntry = readJobEntry(sheet, sheetHeaderFields, sheet.getFirstRowNum() + 1 + j);
                 sessionData.addUnreviewedJobEntry(jobEntry);
             }
         }
