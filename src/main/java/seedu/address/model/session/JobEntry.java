@@ -25,20 +25,12 @@ public class JobEntry extends Job implements ExcelRowReference {
     private boolean approved;
     private String comments;
 
-    JobEntry (Person client, VehicleNumber vehicleNumber, JobNumber jobNumber, Date date,
+    public JobEntry (Person client, VehicleNumber vehicleNumber, JobNumber jobNumber, Date date,
               UniqueEmployeeList assignedEmployees, Status status, RemarkList remarks, int sheetNumber, int rowNumber) {
         super(client, vehicleNumber, jobNumber, date, assignedEmployees, status, remarks);
         this.sheetNumber = sheetNumber;
         this.rowNumber = rowNumber;
         reviewed = false;
-    }
-
-    /**
-     * Creates a job entry from an excel (@code sheet) using column headers specified in (@code sheetRowData)
-     * from (@code row)
-     */
-    static JobEntry readJobEntry(Sheet sheet, HashMap<String, RowData> sheetRowData, int row) {
-        return null;
     }
 
     public boolean isReviewed() {

@@ -1,6 +1,7 @@
 package seedu.address.model.session;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import seedu.address.model.session.exceptions.DataIndexOutOfBoundsException;
 
@@ -13,12 +14,14 @@ public class SessionData {
 
     private final ArrayList<JobEntry> unreviewedJobEntries;
     private final ArrayList<JobEntry> reviewedJobEntries;
+    private final ArrayList<SheetWithHeaderFields> headerFields;
 
     // will be using an ObservableList
 
     SessionData() {
         unreviewedJobEntries = new ArrayList<>();
         reviewedJobEntries = new ArrayList<>();
+        headerFields = new ArrayList<>();
     }
 
     /**
@@ -35,8 +38,14 @@ public class SessionData {
         return new ArrayList<>(reviewedJobEntries);
     }
 
-    public void addUnreviewedJobEntry(JobEntry jobEntry) {
-        unreviewedJobEntries.add(jobEntry);
+    /**
+     * Adds job entries from (@code sheetWithHeaderFields) into (@code SessionData)
+     */
+    public void addUnreviewedJobEntries(SheetWithHeaderFields sheetHeaderFields) {
+        Iterator<JobEntry> jobEntryIterator = sheetHeaderFields.iterator();
+        while (jobEntryIterator.hasNext()) {
+            unreviewedJobEntries.add(jobEntryIterator.next());
+        }
     }
 
     /**

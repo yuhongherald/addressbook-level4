@@ -1,12 +1,8 @@
 package seedu.address.model.session;
 
-import static seedu.address.model.session.JobEntry.readJobEntry;
-import static seedu.address.model.session.SheetHeaderFields.createHeaderField;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -27,11 +23,9 @@ public class ImportSession {
 
     private boolean initialized;
     private File inFile;
-    private Workbook inWorkbook;
-    private Workbook outWorkbook;
+    private Workbook workbook; // write comments to column after last row, with approval status
     private SessionData sessionData;
     private File outFile;
-    private ArrayList<SheetHeaderFields> headerFields;
 
     private ImportSession() {
         initialized = false;
@@ -69,8 +63,7 @@ public class ImportSession {
             throw new FileFormatException("Please enable file read permission.");
         }
         try {
-            inWorkbook = createWorkBook(file);
-            outWorkbook = createWorkBook(file);
+            workbook = createWorkBook(file);
         } catch (InvalidFormatException e) {
             throw new FileFormatException("Unable to read the format of file. "
                     + "Please ensure the file is in .xls or .xlsx format");
@@ -85,21 +78,17 @@ public class ImportSession {
     /**
      * Attempts to parse the column headers and retrieve job entries
      */
-    public void initializeSessionData() throws FileFormatException {
-        ArrayList<SheetHeaderFields> headerFields = new ArrayList<>();
-        SheetHeaderFields sheetHeaderFields;
+    private void initializeSessionData() throws FileFormatException {
+        SheetWithHeaderFields sheetWithHeaderFields;
+        SheetParser sheetParser;
         Sheet sheet;
-        JobEntry jobEntry;
         sessionData = new SessionData();
 
-        for (int i = 0; i < inWorkbook.getNumberOfSheets(); i++) {
-            sheet = inWorkbook.getSheetAt(inWorkbook.getFirstVisibleTab() + i);
-            sheetHeaderFields = createHeaderField(sheet);
-            //createRowData(sheet);
-            for (int j = 0; j < sheet.getPhysicalNumberOfRows(); j++) {
-                jobEntry = readJobEntry(sheet, sheetHeaderFields, sheet.getFirstRowNum() + 1 + j);
-                sessionData.addUnreviewedJobEntry(jobEntry);
-            }
+        for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
+            sheet = workbook.getSheetAt(workbook.getFirstVisibleTab() + i);
+            sheetParser = new SheetParser(sheet);
+            sheetWithHeaderFields = sheetParser.parseSheetWithHeaderField();
+            sessionData.addUnreviewedJobEntries(sheetWithHeaderFields);
         }
     }
 
@@ -108,14 +97,11 @@ public class ImportSession {
      */
     private Workbook createWorkBook(File file) throws IOException, InvalidFormatException {
         Workbook workbook = WorkbookFactory.create(file);
-
-        // Retrieving the number of sheets in the Workbook
-        System.out.println("Workbook has " + workbook.getNumberOfSheets() + " Sheets : ");
         return workbook;
     }
 
     /**
-     * Flushes feedback to (@code outFile) and releases resources
+     * Flushes feedback to (@code outFile) and releases resources. Currently not persistent.
      */
     public void closeSession() {
         if (!initialized) {
@@ -125,7 +111,7 @@ public class ImportSession {
             String timeStamp = getTimeStamp();
             outFile = new File(inFile.getName() + timeStamp);
         }
-        // TODO: code to write outfile
+        // TODO: code to write workbook outfile
         freeResources();
     }
 

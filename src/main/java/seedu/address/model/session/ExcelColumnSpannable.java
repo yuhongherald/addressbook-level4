@@ -2,6 +2,7 @@ package seedu.address.model.session;
 
 import java.util.ArrayList;
 
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import seedu.address.model.session.exceptions.DataIndexOutOfBoundsException;
@@ -15,4 +16,5 @@ public interface ExcelColumnSpannable {
     public int getEndIndex();
     public ArrayList<String> readData(Workbook workbook, int sheetNumber, int rowNumber)
             throws DataIndexOutOfBoundsException;
+    public ArrayList<String> readDataFromSheet(Sheet sheet, int rowNumber) throws DataIndexOutOfBoundsException;
 }
