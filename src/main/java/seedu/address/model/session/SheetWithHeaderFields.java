@@ -12,6 +12,7 @@ import static seedu.address.model.session.SheetParser.APPROVAL_STATUS;
 import static seedu.address.model.session.SheetParser.CLIENT_EMAIL;
 import static seedu.address.model.session.SheetParser.CLIENT_NAME;
 import static seedu.address.model.session.SheetParser.CLIENT_PHONE;
+import static seedu.address.model.session.SheetParser.COMMENTS;
 import static seedu.address.model.session.SheetParser.EMPLOYEE_EMAIL;
 import static seedu.address.model.session.SheetParser.EMPLOYEE_NAME;
 import static seedu.address.model.session.SheetParser.EMPLOYEE_PHONE;
@@ -26,9 +27,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Sheet;
 
-import org.apache.poi.ss.usermodel.Workbook;
 import seedu.address.model.job.Date;
 import seedu.address.model.job.JobNumber;
 import seedu.address.model.job.Status;
@@ -50,7 +53,10 @@ import seedu.address.model.session.exceptions.FileFormatException;
  * A data structure used to store header field information of a given excel sheet
  */
 public class SheetWithHeaderFields implements Iterable<JobEntry> {
+    public static final String SEPARATOR = ", ";
+
     private static final String ERROR_MESSAGE_EMPTY_SHEET = "Sheet %d contains no valid job entries!";
+    private static final String ERROR_MESSAGE_CORRUPT_JOB_ENTRY = "The following fields are corrupt: ";
 
     private final Sheet sheet;
     private final HashMap<String, RowData> compulsoryFields;
@@ -58,7 +64,8 @@ public class SheetWithHeaderFields implements Iterable<JobEntry> {
     private final HashMap<String, RowData> optionalFields;
     private final JobEntry firstJobEntry;
 
-    SheetWithHeaderFields(Sheet sheet, HashMap<String, RowData> commentFields, HashMap<String, RowData> compulsoryFields,
+    SheetWithHeaderFields(Sheet sheet, HashMap<String, RowData> compulsoryFields,
+                          HashMap<String, RowData> commentFields,
                           HashMap<String, RowData> optionalFields) throws FileFormatException {
         this.sheet = sheet;
         this.compulsoryFields = new HashMap<>(compulsoryFields);
@@ -66,27 +73,78 @@ public class SheetWithHeaderFields implements Iterable<JobEntry> {
         this.optionalFields = new HashMap<>(optionalFields);
         firstJobEntry = getFirstJobEntry();
         if (firstJobEntry == null) {
-            throw new FileFormatException(String.format(ERROR_MESSAGE_EMPTY_SHEET,
-                    sheet.getWorkbook().getSheetIndex(sheet)));
+            throw new FileFormatException(getEmptySheetMessage());
         }
     }
 
     /**
-     * 
-     * @param row
+     * Marks job at (@code row) as rejected
      */
     public void rejectJobEntry(int row) {
         int index = commentFields.get(APPROVAL_STATUS).getStartIndex();
-        Cell cell = sheet.getRow(row).getCell(index);
+        Cell cell = sheet.getRow(row).createCell(index);
+        Font fontStyle = sheet.getWorkbook().createFont();
+        fontStyle.setBold(true);
+        fontStyle.setFontHeightInPoints((short) 14);
+        fontStyle.setColor(IndexedColors.RED.getIndex());
+        CellStyle cellStyle = sheet.getWorkbook().createCellStyle();
+        cellStyle.setFont(fontStyle);
         cell.setCellValue("rejected");
     }
 
+    /**
+     * Marks job at (@code row) as accepted
+     */
     public void approveJobEntry(int row) {
-        ;
+        int index = commentFields.get(APPROVAL_STATUS).getStartIndex();
+        Cell cell = sheet.getRow(row).createCell(index);
+        Font fontStyle = sheet.getWorkbook().createFont();
+        fontStyle.setBold(true);
+        fontStyle.setFontHeightInPoints((short) 14);
+        fontStyle.setColor(IndexedColors.GREEN.getIndex());
+        CellStyle cellStyle = sheet.getWorkbook().createCellStyle();
+        cellStyle.setFont(fontStyle);
+        cell.setCellValue("accepted");
     }
 
-    public void commentJobEntry(int row) {
-        ;
+    /**
+     * Appends a comment for job at (@oode row)
+     */
+    public void commentJobEntry(int row, String comment) {
+        int index = commentFields.get(COMMENTS).getStartIndex();
+        Cell cell = sheet.getRow(row).createCell(index);
+        Font fontStyle = sheet.getWorkbook().createFont();
+        fontStyle.setBold(true);
+        fontStyle.setFontHeightInPoints((short) 14);
+        fontStyle.setColor(IndexedColors.BLUE.getIndex());
+        CellStyle cellStyle = sheet.getWorkbook().createCellStyle();
+        cellStyle.setFont(fontStyle);
+        cell.setCellValue(comment);
+    }
+
+    public int getSheetIndex() {
+        return sheet.getWorkbook().getSheetIndex(sheet);
+    }
+
+    public String getEmptySheetMessage() {
+        return String.format(ERROR_MESSAGE_EMPTY_SHEET, getSheetIndex());
+    }
+
+    public String getCorruptedFieldsMessage(Person client, VehicleNumber vehicleNumber, Employee employee) {
+        StringBuilder corruptedComponents = new StringBuilder(ERROR_MESSAGE_CORRUPT_JOB_ENTRY);
+        if (client == null) {
+            corruptedComponents.append("client");
+            corruptedComponents.append(SEPARATOR);
+        }
+        if (vehicleNumber == null) {
+            corruptedComponents.append("vehicle number");
+            corruptedComponents.append(SEPARATOR);
+        }
+        if (employee == null) {
+            corruptedComponents.append("employee");
+            corruptedComponents.append(SEPARATOR);
+        }
+        return corruptedComponents.toString();
     }
 
     /**
@@ -101,12 +159,15 @@ public class SheetWithHeaderFields implements Iterable<JobEntry> {
         UniqueEmployeeList employeeList;
         Status status;
         RemarkList remarkList;
-        for (int i = sheet.getFirstRowNum(); i <= sheet.getLastRowNum(); i++) {
+        for (int i = sheet.getFirstRowNum() + 1; i <= sheet.getLastRowNum(); i++) {
             client = getClient(i);
             vehicleNumber = getVehicleNumber(i);
             employee = getEmployee(i);
+
             if (client == null || vehicleNumber == null || employee == null) {
-                continue;            // TODO: add comment that it is corrupted under feedback
+                rejectJobEntry(i);
+                commentJobEntry(i, getCorruptedFieldsMessage(client, vehicleNumber, employee));
+                continue;
             }
             employeeList = new UniqueEmployeeList();
             try {
@@ -117,10 +178,9 @@ public class SheetWithHeaderFields implements Iterable<JobEntry> {
             status = getStatus(i);
             remarkList = getRemarks(i);
             return new JobEntry(client, vehicleNumber, new JobNumber(), new Date(), employeeList, status, remarkList,
-                sheet.getWorkbook().getSheetIndex(sheet), i);
+                getSheetIndex(), i);
         }
-        throw new FileFormatException(String.format(ERROR_MESSAGE_EMPTY_SHEET,
-                sheet.getWorkbook().getSheetIndex(sheet)));
+        throw new FileFormatException(getEmptySheetMessage());
     }
 
     private Person getClient(int rowNumber) {
@@ -135,7 +195,7 @@ public class SheetWithHeaderFields implements Iterable<JobEntry> {
 
     private VehicleNumber getVehicleNumber(int rowNumber) {
         String vehicleNumber = readFirstData(compulsoryFields.get(VEHICLE_NUMBER), rowNumber);
-        if (isValidVehicleNumber(vehicleNumber)) {
+        if (vehicleNumber != null && !vehicleNumber.isEmpty() && isValidVehicleNumber(vehicleNumber)) {
             return new VehicleNumber(vehicleNumber);
         }
         return null;
@@ -206,13 +266,22 @@ public class SheetWithHeaderFields implements Iterable<JobEntry> {
      * Adds missing detail in remarks.
      */
     private JobEntry getJobEntryAt(int rowNumber, JobEntry previousEntry) {
-        // TODO: add comment that it is corrupted under feedback
         Person client = getClient(rowNumber);
         VehicleNumber vehicleNumber = getVehicleNumber(rowNumber);
         Employee employee = getEmployee(rowNumber);
-        if (client == null || vehicleNumber == null || employee == null) {
-            ; // Need to set default for them
+
+        commentJobEntry(rowNumber, getCorruptedFieldsMessage(client, vehicleNumber, employee));
+        // TODO: add comment that it is corrupted under remarks, and an accept remark
+        if (client == null) {
+            client = previousEntry.getClient();
         }
+        if (vehicleNumber == null) {
+            vehicleNumber = previousEntry.getVehicleNumber();
+        }
+        if (employee == null) {
+            employee = previousEntry.getAssignedEmployees().iterator().next();
+        }
+
         UniqueEmployeeList employeeList = new UniqueEmployeeList();
         try {
             employeeList.add(employee);
@@ -232,7 +301,7 @@ public class SheetWithHeaderFields implements Iterable<JobEntry> {
             private JobEntry previousEntry;
 
             @Override public boolean hasNext() {
-                return (currentRow < sheet.getLastRowNum());
+                return (currentRow <= sheet.getLastRowNum());
             }
 
             @Override public JobEntry next() {

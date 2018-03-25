@@ -47,14 +47,13 @@ public class RowData implements ExcelColumnSpannable {
     @Override
     public ArrayList<String> readDataFromSheet(Sheet sheet, int rowNumber)
         throws DataIndexOutOfBoundsException {
-        if (rowNumber < sheet.getFirstRowNum() || rowNumber >= sheet.getLastRowNum()) {
-            throw new DataIndexOutOfBoundsException("Rows", sheet.getFirstRowNum(), sheet.getLastRowNum(),
-                    sheet.getWorkbook().getSheetIndex(sheet));
+        if (rowNumber < sheet.getFirstRowNum() || rowNumber > sheet.getLastRowNum()) {
+            throw new DataIndexOutOfBoundsException("Rows", sheet.getFirstRowNum(), sheet.getLastRowNum(), rowNumber);
         }
         Row row = sheet.getRow(rowNumber);
         ArrayList<String> data = new ArrayList<>();
         DataFormatter dataFormatter = new DataFormatter();
-        for (int i = startIndex; i < endIndex; i++) {
+        for (int i = startIndex; i <= endIndex; i++) {
             data.add(dataFormatter.formatCellValue(row.getCell(i)));
         }
         return data;

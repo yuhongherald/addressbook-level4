@@ -47,6 +47,7 @@ public class SheetParser {
     public static final String[] JOB_ENTRY_OPTIONAL_FIELDS = { // ignore case when reading headings
         STATUS, REMARKS
     };
+    public static final String MESSAGE_SEPARATOR = ", ";
 
     private final Sheet sheet;
     private final ArrayList<String> missingCompulsoryFields;
@@ -76,6 +77,7 @@ public class SheetParser {
             StringBuilder stringBuilder = new StringBuilder(ERROR_MESSAGE_MISSING_FIELDS);
             for (String field : missingCompulsoryFields) {
                 stringBuilder.append(field);
+                stringBuilder.append(MESSAGE_SEPARATOR);
             }
             throw new FileFormatException(stringBuilder.toString());
         }
@@ -89,7 +91,7 @@ public class SheetParser {
      * @param offset
      */
     private void createCommentField(String name, int offset) {
-        int index = sheet.getRow(sheet.getFirstRowNum()).getLastCellNum();
+        int index = sheet.getRow(sheet.getFirstRowNum()).getLastCellNum() + offset;
         commentFields.put(name, new RowData(index, index));
     }
 
@@ -104,7 +106,7 @@ public class SheetParser {
         String lastField = INVALID_FIELD;
         String currentField;
         // traverse the row from the back to assist detecting end of row
-        for (int i = firstRow.getLastCellNum(); i <= firstRow.getFirstCellNum(); i--) {
+        for (int i = firstRow.getLastCellNum(); i >= firstRow.getFirstCellNum(); i--) {
             currentField = dataFormatter.formatCellValue(firstRow.getCell(i)).toLowerCase();
             if (currentField.equals(lastField)) {
                 continue;

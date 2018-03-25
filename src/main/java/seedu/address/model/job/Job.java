@@ -117,7 +117,7 @@ public class Job {
                 .append(" Client: ")
                 .append(getClient())
                 .append(" Remarks: ");
-        getRemarks().forEach(builder::append);
+        //getRemarks().forEach(builder::append);
         builder.append(" Assigned Employees: ");
         getAssignedEmployees().forEach(builder::append);
         return builder.toString();

@@ -1,9 +1,5 @@
 package seedu.address.model.session;
 
-import java.util.HashMap;
-
-import org.apache.poi.ss.usermodel.Sheet;
-
 import seedu.address.model.job.Date;
 import seedu.address.model.job.Job;
 import seedu.address.model.job.JobNumber;
@@ -48,7 +44,7 @@ public class JobEntry extends Job implements ExcelRowReference {
      */
     public void review(boolean approved, String comments) {
         this.approved = approved;
-        this.comments = comments; // TODO: remember to add to remarkslist when its online
+        this.comments = comments; // TODO: remember to add to remarklist when its online
     }
 
     public String getComments() {

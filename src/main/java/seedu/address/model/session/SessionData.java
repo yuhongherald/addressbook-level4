@@ -14,14 +14,14 @@ public class SessionData {
 
     private final ArrayList<JobEntry> unreviewedJobEntries;
     private final ArrayList<JobEntry> reviewedJobEntries;
-    private final ArrayList<SheetWithHeaderFields> headerFields;
+    private final ArrayList<SheetWithHeaderFields> sheets;
 
     // will be using an ObservableList
 
     SessionData() {
         unreviewedJobEntries = new ArrayList<>();
         reviewedJobEntries = new ArrayList<>();
-        headerFields = new ArrayList<>();
+        sheets = new ArrayList<>();
     }
 
     /**
@@ -41,10 +41,20 @@ public class SessionData {
     /**
      * Adds job entries from (@code sheetWithHeaderFields) into (@code SessionData)
      */
-    public void addUnreviewedJobEntries(SheetWithHeaderFields sheetHeaderFields) {
-        Iterator<JobEntry> jobEntryIterator = sheetHeaderFields.iterator();
+    public void addUnreviewedJobEntries(SheetWithHeaderFields sheetWithHeaderFields) {
+        Iterator<JobEntry> jobEntryIterator = sheetWithHeaderFields.iterator();
         while (jobEntryIterator.hasNext()) {
             unreviewedJobEntries.add(jobEntryIterator.next());
+        }
+        sheets.add(sheetWithHeaderFields.getSheetIndex(), sheetWithHeaderFields);
+    }
+
+    /**
+     * Reviews all remaining jobs using (@code reviewJobEntry)
+     */
+    public void reviewAllRemainingJobEntries(boolean approved, String comments) throws DataIndexOutOfBoundsException {
+        while (!getUnreviewedJobEntries().isEmpty()) {
+            reviewJobEntry(0, approved, comments);
         }
     }
 
@@ -65,6 +75,12 @@ public class SessionData {
         jobEntry.review(approved, comments);
         unreviewedJobEntries.remove(jobEntry);
         reviewedJobEntries.add(jobEntry);
-
+        SheetWithHeaderFields sheet = sheets.get(jobEntry.getSheetNumber());
+        sheet.commentJobEntry(jobEntry.getRowNumber(), comments);
+        if (approved) {
+            sheet.approveJobEntry(jobEntry.getRowNumber());
+        } else {
+            sheet.rejectJobEntry(jobEntry.getRowNumber());
+        }
     }
 }
