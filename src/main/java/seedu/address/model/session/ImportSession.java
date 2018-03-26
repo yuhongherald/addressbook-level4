@@ -97,7 +97,7 @@ public class ImportSession {
             sheet = workbook.getSheetAt(workbook.getFirstVisibleTab() + i);
             sheetParser = new SheetParser(sheet);
             sheetWithHeaderFields = sheetParser.parseSheetWithHeaderField();
-            sessionData.addUnreviewedJobEntries(sheetWithHeaderFields);
+            sessionData.addSheet(sheetWithHeaderFields);
         }
     }
 

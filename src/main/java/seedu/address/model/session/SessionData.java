@@ -44,7 +44,7 @@ public class SessionData {
     /**
      * Adds job entries from (@code sheetWithHeaderFields) into (@code SessionData)
      */
-    public void addUnreviewedJobEntries(SheetWithHeaderFields sheetWithHeaderFields) {
+    public void addSheet(SheetWithHeaderFields sheetWithHeaderFields) {
         Iterator<JobEntry> jobEntryIterator = sheetWithHeaderFields.iterator();
         while (jobEntryIterator.hasNext()) {
             unreviewedJobEntries.add(jobEntryIterator.next());
