@@ -33,8 +33,10 @@ public class ParserUtil {
     public static final String MESSAGE_INSUFFICIENT_PARTS = "Number of parts must be more than 1.";
     public static final String MESSAGE_INSUFFICIENT_WORDS = "Command word to be changed and new command word must "
             + "be provided, separated by a space.";
-    public static final String MESSAGE_INVALID_FILENAME = "File name must be the path to an existing file.";
+    public static final String MESSAGE_INVALID_FILENAME = "File name must be the path to an existing file, in the "
+            + "same folder as this application";
     public static final String WHITESPACE = "\\s+";
+    public static final String APPLICATION_DIRECTORY = ".\\";
 
     /**
      * Parses {@code multipleWordString} into an {@code String[]} containing command words and returns it.
@@ -60,7 +62,7 @@ public class ParserUtil {
         if (!file.exists()) {
             throw new IllegalValueException(MESSAGE_INVALID_FILENAME);
         }
-        return filePath.trim();
+        return APPLICATION_DIRECTORY + filePath.trim();
 
     }
 

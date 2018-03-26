@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Iterator;
 
 import java.util.List;
+
 import seedu.address.model.session.exceptions.DataIndexOutOfBoundsException;
 
 //@@author yuhongherald
@@ -54,7 +55,7 @@ public class SessionData {
     /**
      * Reviews all remaining jobs using (@code reviewJobEntry)
      */
-    public void reviewAllRemainingJobEntries(boolean approved, String comments) throws DataIndexOutOfBoundsException {
+    void reviewAllRemainingJobEntries(boolean approved, String comments) throws DataIndexOutOfBoundsException {
         while (!getUnreviewedJobEntries().isEmpty()) {
             reviewJobEntry(0, approved, comments);
         }
@@ -66,7 +67,7 @@ public class SessionData {
      * @param approved whether job entry will be added to CarviciM
      * @param comments feedback in string representation
      */
-    public void reviewJobEntry(int listIndex, boolean approved, String comments) throws DataIndexOutOfBoundsException {
+    void reviewJobEntry(int listIndex, boolean approved, String comments) throws DataIndexOutOfBoundsException {
         if (unreviewedJobEntries.isEmpty()) {
             throw new IllegalStateException(ERROR_MESSAGE_EMPTY_UNREVIWED_JOB_LIST);
         } else if (listIndex < 0 || listIndex >= unreviewedJobEntries.size()) {
@@ -78,7 +79,7 @@ public class SessionData {
         unreviewedJobEntries.remove(jobEntry);
         reviewedJobEntries.add(jobEntry);
         SheetWithHeaderFields sheet = sheets.get(jobEntry.getSheetNumber());
-        sheet.commentJobEntry(jobEntry.getRowNumber(), comments);
+        sheet.commentJobEntry(jobEntry.getRowNumber(), jobEntry.getCommentsAsString());
         if (approved) {
             sheet.approveJobEntry(jobEntry.getRowNumber());
         } else {

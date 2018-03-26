@@ -31,8 +31,8 @@ public class SheetParser {
     // Comment header fields
     public static final String APPROVAL_STATUS = "approval status";
     public static final String COMMENTS = "comments";
-    public static final int APPROVAL_STATUS_INDEX = 1;
-    public static final int COMMENTS_INDEX = 2;
+    public static final int APPROVAL_STATUS_INDEX = 0;
+    public static final int COMMENTS_INDEX = 1;
 
     // Optional header fields
     // public static final String JOB_NUMBER = "job number";

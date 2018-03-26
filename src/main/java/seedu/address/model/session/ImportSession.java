@@ -118,6 +118,10 @@ public class ImportSession {
         sessionData.reviewAllRemainingJobEntries(approve, "Imported with no comments.");
     }
 
+    public SessionData getSessionData() {
+        return sessionData;
+    }
+
     /**
      * Flushes feedback to (@code outFile) and releases resources. Currently not persistent.
      */
