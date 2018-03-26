@@ -124,7 +124,16 @@ public class CommandWords implements Serializable {
      */
     public void setCommandWord(String currentWord, String newWord) throws CommandWordException {
         requireNonNull(currentWord, newWord);
-        checkCommandWordValidity(currentWord, newWord);
+        if (currentWord.equals(newWord)) {
+            throw new CommandWordException(getMessageNoChange());
+        }
+        if (isDefaultCommandWord(newWord)
+                && !commands.get(newWord).equals(currentWord)) {
+            throw new CommandWordException(getMessageOverwriteDefault(newWord));
+        }
+        if (commands.containsValue(newWord)) {
+            throw new CommandWordException(getMessageUsed(newWord));
+        }
         if (isDefaultCommandWord(currentWord)) {
             commands.remove(currentWord);
             commands.put(currentWord, newWord);
@@ -141,22 +150,6 @@ public class CommandWords implements Serializable {
             }
         }
         throw new CommandWordException(getMessageUnused(currentWord));
-    }
-
-    /**
-     * throws a (@code CommandWordException) if (@code currentWord) or (@code newWord) is not valid
-     */
-    private void checkCommandWordValidity(String currentWord, String newWord) throws CommandWordException {
-        if (currentWord.equals(newWord)) {
-            throw new CommandWordException(getMessageNoChange());
-        }
-        if (isDefaultCommandWord(newWord)
-                && !commands.get(newWord).equals(currentWord)) {
-            throw new CommandWordException(getMessageOverwriteDefault(newWord));
-        }
-        if (commands.containsValue(newWord)) {
-            throw new CommandWordException(getMessageUsed(newWord));
-        }
     }
 
     /**
