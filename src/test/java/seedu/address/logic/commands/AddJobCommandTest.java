@@ -70,8 +70,7 @@ public class AddJobCommandTest {
     private class ModelStub implements Model {
         @Override
         public void addPerson(Employee employee) throws DuplicateEmployeeException {
-            fail("This method sh" +
-                    "ould not be called.");
+            fail("This method should not be called.");
         }
 
         @Override
