@@ -724,7 +724,7 @@ Proposed solution
 **What’s important is that you should start practicing early!**
 
 [[GetStartedProgramming-EachComponent-Logic]]
-===== `Logic` component
+==== `Logic` component
 
 *Scenario:* You are in charge of `logic`. During <<dog-fooding, dog-fooding>>, your team realize that it is troublesome for the user to type the whole command in order to execute a command. Your team devise some strategies to help cut down the amount of typing necessary, and one of the suggestions was to implement <<alias, aliases>> for the command words. Your job is to implement such <<alias, aliases>>.
 
@@ -734,20 +734,16 @@ Do take a look at <<Design-Logic>> before attempting to modify the `Logic` compo
 . Begin by adding a shorthand equivalent <<alias, alias>> for each of the individual commands. For example, besides typing `clear`, the user can also type `c` to remove all employees in the list.
 
 [NOTE]
-===
 Hints
-* Just like we store each individual command word constant `COMMAND_WORD` inside `*Command.java` (e.g.  link:{repoURL}/src/main/java/seedu/address/logic/commands/FindCommand.java[`FindCommand#COMMAND_WORD`], link:{repoURL}/src/main/java/seedu/address/logic/commands/DeleteCommand.java[`DeleteCommand#COMMAND_WORD`]), you need a new constant for <<alias, aliases>> as well (e.g. `FindCommand#COMMAND_ALIAS`).
-* link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser`] is responsible for analyzing command words.
-===
+** Just like we store each individual command word constant `COMMAND_WORD` inside `*Command.java` (e.g.  link:{repoURL}/src/main/java/seedu/address/logic/commands/FindCommand.java[`FindCommand#COMMAND_WORD`], link:{repoURL}/src/main/java/seedu/address/logic/commands/DeleteCommand.java[`DeleteCommand#COMMAND_WORD`]), you need a new constant for <<alias, aliases>> as well (e.g. `FindCommand#COMMAND_ALIAS`).
+** link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser`] is responsible for analyzing command words.
 
 [TIP]
-===
 Proposed Solution
-* Modify the switch statement in link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser#parseCommand(String)`] such that both the proper command word and <<alias, alias>> can be used to execute the same intended command.
-* Add new <<Testing-TypesOfTests, tests>> for each of the <<alias, aliases>> that you have added.
-* Update the <<UserGuide#, User Guide>> to document the new <<alias, aliases>>.
-* See this https://github.com/se-edu/addressbook-level4/pull/785[PR] for the full solution.
-===
+** Modify the switch statement in link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser#parseCommand(String)`] such that both the proper command word and <<alias, alias>> can be used to execute the same intended command.
+** Add new <<Testing-TypesOfTests, tests>> for each of the <<alias, aliases>> that you have added.
+** Update the <<UserGuide#, User Guide>> to document the new <<alias, aliases>>.
+** See this https://github.com/se-edu/addressbook-level4/pull/785[PR] for the full solution.
 
 [[GetStartedProgramming-EachComponent-Model]]
 ==== `Model` component
@@ -863,7 +859,7 @@ Do take a look at <<Design-Storage>> before attempting to modify the `Storage` c
 
 [NOTE]
 * Hint
-** Add the API method in link:{repoURL}/src/main/java/seedu/address/storage/AddressBookStorage.java[`AddressBookStorage`] interface.
+** Add the <<api, API>> method in link:{repoURL}/src/main/java/seedu/address/storage/AddressBookStorage.java[`AddressBookStorage`] interface.
 ** Implement the logic in link:{repoURL}/src/main/java/seedu/address/storage/StorageManager.java[`StorageManager`] and link:{repoURL}/src/main/java/seedu/address/storage/XmlAddressBookStorage.java[`XmlAddressBookStorage`] class.
 
 [TIP]
@@ -1057,22 +1053,22 @@ For optimal use:
 [appendix]
 == User Stories
 
-Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (unlikely to have) - `*`
+Priorities::
+   High (must have)::: `* * *`
+   Medium (nice to have)::: `* *`
+   Low (unlikely to have)::: `*`
 
 [width="59%",cols="22%,<23%,<25%,<30%",options="header",]
 |=======================================================================
 |Priority |As a ... |I want to ... |So that I can...
+
 |`* * *` |new user |see usage instructions |refer to instructions when I forget how to use the App
 
-|`* * *` |user |add a new job entry |
+|`* * *` |user |undo my commands |reverse commands done in error
 
-|`* * *` |user |close an ongoing job entry |remove completed job and add it to jobs history
+|`* * *` |user |redo my commands |reverse my undos if I changed my mind
 
-|`* * *` |user |find a job entry by its assigned number |locate details of a job without having to go through the list of ongoing jobs
-
-|`* * *` |user |add remarks to an ongoing job entry |take note of details that are specific to the job
-
-|`* * *` |user |add a new employee |
+|`* * *` |user |add a new employee |include in the new employee
 
 |`* * *` |user |delete an employee |update the list of employees that are in the company
 
@@ -1080,11 +1076,13 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |user |view all employees |decide which employee to assign a job
 
-|`* * *` |user |undo my commands |reverse commands done in error
+|`* *` |user |sort by employees' name |sort employee list alphabetically
 
-|`* * *` |user |redo my commands |reverse my undos if I changed my mind
+|`* * *` |user |add a new job entry |manage job entries
 
-|`* * *` |user |import job entries |add multiple job entries at once
+|`* * *` |user |close an ongoing job entry |remove completed job and add it to jobs history
+
+|`* * *` |user |find a job entry by its assigned job id |locate details of a job without having to go through the list of ongoing jobs
 
 |`* *` |user |find job entries by the assigned employee's name |locate details of all jobs that are handled by an employee without having to go through the lists of jobs
 
@@ -1092,13 +1090,13 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |user |find job entries by car number |locate details of all jobs related to a car number without having to go through the lists of jobs
 
-|`* *` |user |view employee's schedule on calender |easily make decision for assigning a job to an employee
+|`* * *` |user |add remarks to ongoing job entry |take note of details that are specific to the job
 
-|`* *` |user |change the colour label of job status |easily differentiate between the job statuses
+|`**` |user |archive job entries |extract job entries within the selected range for archiving
 
-|`* *` |user who likes customization |change the theme of the application |customize the theme to my preference
+|`**` |user |analyse job entries |keep track of employees' performance
 
-|`* *` |user who likes customization |change the command words of the application |improve ease of use
+|`* * *` |user |import job entries |add multiple job entries at once
 
 |`* *` |user |accept and reject imported changes |have control when over bulk imports
 
@@ -1106,15 +1104,15 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |user |add comments on job entries |record feedback to employees
 
-|`* *` |user |sort by employees' name |sort employee list alphabetically
-
 |`* *` |user |export changes |provide feedback to employees regarding the changes
 
-|`* *` |user |archive job entries |extract job entries within the selected range for archiving
-
-|`* *` |user |analyse job entries |keep track of employees' performance
-
 |`*` |user |export completed jobs to other formats |print out all the completed job entries and view it with a better program
+
+|`* *` |user |change the colour label of job status |easily differentiate between the job statuses
+
+|`* *` |user who likes customization |change the theme of the application |customize the theme to my preference
+
+|`* *` |user who likes customization |change the command words of the application |improve ease of use
 
 |=======================================================================
 
@@ -1425,6 +1423,7 @@ Use case ends.
 +
 Use case ends.
 
+[discrete]
 === Use case: Set theme of application
 
 *MSS*
@@ -1495,17 +1494,22 @@ _{More to be added}_
 [[mainstream-os]] Mainstream OS::
 Windows, Linux, Unix, OS-X
 
-[[api]]API
+[[api]]API::
 Application Programming Interface: a set of functions and procedures that allow the creation of applications which access the features or data of an operating system, application, or other service.
-[[alias]]Alias
+
+[[alias]]Alias::
 An alternate name
-[[beta-testing]]Beta testing
+
+[[beta-testing]]Beta testing::
 Final stage of development testing, carried out by a party unconnected with the development process., usually users of the final product.
-[[dog-fooding]]Dog-fooding
+
+[[dog-fooding]]Dog-fooding::
 Testing of a product before it is made available to customers
-[[pr]]PR
+
+[[pr]]PR::
 Pull Request
-[[slap]]SLAP
+
+[[slap]]SLAP::
 Single Layer of Abstraction Principle: extraction of methods, fields and constants to keep details at the same level in a method.
 
 [appendix]
