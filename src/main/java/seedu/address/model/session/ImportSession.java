@@ -21,6 +21,12 @@ import seedu.address.model.session.exceptions.FileFormatException;
  * exporting (@code Job) with commens to (@code outFile). Implements a Singleton design pattern.
  */
 public class ImportSession {
+    public static final String ERROR_MESSAGE_FILE_OPEN = "An excel file is already open.";
+    public static final String ERROR_MESSAGE_INVALID_FILEPATH = "Please check the path to your file.";
+    public static final String ERROR_MESSAGE_READ_PERMISSION = "Please enable file read permission.";
+    public static final String ERROR_MESSAGE_FILE_FORMAT = "Unable to read the format of file. "
+            + "Please ensure the file is in .xls or .xlsx format";
+    public static final String ERROR_MESSAGE_IO_EXCEPTION = "Unable to read file. Please close the file and try again.";
     private static ImportSession session;
 
     private boolean initialized;
@@ -57,21 +63,20 @@ public class ImportSession {
      */
     public void initializeSession(String filePath) throws FileAccessException, FileFormatException {
         if (inFile != null) {
-            throw new FileAccessException("An excel file is already open.");
+            throw new FileAccessException(ERROR_MESSAGE_FILE_OPEN);
         }
         File file = new File (filePath);
         if (!file.exists()) {
-            throw new FileAccessException("Please check the path to your file.");
+            throw new FileAccessException(ERROR_MESSAGE_INVALID_FILEPATH);
         } else if (!file.canRead()) {
-            throw new FileFormatException("Please enable file read permission.");
+            throw new FileFormatException(ERROR_MESSAGE_READ_PERMISSION);
         }
         try {
             workbook = createWorkBook(file);
         } catch (InvalidFormatException e) {
-            throw new FileFormatException("Unable to read the format of file. "
-                    + "Please ensure the file is in .xls or .xlsx format");
+            throw new FileFormatException(ERROR_MESSAGE_FILE_FORMAT);
         } catch (IOException e) {
-            throw new FileFormatException("Unable to read file. Please close the file and try again.");
+            throw new FileFormatException(ERROR_MESSAGE_IO_EXCEPTION);
         }
         // the file is good to go
         inFile = file;
