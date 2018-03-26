@@ -731,8 +731,9 @@ Proposed solution
 [TIP]
 Do take a look at <<Design-Logic>> before attempting to modify the `Logic` component.
 
-. Begin by adding a shorthand equivalent <<alias, alias>> for each of the individual commands. * For example, besides typing `clear`, the user can also type `c` to remove all employees in the list.
-
+. Begin by adding a shorthand equivalent <<alias, alias>> for each of the individual commands.
+* For example, besides typing `clear`, the user can also type `c` to remove all employees in the list.
++
 [NOTE]
 Hints
 ** Just like we store each individual command word constant `COMMAND_WORD` inside `*Command.java` (e.g.  link:{repoURL}/src/main/java/seedu/address/logic/commands/FindCommand.java[`FindCommand#COMMAND_WORD`], link:{repoURL}/src/main/java/seedu/address/logic/commands/DeleteCommand.java[`DeleteCommand#COMMAND_WORD`]), you need a new constant for <<alias, aliases>> as well (e.g. `FindCommand#COMMAND_ALIAS`).
