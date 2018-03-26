@@ -734,11 +734,9 @@ Do take a look at <<Design-Logic>> before attempting to modify the `Logic` compo
 . Begin by adding a shorthand equivalent <<alias, alias>> for each of the individual commands. For example, besides typing `clear`, the user can also type `c` to remove all employees in the list.
 
 [NOTE]
-====
 * The OLD_COMMAND_WORD can be either a default command word or one which user has set previously.
 * The NEW_COMMAND_WORD must be 1 word, with no spacing.
 * Any default words or words currently set by users are not allowed.
-====
 
 [TIP]
 Proposed Solution
