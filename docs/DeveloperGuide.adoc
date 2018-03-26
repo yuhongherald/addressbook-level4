@@ -242,10 +242,8 @@ The default command words are stored as a class level reference `COMMANDS`, whil
 
 `CommandWords` only deal with commands that have their default command word declared in the class level reference.
 
-.Test
-image::SetCommandLogicDiagram.png[width="800"]
-.Test
-image::SetCommandModelDiagram.png[width="800"]
+image::SetCommandLogicDiagram.png[width="800"]+
+image::SetCommandModelDiagram.png[width="800"]+
 
 As you can see from the diagram, AddressBookParser makes a reference to CommandWords. However, `CommandWords` resides in `UserPrefs` in the `Model` component.
 
@@ -695,11 +693,12 @@ b. Require developers to download those libraries manually (this creates extra w
 
 [NOTE]
 ====
-Suggested path for new programmers:
+If you are new to working on Java projects, here are some steps to get started:
 
-1. First, add small local-impact (i.e. the impact of the change does not go beyond the component) enhancements to one component at a time. Some suggestions are given in <<GetStartedProgramming-EachComponent>>.
+1. Start by adding small local-impact (i.e. the impact of the change does not go beyond the component) enhancements to your project one component at a time. Here are some suggestions: <<GetStartedProgramming-EachComponent>>.
+** It is important to program incrementally, as to prepare yourself for the next step.
 
-2. Next, add a feature that touches multiple components to learn how to implement an end-to-end feature across all components. <<GetStartedProgramming-RemarkCommand>> explains how to go about adding such a feature.
+2. Proceed to add your feature, touching multiple components. This is to familiarize yourself with the process of implementing an end-to-end feature across all components. You can read more under <<GetStartedProgramming-RemarkCommand>>.
 ====
 
 
@@ -707,7 +706,7 @@ Suggested path for new programmers:
 [[GetStartedProgramming-EachComponent]]
 === Improving each component
 
-Each individual exercise in this section is component-based (i.e. you would not need to modify the other components to get it to work). The Car Servicing Manager is divided into 4 main components:
+You can familiarize yourself with existing components through the proposed exercises below, 1 for each component (i.e. you would not need to modify the other components to get it to work). The Car Servicing Manager is divided into 4 main components:
 
 1. <<GetStartedProgramming-EachComponent-Logic,*`Logic`*>>
 2. <<GetStartedProgramming-EachComponent-Model,*`Model`*>>
@@ -722,34 +721,34 @@ Hints
 [TIP]
 Proposed solution
 
-*What’s important is that you should start practicing early!*
+**What’s important is that you should start practicing early!**
 
 [[GetStartedProgramming-EachComponent-Logic]]
 ===== `Logic` component
 
-*Scenario:* You are in charge of `logic`. During dog-fooding, your team realize that it is troublesome for the user to type the whole command in order to execute a command. Your team devise some strategies to help cut down the amount of typing necessary, and one of the suggestions was to implement aliases for the command words. Your job is to implement such aliases.
+*Scenario:* You are in charge of `logic`. During <<dog-fooding, dog-fooding>>, your team realize that it is troublesome for the user to type the whole command in order to execute a command. Your team devise some strategies to help cut down the amount of typing necessary, and one of the suggestions was to implement <<alias, aliases>> for the command words. Your job is to implement such <<alias, aliases>>.
 
 [TIP]
 Do take a look at <<Design-Logic>> before attempting to modify the `Logic` component.
 
-. Add a shorthand equivalent alias for each of the individual commands. For example, besides typing `clear`, the user can also type `c` to remove all employees in the list.
+. Begin by adding a shorthand equivalent <<alias, alias>> for each of the individual commands. * For example, besides typing `clear`, the user can also type `c` to remove all employees in the list.
 
 [NOTE]
 Hints
-** Just like we store each individual command word constant `COMMAND_WORD` inside `*Command.java` (e.g.  link:{repoURL}/src/main/java/seedu/address/logic/commands/FindCommand.java[`FindCommand#COMMAND_WORD`], link:{repoURL}/src/main/java/seedu/address/logic/commands/DeleteCommand.java[`DeleteCommand#COMMAND_WORD`]), you need a new constant for aliases as well (e.g. `FindCommand#COMMAND_ALIAS`).
+** Just like we store each individual command word constant `COMMAND_WORD` inside `*Command.java` (e.g.  link:{repoURL}/src/main/java/seedu/address/logic/commands/FindCommand.java[`FindCommand#COMMAND_WORD`], link:{repoURL}/src/main/java/seedu/address/logic/commands/DeleteCommand.java[`DeleteCommand#COMMAND_WORD`]), you need a new constant for <<alias, aliases>> as well (e.g. `FindCommand#COMMAND_ALIAS`).
 ** link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser`] is responsible for analyzing command words.
 
 [TIP]
 Proposed Solution
-** Modify the switch statement in link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser#parseCommand(String)`] such that both the proper command word and alias can be used to execute the same intended command.
-** Add new <<Testing-TypesOfTests, tests>> for each of the aliases that you have added.
-** Update the <<UserGuide#, User Guide>> to document the new aliases.
+** Modify the switch statement in link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser#parseCommand(String)`] such that both the proper command word and <<alias, alias>> can be used to execute the same intended command.
+** Add new <<Testing-TypesOfTests, tests>> for each of the <<alias, aliases>> that you have added.
+** Update the <<UserGuide#, User Guide>> to document the new <<alias, aliases>>.
 ** See this https://github.com/se-edu/addressbook-level4/pull/785[PR] for the full solution.
 
 [[GetStartedProgramming-EachComponent-Model]]
 ==== `Model` component
 
-*Scenario:* You are in charge of `model`. One day, the `logic`-in-charge approaches you for help. He wants to implement a command such that the user is able to remove a particular tag from everyone in the address book, but the model API does not support such a functionality at the moment. Your job is to implement an API method, so that your teammate can use your API to implement his command.
+*Scenario:* You are in charge of `model`. One day, the `logic`-in-charge approaches you for help. He wants to implement a command such that the user is able to remove a particular tag from everyone in the address book, but the model <<api, API>> does not support such a functionality at the moment. Your job is to implement an <<api, API>> method, so that your teammate can use your <<api, API>> to implement his command.
 
 [TIP]
 Do take a look at <<Design-Model>> before attempting to modify the `Model` component.
@@ -758,14 +757,14 @@ Do take a look at <<Design-Model>> before attempting to modify the `Model` compo
 
 [NOTE]
 Hints
-** The link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model`] and the link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] API need to be updated.
-** Think about how you can use SLAP to design the method. Where should we place the main logic of deleting tags?
-**  Find out which of the existing API methods in  link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] and link:{repoURL}/src/main/java/seedu/address/model/employee/Person.java[`Person`] classes can be used to implement the tag removal logic. link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] allows you to update a employee, and link:{repoURL}/src/main/java/seedu/address/model/employee/Person.java[`Person`] allows you to update the tags.
+** The link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model`] and the link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] <<api, API>> need to be updated.
+** Think about how you can use <<slap, SLAP>> to design the method. Where should we place the main logic of deleting tags?
+**  Find out which of the existing <<api, API>> methods in  link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] and link:{repoURL}/src/main/java/seedu/address/model/employee/Person.java[`Person`] classes can be used to implement the tag removal logic. link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] allows you to update a employee, and link:{repoURL}/src/main/java/seedu/address/model/employee/Person.java[`Person`] allows you to update the tags.
 
 [TIP]
 Proposed Solution
 ** Implement a `removeTag(Tag)` method in link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`]. Loop through each employee, and remove the `tag` from each employee.
-** Add a new API method `deleteTag(Tag)` in link:{repoURL}/src/main/java/seedu/address/model/ModelManager.java[`ModelManager`]. Your link:{repoURL}/src/main/java/seedu/address/model/ModelManager.java[`ModelManager`] should call `AddressBook#removeTag(Tag)`.
+** Add a new <<api, API>> method `deleteTag(Tag)` in link:{repoURL}/src/main/java/seedu/address/model/ModelManager.java[`ModelManager`]. Your link:{repoURL}/src/main/java/seedu/address/model/ModelManager.java[`ModelManager`] should call `AddressBook#removeTag(Tag)`.
 ** Add new <<Testing-TypesOfTests, tests>> for each of the new public methods that you have added.
 ** See this https://github.com/se-edu/addressbook-level4/pull/790[PR] for the full solution.
 *** The current codebase has a flaw in tags management. Tags no longer in use by anyone may still exist on the link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`]. This may cause some tests to fail. See issue  https://github.com/se-edu/addressbook-level4/issues/753[`#753`] for more information about this flaw.
@@ -774,7 +773,7 @@ Proposed Solution
 [[GetStartedProgramming-EachComponent-UI]]
 ==== `Ui` component
 
-*Scenario:* You are in charge of `ui`. During a beta testing session, your team is observing how the users use your address book application. You realize that one of the users occasionally tries to delete non-existent tags from a contact, because the tags all look the same visually, and the user got confused. Another user made a typing mistake in his command, but did not realize he had done so because the error message wasn't prominent enough. A third user keeps scrolling down the list, because he keeps forgetting the index of the last employee in the list. Your job is to implement improvements to the UI to solve all these problems.
+*Scenario:* You are in charge of `ui`. During a <<beta-testing, beta testing>> session, your team is observing how the users use your address book application. You realize that one of the users occasionally tries to delete non-existent tags from a contact, because the tags all look the same visually, and the user got confused. Another user made a typing mistake in his command, but did not realize he had done so because the error message wasn't prominent enough. A third user keeps scrolling down the list, because he keeps forgetting the index of the last employee in the list. Your job is to implement improvements to the UI to solve all these problems.
 
 [TIP]
 Do take a look at <<Design-Ui>> before attempting to modify the `UI` component.
@@ -851,7 +850,7 @@ Proposed Solution
 [[GetStartedProgramming-EachComponent-Storage]]
 ==== `Storage` component
 
-*Scenario:* You are in charge of `storage`. For your next project milestone, your team plans to implement a new feature of saving the address book to the cloud. However, the current implementation of the application constantly saves the address book after the execution of each command, which is not ideal if the user is working on limited internet connection. Your team decided that the application should instead save the changes to a temporary local backup file first, and only upload to the cloud after the user closes the application. Your job is to implement a backup API for the address book storage.
+*Scenario:* You are in charge of `storage`. For your next project milestone, your team plans to implement a new feature of saving the address book to the cloud. However, the current implementation of the application constantly saves the address book after the execution of each command, which is not ideal if the user is working on limited internet connection. Your team decided that the application should instead save the changes to a temporary local backup file first, and only upload to the cloud after the user closes the application. Your job is to implement a backup <<api, API>> for the address book storage.
 
 [TIP]
 Do take a look at <<Design-Storage>> before attempting to modify the `Storage` component.
@@ -919,31 +918,31 @@ for `RemarkCommandParser`.
 . Ui: Add a placeholder for remark in `PersonCard`
 Let's add a placeholder on all our link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`] s to display a remark for each employee later.
 +
-*Main:
+* Main:
 
 1. Add a `Label` with any random text inside link:{repoURL}/src/main/resources/view/PersonListCard.fxml[`PersonListCard.fxml`].
 2. Add FXML annotation in link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`] to tie the variable to the actual label.
 
-*Tests:
+* Tests:
 
 1. Modify link:{repoURL}/src/test/java/guitests/guihandles/PersonCardHandle.java[`PersonCardHandle`] so that future tests can read the contents of the remark label.
 
 . Model: Add `Remark` class
 We have to properly encapsulate the remark in our link:{repoURL}/src/main/java/seedu/address/model/employee/Person.java[`Person`] class. Instead of just using a `String`, let's follow the conventional class structure that the codebase already uses by adding a `Remark` class.
 +
-*Main:
+* Main:
 
 1. Add `Remark` to model component (you can copy from link:{repoURL}/src/main/java/seedu/address/model/employee/Address.java[`Address`], remove the regex and change the names accordingly).
 2. Modify `RemarkCommand` to now take in a `Remark` instead of a `String`.
 
-*Tests:
+* Tests:
 
 1. Add test for `Remark`, to test the `Remark#equals()` method.
 
 . Model: Modify `Person` to support a `Remark` field
 Now we have the `Remark` class, we need to actually use it inside link:{repoURL}/src/main/java/seedu/address/model/employee/Person.java[`Person`].
 +
-*Main:
+* Main:
 
 1. Add `getRemark()` in link:{repoURL}/src/main/java/seedu/address/model/employee/Person.java[`Person`].
 2. You may assume that the user will not be able to use the `add` and `edit` commands to modify the remarks field (i.e. the employee will be created without a remark).
@@ -952,18 +951,18 @@ Now we have the `Remark` class, we need to actually use it inside link:{repoURL}
 . Storage: Add `Remark` field to `XmlAdaptedPerson` class
 We now have `Remark` s for `Person` s, but they will be gone when we exit the application. Let's modify link:{repoURL}/src/main/java/seedu/address/storage/XmlAdaptedPerson.java[`XmlAdaptedPerson`] to include a `Remark` field so that it will be saved.
 +
-*Main:
+* Main:
 
 1. Add a new Xml field for `Remark`.
 
-*Tests:
+* Tests:
 
 1. Fix `invalidAndValidPersonAddressBook.xml`, `typicalPersonsAddressBook.xml`, `validAddressBook.xml` etc., such that the XML tests will not fail due to a missing `<remark>` element.
 
 . Test: Add withRemark() for `PersonBuilder`
 Since `Person` can now have a `Remark`, we should add a helper method to link:{repoURL}/src/test/java/seedu/address/testutil/PersonBuilder.java[`PersonBuilder`], so that users are able to create remarks when building a link:{repoURL}/src/main/java/seedu/address/model/employee/Person.java[`Person`].
 +
-*Tests:*
+* Tests:
 
 1. Add a new method `withRemark()` for link:{repoURL}/src/test/java/seedu/address/testutil/PersonBuilder.java[`PersonBuilder`]. This method will create a new `Remark` for the employee that it is currently building.
 2. Try and use the method on any sample `Person` in link:{repoURL}/src/test/java/seedu/address/testutil/TypicalPersons.java[`TypicalPersons`].
@@ -971,22 +970,22 @@ Since `Person` can now have a `Remark`, we should add a helper method to link:{r
 . Ui: Connect `Remark` field to `PersonCard`
 Our remark label in link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`] is still a placeholder. Let's bring it to life by binding it with the actual `remark` field.
 +
-*Main:
+* Main:
 
 1. Modify link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`]'s constructor to bind the `Remark` field to the `Person` 's remark.
 
-**Tests:
+* Tests:
 
 1. Modify link:{repoURL}/src/test/java/seedu/address/ui/testutil/GuiTestAssert.java[`GuiTestAssert#assertCardDisplaysPerson(...)`] so that it will compare the now-functioning remark label.
 
 . Logic: Implement `RemarkCommand#execute()` logic
 We now have everything set up... but we still can't modify the remarks. Let's finish it up by adding in actual logic for our `remark` command.
 +
-*Main:
+* Main:
 
 1. Replace the logic in `RemarkCommand#execute()` (that currently just throws an `Exception`), with the actual logic to modify the remarks of a employee.
 
-*Tests:
+* Tests:
 
 1. Update `RemarkCommandTest` to test that the `execute()` logic works.
 
@@ -999,13 +998,17 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 
 *Target user profile*:
 
-* has a need to manage a significant number of ongoing car servicing jobs and keep a record of past jobs
+As a Car Servicing Manager:
+* has a need to manage a significant number of ongoing car servicing jobs
+* has a need to keep a large record of past jobs
 * has a need to assign employees to jobs with ease
+* has a need to monitor employee’s performance through the number of jobs completed
+
+For optimal use:
 * prefer desktop apps over other types
 * can type fast
 * prefers typing over mouse input
 * is reasonably comfortable using CLI apps
-* has a need to monitor employee’s performance through the number of jobs completed
 
 *Value Proposition*: A convenient App for car servicing managers to organize servicing jobs and assign specific employees.
 
@@ -1033,7 +1036,7 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 +
 [none]
 ** User can set a custom keyword that is not used on top of the original command word. This allows them to use shorthand.
-** or a custom command word that is easy to remember.
+** Custom command words are also easy to remember.
 
 *Feature Contributions*:
 
@@ -1103,11 +1106,12 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |user |export changes |provide feedback to employees regarding the changes
 
+|`* *` |user |archive job entries |extract job entries within the selected range for archiving
+
+|`* *` |user |analyse job entries |keep track of employees' performance
+
 |`*` |user |export completed jobs to other formats |print out all the completed job entries and view it with a better program
 
-|`**` |user |archive job entries |extract job entries within the selected range for archiving
-
-|`**` |user |analyse job entries |keep track of employees' performance
 |=======================================================================
 
 _{More to be added}_
@@ -1467,17 +1471,17 @@ _{More to be added}_
 [appendix]
 == Non Functional Requirements
 
-.  Should work on any <<mainstream-os,mainstream OS>> as long as it has Java `1.8.0_60` or higher installed.
-.  Should be able to hold up to 1000 employees without a noticeable sluggishness in performance for typical usage.
-.  Should be able to hold up to 10000 jobs without a noticeable sluggishness in performance for typical usage.
-.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-.  Should work on both 32-bit and 64-bit environments.
-.  Should have short and comprehensible English commands.
-.  Should be able to retain information in event of crash or force shutdown.
-.  Should respond to user command within 2 seconds.
-.  Should be usable by a novice who has never used an electronic job management app before.
-.  User interface should be intuitive enough for users who are not IT-savvy.
-.  View should fit the screen of any computer with minimum screen size of 640 by 480 pixels.
+*  Should work on any <<mainstream-os,mainstream OS>> as long as it has Java `1.8.0_60` or higher installed.
+*  Should be able to hold up to 1000 employees without a noticeable sluggishness in performance for typical usage.
+*  Should be able to hold up to 10000 jobs without a noticeable sluggishness in performance for typical usage.
+*  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+*  Should work on both 32-bit and 64-bit environments.
+*  Should have short and comprehensible English commands.
+*  Should be able to retain information in event of crash or force shutdown.
+*  Should respond to user command within 2 seconds.
+*  Should be usable by a novice who has never used an electronic job management app before.
+*  User interface should be intuitive enough for users who are not IT-savvy.
+*  View should fit the screen of any computer with minimum screen size of 1024 by 768 pixels.
 
 _{More to be added}_
 
@@ -1486,6 +1490,19 @@ _{More to be added}_
 
 [[mainstream-os]] Mainstream OS::
 Windows, Linux, Unix, OS-X
+
+[[api]]API
+Application Programming Interface: a set of functions and procedures that allow the creation of applications which access the features or data of an operating system, application, or other service.
+[[alias]]Alias
+An alternate name
+[[beta-testing]]Beta testing
+Final stage of development testing, carried out by a party unconnected with the development process., usually users of the final product.
+[[dog-fooding]]Dog-fooding
+Testing of a product before it is made available to customers
+[[pr]]PR
+Pull Request
+[[slap]]SLAP
+Single Layer of Abstraction Principle: extraction of methods, fields and constants to keep details at the same level in a method.
 
 [appendix]
 == Product Survey
