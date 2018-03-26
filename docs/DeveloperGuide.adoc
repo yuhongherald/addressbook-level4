@@ -1,4 +1,4 @@
-﻿﻿= CarviciM - Developer Guide
+﻿= CarviciM - Developer Guide
 :toc:
 :toc-title:
 :toc-placement: preamble
@@ -12,28 +12,22 @@ ifdef::env-github[]
 endif::[]
 :repoURL: https://github.com/CS2103JAN2018-W09-B1/main/tree/master
 
-By: `W09-GroupB1`      Since: `May 2018`      Licence: `MIT`
+By: `W09-GroupB1`      Since: `May 2018`      Licence: `MIT`
 
 == Setting up
 
 === Prerequisites
 
-. Ensure that you have *JDK `1.8.0_60`* or later installed in your computer.
+. *JDK `1.8.0_60`* or later
 +
 [NOTE]
-If you do not already have *JDK `1.8.0_60`* or later installed, click http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[here] to do so.
-
-[WARNING]
-CarviciM works only with this version of Java 8 or later, and not on earlier versions. +
-Please http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[update your JDK] if your current version is earlier than the stated.
+Having any Java 8 version is not enough. +
+This app will not work with earlier versions of Java 8.
 +
 
-. You will need to use *IntelliJ* IDE for this project.
+. *IntelliJ* IDE
 +
 [NOTE]
-If you do not have *IntelliJ* IDE installed, click https://www.jetbrains.com/idea/download/#section=windows[here] to do so.
-
-[WARNING]
 IntelliJ by default has Gradle and JavaFx plugins installed. +
 Do not disable them. If you have disabled them, go to `File` > `Settings` > `Plugins` to re-enable them.
 
@@ -49,8 +43,8 @@ Do not disable them. If you have disabled them, go to `File` > `Settings` > `Plu
 . Locate the `build.gradle` file and select it. Click `OK`
 . Click `Open as Project`
 . Click `OK` to accept the default settings
-. Open a console and run the command `gradlew processResources` (Mac/Linux: `./gradlew processResources`). You should see the `BUILD SUCCESSFUL` message. +
-This will generate for you all resources required by the application and tests.
+. Open a console and run the command `gradlew processResources` (Mac/Linux: `./gradlew processResources`). It should finish with the `BUILD SUCCESSFUL` message. +
+This will generate all resources required by the application and tests.
 
 === Verifying the setup
 
@@ -61,7 +55,7 @@ This will generate for you all resources required by the application and tests.
 
 ==== Configuring the coding style
 
-The code for CarviciM follows https://github.com/oss-generic/process/blob/master/docs/CodingStandards.adoc[oss-generic coding standards]. IntelliJ's default style is mostly compliant with ours but it uses a different import order from ours. To rectify,
+This project follows https://github.com/oss-generic/process/blob/master/docs/CodingStandards.adoc[oss-generic coding standards]. IntelliJ's default style is mostly compliant with ours but it uses a different import order from ours. To rectify,
 
 . Go to `File` > `Settings...` (Windows/Linux), or `IntelliJ IDEA` > `Preferences...` (macOS)
 . Select `Editor` > `Code Style` > `Java`
@@ -105,19 +99,15 @@ When you are ready to start coding,
 .Architecture Diagram
 image::Architecture.png[width="600"]
 
-The *_Architecture Diagram_* (figure 1) given above explains the high-level design of the App. Read this section (section 2) to get a quick overview of each component.
+The *_Architecture Diagram_* given above explains the high-level design of the App. Given below is a quick overview of each component.
 
 [TIP]
 The `.pptx` files used to create diagrams in this document can be found in the link:{repoURL}/docs/diagrams/[diagrams] folder. To update a diagram, modify the diagram in the pptx file, select the objects of the diagram, and choose `Save as picture`.
 
-
 `Main` has only one class called link:{repoURL}/src/main/java/seedu/address/MainApp.java[`MainApp`]. It is responsible for,
 
-* At app launch:
-** Initializing the components in the correct sequence, and connects them up with each other.
-* At shut down:
-** Shutting down the components and invoking cleanup method where necessary.
-
+* At app launch: Initializes the components in the correct sequence, and connects them up with each other.
+* At shut down: Shuts down the components and invokes cleanup method where necessary.
 
 <<Design-Commons,*`Commons`*>> represents a collection of classes used by multiple other components. Two of those classes play important roles at the architecture level.
 
@@ -144,7 +134,7 @@ image::LogicClassDiagram.png[width="800"]
 [discrete]
 ==== Events-Driven nature of the design
 
-The _Sequence Diagram_ below (figure 3) shows how the components interact for the scenario where the user issues the command `delete 1`.
+The _Sequence Diagram_ below shows how the components interact for the scenario where the user issues the command `delete 1`.
 
 .Component interactions for `delete 1` command (part 1)
 image::SDforDeletePerson.png[width="800"]
@@ -152,15 +142,13 @@ image::SDforDeletePerson.png[width="800"]
 [NOTE]
 Note how the `Model` simply raises a `AddressBookChangedEvent` when the Address Book data are changed, instead of asking the `Storage` to save the updates to the hard disk.
 
-
-The diagram below (figure 4) shows how the `EventsCenter` reacts to that event, which eventually results in the updates being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time.
+The diagram below shows how the `EventsCenter` reacts to that event, which eventually results in the updates being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time.
 
 .Component interactions for `delete 1` command (part 2)
 image::SDforDeletePersonEventHandling.png[width="800"]
 
 [NOTE]
 Note how the event is propagated through the `EventsCenter` to the `Storage` and `UI` without `Model` having to be coupled to either of them. This is an example of how this Event Driven approach helps us reduce direct coupling between components.
-
 
 The sections below give more details of each component.
 
@@ -174,7 +162,7 @@ image::UiClassDiagram.png[width="800"]
 
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter`, `BrowserPanel` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
-The `UI` component uses https://en.wikipedia.org/wiki/JavaFX[JavaFx] UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
+The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
 
 The `UI` component,
 
@@ -189,23 +177,18 @@ The `UI` component,
 .Structure of the Logic Component
 image::LogicClassDiagram.png[width="800"]
 
-
 .Structure of Commands in the Logic Component. This diagram shows finer details concerning `XYZCommand` and `Command` in <<fig-LogicClassDiagram>>
 image::LogicCommandClassDiagram.png[width="800"]
-
 
 *API* :
 link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
 
-
-Here is what happens when the UI makes an `execute()` call to Logic:
 .  `Logic` uses the `AddressBookParser` class to parse the user command.
 .  This results in a `Command` object which is executed by the `LogicManager`.
 .  The command execution can affect the `Model` (e.g. adding a employee) and/or raise events.
 .  The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui`.
 
-
-For a more specific example of the steps above, given below (figure 8) is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
+Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
 
 .Interactions Inside the Logic Component for the `delete 1` Command
 image::DeletePersonSdForLogic.png[width="800"]
@@ -216,9 +199,7 @@ image::DeletePersonSdForLogic.png[width="800"]
 .Structure of the Model Component
 image::ModelClassDiagram.png[width="800"]
 
-
 *API* : link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model.java`]
-
 
 The `Model`,
 
@@ -233,9 +214,7 @@ The `Model`,
 .Structure of the Storage Component
 image::StorageClassDiagram.png[width="800"]
 
-
 *API* : link:{repoURL}/src/main/java/seedu/address/storage/Storage.java[`Storage.java`]
-
 
 The `Storage` component,
 
@@ -255,21 +234,20 @@ This section describes some noteworthy details on how certain features are imple
 === Set command feature
 ==== Current Implementation
 
-`SetCommand` keeps 2 lists of command words:
-* the default command words
-** stored as a class level reference `COMMANDS`
-* the custom user command words
-** stored as a field `commands` in the object
-Both are managed by the class `CommandWords`.
+Set command keeps 2 lists of command words, the default command words and the custom user command words, which are both managed by the class `CommandWords`.
+
+The default command words are stored as a class level reference `COMMANDS`, while the custom command words are stored as a field `commands` in the object.
 
 `CommandWords` is in the `Logic` component, under `Commands`, as it is required to parse commands in `AddressBookParser`.
 
 `CommandWords` only deal with commands that have their default command word declared in the class level reference.
 
-image::SetCommandLogicDiagram.png[width="800"]
-image::SetCommandModelDiagram.png[width="800"]
+image::SetCommandLogicDiagram.png[width="800"]+
+image::SetCommandModelDiagram.png[width="800"]+
 
-As you can see from figure ?, AddressBookParser makes a reference to CommandWords. However, `CommandWords` resides in `UserPrefs` in the `Model` component. This is to facilitate the saving of data.
+As you can see from the diagram, AddressBookParser makes a reference to CommandWords. However, `CommandWords` resides in `UserPrefs` in the `Model` component.
+
+This is to facilitate the saving of data.
 
 ==== Design Considerations
 
@@ -284,20 +262,20 @@ As you can see from figure ?, AddressBookParser makes a reference to CommandWord
 
 ===== Aspect: Access to CommandWords
 
-* **Current choice:** Provide direct access to `CommandWords` when more details are needed and keep minimal API on `ModelManager`.
-** Pros: Easy to implement, and is neat.
-** Cons: Accidental modification can lead to bugs.
-* _Alternative:_ `ModelManager` and member variables gets access and provides API to access `CommandWords`.
+* **Alternative 1:** `ModelManager` and member variables gets access and provides API to access `CommandWords`.
 ** Pros: Write protection.
-** Cons: `CommandWords` is frequently accessed, so many more APIs are required.
+** Cons: `CommandWords` is frequently accessed, many more APIs are required.
+* **Alternative 2 (current choice):** Provide direct access to `CommandWords` when more details are needed and keep minimal API on `ModelManager`.
+** Pros: Easy to implement, neat.
+** Cons: Accidental modification can lead to bugs, so need to be careful.
 
 
 ===== Aspect: Storing the list of default command words
 
-* **Current choice:** Store the default list in `CommandWords`.
+* **Alternative 1 (current choice):** Store the default list in `CommandWords`.
 ** Pros: Easier to maintain the Open-Closed Principle, also follows the Single Responsibility Principle.
 ** Cons: Increased coupling.
-* _Alternative:_ Store the default list in `Commands`.
+* **Alternative 2:** Store the default list in `Commands`.
 ** Pros: Reduced coupling.
 ** Cons: `Commands` is an abstract class, it is not appropriate to reference class variables.
 // end::set[]
@@ -388,9 +366,8 @@ If there is no `INDEX` present, `theme` command will return an invalid message, 
 ----
 
 ==== Design Considerations
-
-===== Aspect: Implementation of ThemeCommand +
-* **Current choice:** Utilizing `SetThemRequestEvent` and allow `MainWindow` to handle the raised event to set the theme of the application. Ensuring persistent theme setting by updating `UserPref` to store and retrieve relevant stylesheet used.
+*Aspect:* Implementation of ThemeCommand +
+*Alternative 1 (Current choice):* Utilizing `SetThemRequestEvent` and allow `MainWindow` to handle the raised event to set the theme of the application. Ensuring persistent theme setting by updating `UserPref` to store and retrieve relevant stylesheet used.
 // end::theme[]
 
 // tag::undoredo[]
@@ -401,10 +378,9 @@ The undo/redo mechanism is facilitated by an `UndoRedoStack`, which resides insi
 
 `UndoRedoStack` only deals with `UndoableCommands`. Commands that cannot be undone will inherit from `Command` instead. The following diagram shows the inheritance diagram for commands:
 
-.Inheritance diagram for commands
 image::LogicCommandClassDiagram.png[width="800"]
 
-As you can see from the diagram above, `UndoableCommand` adds an extra layer between the abstract `Command` class and concrete commands that can be undone, such as the `DeleteCommand`. Note that extra tasks need to be done when executing a command in an _undoable_ way, such as saving the state of the address book before execution. `UndoableCommand` contains the high-level algorithm for those extra tasks while the child classes implements the details of how to execute the specific command. Note that this technique of putting the high-level algorithm in the parent class and lower-level steps of the algorithm in child classes is also known as the https://www.tutorialspoint.com/design_pattern/template_pattern.htm[template pattern].
+As you can see from the diagram, `UndoableCommand` adds an extra layer between the abstract `Command` class and concrete commands that can be undone, such as the `DeleteCommand`. Note that extra tasks need to be done when executing a command in an _undoable_ way, such as saving the state of the address book before execution. `UndoableCommand` contains the high-level algorithm for those extra tasks while the child classes implements the details of how to execute the specific command. Note that this technique of putting the high-level algorithm in the parent class and lower-level steps of the algorithm in child classes is also known as the https://www.tutorialspoint.com/design_pattern/template_pattern.htm[template pattern].
 
 Commands that are not undoable are implemented this way:
 [source,java]
@@ -439,14 +415,12 @@ public class DeleteCommand extends UndoableCommand {
 
 Suppose that the user has just launched the application. The `UndoRedoStack` will be empty at the beginning.
 
-The user executes a new `UndoableCommand`, `delete 5`, to delete the 5th employee in the address book. The current state of the address book is saved before the `delete 5` command executes. The `delete 5` command will then be pushed onto the `undoStack` (the current state is saved together with the command), as shown in the figure below.
+The user executes a new `UndoableCommand`, `delete 5`, to delete the 5th employee in the address book. The current state of the address book is saved before the `delete 5` command executes. The `delete 5` command will then be pushed onto the `undoStack` (the current state is saved together with the command).
 
-.Step 1: `delete 5` command pushed onto the `undoStack`
 image::UndoRedoStartingStackDiagram.png[width="800"]
 
-As the user continues to use the program, more commands are added into the `undoStack`. For example, as shown in the figure below, the user may execute `add n/David ...` to add a new employee.
+As the user continues to use the program, more commands are added into the `undoStack`. For example, the user may execute `add n/David ...` to add a new employee.
 
-.Step 2: execute `add n/David ...`
 image::UndoRedoNewCommand1StackDiagram.png[width="800"]
 
 [NOTE]
@@ -659,7 +633,6 @@ Thanks to the https://github.com/TestFX/TestFX[TestFX] library we use, our GUI t
 
 To run tests in headless mode, open a console and run the command `gradlew clean headless allTests` (Mac/Linux: `./gradlew clean headless allTests`)
 
-[[Testing-TypesOfTests]]
 === Types of tests
 
 We have two types of tests:
@@ -917,103 +890,103 @@ Let's start by teaching the application how to parse a `remark` command. We will
 +
 * Main:
 
-1.1. Add a `RemarkCommand` that extends link:{repoURL}/src/main/java/seedu/address/logic/commands/UndoableCommand.java[`UndoableCommand`]. Upon execution, it should just throw an `Exception`.
-1.2. Modify link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser`] to accept a `RemarkCommand`.
+1. Add a `RemarkCommand` that extends link:{repoURL}/src/main/java/seedu/address/logic/commands/UndoableCommand.java[`UndoableCommand`]. Upon execution, it should just throw an `Exception`.
+2. Modify link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser`] to accept a `RemarkCommand`.
 
 * Tests:
 
-1.1. Add `RemarkCommandTest` that tests that `executeUndoableCommand()` throws an Exception.
-1.2. Add new test method to link:{repoURL}/src/test/java/seedu/address/logic/parser/AddressBookParserTest.java[`AddressBookParserTest`], which tests that typing "remark" returns an instance of `RemarkCommand`.
+1. Add `RemarkCommandTest` that tests that `executeUndoableCommand()` throws an Exception.
+2. Add new test method to link:{repoURL}/src/test/java/seedu/address/logic/parser/AddressBookParserTest.java[`AddressBookParserTest`], which tests that typing "remark" returns an instance of `RemarkCommand`.
 
-===== [Step 2] Logic: Teach the app to accept 'remark' arguments
+. Logic: Teach the app to accept 'remark' arguments
 Let's teach the application to parse arguments that our `remark` command will accept. E.g. `1 r/Likes to drink coffee.`
++
+*Main:
 
-**Main:**
+1. Modify `RemarkCommand` to take in an `Index` and `String` and print those two parameters as the error message.
+2. Add `RemarkCommandParser` that knows how to parse two arguments, one index and one with prefix 'r/'.
+3. Modify link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser`] to use the newly implemented `RemarkCommandParser`.
 
-. Modify `RemarkCommand` to take in an `Index` and `String` and print those two parameters as the error message.
-. Add `RemarkCommandParser` that knows how to parse two arguments, one index and one with prefix 'r/'.
-. Modify link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser`] to use the newly implemented `RemarkCommandParser`.
+*Tests:
 
-**Tests:**
-
-. Modify `RemarkCommandTest` to test the `RemarkCommand#equals()` method.
-. Add `RemarkCommandParserTest` that tests different boundary values
+1. Modify `RemarkCommandTest` to test the `RemarkCommand#equals()` method.
+2. Add `RemarkCommandParserTest` that tests different boundary values
 for `RemarkCommandParser`.
-. Modify link:{repoURL}/src/test/java/seedu/address/logic/parser/AddressBookParserTest.java[`AddressBookParserTest`] to test that the correct command is generated according to the user input.
+3. Modify link:{repoURL}/src/test/java/seedu/address/logic/parser/AddressBookParserTest.java[`AddressBookParserTest`] to test that the correct command is generated according to the user input.
 
-===== [Step 3] Ui: Add a placeholder for remark in `PersonCard`
+. Ui: Add a placeholder for remark in `PersonCard`
 Let's add a placeholder on all our link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`] s to display a remark for each employee later.
++
+*Main:
 
-**Main:**
+1. Add a `Label` with any random text inside link:{repoURL}/src/main/resources/view/PersonListCard.fxml[`PersonListCard.fxml`].
+2. Add FXML annotation in link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`] to tie the variable to the actual label.
 
-. Add a `Label` with any random text inside link:{repoURL}/src/main/resources/view/PersonListCard.fxml[`PersonListCard.fxml`].
-. Add FXML annotation in link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`] to tie the variable to the actual label.
+*Tests:
 
-**Tests:**
+1. Modify link:{repoURL}/src/test/java/guitests/guihandles/PersonCardHandle.java[`PersonCardHandle`] so that future tests can read the contents of the remark label.
 
-. Modify link:{repoURL}/src/test/java/guitests/guihandles/PersonCardHandle.java[`PersonCardHandle`] so that future tests can read the contents of the remark label.
-
-===== [Step 4] Model: Add `Remark` class
+. Model: Add `Remark` class
 We have to properly encapsulate the remark in our link:{repoURL}/src/main/java/seedu/address/model/employee/Person.java[`Person`] class. Instead of just using a `String`, let's follow the conventional class structure that the codebase already uses by adding a `Remark` class.
++
+*Main:
 
-**Main:**
+1. Add `Remark` to model component (you can copy from link:{repoURL}/src/main/java/seedu/address/model/employee/Address.java[`Address`], remove the regex and change the names accordingly).
+2. Modify `RemarkCommand` to now take in a `Remark` instead of a `String`.
 
-. Add `Remark` to model component (you can copy from link:{repoURL}/src/main/java/seedu/address/model/employee/Address.java[`Address`], remove the regex and change the names accordingly).
-. Modify `RemarkCommand` to now take in a `Remark` instead of a `String`.
+*Tests:
 
-**Tests:**
+1. Add test for `Remark`, to test the `Remark#equals()` method.
 
-. Add test for `Remark`, to test the `Remark#equals()` method.
-
-===== [Step 5] Model: Modify `Person` to support a `Remark` field
+. Model: Modify `Person` to support a `Remark` field
 Now we have the `Remark` class, we need to actually use it inside link:{repoURL}/src/main/java/seedu/address/model/employee/Person.java[`Person`].
++
+*Main:
 
-**Main:**
+1. Add `getRemark()` in link:{repoURL}/src/main/java/seedu/address/model/employee/Person.java[`Person`].
+2. You may assume that the user will not be able to use the `add` and `edit` commands to modify the remarks field (i.e. the employee will be created without a remark).
+3. Modify link:{repoURL}/src/main/java/seedu/address/model/util/SampleDataUtil.java/[`SampleDataUtil`] to add remarks for the sample data (delete your `addressBook.xml` so that the application will load the sample data when you launch it.)
 
-. Add `getRemark()` in link:{repoURL}/src/main/java/seedu/address/model/employee/Person.java[`Person`].
-. You may assume that the user will not be able to use the `add` and `edit` commands to modify the remarks field (i.e. the employee will be created without a remark).
-. Modify link:{repoURL}/src/main/java/seedu/address/model/util/SampleDataUtil.java/[`SampleDataUtil`] to add remarks for the sample data (delete your `addressBook.xml` so that the application will load the sample data when you launch it.)
-
-===== [Step 6] Storage: Add `Remark` field to `XmlAdaptedPerson` class
+. Storage: Add `Remark` field to `XmlAdaptedPerson` class
 We now have `Remark` s for `Person` s, but they will be gone when we exit the application. Let's modify link:{repoURL}/src/main/java/seedu/address/storage/XmlAdaptedPerson.java[`XmlAdaptedPerson`] to include a `Remark` field so that it will be saved.
++
+*Main:
 
-**Main:**
+1. Add a new Xml field for `Remark`.
 
-. Add a new Xml field for `Remark`.
+*Tests:
 
-**Tests:**
+1. Fix `invalidAndValidPersonAddressBook.xml`, `typicalPersonsAddressBook.xml`, `validAddressBook.xml` etc., such that the XML tests will not fail due to a missing `<remark>` element.
 
-. Fix `invalidAndValidPersonAddressBook.xml`, `typicalPersonsAddressBook.xml`, `validAddressBook.xml` etc., such that the XML tests will not fail due to a missing `<remark>` element.
-
-===== [Step 6b] Test: Add withRemark() for `PersonBuilder`
+. Test: Add withRemark() for `PersonBuilder`
 Since `Person` can now have a `Remark`, we should add a helper method to link:{repoURL}/src/test/java/seedu/address/testutil/PersonBuilder.java[`PersonBuilder`], so that users are able to create remarks when building a link:{repoURL}/src/main/java/seedu/address/model/employee/Person.java[`Person`].
++
+*Tests:*
 
-**Tests:**
+1. Add a new method `withRemark()` for link:{repoURL}/src/test/java/seedu/address/testutil/PersonBuilder.java[`PersonBuilder`]. This method will create a new `Remark` for the employee that it is currently building.
+2. Try and use the method on any sample `Person` in link:{repoURL}/src/test/java/seedu/address/testutil/TypicalPersons.java[`TypicalPersons`].
 
-. Add a new method `withRemark()` for link:{repoURL}/src/test/java/seedu/address/testutil/PersonBuilder.java[`PersonBuilder`]. This method will create a new `Remark` for the employee that it is currently building.
-. Try and use the method on any sample `Person` in link:{repoURL}/src/test/java/seedu/address/testutil/TypicalPersons.java[`TypicalPersons`].
-
-===== [Step 7] Ui: Connect `Remark` field to `PersonCard`
+. Ui: Connect `Remark` field to `PersonCard`
 Our remark label in link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`] is still a placeholder. Let's bring it to life by binding it with the actual `remark` field.
++
+*Main:
 
-**Main:**
+1. Modify link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`]'s constructor to bind the `Remark` field to the `Person` 's remark.
 
-. Modify link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`]'s constructor to bind the `Remark` field to the `Person` 's remark.
+**Tests:
 
-**Tests:**
+1. Modify link:{repoURL}/src/test/java/seedu/address/ui/testutil/GuiTestAssert.java[`GuiTestAssert#assertCardDisplaysPerson(...)`] so that it will compare the now-functioning remark label.
 
-. Modify link:{repoURL}/src/test/java/seedu/address/ui/testutil/GuiTestAssert.java[`GuiTestAssert#assertCardDisplaysPerson(...)`] so that it will compare the now-functioning remark label.
-
-===== [Step 8] Logic: Implement `RemarkCommand#execute()` logic
+. Logic: Implement `RemarkCommand#execute()` logic
 We now have everything set up... but we still can't modify the remarks. Let's finish it up by adding in actual logic for our `remark` command.
++
+*Main:
 
-**Main:**
+1. Replace the logic in `RemarkCommand#execute()` (that currently just throws an `Exception`), with the actual logic to modify the remarks of a employee.
 
-. Replace the logic in `RemarkCommand#execute()` (that currently just throws an `Exception`), with the actual logic to modify the remarks of a employee.
+*Tests:
 
-**Tests:**
-
-. Update `RemarkCommandTest` to test that the `execute()` logic works.
+1. Update `RemarkCommandTest` to test that the `execute()` logic works.
 
 ==== Full Solution
 
@@ -1574,5 +1547,4 @@ _{ more test cases ... }_
 .. _{explain how to simulate a missing/corrupted file and the expected behavior}_
 
 _{ more test cases ... }_
-
 
