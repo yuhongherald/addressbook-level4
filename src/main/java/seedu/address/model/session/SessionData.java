@@ -1,8 +1,10 @@
 package seedu.address.model.session;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
+import java.util.List;
 import seedu.address.model.session.exceptions.DataIndexOutOfBoundsException;
 
 //@@author yuhongherald
@@ -27,15 +29,15 @@ public class SessionData {
     /**
      * @return a copy of unreviewed job entries stored in this sheet
      */
-    public ArrayList<JobEntry> getUnreviewedJobEntries() {
-        return new ArrayList<>(unreviewedJobEntries);
+    public List<JobEntry> getUnreviewedJobEntries() {
+        return Collections.unmodifiableList(unreviewedJobEntries);
     }
 
     /**
      * @return a copy of reviewed job entries stored in this sheet
      */
-    public ArrayList<JobEntry> getReviewedJobEntries() {
-        return new ArrayList<>(reviewedJobEntries);
+    public List<JobEntry> getReviewedJobEntries() {
+        return Collections.unmodifiableList(reviewedJobEntries);
     }
 
     /**

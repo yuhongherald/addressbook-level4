@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.io.IOException;
+
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.session.ImportSession;
 import seedu.address.model.session.exceptions.DataIndexOutOfBoundsException;
@@ -11,7 +12,7 @@ import seedu.address.model.session.exceptions.FileFormatException;
 
 //@@author yuhongherald
 /**
- *
+ * Attempts to import all (@code JobEntry) into Servicing Manager
  */
 public class ImportAllCommand extends UndoableCommand {
 
@@ -39,15 +40,17 @@ public class ImportAllCommand extends UndoableCommand {
         } catch (FileAccessException e) {
             e.printStackTrace();
         } catch (FileFormatException e) {
-            e.printStackTrace();
+            throw new CommandException("Excel file first row headers are not defined properly. "
+                    + "Type 'help' to read more.");
         }
-        // write import all command
         try {
+            importSession.reviewAllRemainingJobEntries(true);
             importSession.closeSession();
         } catch (DataIndexOutOfBoundsException e) {
-            e.printStackTrace();
+            throw new CommandException("Excel file has bad format. Try copying the cell values into a new excel file "
+                    + "before trying again");
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new CommandException("Unable to export file. Please close the application and try again.");
         }
         return null;
     }

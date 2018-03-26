@@ -114,6 +114,10 @@ public class ImportSession {
         return workbook;
     }
 
+    public void reviewAllRemainingJobEntries(boolean approve) throws DataIndexOutOfBoundsException {
+        sessionData.reviewAllRemainingJobEntries(approve, "Imported with no comments.");
+    }
+
     /**
      * Flushes feedback to (@code outFile) and releases resources. Currently not persistent.
      */
@@ -121,12 +125,10 @@ public class ImportSession {
         if (!initialized) {
             return;
         }
-        sessionData.reviewAllRemainingJobEntries(true, "Good job!");
         if (outFile == null) { // does not check if a file exists
             String timeStamp = getTimeStamp();
             outFile = new File(inFile.getPath() + timeStamp + inFile.getName());
         }
-        // TODO: code to write workbook outfile
         FileOutputStream fileOut = new FileOutputStream(outFile);
         System.out.println(outFile.getName());
         workbook.write(fileOut);
@@ -161,6 +163,7 @@ public class ImportSession {
         try {
             importSession.initializeSession(
                     ".\\src\\test\\resources\\model.session.ImportSessionTest\\CS2103-testsheet.xlsx");
+            importSession.reviewAllRemainingJobEntries(true);
             importSession.closeSession();
         } catch (Exception e) {
             e.printStackTrace();

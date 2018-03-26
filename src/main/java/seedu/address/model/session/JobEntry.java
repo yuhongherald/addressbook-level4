@@ -1,5 +1,8 @@
 package seedu.address.model.session;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import seedu.address.model.job.Date;
 import seedu.address.model.job.Job;
 import seedu.address.model.job.JobNumber;
@@ -19,13 +22,14 @@ public class JobEntry extends Job implements ExcelRowReference {
 
     private boolean reviewed;
     private boolean approved;
-    private String comments;
+    private final ArrayList<String> comments;
 
     public JobEntry (Person client, VehicleNumber vehicleNumber, JobNumber jobNumber, Date date,
               UniqueEmployeeList assignedEmployees, Status status, RemarkList remarks, int sheetNumber, int rowNumber) {
         super(client, vehicleNumber, jobNumber, date, assignedEmployees, status, remarks);
         this.sheetNumber = sheetNumber;
         this.rowNumber = rowNumber;
+        comments = new ArrayList<>();
         reviewed = false;
     }
 
@@ -44,11 +48,12 @@ public class JobEntry extends Job implements ExcelRowReference {
      */
     public void review(boolean approved, String comments) {
         this.approved = approved;
-        this.comments = comments; // TODO: remember to add to remarklist when its online
+        this.comments = comments;
+        // TODO: remember to add to remarklist when its online
     }
 
-    public String getComments() {
-        return comments;
+    public List<String> getComments() {
+        return Collections.unmodifiableList(comments);
     }
 
     @Override public int getSheetNumber() {
