@@ -17,6 +17,9 @@ public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Employee> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
 
+    /** {@code Predicate} that always evaluate to true */
+    Predicate<Job> PREDICATE_SHOW_ALL_JOBS = unused -> true;
+
     /** Clears existing backing model and replaces with the provided new data. */
     void resetData(ReadOnlyAddressBook newData, CommandWords newCommandWords);
 
@@ -29,6 +32,9 @@ public interface Model {
 
     /** Returns the AddressBook */
     ReadOnlyAddressBook getAddressBook();
+
+    /** Initializes the job number based on the list of jobs */
+    void initJobNumber();
 
     /** Adds the given job */
     void addJob(Job job);
