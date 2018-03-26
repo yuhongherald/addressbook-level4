@@ -1,4 +1,4 @@
-﻿= CarviciM - Developer Guide
+﻿﻿= CarviciM - Developer Guide
 :toc:
 :toc-title:
 :toc-placement: preamble
@@ -12,22 +12,28 @@ ifdef::env-github[]
 endif::[]
 :repoURL: https://github.com/CS2103JAN2018-W09-B1/main/tree/master
 
-By: `W09-GroupB1`      Since: `May 2018`      Licence: `MIT`
+By: `W09-GroupB1`      Since: `May 2018`      Licence: `MIT`
 
 == Setting up
 
 === Prerequisites
 
-. *JDK `1.8.0_60`* or later
+. Ensure that you have *JDK `1.8.0_60`* or later installed in your computer.
 +
 [NOTE]
-Having any Java 8 version is not enough. +
-This app will not work with earlier versions of Java 8.
+If you do not already have *JDK `1.8.0_60`* or later installed, click http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[here] to do so.
+
+[WARNING]
+CarviciM works only with this version of Java 8 or later, and not on earlier versions. +
+Please http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[update your JDK] if your current version is earlier than the stated.
 +
 
-. *IntelliJ* IDE
+. You will need to use *IntelliJ* IDE for this project.
 +
 [NOTE]
+If you do not have *IntelliJ* IDE installed, click https://www.jetbrains.com/idea/download/#section=windows[here] to do so.
+
+[WARNING]
 IntelliJ by default has Gradle and JavaFx plugins installed. +
 Do not disable them. If you have disabled them, go to `File` > `Settings` > `Plugins` to re-enable them.
 
@@ -43,8 +49,8 @@ Do not disable them. If you have disabled them, go to `File` > `Settings` > `Plu
 . Locate the `build.gradle` file and select it. Click `OK`
 . Click `Open as Project`
 . Click `OK` to accept the default settings
-. Open a console and run the command `gradlew processResources` (Mac/Linux: `./gradlew processResources`). It should finish with the `BUILD SUCCESSFUL` message. +
-This will generate all resources required by the application and tests.
+. Open a console and run the command `gradlew processResources` (Mac/Linux: `./gradlew processResources`). You should see the `BUILD SUCCESSFUL` message. +
+This will generate for you all resources required by the application and tests.
 
 === Verifying the setup
 
@@ -55,7 +61,7 @@ This will generate all resources required by the application and tests.
 
 ==== Configuring the coding style
 
-This project follows https://github.com/oss-generic/process/blob/master/docs/CodingStandards.adoc[oss-generic coding standards]. IntelliJ's default style is mostly compliant with ours but it uses a different import order from ours. To rectify,
+The code for CarviciM follows https://github.com/oss-generic/process/blob/master/docs/CodingStandards.adoc[oss-generic coding standards]. IntelliJ's default style is mostly compliant with ours but it uses a different import order from ours. To rectify,
 
 . Go to `File` > `Settings...` (Windows/Linux), or `IntelliJ IDEA` > `Preferences...` (macOS)
 . Select `Editor` > `Code Style` > `Java`
@@ -99,15 +105,19 @@ When you are ready to start coding,
 .Architecture Diagram
 image::Architecture.png[width="600"]
 
-The *_Architecture Diagram_* given above explains the high-level design of the App. Given below is a quick overview of each component.
+The *_Architecture Diagram_* (figure 1) given above explains the high-level design of the App. Read this section (section 2) to get a quick overview of each component.
 
 [TIP]
 The `.pptx` files used to create diagrams in this document can be found in the link:{repoURL}/docs/diagrams/[diagrams] folder. To update a diagram, modify the diagram in the pptx file, select the objects of the diagram, and choose `Save as picture`.
 
+
 `Main` has only one class called link:{repoURL}/src/main/java/seedu/address/MainApp.java[`MainApp`]. It is responsible for,
 
-* At app launch: Initializes the components in the correct sequence, and connects them up with each other.
-* At shut down: Shuts down the components and invokes cleanup method where necessary.
+* At app launch:
+** Initializing the components in the correct sequence, and connects them up with each other.
+* At shut down:
+** Shutting down the components and invoking cleanup method where necessary.
+
 
 <<Design-Commons,*`Commons`*>> represents a collection of classes used by multiple other components. Two of those classes play important roles at the architecture level.
 
@@ -123,10 +133,10 @@ The rest of the App consists of four components.
 
 Each of the four components
 
-* Defines its _API_ in an `interface` with the same name as the Component.
+* Defines its <<api, _API_>> in an `interface` with the same name as the Component.
 * Exposes its functionality using a `{Component Name}Manager` class.
 
-For example, the `Logic` component (see the class diagram given below) defines it's API in the `Logic.java` interface and exposes its functionality using the `LogicManager.java` class.
+For example, the `Logic` component (see the class diagram given below) defines it's <<api, API>> in the `Logic.java` interface and exposes its functionality using the `LogicManager.java` class.
 
 .Class Diagram of the Logic Component
 image::LogicClassDiagram.png[width="800"]
@@ -134,7 +144,7 @@ image::LogicClassDiagram.png[width="800"]
 [discrete]
 ==== Events-Driven nature of the design
 
-The _Sequence Diagram_ below shows how the components interact for the scenario where the user issues the command `delete 1`.
+The _Sequence Diagram_ below (figure 3) shows how the components interact for the scenario where the user issues the command `delete 1`.
 
 .Component interactions for `delete 1` command (part 1)
 image::SDforDeletePerson.png[width="800"]
@@ -142,13 +152,15 @@ image::SDforDeletePerson.png[width="800"]
 [NOTE]
 Note how the `Model` simply raises a `AddressBookChangedEvent` when the Address Book data are changed, instead of asking the `Storage` to save the updates to the hard disk.
 
-The diagram below shows how the `EventsCenter` reacts to that event, which eventually results in the updates being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time.
+
+The diagram below (figure 4) shows how the `EventsCenter` reacts to that event, which eventually results in the updates being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time.
 
 .Component interactions for `delete 1` command (part 2)
 image::SDforDeletePersonEventHandling.png[width="800"]
 
 [NOTE]
 Note how the event is propagated through the `EventsCenter` to the `Storage` and `UI` without `Model` having to be coupled to either of them. This is an example of how this Event Driven approach helps us reduce direct coupling between components.
+
 
 The sections below give more details of each component.
 
@@ -158,11 +170,11 @@ The sections below give more details of each component.
 .Structure of the UI Component
 image::UiClassDiagram.png[width="800"]
 
-*API* : link:{repoURL}/src/main/java/seedu/address/ui/Ui.java[`Ui.java`]
+<<api, *API*>> : link:{repoURL}/src/main/java/seedu/address/ui/Ui.java[`Ui.java`]
 
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter`, `BrowserPanel` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
-The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
+The `UI` component uses https://en.wikipedia.org/wiki/JavaFX[JavaFx] UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
 
 The `UI` component,
 
@@ -177,18 +189,23 @@ The `UI` component,
 .Structure of the Logic Component
 image::LogicClassDiagram.png[width="800"]
 
+
 .Structure of Commands in the Logic Component. This diagram shows finer details concerning `XYZCommand` and `Command` in <<fig-LogicClassDiagram>>
 image::LogicCommandClassDiagram.png[width="800"]
 
-*API* :
+
+<<api, *API*>> :
 link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
 
+
+Here is what happens when the UI makes an `execute()` call to Logic:
 .  `Logic` uses the `AddressBookParser` class to parse the user command.
 .  This results in a `Command` object which is executed by the `LogicManager`.
 .  The command execution can affect the `Model` (e.g. adding a employee) and/or raise events.
 .  The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui`.
 
-Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
+
+For a more specific example of the steps above, given below (figure 8) is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` <<api, API>> call.
 
 .Interactions Inside the Logic Component for the `delete 1` Command
 image::DeletePersonSdForLogic.png[width="800"]
@@ -199,7 +216,9 @@ image::DeletePersonSdForLogic.png[width="800"]
 .Structure of the Model Component
 image::ModelClassDiagram.png[width="800"]
 
-*API* : link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model.java`]
+
+<<api, *API*>> : link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model.java`]
+
 
 The `Model`,
 
@@ -214,7 +233,9 @@ The `Model`,
 .Structure of the Storage Component
 image::StorageClassDiagram.png[width="800"]
 
-*API* : link:{repoURL}/src/main/java/seedu/address/storage/Storage.java[`Storage.java`]
+
+<<api, *API*>> : link:{repoURL}/src/main/java/seedu/address/storage/Storage.java[`Storage.java`]
+
 
 The `Storage` component,
 
@@ -234,20 +255,24 @@ This section describes some noteworthy details on how certain features are imple
 === Set command feature
 ==== Current Implementation
 
-Set command keeps 2 lists of command words, the default command words and the custom user command words, which are both managed by the class `CommandWords`.
-
-The default command words are stored as a class level reference `COMMANDS`, while the custom command words are stored as a field `commands` in the object.
+`SetCommand` keeps 2 lists of command words:
+* the default command words
+** stored as a class level reference `COMMANDS`
+* the custom user command words
+** stored as a field `commands` in the object
+Both are managed by the class `CommandWords`.
 
 `CommandWords` is in the `Logic` component, under `Commands`, as it is required to parse commands in `AddressBookParser`.
 
 `CommandWords` only deal with commands that have their default command word declared in the class level reference.
 
-image::SetCommandLogicDiagram.png[width="800"]+
-image::SetCommandModelDiagram.png[width="800"]+
+.Structure of Logic with SetCommand implemented
+image::SetCommandLogicDiagram.png[width="800"]
 
-As you can see from the diagram, AddressBookParser makes a reference to CommandWords. However, `CommandWords` resides in `UserPrefs` in the `Model` component.
+.Structure of Model with SetCommand implemented
+image::SetCommandModelDiagram.png[width="800"]
 
-This is to facilitate the saving of data.
+As you can see from figure ?, AddressBookParser makes a reference to CommandWords. However, `CommandWords` resides in `UserPrefs` in the `Model` component. This is to facilitate the saving of data.
 
 ==== Design Considerations
 
@@ -262,20 +287,20 @@ This is to facilitate the saving of data.
 
 ===== Aspect: Access to CommandWords
 
-* **Alternative 1:** `ModelManager` and member variables gets access and provides API to access `CommandWords`.
+* **Current choice:** Provide direct access to `CommandWords` when more details are needed and keep minimal <<api, API>> on `ModelManager`.
+** Pros: Easy to implement, and is neat.
+** Cons: Accidental modification can lead to bugs.
+* _Alternative:_ `ModelManager` and member variables gets access and provides <<api, API>> to access `CommandWords`.
 ** Pros: Write protection.
-** Cons: `CommandWords` is frequently accessed, many more APIs are required.
-* **Alternative 2 (current choice):** Provide direct access to `CommandWords` when more details are needed and keep minimal API on `ModelManager`.
-** Pros: Easy to implement, neat.
-** Cons: Accidental modification can lead to bugs, so need to be careful.
+** Cons: `CommandWords` is frequently accessed, so many more <<api, APIs>> are required.
 
 
 ===== Aspect: Storing the list of default command words
 
-* **Alternative 1 (current choice):** Store the default list in `CommandWords`.
+* **Current choice:** Store the default list in `CommandWords`.
 ** Pros: Easier to maintain the Open-Closed Principle, also follows the Single Responsibility Principle.
 ** Cons: Increased coupling.
-* **Alternative 2:** Store the default list in `Commands`.
+* _Alternative:_ Store the default list in `Commands`.
 ** Pros: Reduced coupling.
 ** Cons: `Commands` is an abstract class, it is not appropriate to reference class variables.
 // end::set[]
@@ -366,8 +391,9 @@ If there is no `INDEX` present, `theme` command will return an invalid message, 
 ----
 
 ==== Design Considerations
-*Aspect:* Implementation of ThemeCommand +
-*Alternative 1 (Current choice):* Utilizing `SetThemRequestEvent` and allow `MainWindow` to handle the raised event to set the theme of the application. Ensuring persistent theme setting by updating `UserPref` to store and retrieve relevant stylesheet used.
+
+===== Aspect: Implementation of ThemeCommand +
+* **Current choice:** Utilizing `SetThemRequestEvent` and allow `MainWindow` to handle the raised event to set the theme of the application. Ensuring persistent theme setting by updating `UserPref` to store and retrieve relevant stylesheet used.
 // end::theme[]
 
 // tag::undoredo[]
@@ -378,9 +404,10 @@ The undo/redo mechanism is facilitated by an `UndoRedoStack`, which resides insi
 
 `UndoRedoStack` only deals with `UndoableCommands`. Commands that cannot be undone will inherit from `Command` instead. The following diagram shows the inheritance diagram for commands:
 
+.Inheritance diagram for commands
 image::LogicCommandClassDiagram.png[width="800"]
 
-As you can see from the diagram, `UndoableCommand` adds an extra layer between the abstract `Command` class and concrete commands that can be undone, such as the `DeleteCommand`. Note that extra tasks need to be done when executing a command in an _undoable_ way, such as saving the state of the address book before execution. `UndoableCommand` contains the high-level algorithm for those extra tasks while the child classes implements the details of how to execute the specific command. Note that this technique of putting the high-level algorithm in the parent class and lower-level steps of the algorithm in child classes is also known as the https://www.tutorialspoint.com/design_pattern/template_pattern.htm[template pattern].
+As you can see from the diagram above, `UndoableCommand` adds an extra layer between the abstract `Command` class and concrete commands that can be undone, such as the `DeleteCommand`. Note that extra tasks need to be done when executing a command in an _undoable_ way, such as saving the state of the address book before execution. `UndoableCommand` contains the high-level algorithm for those extra tasks while the child classes implements the details of how to execute the specific command. Note that this technique of putting the high-level algorithm in the parent class and lower-level steps of the algorithm in child classes is also known as the https://www.tutorialspoint.com/design_pattern/template_pattern.htm[template pattern].
 
 Commands that are not undoable are implemented this way:
 [source,java]
@@ -413,57 +440,68 @@ public class DeleteCommand extends UndoableCommand {
 }
 ----
 
-Suppose that the user has just launched the application. The `UndoRedoStack` will be empty at the beginning.
+Suppose that the user has just launched the application. The steps below show the changes to the state of the stack for the `undo` command:
 
-The user executes a new `UndoableCommand`, `delete 5`, to delete the 5th employee in the address book. The current state of the address book is saved before the `delete 5` command executes. The `delete 5` command will then be pushed onto the `undoStack` (the current state is saved together with the command).
+1. The `UndoRedoStack` will be empty at the beginning.
 
+2. The user executes a new `UndoableCommand`, `delete 5`, to delete the 5th employee in the address book. The current state of the address book is saved before the `delete 5` command executes. The `delete 5` command will then be pushed onto the `undoStack` (the current state is saved together with the command), as shown in the figure below.
+
+.Step 1: `delete 5` command pushed onto the `undoStack`
 image::UndoRedoStartingStackDiagram.png[width="800"]
 
-As the user continues to use the program, more commands are added into the `undoStack`. For example, the user may execute `add n/David ...` to add a new employee.
+3. As the user continues to use the program, more commands are added into the `undoStack`. For example, as shown in the figure below, the user may execute `add n/David ...` to add a new employee.
 
+.Step 2: execute `add n/David ...`
 image::UndoRedoNewCommand1StackDiagram.png[width="800"]
 
 [NOTE]
 If a command fails its execution, it will not be pushed to the `UndoRedoStack` at all.
 
-The user now decides that adding the employee was a mistake, and decides to undo that action using `undo`.
+4. The user now decides that adding the employee was a mistake, and decides to undo that action using `undo`.
 
-We will pop the most recent command out of the `undoStack` and push it back to the `redoStack`. We will restore the address book to the state before the `add` command executed.
+As shown in the diagram below, we will pop the most recent command out of the `undoStack` and push it back to the `redoStack`. We will restore the address book to the state before the `add` command executed.
 
+.Step 3: `undo` action
 image::UndoRedoExecuteUndoStackDiagram.png[width="800"]
 
 [NOTE]
 If the `undoStack` is empty, then there are no other commands left to be undone, and an `Exception` will be thrown when popping the `undoStack`.
 
+
 The following sequence diagram shows how the undo operation works:
 
+.`undo` sequence diagram
 image::UndoRedoSequenceDiagram.png[width="800"]
 
-The redo does the exact opposite (pops from `redoStack`, push to `undoStack`, and restores the address book to the state after the command is executed).
+The `redo	 does the exact opposite (pops from `redoStack`, push to `undoStack`, and restores the address book to the state after the command is executed).
 
 [NOTE]
 If the `redoStack` is empty, then there are no other commands left to be redone, and an `Exception` will be thrown when popping the `redoStack`.
 
 The user now decides to execute a new command, `clear`. As before, `clear` will be pushed into the `undoStack`. This time the `redoStack` is no longer empty. It will be purged as it no longer make sense to redo the `add n/David` command (this is the behavior that most modern desktop applications follow).
 
+.`clear` pushed into `undoStack`
 image::UndoRedoNewCommand2StackDiagram.png[width="800"]
 
 Commands that are not undoable are not added into the `undoStack`. For example, `list`, which inherits from `Command` rather than `UndoableCommand`, will not be added after execution:
 
+.`list` not added into `undoStack`
 image::UndoRedoNewCommand3StackDiagram.png[width="800"]
+
 
 The following activity diagram summarize what happens inside the `UndoRedoStack` when a user executes a new command:
 
+.Stack activity diagram summary
 image::UndoRedoActivityDiagram.png[width="650"]
 
 ==== Design Considerations
 
 ===== Aspect: Implementation of `UndoableCommand`
 
-* **Alternative 1 (current choice):** Add a new abstract method `executeUndoableCommand()`
+* **Current choice:** Add a new abstract method `executeUndoableCommand()`
 ** Pros: We will not lose any undone/redone functionality as it is now part of the default behaviour. Classes that deal with `Command` do not have to know that `executeUndoableCommand()` exist.
 ** Cons: Hard for new developers to understand the template pattern.
-* **Alternative 2:** Just override `execute()`
+* _Alternative:_ Just override `execute()`
 ** Pros: Does not involve the template pattern, easier for new developers to understand.
 ** Cons: Classes that inherit from `UndoableCommand` must remember to call `super.execute()`, or lose the ability to undo/redo.
 
@@ -503,7 +541,7 @@ image::UndoRedoActivityDiagram.png[width="650"]
 
 ==== Current Implementation
 
-This feature is implemented using Gmail API.
+This feature is implemented using Gmail <<api, API>>.
 
 The following dependencies are used:
 * com.google.api-client:google-api-client:1.23.0
@@ -633,6 +671,7 @@ Thanks to the https://github.com/TestFX/TestFX[TestFX] library we use, our GUI t
 
 To run tests in headless mode, open a console and run the command `gradlew clean headless allTests` (Mac/Linux: `./gradlew clean headless allTests`)
 
+[[Testing-TypesOfTests]]
 === Types of tests
 
 We have two types of tests:
@@ -725,29 +764,29 @@ Proposed solution
 [[GetStartedProgramming-EachComponent-Logic]]
 ===== `Logic` component
 
-*Scenario:* You are in charge of `logic`. During dog-fooding, your team realize that it is troublesome for the user to type the whole command in order to execute a command. Your team devise some strategies to help cut down the amount of typing necessary, and one of the suggestions was to implement aliases for the command words. Your job is to implement such aliases.
+*Scenario:* You are in charge of `logic`. During <<dog-fooding, dog-fooding>>, your team realize that it is troublesome for the user to type the whole command in order to execute a command. Your team devise some strategies to help cut down the amount of typing necessary, and one of the suggestions was to implement <<alias, aliases>> for the command words. Your job is to implement such <<alias, aliases>>.
 
 [TIP]
 Do take a look at <<Design-Logic>> before attempting to modify the `Logic` component.
 
-. Add a shorthand equivalent alias for each of the individual commands. For example, besides typing `clear`, the user can also type `c` to remove all employees in the list.
+. Add a shorthand equivalent <<alias, alias>> for each of the individual commands. For example, besides typing `clear`, the user can also type `c` to remove all employees in the list.
 
 [NOTE]
 Hints
-** Just like we store each individual command word constant `COMMAND_WORD` inside `*Command.java` (e.g.  link:{repoURL}/src/main/java/seedu/address/logic/commands/FindCommand.java[`FindCommand#COMMAND_WORD`], link:{repoURL}/src/main/java/seedu/address/logic/commands/DeleteCommand.java[`DeleteCommand#COMMAND_WORD`]), you need a new constant for aliases as well (e.g. `FindCommand#COMMAND_ALIAS`).
+** Just like we store each individual command word constant `COMMAND_WORD` inside `*Command.java` (e.g.  link:{repoURL}/src/main/java/seedu/address/logic/commands/FindCommand.java[`FindCommand#COMMAND_WORD`], link:{repoURL}/src/main/java/seedu/address/logic/commands/DeleteCommand.java[`DeleteCommand#COMMAND_WORD`]), you need a new constant for <<alias, aliases>> as well (e.g. `FindCommand#COMMAND_ALIAS`).
 ** link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser`] is responsible for analyzing command words.
 
 [TIP]
 Proposed Solution
-** Modify the switch statement in link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser#parseCommand(String)`] such that both the proper command word and alias can be used to execute the same intended command.
-** Add new <<Testing-TypesOfTests, tests>> for each of the aliases that you have added.
-** Update the <<UserGuide#, User Guide>> to document the new aliases.
+** Modify the switch statement in link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser#parseCommand(String)`] such that both the proper command word and <<alias, alias>> can be used to execute the same intended command.
+** Add new <<Testing-TypesOfTests, tests>> for each of the <<alias, aliases>> that you have added.
+** Update the <<UserGuide#, User Guide>> to document the new <<alias, aliases>>.
 ** See this https://github.com/se-edu/addressbook-level4/pull/785[PR] for the full solution.
 
 [[GetStartedProgramming-EachComponent-Model]]
 ==== `Model` component
 
-*Scenario:* You are in charge of `model`. One day, the `logic`-in-charge approaches you for help. He wants to implement a command such that the user is able to remove a particular tag from everyone in the address book, but the model API does not support such a functionality at the moment. Your job is to implement an API method, so that your teammate can use your API to implement his command.
+*Scenario:* You are in charge of `model`. One day, the `logic`-in-charge approaches you for help. He wants to implement a command such that the user is able to remove a particular tag from everyone in the address book, but the model <<api, API>> does not support such a functionality at the moment. Your job is to implement an <<api, API>> method, so that your teammate can use your <<api, API>> to implement his command.
 
 [TIP]
 Do take a look at <<Design-Model>> before attempting to modify the `Model` component.
@@ -756,14 +795,14 @@ Do take a look at <<Design-Model>> before attempting to modify the `Model` compo
 
 [NOTE]
 Hints
-** The link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model`] and the link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] API need to be updated.
-** Think about how you can use SLAP to design the method. Where should we place the main logic of deleting tags?
-**  Find out which of the existing API methods in  link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] and link:{repoURL}/src/main/java/seedu/address/model/employee/Person.java[`Person`] classes can be used to implement the tag removal logic. link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] allows you to update a employee, and link:{repoURL}/src/main/java/seedu/address/model/employee/Person.java[`Person`] allows you to update the tags.
+** The link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model`] and the link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] <<api, API>> need to be updated.
+** Think about how you can use <<slap, SLAP>> to design the method. Where should we place the main logic of deleting tags?
+**  Find out which of the existing <<api, API>> methods in  link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] and link:{repoURL}/src/main/java/seedu/address/model/employee/Person.java[`Person`] classes can be used to implement the tag removal logic. link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] allows you to update a employee, and link:{repoURL}/src/main/java/seedu/address/model/employee/Person.java[`Person`] allows you to update the tags.
 
 [TIP]
 Proposed Solution
 ** Implement a `removeTag(Tag)` method in link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`]. Loop through each employee, and remove the `tag` from each employee.
-** Add a new API method `deleteTag(Tag)` in link:{repoURL}/src/main/java/seedu/address/model/ModelManager.java[`ModelManager`]. Your link:{repoURL}/src/main/java/seedu/address/model/ModelManager.java[`ModelManager`] should call `AddressBook#removeTag(Tag)`.
+** Add a new <<api, API>> method `deleteTag(Tag)` in link:{repoURL}/src/main/java/seedu/address/model/ModelManager.java[`ModelManager`]. Your link:{repoURL}/src/main/java/seedu/address/model/ModelManager.java[`ModelManager`] should call `AddressBook#removeTag(Tag)`.
 ** Add new <<Testing-TypesOfTests, tests>> for each of the new public methods that you have added.
 ** See this https://github.com/se-edu/addressbook-level4/pull/790[PR] for the full solution.
 *** The current codebase has a flaw in tags management. Tags no longer in use by anyone may still exist on the link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`]. This may cause some tests to fail. See issue  https://github.com/se-edu/addressbook-level4/issues/753[`#753`] for more information about this flaw.
@@ -772,7 +811,7 @@ Proposed Solution
 [[GetStartedProgramming-EachComponent-UI]]
 ==== `Ui` component
 
-*Scenario:* You are in charge of `ui`. During a beta testing session, your team is observing how the users use your address book application. You realize that one of the users occasionally tries to delete non-existent tags from a contact, because the tags all look the same visually, and the user got confused. Another user made a typing mistake in his command, but did not realize he had done so because the error message wasn't prominent enough. A third user keeps scrolling down the list, because he keeps forgetting the index of the last employee in the list. Your job is to implement improvements to the UI to solve all these problems.
+*Scenario:* You are in charge of `ui`. During a <<beta-testing, beta testing>> session, your team is observing how the users use your address book application. You realize that one of the users occasionally tries to delete non-existent tags from a contact, because the tags all look the same visually, and the user got confused. Another user made a typing mistake in his command, but did not realize he had done so because the error message wasn't prominent enough. A third user keeps scrolling down the list, because he keeps forgetting the index of the last employee in the list. Your job is to implement improvements to the UI to solve all these problems.
 
 [TIP]
 Do take a look at <<Design-Ui>> before attempting to modify the `UI` component.
@@ -849,7 +888,7 @@ Proposed Solution
 [[GetStartedProgramming-EachComponent-Storage]]
 ==== `Storage` component
 
-*Scenario:* You are in charge of `storage`. For your next project milestone, your team plans to implement a new feature of saving the address book to the cloud. However, the current implementation of the application constantly saves the address book after the execution of each command, which is not ideal if the user is working on limited internet connection. Your team decided that the application should instead save the changes to a temporary local backup file first, and only upload to the cloud after the user closes the application. Your job is to implement a backup API for the address book storage.
+*Scenario:* You are in charge of `storage`. For your next project milestone, your team plans to implement a new feature of saving the address book to the cloud. However, the current implementation of the application constantly saves the address book after the execution of each command, which is not ideal if the user is working on limited internet connection. Your team decided that the application should instead save the changes to a temporary local backup file first, and only upload to the cloud after the user closes the application. Your job is to implement a backup <<api, API>> for the address book storage.
 
 [TIP]
 Do take a look at <<Design-Storage>> before attempting to modify the `Storage` component.
@@ -917,31 +956,31 @@ for `RemarkCommandParser`.
 . Ui: Add a placeholder for remark in `PersonCard`
 Let's add a placeholder on all our link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`] s to display a remark for each employee later.
 +
-*Main:
+* Main:
 
 1. Add a `Label` with any random text inside link:{repoURL}/src/main/resources/view/PersonListCard.fxml[`PersonListCard.fxml`].
 2. Add FXML annotation in link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`] to tie the variable to the actual label.
 
-*Tests:
+* Tests:
 
 1. Modify link:{repoURL}/src/test/java/guitests/guihandles/PersonCardHandle.java[`PersonCardHandle`] so that future tests can read the contents of the remark label.
 
 . Model: Add `Remark` class
 We have to properly encapsulate the remark in our link:{repoURL}/src/main/java/seedu/address/model/employee/Person.java[`Person`] class. Instead of just using a `String`, let's follow the conventional class structure that the codebase already uses by adding a `Remark` class.
 +
-*Main:
+* Main:
 
 1. Add `Remark` to model component (you can copy from link:{repoURL}/src/main/java/seedu/address/model/employee/Address.java[`Address`], remove the regex and change the names accordingly).
 2. Modify `RemarkCommand` to now take in a `Remark` instead of a `String`.
 
-*Tests:
+* Tests:
 
 1. Add test for `Remark`, to test the `Remark#equals()` method.
 
 . Model: Modify `Person` to support a `Remark` field
 Now we have the `Remark` class, we need to actually use it inside link:{repoURL}/src/main/java/seedu/address/model/employee/Person.java[`Person`].
 +
-*Main:
+* Main:
 
 1. Add `getRemark()` in link:{repoURL}/src/main/java/seedu/address/model/employee/Person.java[`Person`].
 2. You may assume that the user will not be able to use the `add` and `edit` commands to modify the remarks field (i.e. the employee will be created without a remark).
@@ -950,18 +989,18 @@ Now we have the `Remark` class, we need to actually use it inside link:{repoURL}
 . Storage: Add `Remark` field to `XmlAdaptedPerson` class
 We now have `Remark` s for `Person` s, but they will be gone when we exit the application. Let's modify link:{repoURL}/src/main/java/seedu/address/storage/XmlAdaptedPerson.java[`XmlAdaptedPerson`] to include a `Remark` field so that it will be saved.
 +
-*Main:
+* Main:
 
 1. Add a new Xml field for `Remark`.
 
-*Tests:
+* Tests:
 
 1. Fix `invalidAndValidPersonAddressBook.xml`, `typicalPersonsAddressBook.xml`, `validAddressBook.xml` etc., such that the XML tests will not fail due to a missing `<remark>` element.
 
 . Test: Add withRemark() for `PersonBuilder`
 Since `Person` can now have a `Remark`, we should add a helper method to link:{repoURL}/src/test/java/seedu/address/testutil/PersonBuilder.java[`PersonBuilder`], so that users are able to create remarks when building a link:{repoURL}/src/main/java/seedu/address/model/employee/Person.java[`Person`].
 +
-*Tests:*
+* Tests:
 
 1. Add a new method `withRemark()` for link:{repoURL}/src/test/java/seedu/address/testutil/PersonBuilder.java[`PersonBuilder`]. This method will create a new `Remark` for the employee that it is currently building.
 2. Try and use the method on any sample `Person` in link:{repoURL}/src/test/java/seedu/address/testutil/TypicalPersons.java[`TypicalPersons`].
@@ -969,22 +1008,22 @@ Since `Person` can now have a `Remark`, we should add a helper method to link:{r
 . Ui: Connect `Remark` field to `PersonCard`
 Our remark label in link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`] is still a placeholder. Let's bring it to life by binding it with the actual `remark` field.
 +
-*Main:
+* Main:
 
 1. Modify link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`]'s constructor to bind the `Remark` field to the `Person` 's remark.
 
-**Tests:
+* Tests:
 
 1. Modify link:{repoURL}/src/test/java/seedu/address/ui/testutil/GuiTestAssert.java[`GuiTestAssert#assertCardDisplaysPerson(...)`] so that it will compare the now-functioning remark label.
 
 . Logic: Implement `RemarkCommand#execute()` logic
 We now have everything set up... but we still can't modify the remarks. Let's finish it up by adding in actual logic for our `remark` command.
 +
-*Main:
+* Main:
 
 1. Replace the logic in `RemarkCommand#execute()` (that currently just throws an `Exception`), with the actual logic to modify the remarks of a employee.
 
-*Tests:
+* Tests:
 
 1. Update `RemarkCommandTest` to test that the `execute()` logic works.
 
@@ -997,13 +1036,17 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 
 *Target user profile*:
 
-* has a need to manage a significant number of ongoing car servicing jobs and keep a record of past jobs
+As a Car Servicing Manager:
+* has a need to manage a significant number of ongoing car servicing jobs
+* has a need to keep a large record of past jobs
 * has a need to assign employees to jobs with ease
+* has a need to monitor employee’s performance through the number of jobs completed
+
+For optimal use:
 * prefer desktop apps over other types
 * can type fast
 * prefers typing over mouse input
 * is reasonably comfortable using CLI apps
-* has a need to monitor employee’s performance through the number of jobs completed
 
 *Value Proposition*: A convenient App for car servicing managers to organize servicing jobs and assign specific employees.
 
@@ -1031,7 +1074,7 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 +
 [none]
 ** User can set a custom keyword that is not used on top of the original command word. This allows them to use shorthand.
-** or a custom command word that is easy to remember.
+** Custom command words are also easy to remember.
 
 *Feature Contributions*:
 
@@ -1101,11 +1144,12 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |user |export changes |provide feedback to employees regarding the changes
 
+|`* *` |user |archive job entries |extract job entries within the selected range for archiving
+
+|`* *` |user |analyse job entries |keep track of employees' performance
+
 |`*` |user |export completed jobs to other formats |print out all the completed job entries and view it with a better program
 
-|`**` |user |archive job entries |extract job entries within the selected range for archiving
-
-|`**` |user |analyse job entries |keep track of employees' performance
 |=======================================================================
 
 _{More to be added}_
@@ -1465,17 +1509,17 @@ _{More to be added}_
 [appendix]
 == Non Functional Requirements
 
-.  Should work on any <<mainstream-os,mainstream OS>> as long as it has Java `1.8.0_60` or higher installed.
-.  Should be able to hold up to 1000 employees without a noticeable sluggishness in performance for typical usage.
-.  Should be able to hold up to 10000 jobs without a noticeable sluggishness in performance for typical usage.
-.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-.  Should work on both 32-bit and 64-bit environments.
-.  Should have short and comprehensible English commands.
-.  Should be able to retain information in event of crash or force shutdown.
-.  Should respond to user command within 2 seconds.
-.  Should be usable by a novice who has never used an electronic job management app before.
-.  User interface should be intuitive enough for users who are not IT-savvy.
-.  View should fit the screen of any computer with minimum screen size of 640 by 480 pixels.
+*  Should work on any <<mainstream-os,mainstream OS>> as long as it has Java `1.8.0_60` or higher installed.
+*  Should be able to hold up to 1000 employees without a noticeable sluggishness in performance for typical usage.
+*  Should be able to hold up to 10000 jobs without a noticeable sluggishness in performance for typical usage.
+*  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+*  Should work on both 32-bit and 64-bit environments.
+*  Should have short and comprehensible English commands.
+*  Should be able to retain information in event of crash or force shutdown.
+*  Should respond to user command within 2 seconds.
+*  Should be usable by a novice who has never used an electronic job management app before.
+*  User interface should be intuitive enough for users who are not IT-savvy.
+*  View should fit the screen of any computer with minimum screen size of 1024 by 768 pixels.
 
 _{More to be added}_
 
@@ -1484,6 +1528,19 @@ _{More to be added}_
 
 [[mainstream-os]] Mainstream OS::
 Windows, Linux, Unix, OS-X
+
+[[api]]API
+Application Programming Interface: a set of functions and procedures that allow the creation of applications which access the features or data of an operating system, application, or other service.
+[[alias]]Alias
+An alternate name
+[[beta-testing]]Beta testing
+Final stage of development testing, carried out by a party unconnected with the development process., usually users of the final product.
+[[dog-fooding]]Dog-fooding
+Testing of a product before it is made available to customers
+[[pr]]PR
+Pull Request
+[[slap]]SLAP
+Single Layer of Abstraction Principle: extraction of methods, fields and constants to keep details at the same level in a method.
 
 [appendix]
 == Product Survey
@@ -1547,4 +1604,5 @@ _{ more test cases ... }_
 .. _{explain how to simulate a missing/corrupted file and the expected behavior}_
 
 _{ more test cases ... }_
+
 
