@@ -901,13 +901,13 @@ Let's start by teaching the application how to parse a `remark` command. We will
 . Logic: Teach the app to accept 'remark' arguments
 Let's teach the application to parse arguments that our `remark` command will accept. E.g. `1 r/Likes to drink coffee.`
 +
-*Main:
+* Main:
 
 1. Modify `RemarkCommand` to take in an `Index` and `String` and print those two parameters as the error message.
 2. Add `RemarkCommandParser` that knows how to parse two arguments, one index and one with prefix 'r/'.
 3. Modify link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser`] to use the newly implemented `RemarkCommandParser`.
 
-*Tests:
+* Tests:
 
 1. Modify `RemarkCommandTest` to test the `RemarkCommand#equals()` method.
 2. Add `RemarkCommandParserTest` that tests different boundary values
