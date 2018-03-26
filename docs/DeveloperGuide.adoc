@@ -243,9 +243,9 @@ The default command words are stored as a class level reference `COMMANDS`, whil
 `CommandWords` only deal with commands that have their default command word declared in the class level reference.
 
 .Test
-image::SetCommandLogicDiagram.png[width="800"]+
+image::SetCommandLogicDiagram.png[width="800"]
 .Test
-image::SetCommandModelDiagram.png[width="800"]+
+image::SetCommandModelDiagram.png[width="800"]
 
 As you can see from the diagram, AddressBookParser makes a reference to CommandWords. However, `CommandWords` resides in `UserPrefs` in the `Model` component.
 
