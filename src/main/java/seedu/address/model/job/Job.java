@@ -73,8 +73,7 @@ public class Job {
      * if modification is attempted.
      */
     public Set<Remark> getRemarks() {
-        //Stub
-        return null;
+        return Collections.unmodifiableSet(remarks.toSet());
     }
 
     @Override
@@ -106,20 +105,26 @@ public class Job {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("Job Number: ")
+        builder.append("\nJob Number: ")
                 .append(getJobNumber())
-                .append(" Status: ")
-                .append(getStatus())
+                .append("[" + getStatus() + "]")
                 .append(" Start Date: ")
                 .append(getDate())
-                .append(" Vehicle ID: ")
+                .append(" \nVehicle ID: ")
                 .append(getVehicleNumber())
                 .append(" Client: ")
                 .append(getClient())
-                .append(" Remarks: ");
-        getRemarks().forEach(builder::append);
-        builder.append(" Assigned Employees: ");
-        getAssignedEmployees().forEach(builder::append);
+                .append(" \nRemarks: ");
+
+        for (Remark remark : remarks) {
+            builder.append("\n" + remark);
+        }
+
+        builder.append(" \nAssigned Employees:");
+        for (Employee assignedEmployee : assignedEmployees) {
+            builder.append("\n" + assignedEmployee);
+        }
+
         return builder.toString();
     }
 }

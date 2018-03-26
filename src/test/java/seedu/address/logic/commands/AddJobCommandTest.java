@@ -1,13 +1,13 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.fail;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
+import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.function.Predicate;
 
 import org.junit.Rule;
@@ -15,94 +15,52 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import javafx.collections.ObservableList;
+import seedu.address.commons.core.index.Index;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
-import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.UserPrefs;
 import seedu.address.model.job.Job;
+import seedu.address.model.job.JobNumber;
+import seedu.address.model.job.VehicleNumber;
 import seedu.address.model.job.exceptions.JobNotFoundException;
 import seedu.address.model.person.Employee;
+import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicateEmployeeException;
 import seedu.address.model.person.exceptions.EmployeeNotFoundException;
-import seedu.address.testutil.EmployeeBuilder;
+import seedu.address.testutil.ClientBuilder;
+import seedu.address.testutil.JobBuilder;
 
-public class AddCommandTest {
-
+//@@author whenzei
+public class AddJobCommandTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+
     @Test
-    public void constructor_nullPerson_throwsNullPointerException() {
+    public void constructor_nullAddJobFields_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
-        new AddCommand(null);
+        new AddJobCommand(null, null, null);
     }
 
     @Test
-    public void execute_personAcceptedByModel_addSuccessful() throws Exception {
-        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded() {
-            @Override
-            public CommandWords getCommandWords() {
-                return new CommandWords();
-            }
-        };
-        Employee validEmployee = new EmployeeBuilder().build();
+    public void execute_jobAcceptedByModel_addSuccessful() throws Exception {
+        Person client = new ClientBuilder().build();
+        ArrayList<Index> indices = generateValidEmployeeIndices();
+        AddJobCommand addJobCommand = prepareCommand(client,
+                new VehicleNumber(VehicleNumber.DEFAULT_VEHICLE_NUMBER), indices);
 
-        CommandResult commandResult = getAddCommandForPerson(validEmployee, modelStub).execute();
+        CommandResult commandResult = addJobCommand.execute();
 
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, validEmployee), commandResult.feedbackToUser);
-        assertEquals(Arrays.asList(validEmployee), modelStub.personsAdded);
+        Job validJob = new JobBuilder(model.getFilteredPersonList()).build();
+
+        assertEquals(String.format(AddJobCommand.MESSAGE_SUCCESS, validJob), commandResult.feedbackToUser);
     }
 
-    @Test
-    public void execute_duplicatePerson_throwsCommandException() throws Exception {
-        ModelStub modelStub = new ModelStubThrowingDuplicatePersonException() {
-            @Override
-            public CommandWords getCommandWords() {
-                return new CommandWords();
-            }
-        };
-        Employee validEmployee = new EmployeeBuilder().build();
-
-        thrown.expect(CommandException.class);
-        thrown.expectMessage(AddCommand.MESSAGE_DUPLICATE_PERSON);
-
-        getAddCommandForPerson(validEmployee, modelStub).execute();
-    }
-
-    @Test
-    public void equals() {
-        Employee alice = new EmployeeBuilder().withName("Alice").build();
-        Employee bob = new EmployeeBuilder().withName("Bob").build();
-        AddCommand addAliceCommand = new AddCommand(alice);
-        AddCommand addBobCommand = new AddCommand(bob);
-
-        // same object -> returns true
-        assertTrue(addAliceCommand.equals(addAliceCommand));
-
-        // same values -> returns true
-        AddCommand addAliceCommandCopy = new AddCommand(alice);
-        assertTrue(addAliceCommand.equals(addAliceCommandCopy));
-
-        // different types -> returns false
-        assertFalse(addAliceCommand.equals(1));
-
-        // null -> returns false
-        assertFalse(addAliceCommand.equals(null));
-
-        // different employee -> returns false
-        assertFalse(addAliceCommand.equals(addBobCommand));
-    }
-
-    /**
-     * Generates a new AddCommand with the details of the given employee.
-     */
-    private AddCommand getAddCommandForPerson(Employee employee, Model model) {
-        AddCommand command = new AddCommand(employee);
-        command.setData(model, new CommandHistory(), new UndoRedoStack());
-        return command;
-    }
 
     /**
      * A default model stub that have all of the methods failing.
@@ -204,16 +162,17 @@ public class AddCommandTest {
         }
     }
 
+
     /**
      * A Model stub that always accept the employee being added.
      */
-    private class ModelStubAcceptingPersonAdded extends ModelStub {
-        final ArrayList<Employee> personsAdded = new ArrayList<>();
+    private class ModelStubAcceptingJobAdded extends ModelStub {
+        final ArrayList<Job> personsAdded = new ArrayList<>();
 
         @Override
-        public void addPerson(Employee employee) throws DuplicateEmployeeException {
-            requireNonNull(employee);
-            personsAdded.add(employee);
+        public void addJob(Job job) {
+            requireNonNull(job);
+            personsAdded.add(job);
         }
 
         @Override
@@ -222,4 +181,26 @@ public class AddCommandTest {
         }
     }
 
+    /**
+     * Generates an Arraylist of valid assigned employee index
+     */
+    private ArrayList<Index> generateValidEmployeeIndices() {
+        ArrayList<Index> indices = new ArrayList<Index>();
+        indices.add(INDEX_FIRST_PERSON);
+        indices.add(INDEX_SECOND_PERSON);
+        return indices;
+    }
+
+    /**
+     * Returns a {@code AddJobCommand} with the client, vehicleNumber and indices.
+     * @param client
+     * @param vehicleNumber
+     * @param indices
+     */
+    private AddJobCommand prepareCommand(Person client, VehicleNumber vehicleNumber, ArrayList<Index> indices) {
+        JobNumber.initialize("0");
+        AddJobCommand addJobCommand = new AddJobCommand(client, vehicleNumber, indices);
+        addJobCommand.setData(model, new CommandHistory(), new UndoRedoStack());
+        return addJobCommand;
+    }
 }

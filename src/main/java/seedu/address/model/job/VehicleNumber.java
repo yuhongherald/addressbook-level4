@@ -8,17 +8,18 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * Represents a Vehicle ID in the Job
  */
 public class VehicleNumber {
+    public static final String DEFAULT_VEHICLE_NUMBER = "SAS123J";
     public static final String MESSAGE_VEHICLE_ID_CONSTRAINTS =
             "Vehicle ID should only contain alphanumeric characters and should not be blank";
 
     public static final String VEHICLE_ID_VALIDATION_REGEX = "[\\p{Alnum}]*";
 
-    public final String vehicleNumber;
+    public final String value;
 
-    public VehicleNumber(String vehicleNumber) {
-        requireNonNull(vehicleNumber);
-        checkArgument(isValidVehicleNumber(vehicleNumber), MESSAGE_VEHICLE_ID_CONSTRAINTS);
-        this.vehicleNumber = vehicleNumber;
+    public VehicleNumber(String value) {
+        requireNonNull(value);
+        checkArgument(isValidVehicleNumber(value), MESSAGE_VEHICLE_ID_CONSTRAINTS);
+        this.value = value;
     }
 
     /**
@@ -30,19 +31,19 @@ public class VehicleNumber {
 
     @Override
     public String toString() {
-        return vehicleNumber;
+        return value;
     }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof VehicleNumber // instanceof handles nulls
-                && this.vehicleNumber.equals(((VehicleNumber) other).vehicleNumber)); // state check
+                && this.value.equals(((VehicleNumber) other).value)); // state check
     }
 
     @Override
     public int hashCode() {
-        return vehicleNumber.hashCode();
+        return value.hashCode();
     }
 
 
