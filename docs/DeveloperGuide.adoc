@@ -1,4 +1,4 @@
-﻿﻿= CarviciM - Developer Guide
+﻿= CarviciM - Developer Guide
 :toc:
 :toc-title:
 :toc-placement: preamble
@@ -12,20 +12,20 @@ ifdef::env-github[]
 endif::[]
 :repoURL: https://github.com/CS2103JAN2018-W09-B1/main/tree/master
 
-By: `W09-GroupB1`      Since: `May 2018`      Licence: `MIT`
+By: `W09-GroupB1`      Since: `May 2018`      Licence: `MIT`
 
 == Setting up
 
 === Prerequisites
 
-. Ensure that you have *JDK `1.8.0_60`* or later installed in your computer.
+. *JDK `1.8.0_60`* or later
 +
 [NOTE]
-CarviciM works only with this version of Java 8 or later, and not on earlier versions. +
-Please http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[update your JDK] if your version is earlier than the stated.
+Having any Java 8 version is not enough. +
+This app will not work with earlier versions of Java 8.
 +
 
-. You will need to use *IntelliJ* IDE for this project.
+. *IntelliJ* IDE
 +
 [NOTE]
 IntelliJ by default has Gradle and JavaFx plugins installed. +
@@ -99,17 +99,15 @@ When you are ready to start coding,
 .Architecture Diagram
 image::Architecture.png[width="600"]
 
-The *_Architecture Diagram_* (figure 1) given above explains the high-level design of the App. Read this section (section 2) to get a quick overview of each component.
+The *_Architecture Diagram_* given above explains the high-level design of the App. Given below is a quick overview of each component.
 
 [TIP]
 The `.pptx` files used to create diagrams in this document can be found in the link:{repoURL}/docs/diagrams/[diagrams] folder. To update a diagram, modify the diagram in the pptx file, select the objects of the diagram, and choose `Save as picture`.
-
 
 `Main` has only one class called link:{repoURL}/src/main/java/seedu/address/MainApp.java[`MainApp`]. It is responsible for,
 
 * At app launch: Initializes the components in the correct sequence, and connects them up with each other.
 * At shut down: Shuts down the components and invokes cleanup method where necessary.
-
 
 <<Design-Commons,*`Commons`*>> represents a collection of classes used by multiple other components. Two of those classes play important roles at the architecture level.
 
@@ -136,7 +134,7 @@ image::LogicClassDiagram.png[width="800"]
 [discrete]
 ==== Events-Driven nature of the design
 
-The _Sequence Diagram_ below (figure 3) shows how the components interact for the scenario where the user issues the command `delete 1`.
+The _Sequence Diagram_ below shows how the components interact for the scenario where the user issues the command `delete 1`.
 
 .Component interactions for `delete 1` command (part 1)
 image::SDforDeletePerson.png[width="800"]
@@ -144,15 +142,13 @@ image::SDforDeletePerson.png[width="800"]
 [NOTE]
 Note how the `Model` simply raises a `AddressBookChangedEvent` when the Address Book data are changed, instead of asking the `Storage` to save the updates to the hard disk.
 
-
-The diagram below (figure 4) shows how the `EventsCenter` reacts to that event, which eventually results in the updates being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time.
+The diagram below shows how the `EventsCenter` reacts to that event, which eventually results in the updates being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time.
 
 .Component interactions for `delete 1` command (part 2)
 image::SDforDeletePersonEventHandling.png[width="800"]
 
 [NOTE]
 Note how the event is propagated through the `EventsCenter` to the `Storage` and `UI` without `Model` having to be coupled to either of them. This is an example of how this Event Driven approach helps us reduce direct coupling between components.
-
 
 The sections below give more details of each component.
 
@@ -166,7 +162,7 @@ image::UiClassDiagram.png[width="800"]
 
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter`, `BrowserPanel` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
-The `UI` component uses https://en.wikipedia.org/wiki/JavaFX[JavaFx] UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
+The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
 
 The `UI` component,
 
@@ -181,23 +177,18 @@ The `UI` component,
 .Structure of the Logic Component
 image::LogicClassDiagram.png[width="800"]
 
-
 .Structure of Commands in the Logic Component. This diagram shows finer details concerning `XYZCommand` and `Command` in <<fig-LogicClassDiagram>>
 image::LogicCommandClassDiagram.png[width="800"]
-
 
 *API* :
 link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
 
-
-Here is what happens when the UI makes an `execute()` call to Logic:
 .  `Logic` uses the `AddressBookParser` class to parse the user command.
 .  This results in a `Command` object which is executed by the `LogicManager`.
 .  The command execution can affect the `Model` (e.g. adding a employee) and/or raise events.
 .  The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui`.
 
-
-For a more specific example of the steps above, given below (figure 8) is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
+Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
 
 .Interactions Inside the Logic Component for the `delete 1` Command
 image::DeletePersonSdForLogic.png[width="800"]
@@ -208,9 +199,7 @@ image::DeletePersonSdForLogic.png[width="800"]
 .Structure of the Model Component
 image::ModelClassDiagram.png[width="800"]
 
-
 *API* : link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model.java`]
-
 
 The `Model`,
 
@@ -225,9 +214,7 @@ The `Model`,
 .Structure of the Storage Component
 image::StorageClassDiagram.png[width="800"]
 
-
 *API* : link:{repoURL}/src/main/java/seedu/address/storage/Storage.java[`Storage.java`]
-
 
 The `Storage` component,
 
@@ -247,21 +234,20 @@ This section describes some noteworthy details on how certain features are imple
 === Set command feature
 ==== Current Implementation
 
-`SetCommand` keeps 2 lists of command words:
-* the default command words
-** stored as a class level reference `COMMANDS`
-* the custom user command words
-** stored as a field `commands` in the object
-Both are managed by the class `CommandWords`.
+Set command keeps 2 lists of command words, the default command words and the custom user command words, which are both managed by the class `CommandWords`.
+
+The default command words are stored as a class level reference `COMMANDS`, while the custom command words are stored as a field `commands` in the object.
 
 `CommandWords` is in the `Logic` component, under `Commands`, as it is required to parse commands in `AddressBookParser`.
 
 `CommandWords` only deal with commands that have their default command word declared in the class level reference.
 
-image::SetCommandLogicDiagram.png[width="800"]
-image::SetCommandModelDiagram.png[width="800"]
+image::SetCommandLogicDiagram.png[width="800"]+
+image::SetCommandModelDiagram.png[width="800"]+
 
-As you can see from figure ?, AddressBookParser makes a reference to CommandWords. However, `CommandWords` resides in `UserPrefs` in the `Model` component. This is to facilitate the saving of data.
+As you can see from the diagram, AddressBookParser makes a reference to CommandWords. However, `CommandWords` resides in `UserPrefs` in the `Model` component.
+
+This is to facilitate the saving of data.
 
 ==== Design Considerations
 
@@ -276,12 +262,12 @@ As you can see from figure ?, AddressBookParser makes a reference to CommandWord
 
 ===== Aspect: Access to CommandWords
 
-**Current choice:** Provide direct access to `CommandWords` when more details are needed and keep minimal API on `ModelManager`.
-** Pros: Easy to implement, and is neat.
-** Cons: Accidental modification can lead to bugs.
-* **Alternative:** `ModelManager` and member variables gets access and provides API to access `CommandWords`.
+* **Alternative 1:** `ModelManager` and member variables gets access and provides API to access `CommandWords`.
 ** Pros: Write protection.
-** Cons: `CommandWords` is frequently accessed, so many more APIs are required.
+** Cons: `CommandWords` is frequently accessed, many more APIs are required.
+* **Alternative 2 (current choice):** Provide direct access to `CommandWords` when more details are needed and keep minimal API on `ModelManager`.
+** Pros: Easy to implement, neat.
+** Cons: Accidental modification can lead to bugs, so need to be careful.
 
 
 ===== Aspect: Storing the list of default command words
@@ -647,7 +633,6 @@ Thanks to the https://github.com/TestFX/TestFX[TestFX] library we use, our GUI t
 
 To run tests in headless mode, open a console and run the command `gradlew clean headless allTests` (Mac/Linux: `./gradlew clean headless allTests`)
 
-[[Testing-TypesOfTests]]
 === Types of tests
 
 We have two types of tests:
@@ -728,7 +713,8 @@ Each individual exercise in this section is component-based (i.e. you would not 
 4. <<GetStartedProgramming-EachComponent-Storage,*`Storage`*>>
 
 For each section, the exercises are structured in the following sequence:
-* Scenario
+
+Scenario
 [NOTE]
 Hints
 [TIP]
@@ -744,18 +730,18 @@ Proposed solution
 [TIP]
 Do take a look at <<Design-Logic>> before attempting to modify the `Logic` component.
 
-1.  Add a shorthand equivalent alias for each of the individual commands. For example, besides typing `clear`, the user can also type `c` to remove all employees in the list.
-+
+. Add a shorthand equivalent alias for each of the individual commands. For example, besides typing `clear`, the user can also type `c` to remove all employees in the list.
+
 [NOTE]
 ===
-* Hints
+Hints
 ** Just like we store each individual command word constant `COMMAND_WORD` inside `*Command.java` (e.g.  link:{repoURL}/src/main/java/seedu/address/logic/commands/FindCommand.java[`FindCommand#COMMAND_WORD`], link:{repoURL}/src/main/java/seedu/address/logic/commands/DeleteCommand.java[`DeleteCommand#COMMAND_WORD`]), you need a new constant for aliases as well (e.g. `FindCommand#COMMAND_ALIAS`).
 ** link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser`] is responsible for analyzing command words.
 ===
 
 [TIP]
 ===
-* Proposed Solution
+Proposed Solution
 ** Modify the switch statement in link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser#parseCommand(String)`] such that both the proper command word and alias can be used to execute the same intended command.
 ** Add new <<Testing-TypesOfTests, tests>> for each of the aliases that you have added.
 ** Update the <<UserGuide#, User Guide>> to document the new aliases.
@@ -771,21 +757,25 @@ Do take a look at <<Design-Logic>> before attempting to modify the `Logic` compo
 Do take a look at <<Design-Model>> before attempting to modify the `Model` component.
 
 . Add a `removeTag(Tag)` method. The specified tag will be removed from everyone in the address book.
-+
-****
-* Hints
+
+[NOTE]
+===
+Hints
 ** The link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model`] and the link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] API need to be updated.
 ** Think about how you can use SLAP to design the method. Where should we place the main logic of deleting tags?
 **  Find out which of the existing API methods in  link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] and link:{repoURL}/src/main/java/seedu/address/model/employee/Person.java[`Person`] classes can be used to implement the tag removal logic. link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] allows you to update a employee, and link:{repoURL}/src/main/java/seedu/address/model/employee/Person.java[`Person`] allows you to update the tags.
+===
 
-* Proposed Solution
+[TIP]
+===
+Proposed Solution
 ** Implement a `removeTag(Tag)` method in link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`]. Loop through each employee, and remove the `tag` from each employee.
 ** Add a new API method `deleteTag(Tag)` in link:{repoURL}/src/main/java/seedu/address/model/ModelManager.java[`ModelManager`]. Your link:{repoURL}/src/main/java/seedu/address/model/ModelManager.java[`ModelManager`] should call `AddressBook#removeTag(Tag)`.
 ** Add new <<Testing-TypesOfTests, tests>> for each of the new public methods that you have added.
 ** See this https://github.com/se-edu/addressbook-level4/pull/790[PR] for the full solution.
 *** The current codebase has a flaw in tags management. Tags no longer in use by anyone may still exist on the link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`]. This may cause some tests to fail. See issue  https://github.com/se-edu/addressbook-level4/issues/753[`#753`] for more information about this flaw.
 *** The solution PR has a temporary fix for the flaw mentioned above in its first commit.
-****
+===
 
 [[GetStartedProgramming-EachComponent-UI]]
 ==== `Ui` component
@@ -804,18 +794,21 @@ image::getting-started-ui-tag-before.png[width="300"]
 **After**
 +
 image::getting-started-ui-tag-after.png[width="300"]
-+
-****
-* Hints
+
+[NOTE]
+===
+Hints
 ** The tag labels are created inside link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[the `PersonCard` constructor] (`new Label(tag.tagName)`). https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/Label.html[JavaFX's `Label` class] allows you to modify the style of each Label, such as changing its color.
 ** Use the .css attribute `-fx-background-color` to add a color.
 ** You may wish to modify link:{repoURL}/src/main/resources/view/DarkTheme.css[`DarkTheme.css`] to include some pre-defined colors using css, especially if you have experience with web-based css.
-
-* Proposed Solution
+===
+[TIP]
+===
+Proposed Solution
 ** You can modify the existing test methods for `PersonCard` 's to include testing the tag's color as well.
 ** See this https://github.com/se-edu/addressbook-level4/pull/798[PR] for the full solution.
 *** The PR uses the `*hash code*` of the tag names to generate a color. This is deliberately designed to ensure consistent colors each time the application runs. You may wish to expand on this design to include additional features, such as allowing users to set their own tag colors, and directly saving the colors to storage, so that tags retain their colors even if the `*hash code*` algorithm changes.
-****
+===
 
 . Modify link:{repoURL}/src/main/java/seedu/address/commons/events/ui/NewResultAvailableEvent.java[`NewResultAvailableEvent`] such that link:{repoURL}/src/main/java/seedu/address/ui/ResultDisplay.java[`ResultDisplay`] can show a different style on error (currently it shows the same regardless of errors).
 +
@@ -826,13 +819,17 @@ image::getting-started-ui-result-before.png[width="200"]
 **After**
 +
 image::getting-started-ui-result-after.png[width="200"]
-+
-****
-* Hints
+
+[NOTE]
+===
+Hints
 ** link:{repoURL}/src/main/java/seedu/address/commons/events/ui/NewResultAvailableEvent.java[`NewResultAvailableEvent`] is raised by link:{repoURL}/src/main/java/seedu/address/ui/CommandBox.java[`CommandBox`] which also knows whether the result is a success or failure, and is caught by link:{repoURL}/src/main/java/seedu/address/ui/ResultDisplay.java[`ResultDisplay`] which is where we want to change the style to.
 ** Refer to link:{repoURL}/src/main/java/seedu/address/ui/CommandBox.java[`CommandBox`] for an example on how to display an error.
+===
 
-* Proposed Solution
+[TIP]
+===
+Proposed Solution
 ** Modify link:{repoURL}/src/main/java/seedu/address/commons/events/ui/NewResultAvailableEvent.java[`NewResultAvailableEvent`] 's constructor so that users of the event can indicate whether an error has occurred.
 ** Modify link:{repoURL}/src/main/java/seedu/address/ui/ResultDisplay.java[`ResultDisplay#handleNewResultAvailableEvent(NewResultAvailableEvent)`] to react to this event appropriately.
 ** You can write two different kinds of <<Testing-TypesOfTests, tests>> to ensure that the functionality works:
@@ -840,7 +837,7 @@ image::getting-started-ui-result-after.png[width="200"]
 *** The system tests link:{repoURL}/src/test/java/systemtests/AddressBookSystemTest.java[`AddressBookSystemTest#assertCommandBoxShowsDefaultStyle() and AddressBookSystemTest#assertCommandBoxShowsErrorStyle()`] to include verification for `ResultDisplay` as well.
 ** See this https://github.com/se-edu/addressbook-level4/pull/799[PR] for the full solution.
 *** Do read the commits one at a time if you feel overwhelmed.
-****
+===
 
 . Modify the link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter`] to show the total number of people in the address book.
 +
@@ -851,19 +848,23 @@ image::getting-started-ui-status-before.png[width="500"]
 **After**
 +
 image::getting-started-ui-status-after.png[width="500"]
-+
-****
-* Hints
+
+[NOTE]
+===
+Hints
 ** link:{repoURL}/src/main/resources/view/StatusBarFooter.fxml[`StatusBarFooter.fxml`] will need a new `StatusBar`. Be sure to set the `GridPane.columnIndex` properly for each `StatusBar` to avoid misalignment!
 ** link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter`] needs to initialize the status bar on application start, and to update it accordingly whenever the address book is updated.
+===
 
-* Proposed Solution
+[TIP]
+===
+Proposed Solution
 ** Modify the constructor of link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter`] to take in the number of employees when the application just started.
 ** Use link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter#handleAddressBookChangedEvent(AddressBookChangedEvent)`] to update the number of employees whenever there are new changes to the addressbook.
 ** For tests, modify link:{repoURL}/src/test/java/guitests/guihandles/StatusBarFooterHandle.java[`StatusBarFooterHandle`] by adding a state-saving functionality for the total number of people status, just like what we did for save location and sync status.
 ** For system tests, modify link:{repoURL}/src/test/java/systemtests/AddressBookSystemTest.java[`AddressBookSystemTest`] to also verify the new total number of employees status bar.
 ** See this https://github.com/se-edu/addressbook-level4/pull/803[PR] for the full solution.
-****
+===
 
 [[GetStartedProgramming-EachComponent-Storage]]
 ==== `Storage` component
@@ -874,15 +875,19 @@ image::getting-started-ui-status-after.png[width="500"]
 Do take a look at <<Design-Storage>> before attempting to modify the `Storage` component.
 
 . Add a new method `backupAddressBook(ReadOnlyAddressBook)`, so that the address book can be saved in a fixed temporary location.
-+
-****
+
+[NOTE]
+===
 * Hint
 ** Add the API method in link:{repoURL}/src/main/java/seedu/address/storage/AddressBookStorage.java[`AddressBookStorage`] interface.
 ** Implement the logic in link:{repoURL}/src/main/java/seedu/address/storage/StorageManager.java[`StorageManager`] and link:{repoURL}/src/main/java/seedu/address/storage/XmlAddressBookStorage.java[`XmlAddressBookStorage`] class.
+===
 
-* Proposed Solution
+[TIP]
+===
+Proposed Solution
 ** See this https://github.com/se-edu/addressbook-level4/pull/594[PR] for the full solution.
-****
+===
 
 [[GetStartedProgramming-RemarkCommand]]
 === Creating a new command: `remark`
@@ -1049,7 +1054,7 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 * Setting custom command keywords (Minor)
 +
 [none]
-** User can set a custom keyword that is not used on top of the original command word. This allows them to use shorthand
+** User can set a custom keyword that is not used on top of the original command word. This allows them to use shorthand.
 ** or a custom command word that is easy to remember.
 
 *Feature Contributions*:
@@ -1063,28 +1068,6 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 +
 [none]
 ** User can archive that may be needed for future reference. Job entries can also be analyse to keep track of the the employees' performance.
-
-*Feature contribution*:
-
-- Importing job entries from an excel file (major enhancement)
-Done by: yuhongherald
-User can specify the file path to an excel file containing the job entries in columns, and header fields to indicate the
-field contents for each row. User then reviews the changes and generates a feedback document.
-
-- Setting custom command keywords (minor enhancement)
-Done by: yuhongherald
-User can set a custom keyword that is not used on top of the original command word.
-
-*Feature contribution*:
-
-- Importing job entries from an excel file (major enhancement)
-Done by: yuhongherald
-User can specify the file path to an excel file containing the job entries in columns, and header fields to indicate the
-field contents for each row. User then reviews the changes and generates a feedback document.
-
-- Setting custom command keywords (minor enhancement)
-Done by: yuhongherald
-User can set a custom keyword that is not used on top of the original command word.
 
 [appendix]
 == User Stories
@@ -1588,5 +1571,4 @@ _{ more test cases ... }_
 .. _{explain how to simulate a missing/corrupted file and the expected behavior}_
 
 _{ more test cases ... }_
-
 
