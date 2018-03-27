@@ -3,11 +3,8 @@ package seedu.address.logic.parser;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.ParserUtil.parseFilename;
 
-import java.io.File;
-
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.ImportAllCommand;
-import seedu.address.logic.commands.SetCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 //@@author yuhongherald

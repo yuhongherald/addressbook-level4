@@ -3,7 +3,12 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.io.IOException;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.job.Job;
 import seedu.address.model.session.ImportSession;
 import seedu.address.model.session.exceptions.DataIndexOutOfBoundsException;
 import seedu.address.model.session.exceptions.FileAccessException;
@@ -11,16 +16,15 @@ import seedu.address.model.session.exceptions.FileFormatException;
 
 //@@author yuhongherald
 /**
- *
+ * Attempts to import all (@code JobEntry) into Servicing Manager
  */
 public class ImportAllCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "importAll";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Sets a command word to user preference. "
-            + "Parameters: CURRENT_COMMAND_WORD NEW_COMMAND_WORD"
-            + "Example: " + "set" + " "
-            + "OLD_COMMAND" + "NEW_COMMAND";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Imports job entries from from an excel file. "
+            + "Parameters: FILEPATH\n"
+            + "Example: " + COMMAND_WORD + "yourfile.xls";
 
     public static final String MESSAGE_SUCCESS = "%s has been imported, with %d job entries!";
 
@@ -31,6 +35,10 @@ public class ImportAllCommand extends UndoableCommand {
         this.filePath = filePath;
     }
 
+    public String getMessageSuccess(int entries) {
+        return String.format(MESSAGE_SUCCESS, filePath, entries);
+    }
+
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
         ImportSession importSession = ImportSession.getInstance();
@@ -39,17 +47,21 @@ public class ImportAllCommand extends UndoableCommand {
         } catch (FileAccessException e) {
             e.printStackTrace();
         } catch (FileFormatException e) {
-            e.printStackTrace();
+            throw new CommandException("Excel file first row headers are not defined properly. "
+                    + "Type 'help' to read more.");
         }
-        // write import all command
         try {
+            importSession.reviewAllRemainingJobEntries(true);
+            List<Job> jobs = new ArrayList<>(importSession.getSessionData().getReviewedJobEntries());
+            model.addJobs(jobs);
             importSession.closeSession();
+            return new CommandResult(getMessageSuccess(jobs.size()));
         } catch (DataIndexOutOfBoundsException e) {
-            e.printStackTrace();
+            throw new CommandException("Excel file has bad format. Try copying the cell values into a new excel file "
+                    + "before trying again");
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new CommandException("Unable to export file. Please close the application and try again.");
         }
-        return null;
     }
 
     @Override

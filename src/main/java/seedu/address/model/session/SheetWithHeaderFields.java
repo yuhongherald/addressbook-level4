@@ -178,7 +178,7 @@ public class SheetWithHeaderFields implements Iterable<JobEntry> {
             status = getStatus(i);
             remarkList = getRemarks(i);
             return new JobEntry(client, vehicleNumber, new JobNumber(), new Date(), employeeList, status, remarkList,
-                getSheetIndex(), i);
+                getSheetIndex(), i, "");
         }
         throw new FileFormatException(getEmptySheetMessage());
     }
@@ -269,9 +269,11 @@ public class SheetWithHeaderFields implements Iterable<JobEntry> {
         Person client = getClient(rowNumber);
         VehicleNumber vehicleNumber = getVehicleNumber(rowNumber);
         Employee employee = getEmployee(rowNumber);
-
-        commentJobEntry(rowNumber, getCorruptedFieldsMessage(client, vehicleNumber, employee));
-        // TODO: add comment that it is corrupted under remarks, and an accept remark
+        String importMessage = "";
+        if (client == null || vehicleNumber == null || employee == null) {
+            importMessage = getCorruptedFieldsMessage(client, vehicleNumber, employee);
+        }
+        // commentJobEntry(rowNumber, importMessage); moved to SessionData when reviewing
         if (client == null) {
             client = previousEntry.getClient();
         }
@@ -291,7 +293,7 @@ public class SheetWithHeaderFields implements Iterable<JobEntry> {
         Status status = getStatus(rowNumber);
         RemarkList remarkList = getRemarks(rowNumber);
         return new JobEntry(client, vehicleNumber, new JobNumber(), new Date(), employeeList, status, remarkList,
-                sheet.getWorkbook().getSheetIndex(sheet), rowNumber);
+                sheet.getWorkbook().getSheetIndex(sheet), rowNumber, importMessage);
     }
 
     @Override
