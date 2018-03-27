@@ -203,9 +203,9 @@ Examples:
 *** You will see an updated employees UI panel which has the 1st employee removed.
 
 // tag::set[]
-=== Changing a <<command-word,command word>> : `set`
+=== Changing a command word : `set`
 
-You can use this command to set an easy to use word in place of a default command word. +
+You can use this command to set an easy to use word in place of a default <<command-word,command word>>. +
 Format: `set OLD_COMMAND_WORD NEW_COMMAND_WORD`
 
 [NOTE]
