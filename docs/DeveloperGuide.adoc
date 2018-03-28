@@ -334,25 +334,58 @@ ImportSession has 3 methods:
 
 The flow of using ImportSession is as follows:
 
-* Figure 12 below shows the process of initializing ImportSession.
+* Figure 12 below shows the process of initializing ImportSession. On the `import` command,
+`getInstance` is used to retrieve the `importSession` instance, before it calls
+`initialize(fileName)`. A new `SheetParser` is created to populate `sessionData` with excel sheet data
+as shown in Figure 11, which comes as:
+1. `SheetWithHeaderField`: augmented `Sheet` that provides API to indicate approval status and
+write comments.
+2. `JobEntry`: Augmented `Job` that implements `ExcelRowReference` to retrieve the sheet number
+and row number for writing into the excel file. `JobEntry` also contains the `Job` data which
+will be imported upon approval.
 +
 .Sequence Diagram of `ImportSession` initialization
 image::SessionInitializationSequenceDiagram.png[width="800"]
 
-* Figure 13 below shows the process of reviewing job entries in an import session.
+* Figure 13 below shows the process of reviewing job entries in an import session. On the `review`
+command, `sessionData` updates the relevant `jobEntry` and retrieves the sheet and row number,
+which is used to update `sheetWithHeaderFields`.
 +
 .Sequence Digram of `ImportSession` during the reviewing of a job
 image::SessionReviewSequenceDiagram.png[width="800"]
++
+* Figure 14 shows the process of saving a session. On the `save` command, `importSession` writes the
+modified excel sheets from `sheetWithHeaderFields` to the same path as the imported excel file, with
+a timestamp added to the back of the filename.
 
-[More stuff to be added]
+ImportSession alone or Import+Session
+addJob/addEmployees in model or storage
 
 ==== Design Considerations
 Supporting UndoableCommand
-Persistent Data
-addJobs/addEmployee method location
-ImportSession data extraction
-JobEntry
 
+* **Current choice:** Add the previous instance of `sessionData` when setting data for `Command`, with an
+`SaveFileStack` as shown in Figure 11. Load this `sessionData` on `undo` or `redo` command.
+** Pros: `sessionData` stores data for `importSession`, making it appropriate to be used as data in `undo`
+and `redo`. Modification is only limited to `UndoableCommand`. Single Responsibility Principle is maintained,
+as the storage of save file locations is limited to `SaveFileStack`.
+** Cons: `sessionData` will have to store the boolean `initialized` in `sessionData` so that it will
+stay up-to-date with the `UndoRedoStack`.
+
+* _Alternative:_ `importSession` provides API to `undo` and `redo`.
+** Pros: Open Closed Principle is respected, there is no need to modify `UndoableCommand`.
+** Cons: Commands that modify `sessionData` have to be written differently from other commands to support
+`undo` and `redo`. The delimiter rule is also violated as `importSession` is unnecessarily involved.
+
+Persistent Data
+
+* **Current choice:** Keep all data from `ImportSession` on `sessionData` and use it to initialize on startup.
+** Pros: `ImportSession` gets to stay as a `Singleton`, preventing confusion.
+** Cons: There will be increased coupling between `Session` and `Storage`.
+
+* _Alternative:_ Make `ImportSession` not a `Singleton` class and store it directly.
+** Pros: `ImportSession` can be directly initialized on startup and coupling is reduced.
+** Cons: Confusion may occur due to allowing more than one `ImportSession`.
 // end::importexport[]
 
 // tag::theme[]
