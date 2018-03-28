@@ -269,7 +269,7 @@ This section describes some noteworthy details on how certain features are imple
 === Set command feature
 ==== Current Implementation
 
-.ClassDiagram of CommandWords at runtime
+.Object Diagram of CommandWords at runtime
 image::SetCommandObjectDiagram.png[width="800"]
 
 `SetCommand` keeps 2 lists of command words:
@@ -317,12 +317,42 @@ As you can see from figure 11, AddressBookParser makes a reference to CommandWor
 // end::set[]
 
 // tag::importexport[]
-=== Import/Export feature #Coming in v2.0#
+=== Import/Save feature #Coming in v2.0#
 ==== Current Implementation
 
-image::blank.png[width="800"]
+.Object Diagram of `session` component
+image::SessionComponentClassDiagram.png[width="800"]
+
+ImportSession uses a Singleton design pattern. It is responsible for initializing and closing the session.
+ImportSession has 3 methods:
+
+* `static getInstance()`: Used to retrieve the single instance of `ImportSession`.
+* `setData(sessionData)`: Used to set `sessionData` for `ImportSession`.
+* `initialize(fileName)`: Initializes `sessionData` with and excel file located at `fileName`.
+* `closeSession()`: Writes the comments as a save file to same directory of import file,
+ with a timestamp added to the back of the filename.
+
+The flow of using ImportSession is as follows:
+
+* Figure 12 below shows the process of initializing ImportSession.
++
+.Sequence Diagram of `ImportSession` initialization
+image::SessionInitializationSequenceDiagram.png[width="800"]
+
+* Figure 13 below shows the process of reviewing job entries in an import session.
++
+.Sequence Digram of `ImportSession` during the reviewing of a job
+image::SessionReviewSequenceDiagram.png[width="800"]
+
+[More stuff to be added]
 
 ==== Design Considerations
+Supporting UndoableCommand
+Persistent Data
+addJobs/addEmployee method location
+ImportSession data extraction
+JobEntry
+
 // end::importexport[]
 
 // tag::theme[]
