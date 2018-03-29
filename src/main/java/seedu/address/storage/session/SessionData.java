@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import java.util.List;
 
+import seedu.address.model.job.Job;
 import seedu.address.storage.session.exceptions.DataIndexOutOfBoundsException;
 
 //@@author yuhongherald
@@ -28,16 +29,16 @@ public class SessionData {
     }
 
     /**
-     * @return a copy of unreviewed job entries stored in this sheet
+     * @return a copy of unreviewed jobs stored in this sheet
      */
-    public List<JobEntry> getUnreviewedJobEntries() {
+    public List<Job> getUnreviewedJobEntries() {
         return Collections.unmodifiableList(unreviewedJobEntries);
     }
 
     /**
-     * @return a copy of reviewed job entries stored in this sheet
+     * @return a copy of reviewed jobs stored in this sheet
      */
-    public List<JobEntry> getReviewedJobEntries() {
+    public List<Job> getReviewedJobEntries() {
         return Collections.unmodifiableList(reviewedJobEntries);
     }
 
