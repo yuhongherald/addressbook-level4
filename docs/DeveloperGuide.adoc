@@ -12,7 +12,7 @@ ifdef::env-github[]
 endif::[]
 :repoURL: https://github.com/CS2103JAN2018-W09-B1/main/tree/master
 
-By: `W09-GroupB1`      Since: `May 2018`      Licence: `MIT`
+By: `W09-GroupB1`      Since: `FEB 2018`      Licence: `MIT`
 
 == Setting up
 
@@ -115,6 +115,7 @@ When you are ready to start coding,
 
 .Architecture Diagram
 image::Architecture.png[width="600"]
+[none]
 
 The *_Architecture Diagram_* (figure 1) given above explains the high-level design of the App. Read this section (section 2) to get a quick overview of each component.
 
@@ -160,6 +161,7 @@ The _Sequence Diagram_ below (figure 3) shows how the components interact for th
 
 .Component interactions for `delete 1` command (part 1)
 image::SDforDeletePerson.png[width="800"]
+[none]
 
 ====
 [NOTE]
@@ -170,6 +172,7 @@ The diagram below (figure 4) shows how the `EventsCenter` reacts to that event, 
 
 .Component interactions for `delete 1` command (part 2)
 image::SDforDeletePersonEventHandling.png[width="800"]
+[none]
 
 ====
 [NOTE]
@@ -265,12 +268,113 @@ Classes used by multiple components are in the `seedu.addressbook.commons` packa
 
 This section describes some noteworthy details on how certain features are implemented.
 
+// tag::addJob[]
+=== Add job feature
+==== Current Implementation
+
+`Job` is part of the `Model` component which is made up of `Person`, `JobNumber, `VehicleNumber`, `Status`, `Date`, `UniqueEmployeeList` and `RemarkList` (refer to figure).
+
+.Class Diagram of Model component
+image::ModelClassDiagram.png[width="800"]
+[none]
+
+`Person` represents the client of a job. `JobNumber` represents the number of a job and is responsible for generating a running number for each job. `Status` represents the status of a job which holds value of either `ongoing` or `closed` that is used for categorizing jobs. `Date` represents the date of creation for the job. `RemarkList` holds all `Remark` belonging to the job. `UniqueEmployeeList` of the job represents the employees assigned.
+
+The job adding mechanism is facilitated by a `AddJobCommand` which is an `UndoableCommand`. `AddJobCommandParser` is responsible for parsing the input arguments. It utilizes `ParserUtil` for the validation of `NAME`, `PHONE`, `EMAIL`, `VEHICLE_NUMBER` and `ASSIGNED_EMPLOYEE_INDEX` and creates `AddJobCommand` object which prepares the `Job` object.
+
+====
+[NOTE]
+If the parameters are invalid, `addj` command will return an invalid message, which shows the usage information to the user.
+(e.g. `addj n/John Doe p/9999999 e/john@example.com v/SHG123 w/-1`).
+====
+
+`AddJobCommandParser` code snippet to validate the parameters, `NAME`, `PHONE`, `EMAIL`, `VEHICLE_NUMBER`, `ASSIGNED_EMPLOYEE_INDEX+`, which returns `AddJobCommand` object if valid, and invalid message otherwise:
+[source,java]
+----
+    public AddJobCommand parse(String args) throws ParseException {
+        ArgumentMultimap argMultimap =
+                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE,
+                        PREFIX_EMAIL, PREFIX_VEHICLE_NUMBER, PREFIX_ASSIGNED_EMPLOYEE);
+
+        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_PHONE,
+                PREFIX_EMAIL, PREFIX_VEHICLE_NUMBER, PREFIX_ASSIGNED_EMPLOYEE)) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddJobCommand.MESSAGE_USAGE));
+        }
+
+        try {
+            Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME)).get();
+            Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE)).get();
+            Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL)).get();
+            VehicleNumber vehicleNumber =
+                    ParserUtil.parseVehicleNumber(argMultimap.getValue(PREFIX_VEHICLE_NUMBER)).get();
+            ArrayList<Index> assignedEmployeeIndices =
+                    ParserUtil.parseIndices(argMultimap.getAllValues(PREFIX_ASSIGNED_EMPLOYEE));
+
+            Person client = new Person(name, phone, email);
+            return new AddJobCommand(client, vehicleNumber, assignedEmployeeIndices);
+
+        } catch (IllegalValueException ive) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddJobCommand.MESSAGE_USAGE));
+        }
+    }
+----
+
+`preprocessUndoableCommand` method code snippet in `AddJobCommand` that checks if assigned employee exists for the indices given. It creates `Job` object only if valid, and throws an invalid message otherwise:
+[source,java]
+----
+    protected void preprocessUndoableCommand() throws CommandException {
+        List<Employee> lastShownList = model.getFilteredPersonList();
+
+        //Check for valid employee indices
+        for (Index targetIndex : targetIndices) {
+            if (targetIndex.getZeroBased() >= lastShownList.size()) {
+                throw new CommandException(Messages.MESSAGE_INVALID_EMPLOYEE_DISPLAYED_INDEX);
+            }
+        }
+
+        try {
+            for (Index targetIndex : targetIndices) {
+                assignedEmployees.add(lastShownList.get(targetIndex.getZeroBased()));
+            }
+            toAdd = new Job(client, vehicleNumber, new JobNumber(), new Date(), assignedEmployees,
+                    new Status(Status.STATUS_ONGOING), new RemarkList());
+        } catch (DuplicateEmployeeException e) {
+            throw new CommandException("Duplicate employee index");
+        }
+
+    }
+----
+
+The successful execution of `AddJobCommand` adds the `Job` to CarviciM.
+
+==== Design Considerations
+
+===== Aspect: Modelling jobs in CarviciM
+
+* **Current choice:** Adding a list to keep track of all jobs in CarviciM, and adding an attribute for keeping a list of assigned employees in `Job` class.
+** Pros: Finding assigned employees of a job, requires only going through the assigned employee list of the job. Removal of a job is done easily by removing it from the list of jobs.
+** Cons: Additional list to maintain, other than the list of employees. Changes to an employee needs to be updated for all jobs that contains the respective employee.
+* _Alternative:_ Add a new attribute in `Employee` class to keep a list of jobs.
+** Pros: Only need to maintain a single list of employees. Finding jobs that are assigned to an `Employee` object only requires going through the job list.
+** Cons: Finding all employees belonging to a job, requires going through the job list of all employees. The removal of a job, requires going through all employees, as a job can be assigned to multiple employees.
+
+===== Aspect: Checking if given employee indices point to valid employees in CarviciM
+
+* **Current choice:** Perform check in the `preprocessUndoableCommand` method of `AddJobCommand`.
+** Pros: Does not introduce more coupling.
+** Cons: `AddJobCommand` will need to store more attributes, as a `Job` object is only created when `preprocessUndoableCommand` method is executed successfully.
+* _Alternative:_ Allow `ParserUtil` to hold employee list.
+** Pros: `AddJobCommandParser` determines if the employee indices point to valid employees, and creates the `Job` object.
+** Cons: Allowing `ParserUtil` to hold the list of employees introduce more coupling among the classes.
+// end::addJob[]
+
 // tag::set[]
 === Set command feature
 ==== Current Implementation
 
 .ClassDiagram of CommandWords at runtime
 image::SetCommandObjectDiagram.png[width="800"]
+[none]
 
 `SetCommand` keeps 2 lists of command words:
 * the default command words
@@ -283,7 +387,7 @@ Both are managed by the class `CommandWords`.
 
 `CommandWords` only deal with commands that have their default command word declared in the class level reference.
 
-As you can see from figure 11, AddressBookParser makes a reference to CommandWords. However, `CommandWords` resides in `UserPrefs` in the `Model` component. This is to facilitate the saving of data. CommandWords also has a method checkIntegrity, which ensures that object command words are 1 to 1 with class command words. This allows forward compatibility, as well as protects against data corruption to some extent.
+As you can see from figure 12, AddressBookParser makes a reference to CommandWords. However, `CommandWords` resides in `UserPrefs` in the `Model` component. This is to facilitate the saving of data. CommandWords also has a method checkIntegrity, which ensures that object command words are 1 to 1 with class command words. This allows forward compatibility, as well as protects against data corruption to some extent.
 
 ==== Design Considerations
 
@@ -404,8 +508,13 @@ If there is no `INDEX` present, `theme` command will return an invalid message, 
 
 ==== Design Considerations
 
-===== Aspect: Implementation of ThemeCommand +
-* **Current choice:** Utilizing `SetThemRequestEvent` and allow `MainWindow` to handle the raised event to set the theme of the application. Ensuring persistent theme setting by updating `UserPref` to store and retrieve relevant stylesheet used.
+===== Aspect: Implementation of `ThemeCommand` +
+* **Current choice:** Utilizing `SetThemRequestEvent` and allow `MainWindow` to handle the raised event to set the theme of the application.
+** Pros: Lesser responsibility for `ThemeCommand`.
+** Cons: Harder for new developer to understand the behavior of theme setting, as it utilizes event handling.
+* _Alternative:_ Instantiate `ThemeCommand` in `MainWindow` that passes `Stage` as a parameter. Then, perform theme setting in `ThemeCommand`.
+** Pros: Easy to implement.
+** Cons: Violates Law of Demeter as `ThemeCommand` has knowledge and access to `Stage`.
 // end::theme[]
 
 // tag::undoredo[]
@@ -418,6 +527,7 @@ The undo/redo mechanism is facilitated by an `UndoRedoStack`, which resides insi
 
 .Inheritance diagram for commands
 image::LogicCommandClassDiagram.png[width="800"]
+[none]
 
 As you can see from the diagram above, `UndoableCommand` adds an extra layer between the abstract `Command` class and concrete commands that can be undone, such as the `DeleteCommand`. Note that extra tasks need to be done when executing a command in an _undoable_ way, such as saving the state of the address book before execution. `UndoableCommand` contains the high-level algorithm for those extra tasks while the child classes implements the details of how to execute the specific command. Note that this technique of putting the high-level algorithm in the parent class and lower-level steps of the algorithm in child classes is also known as the https://www.tutorialspoint.com/design_pattern/template_pattern.htm[template pattern].
 
@@ -460,11 +570,13 @@ Suppose that the user has just launched the application. The steps below show th
 
 .Step 1: `delete 5` command pushed onto the `undoStack`
 image::UndoRedoStartingStackDiagram.png[width="800"]
+[none]
 
 3. As the user continues to use the program, more commands are added into the `undoStack`. For example, as shown in the figure below, the user may execute `add n/David ...` to add a new employee.
 
 .Step 2: execute `add n/David ...`
 image::UndoRedoNewCommand1StackDiagram.png[width="800"]
+[none]
 
 ====
 [NOTE]
@@ -478,6 +590,7 @@ As shown in the diagram below, we will pop the most recent command out of the `u
 
 .Step 3: `undo` action
 image::UndoRedoExecuteUndoStackDiagram.png[width="800"]
+[none]
 
 ====
 [NOTE]
@@ -488,6 +601,7 @@ The following sequence diagram shows how the undo operation works:
 
 .`undo` sequence diagram
 image::UndoRedoSequenceDiagram.png[width="800"]
+[none]
 
 The `redo` does the exact opposite (pops from `redoStack`, push to `undoStack`, and restores the address book to the state after the command is executed).
 
@@ -500,6 +614,7 @@ The user now decides to execute a new command, `clear`. As before, `clear` will 
 
 .`clear` pushed into `undoStack`
 image::UndoRedoNewCommand2StackDiagram.png[width="800"]
+[none]
 
 Commands that are not undoable are not added into the `undoStack`. For example, `list`, which inherits from `Command` rather than `UndoableCommand`, will not be added after execution:
 
