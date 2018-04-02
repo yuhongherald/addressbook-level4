@@ -126,7 +126,7 @@ public class CommandWords implements Serializable {
      */
     public void setCommandWord(String currentWord, String newWord) throws CommandWordException {
         requireNonNull(currentWord, newWord);
-        checkCommandWordValidity(currentWord, newWord);
+        throwExceptionIfCommandWordsNotValid(currentWord, newWord);
         if (isDefaultCommandWord(currentWord)) {
             commands.remove(currentWord);
             commands.put(currentWord, newWord);
@@ -146,9 +146,12 @@ public class CommandWords implements Serializable {
     }
 
     /**
-     * throws a (@code CommandWordException) if (@code currentWord) or (@code newWord) is not valid
+     * throws a (@code CommandWordException) if:
+     * 1. Both words are the same
+     * 2. (@code newWord) overwrites the default word for another command
+     * 3. (@code newWord) is already in use
      */
-    private void checkCommandWordValidity(String currentWord, String newWord) throws CommandWordException {
+    private void throwExceptionIfCommandWordsNotValid(String currentWord, String newWord) throws CommandWordException {
         if (currentWord.equals(newWord)) {
             throw new CommandWordException(getMessageNoChange());
         }

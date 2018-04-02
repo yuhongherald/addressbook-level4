@@ -59,13 +59,13 @@ public class ImportSession {
      */
     public void initializeSession(String filePath) throws FileAccessException, FileFormatException {
         if (sessionData != null) {
-            throw new RuntimeException(ERROR_MESSAGE_FILE_OPEN);
+            throw new FileAccessException(ERROR_MESSAGE_FILE_OPEN);
         }
-        File file = new File (filePath);
+        File file = new File(filePath);
         if (!file.exists()) {
             throw new FileAccessException(ERROR_MESSAGE_INVALID_FILEPATH);
         } else if (!file.canRead()) {
-            throw new RuntimeException(ERROR_MESSAGE_READ_PERMISSION);
+            throw new FileAccessException(ERROR_MESSAGE_READ_PERMISSION);
         }
         try {
             workbook = createWorkBook(file);
