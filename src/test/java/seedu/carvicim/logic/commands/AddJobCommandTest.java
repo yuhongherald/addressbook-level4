@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -109,8 +108,12 @@ public class AddJobCommandTest {
         }
 
         @Override public boolean isViewingImportedJobs() {
-            Assert.fail("This method should not be called.");
+            fail("This method should not be called.");
             return false;
+        }
+
+        @Override public void switchJobView() {
+            fail("This method should not be called.");
         }
 
         @Override
