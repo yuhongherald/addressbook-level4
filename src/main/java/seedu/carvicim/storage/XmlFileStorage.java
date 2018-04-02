@@ -7,7 +7,6 @@ import javax.xml.bind.JAXBException;
 
 import seedu.carvicim.commons.exceptions.DataConversionException;
 import seedu.carvicim.commons.util.XmlUtil;
-import seedu.carvicim.storage.session.XmlSerializableSessionData;
 
 /**
  * Stores addressbook and archivejob data in an XML file
@@ -20,18 +19,6 @@ public class XmlFileStorage {
             throws FileNotFoundException {
         try {
             XmlUtil.saveDataToFile(file, carvicim);
-        } catch (JAXBException e) {
-            throw new AssertionError("Unexpected exception " + e.getMessage());
-        }
-    }
-
-    /**
-     * Saves the given session data to the specified file.
-     */
-    public static void saveDataToFile(File file, XmlSerializableSessionData sessionData)
-            throws FileNotFoundException {
-        try {
-            XmlUtil.saveDataToFile(file, sessionData);
         } catch (JAXBException e) {
             throw new AssertionError("Unexpected exception " + e.getMessage());
         }
@@ -58,18 +45,6 @@ public class XmlFileStorage {
                                                                             FileNotFoundException {
         try {
             return XmlUtil.getDataFromFile(file, XmlSerializableCarvicim.class);
-        } catch (JAXBException e) {
-            throw new DataConversionException(e);
-        }
-    }
-
-    /**
-     * Returns session data in the file or an empty session data
-     */
-    public static XmlSerializableSessionData loadDataFromSessionDataFile(File file) throws DataConversionException,
-            FileNotFoundException {
-        try {
-            return XmlUtil.getDataFromFile(file, XmlSerializableSessionData.class);
         } catch (JAXBException e) {
             throw new DataConversionException(e);
         }
