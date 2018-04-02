@@ -21,6 +21,7 @@ import seedu.carvicim.logic.commands.HistoryCommand;
 import seedu.carvicim.logic.commands.ImportAllCommand;
 import seedu.carvicim.logic.commands.ImportCommand;
 import seedu.carvicim.logic.commands.ListEmployeeCommand;
+import seedu.carvicim.logic.commands.ListJobCommand;
 import seedu.carvicim.logic.commands.LoginCommand;
 import seedu.carvicim.logic.commands.RedoCommand;
 import seedu.carvicim.logic.commands.SaveCommand;
@@ -144,6 +145,9 @@ public class CarvicimParser {
 
         case SaveCommand.COMMAND_WORD:
             return new SaveCommand();
+
+        case ListJobCommand.COMMAND_WORD:
+            return new ListJobCommand();
 
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);

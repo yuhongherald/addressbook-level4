@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -105,6 +106,11 @@ public class AddJobCommandTest {
         @Override
         public void addMissingEmployees(Set<Employee> employees) {
             fail("This method should not be called.");
+        }
+
+        @Override public boolean isViewingImportedJobs() {
+            Assert.fail("This method should not be called.");
+            return false;
         }
 
         @Override

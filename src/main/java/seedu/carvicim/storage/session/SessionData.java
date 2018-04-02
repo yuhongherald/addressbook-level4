@@ -173,18 +173,21 @@ public class SessionData {
         workbook.write(fileOut);
         fileOut.close();
         workbook.close();
-        tempFile.delete();
         freeResources();
         return path;
     }
     /**
      * Releases resources associated with ImportSession by nulling field
      */
-    private void freeResources() {
+    public void freeResources() {
         workbook = null;
         importFile = null;
+        tempFile.delete();
         tempFile = null;
         saveFile = null;
+        unreviewedJobEntries.clear();
+        reviewedJobEntries.clear();
+        sheets.clear();
     }
 
     /*===================================================================
