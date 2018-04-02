@@ -50,6 +50,10 @@ public class ImportSession {
         return new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
     }
 
+    public void setSaveFilePath(String filePath) {
+        outFile = new File(filePath);
+    }
+
     public void setSessionData(SessionData sessionData) {
         this.sessionData = sessionData;
     }
@@ -126,10 +130,10 @@ public class ImportSession {
         }
         if (outFile == null) { // does not check if a file exists
             String timeStamp = getTimeStamp();
-            outFile = new File(inFile.getPath() + timeStamp + inFile.getName());
+            outFile = new File(inFile.getParent() + "/" + timeStamp + inFile.getName());
         }
         FileOutputStream fileOut = new FileOutputStream(outFile);
-        System.out.println(outFile.getName());
+        System.out.println(outFile.getAbsolutePath());
         workbook.write(fileOut);
         fileOut.close();
         workbook.close();

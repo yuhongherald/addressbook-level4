@@ -4,10 +4,15 @@ import org.junit.Test;
 
 import seedu.carvicim.storage.session.ImportSession;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 //@@author yuhongherald
 public class ImportSessionTest {
     private static final String TEST_INPUT_FILE = "storage/session/ImportSessionTest/CS2103-testsheet.xlsx";
     private static final String TEST_OUTPUT_FILE = "";
+    private static final String OUTFILE_NAME = "outFile";
 
     @Test
     public void importTestFileWithErrorCorrection() throws Exception {
@@ -19,13 +24,14 @@ public class ImportSessionTest {
         importSession.initializeSession(path);
         importSession.reviewAllRemainingJobEntries(true);
         importSession.closeSession();
+        //deleteFile(OUTFILE_NAME);
     }
 
     private void compareExcelFiles() {
         ;
     }
 
-    private void deleteFile(String filePath) {
-        ;
+    private void deleteFile(String filePath) throws IOException {
+        Files.deleteIfExists(Paths.get(filePath));
     }
 }
