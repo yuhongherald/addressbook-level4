@@ -7,6 +7,7 @@ import java.io.IOException;
 import seedu.carvicim.storage.session.exceptions.DataIndexOutOfBoundsException;
 import seedu.carvicim.storage.session.exceptions.FileAccessException;
 import seedu.carvicim.storage.session.exceptions.FileFormatException;
+import seedu.carvicim.storage.session.exceptions.UnitializedException;
 
 //@@author yuhongherald
 /**
@@ -53,7 +54,7 @@ public class ImportSession {
     /**
      * Flushes feedback to (@code outFile) and releases resources. Currently not persistent.
      */
-    public void closeSession() throws IOException {
-        sessionData.saveData();
+    public String closeSession() throws IOException, UnitializedException {
+        return sessionData.saveData();
     }
 }

@@ -22,6 +22,7 @@ import seedu.carvicim.model.job.Job;
 import seedu.carvicim.storage.session.exceptions.DataIndexOutOfBoundsException;
 import seedu.carvicim.storage.session.exceptions.FileAccessException;
 import seedu.carvicim.storage.session.exceptions.FileFormatException;
+import seedu.carvicim.storage.session.exceptions.UnitializedException;
 
 //@@author yuhongherald
 /**
@@ -40,6 +41,7 @@ public class SessionData {
     public static final String TIMESTAMP_FORMAT = "yyyy.MM.dd.HH.mm.ss";
     public static final String SAVEFILE_SUFFIX = "save";
     public static final String TEMPFILE_SUFFIX = "temp";
+    public static final String ERROR_MESSAGE_UNITIALIZED = "There is no imported file to save!";
 
     private final ArrayList<JobEntry> unreviewedJobEntries;
     private final ArrayList<JobEntry> reviewedJobEntries;
@@ -56,6 +58,10 @@ public class SessionData {
         unreviewedJobEntries = new ArrayList<>();
         reviewedJobEntries = new ArrayList<>();
         sheets = new ArrayList<>();
+    }
+
+    public boolean isInitialized() {
+        return (workbook != null);
     }
 
     /*===================================================================
@@ -102,7 +108,7 @@ public class SessionData {
      * specified file exists, is readable and is an excel file
      */
     public void loadFile(String filePath) throws FileAccessException, FileFormatException {
-        if (workbook != null) {
+        if (isInitialized()) {
             throw new FileAccessException(ERROR_MESSAGE_FILE_OPEN);
         }
         File file = new File(filePath);
@@ -155,20 +161,21 @@ public class SessionData {
     /**
      * Saves feedback to specified saveFile path
      */
-    public void saveData() throws IOException {
-        if (workbook == null) {
-            return;
+    public String saveData() throws IOException, UnitializedException {
+        if (!isInitialized()) {
+            throw new UnitializedException(ERROR_MESSAGE_UNITIALIZED);
         }
         if (saveFile == null) { // does not check if a file exists
             saveFile = generateFile(SAVEFILE_SUFFIX);
         }
         FileOutputStream fileOut = new FileOutputStream(saveFile);
-        System.out.println(saveFile.getAbsolutePath()); // for debug
+        String path = saveFile.getAbsolutePath();
         workbook.write(fileOut);
         fileOut.close();
         workbook.close();
         tempFile.delete();
         freeResources();
+        return path;
     }
     /**
      * Releases resources associated with ImportSession by nulling field
