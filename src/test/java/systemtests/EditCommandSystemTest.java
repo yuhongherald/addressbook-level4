@@ -2,49 +2,49 @@ package systemtests;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
-import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.address.testutil.TypicalPersons.AMY;
-import static seedu.address.testutil.TypicalPersons.BOB;
-import static seedu.address.testutil.TypicalPersons.KEYWORD_MATCHING_MEIER;
+import static seedu.carvicim.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
+import static seedu.carvicim.logic.commands.CommandTestUtil.EMAIL_DESC_BOB;
+import static seedu.carvicim.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
+import static seedu.carvicim.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
+import static seedu.carvicim.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
+import static seedu.carvicim.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
+import static seedu.carvicim.logic.commands.CommandTestUtil.NAME_DESC_AMY;
+import static seedu.carvicim.logic.commands.CommandTestUtil.NAME_DESC_BOB;
+import static seedu.carvicim.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
+import static seedu.carvicim.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
+import static seedu.carvicim.logic.commands.CommandTestUtil.TAG_DESC_MECHANIC;
+import static seedu.carvicim.logic.commands.CommandTestUtil.TAG_DESC_TECHNICIAN;
+import static seedu.carvicim.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
+import static seedu.carvicim.logic.commands.CommandTestUtil.VALID_NAME_BOB;
+import static seedu.carvicim.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static seedu.carvicim.logic.commands.CommandTestUtil.VALID_TAG_MECHANIC;
+import static seedu.carvicim.logic.commands.CommandTestUtil.VALID_TAG_TECHNICIAN;
+import static seedu.carvicim.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.carvicim.model.Model.PREDICATE_SHOW_ALL_PERSONS;
+import static seedu.carvicim.testutil.TypicalEmployees.AMY;
+import static seedu.carvicim.testutil.TypicalEmployees.BOB;
+import static seedu.carvicim.testutil.TypicalEmployees.KEYWORD_MATCHING_MEIER;
+import static seedu.carvicim.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
 import org.junit.Test;
 
-import seedu.address.commons.core.Messages;
-import seedu.address.commons.core.index.Index;
-import seedu.address.logic.commands.EditCommand;
-import seedu.address.logic.commands.RedoCommand;
-import seedu.address.logic.commands.UndoCommand;
-import seedu.address.model.Model;
-import seedu.address.model.person.Email;
-import seedu.address.model.person.Employee;
-import seedu.address.model.person.Name;
-import seedu.address.model.person.Phone;
-import seedu.address.model.person.exceptions.DuplicateEmployeeException;
-import seedu.address.model.person.exceptions.EmployeeNotFoundException;
-import seedu.address.model.tag.Tag;
-import seedu.address.testutil.EmployeeBuilder;
-import seedu.address.testutil.PersonUtil;
+import seedu.carvicim.commons.core.Messages;
+import seedu.carvicim.commons.core.index.Index;
+import seedu.carvicim.logic.commands.EditCommand;
+import seedu.carvicim.logic.commands.RedoCommand;
+import seedu.carvicim.logic.commands.UndoCommand;
+import seedu.carvicim.model.Model;
+import seedu.carvicim.model.person.Email;
+import seedu.carvicim.model.person.Employee;
+import seedu.carvicim.model.person.Name;
+import seedu.carvicim.model.person.Phone;
+import seedu.carvicim.model.person.exceptions.DuplicateEmployeeException;
+import seedu.carvicim.model.person.exceptions.EmployeeNotFoundException;
+import seedu.carvicim.model.tag.Tag;
+import seedu.carvicim.testutil.EmployeeBuilder;
+import seedu.carvicim.testutil.PersonUtil;
 
-public class EditCommandSystemTest extends AddressBookSystemTest {
+public class EditCommandSystemTest extends CarvicimSystemTest {
 
     @Test
     public void edit() throws Exception {
@@ -57,9 +57,9 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
          */
         Index index = INDEX_FIRST_PERSON;
         String command = " " + EditCommand.COMMAND_WORD + "  " + index.getOneBased() + "  " + NAME_DESC_BOB + "  "
-                + PHONE_DESC_BOB + " " + EMAIL_DESC_BOB + "  " + " " + TAG_DESC_HUSBAND + " ";
+                + PHONE_DESC_BOB + " " + EMAIL_DESC_BOB + "  " + " " + TAG_DESC_MECHANIC + " ";
         Employee editedEmployee = new EmployeeBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
-                .withEmail(VALID_EMAIL_BOB).withTags(VALID_TAG_HUSBAND).build();
+                .withEmail(VALID_EMAIL_BOB).withTags(VALID_TAG_MECHANIC).build();
         assertCommandSuccess(command, index, editedEmployee);
 
         /* Case: undo editing the last employee in the list -> last employee restored */
@@ -76,14 +76,14 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: edit a employee with new values same as existing values -> edited */
         command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + TAG_DESC_FRIEND + TAG_DESC_HUSBAND;
+                + TAG_DESC_TECHNICIAN + TAG_DESC_MECHANIC;
         assertCommandSuccess(command, index, BOB);
 
         /* Case: edit some fields -> edited */
         index = INDEX_FIRST_PERSON;
-        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + TAG_DESC_FRIEND;
+        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + TAG_DESC_TECHNICIAN;
         Employee employeeToEdit = getModel().getFilteredPersonList().get(index.getZeroBased());
-        editedEmployee = new EmployeeBuilder(employeeToEdit).withTags(VALID_TAG_FRIEND).build();
+        editedEmployee = new EmployeeBuilder(employeeToEdit).withTags(VALID_TAG_TECHNICIAN).build();
         assertCommandSuccess(command, index, editedEmployee);
 
         /* Case: clear tags -> cleared */
@@ -94,7 +94,7 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
 
         /* ------------------ Performing edit operation while a filtered list is being shown ------------------------ */
 
-        /* Case: filtered employee list, edit index within bounds of address book and employee list -> edited */
+        /* Case: filtered employee list, edit index within bounds of carvicim book and employee list -> edited */
         showPersonsWithName(KEYWORD_MATCHING_MEIER);
         index = INDEX_FIRST_PERSON;
         assertTrue(index.getZeroBased() < getModel().getFilteredPersonList().size());
@@ -103,11 +103,11 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         editedEmployee = new EmployeeBuilder(employeeToEdit).withName(VALID_NAME_BOB).build();
         assertCommandSuccess(command, index, editedEmployee);
 
-        /* Case: filtered employee list, edit index within bounds of address book but out of bounds of employee list
+        /* Case: filtered employee list, edit index within bounds of carvicim book but out of bounds of employee list
          * -> rejected
          */
         showPersonsWithName(KEYWORD_MATCHING_MEIER);
-        int invalidIndex = getModel().getAddressBook().getEmployeeList().size();
+        int invalidIndex = getModel().getCarvicim().getEmployeeList().size();
         assertCommandFailure(EditCommand.COMMAND_WORD + " " + invalidIndex + NAME_DESC_BOB,
                 Messages.MESSAGE_INVALID_EMPLOYEE_DISPLAYED_INDEX);
 
@@ -120,7 +120,7 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         index = INDEX_FIRST_PERSON;
         selectPerson(index);
         command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
-                + TAG_DESC_FRIEND;
+                + TAG_DESC_TECHNICIAN;
         // this can be misleading: card selection actually remains unchanged but the
         // browser's url is updated to reflect the new employee's name
         assertCommandSuccess(command, index, AMY, index);
@@ -166,17 +166,17 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: edit a employee with new values same as another employee's values -> rejected */
         executeCommand(PersonUtil.getAddCommand(BOB));
-        assertTrue(getModel().getAddressBook().getEmployeeList().contains(BOB));
+        assertTrue(getModel().getCarvicim().getEmployeeList().contains(BOB));
         index = INDEX_FIRST_PERSON;
         assertFalse(getModel().getFilteredPersonList().get(index.getZeroBased()).equals(BOB));
         command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + TAG_DESC_FRIEND + TAG_DESC_HUSBAND;
+                + TAG_DESC_TECHNICIAN + TAG_DESC_MECHANIC;
         assertCommandFailure(command, EditCommand.MESSAGE_DUPLICATE_PERSON);
 
         /* Case: edit a employee with new values same as another employee's values
          but with different tags -> rejected */
         command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + TAG_DESC_HUSBAND;
+                + TAG_DESC_MECHANIC;
         assertCommandFailure(command, EditCommand.MESSAGE_DUPLICATE_PERSON);
     }
 
@@ -228,14 +228,11 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
      * 1. Asserts that the command box displays an empty string.<br>
      * 2. Asserts that the result display box displays {@code expectedResultMessage}.<br>
      * 3. Asserts that the model related components equal to {@code expectedModel}.<br>
-     * 4. Asserts that the browser url and selected card update accordingly depending on the card at
-     * {@code expectedSelectedCardIndex}.<br>
-     * 5. Asserts that the status bar's sync status changes.<br>
-     * 6. Asserts that the command box has the default style class.<br>
+     * 4. Asserts that the status bar's sync status changes.<br>
+     * 5. Asserts that the command box has the default style class.<br>
      * Verifications 1 to 3 are performed by
-     * {@code AddressBookSystemTest#assertApplicationDisplaysExpected(String, String, Model)}.<br>
-     * @see AddressBookSystemTest#assertApplicationDisplaysExpected(String, String, Model)
-     * @see AddressBookSystemTest#assertSelectedCardChanged(Index)
+     * {@code CarvicimSystemTest#assertApplicationDisplaysExpected(String, String, Model)}.<br>
+     * @see CarvicimSystemTest#assertApplicationDisplaysExpected(String, String, Model)
      */
     private void assertCommandSuccess(String command, Model expectedModel, String expectedResultMessage,
             Index expectedSelectedCardIndex) {
@@ -243,11 +240,6 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         expectedModel.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
         assertCommandBoxShowsDefaultStyle();
-        if (expectedSelectedCardIndex != null) {
-            assertSelectedCardChanged(expectedSelectedCardIndex);
-        } else {
-            assertSelectedCardUnchanged();
-        }
         assertStatusBarUnchangedExceptSyncStatus();
     }
 
@@ -256,18 +248,16 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
      * 1. Asserts that the command box displays {@code command}.<br>
      * 2. Asserts that result display box displays {@code expectedResultMessage}.<br>
      * 3. Asserts that the model related components equal to the current model.<br>
-     * 4. Asserts that the browser url, selected card and status bar remain unchanged.<br>
-     * 5. Asserts that the command box has the error style.<br>
+     * 4. Asserts that the command box has the error style.<br>
      * Verifications 1 to 3 are performed by
-     * {@code AddressBookSystemTest#assertApplicationDisplaysExpected(String, String, Model)}.<br>
-     * @see AddressBookSystemTest#assertApplicationDisplaysExpected(String, String, Model)
+     * {@code CarvicimSystemTest#assertApplicationDisplaysExpected(String, String, Model)}.<br>
+     * @see CarvicimSystemTest#assertApplicationDisplaysExpected(String, String, Model)
      */
     private void assertCommandFailure(String command, String expectedResultMessage) {
         Model expectedModel = getModel();
 
         executeCommand(command);
         assertApplicationDisplaysExpectedError(command, expectedResultMessage, expectedModel);
-        assertSelectedCardUnchanged();
         assertCommandBoxShowsErrorStyle();
         assertStatusBarUnchanged();
     }
