@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import java.util.List;
 
+import seedu.carvicim.model.job.Job;
 import seedu.carvicim.storage.session.exceptions.DataIndexOutOfBoundsException;
 
 //@@author yuhongherald
