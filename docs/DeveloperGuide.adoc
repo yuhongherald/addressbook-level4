@@ -421,14 +421,14 @@ As you can see from figure 12, AddressBookParser makes a reference to CommandWor
 // end::set[]
 
 // tag::importexport[]
-=== Import/Save feature #Coming in v2.0#
+=== Import/Save feature
 ==== Current Implementation
 
 .Object Diagram of `session` component
 image::SessionComponentClassDiagram.png[width="800"]
 
-ImportSession uses a Singleton design pattern. It is responsible for initializing and closing the session.
-ImportSession has 3 methods:
+`ImportSession` uses a Singleton design pattern. It is responsible for initializing and closing the session.
+`ImportSession` has 4 methods:
 
 * `static getInstance()`: Used to retrieve the single instance of `ImportSession`.
 * `setData(sessionData)`: Used to set `sessionData` for `ImportSession`.
@@ -436,9 +436,14 @@ ImportSession has 3 methods:
 * `closeSession()`: Writes the comments as a save file to same directory of import file,
  with a timestamp added to the back of the filename.
 
-The flow of using ImportSession is as follows:
+`ImportSession` is designed to be stateless on its own, with all data stored in `SessionData`. This helps to
+support `UndoableCommand`
 
-* Figure 12 below shows the process of initializing ImportSession. On the `import` command,
+The flow of using `ImportSession` is as follows:
+
+===== Loading a file into `ImportSession`
+
+* Figure 14 below shows the process of initializing ImportSession. On the `import` command,
 `getInstance` is used to retrieve the `importSession` instance, before it calls
 `initialize(fileName)`. A new `SheetParser` is created to populate `sessionData` with excel sheet data
 as shown in Figure 11, which comes as:
@@ -451,22 +456,27 @@ will be imported upon approval.
 .Sequence Diagram of `ImportSession` initialization
 image::SessionInitializationSequenceDiagram.png[width="800"]
 
-* Figure 13 below shows the process of reviewing job entries in an import session. On the `review`
+===== Reviewing job entries
+
+* Figure 15 below shows the process of reviewing job entries in an import session. On the `review`
 command, `sessionData` updates the relevant `jobEntry` and retrieves the sheet and row number,
-which is used to update `sheetWithHeaderFields`.
+which is used to update `sheetWithHeaderFields`. Upon reviewing a job, CarviciM will add the job and
+any employees not present in the application.
 +
 .Sequence Digram of `ImportSession` during the reviewing of a job
 image::SessionReviewSequenceDiagram.png[width="800"]
-+
-* Figure 14 shows the process of saving a session. On the `save` command, `importSession` writes the
+
+===== Saving feedback from an `ImportSession`
+
+* Figure 16 below shows the process of saving a session. On the `save` command, `importSession` writes the
 modified excel sheets from `sheetWithHeaderFields` to the same path as the imported excel file, with
 a timestamp added to the back of the filename.
 
-ImportSession alone or Import+Session
-addJob/addEmployees in model or storage
+.Sequence Digram of `ImportSession` when saving feedback to a file
+image::blank.png[width="800"]
 
 ==== Design Considerations
-Supporting UndoableCommand
+===== Aspect: Supporting UndoableCommand
 
 * **Current choice:** Add the previous instance of `sessionData` when setting data for `Command`, with an
 `SaveFileStack` as shown in Figure 11. Load this `sessionData` on `undo` or `redo` command.
@@ -481,13 +491,26 @@ stay up-to-date with the `UndoRedoStack`.
 ** Cons: Commands that modify `sessionData` have to be written differently from other commands to support
 `undo` and `redo`. The delimiter rule is also violated as `importSession` is unnecessarily involved.
 
-Persistent Data
+===== Aspect: Supporting mass add methods addJobs/addMissingEmployees
+
+* **Current choice:** Add the methods to `Model`
+** Pros: Cohesion is maximized, these methods can also be reused by other classes.
+** Cons: Open Closed Principle is violated and adding these methods may result in confusion on the
+behavior of `Model`.
+
+* _Alternative:_ Add the methods to `ImportSession`
+** Pros: The behavior of these methods can be tailored specifically to `ImportSession`.
+** Cons: Unnecessary coupling between `Model` and `ImportSession` when `Command` is already coupled to `Model`.
+The Single Responsibility Principle is also violated.
+
+===== Aspect: Persistent Data
 
 * **Current choice:** Keep all data from `ImportSession` on `sessionData` and use it to initialize on startup.
 ** Pros: `ImportSession` gets to stay as a `Singleton`, preventing confusion.
 ** Cons: There will be increased coupling between `Session` and `Storage`.
 
-* _Alternative:_ Make `ImportSession` not a `Singleton` class and store it directly.
+* _Alternative:_ Combine `ImportSession` and `SessionData` into 1 single class and store
+it directly.
 ** Pros: `ImportSession` can be directly initialized on startup and coupling is reduced.
 ** Cons: Confusion may occur due to allowing more than one `ImportSession`.
 // end::importexport[]
