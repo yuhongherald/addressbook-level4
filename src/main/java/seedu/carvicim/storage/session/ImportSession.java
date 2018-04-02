@@ -56,5 +56,4 @@ public class ImportSession {
     public void closeSession() throws IOException {
         sessionData.saveData();
     }
-
 }
