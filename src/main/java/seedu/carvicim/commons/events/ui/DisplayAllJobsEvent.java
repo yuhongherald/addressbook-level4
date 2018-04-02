@@ -3,7 +3,6 @@ package seedu.carvicim.commons.events.ui;
 import javafx.collections.ObservableList;
 import seedu.carvicim.commons.events.BaseEvent;
 import seedu.carvicim.model.job.Job;
-import seedu.carvicim.ui.PersonCard;
 
 /**
  * Represents a selection change in the Employee List Panel

@@ -4,7 +4,6 @@ import static seedu.carvicim.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMA
 import static seedu.carvicim.logic.parser.ParserUtil.parseFilename;
 
 import seedu.carvicim.commons.exceptions.IllegalValueException;
-import seedu.carvicim.logic.commands.ImportAllCommand;
 import seedu.carvicim.logic.commands.ImportCommand;
 import seedu.carvicim.logic.parser.exceptions.ParseException;
 

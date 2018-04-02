@@ -5,7 +5,6 @@ import static seedu.carvicim.logic.parser.ParserUtil.parseInteger;
 
 import seedu.carvicim.commons.exceptions.IllegalValueException;
 import seedu.carvicim.logic.commands.AcceptCommand;
-import seedu.carvicim.logic.commands.RejectCommand;
 import seedu.carvicim.logic.parser.exceptions.ParseException;
 
 //@@author yuhongherald
