@@ -27,9 +27,8 @@ public class ImportSession {
     public static final String ERROR_MESSAGE_FILE_FORMAT = "Unable to read the format of file. "
             + "Please ensure the file is in .xls or .xlsx format";
     public static final String ERROR_MESSAGE_IO_EXCEPTION = "Unable to read file. Please close the file and try again.";
-    private static ImportSession session;
+    private static ImportSession importSession;
 
-    private boolean initialized;
     private File inFile;
     private File tempFile;
     private Workbook workbook; // write comments to column after last row, with approval status
@@ -37,32 +36,29 @@ public class ImportSession {
     private File outFile;
 
     private ImportSession() {
-        initialized = false;
+        ;
     }
 
     public static ImportSession getInstance() {
-        if (session == null) {
-            session = new ImportSession();
+        if (importSession == null) {
+            importSession = new ImportSession();
         }
-        return session;
+        return importSession;
     }
 
     public static String getTimeStamp() {
         return new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
     }
 
-    /**
-     * Returns whether (@code ImportSession) has been initialized with an excel spreadsheet
-     */
-    public boolean isInitialized() {
-        return initialized;
+    public void setSessionData(SessionData sessionData) {
+        this.sessionData = sessionData;
     }
 
     /**
      *  Opens excel file specified by (@code filepath) and initializes (@code SessionData) to support import operations
      */
     public void initializeSession(String filePath) throws FileAccessException, FileFormatException {
-        if (inFile != null) {
+        if (sessionData != null) {
             throw new FileAccessException(ERROR_MESSAGE_FILE_OPEN);
         }
         File file = new File (filePath);
@@ -81,7 +77,6 @@ public class ImportSession {
         // the file is good to go
         inFile = file;
         initializeSessionData();
-        initialized = true;
     }
 
     /**
@@ -126,7 +121,7 @@ public class ImportSession {
      * Flushes feedback to (@code outFile) and releases resources. Currently not persistent.
      */
     public void closeSession() throws DataIndexOutOfBoundsException, IOException {
-        if (!initialized) {
+        if (sessionData == null) {
             return;
         }
         if (outFile == null) { // does not check if a file exists
@@ -166,7 +161,7 @@ public class ImportSession {
         }
         try {
             importSession.initializeSession(
-                    ".\\src\\test\\resources\\model.session.ImportSessionTest\\CS2103-testsheet.xlsx");
+                    ".\\src\\test\\resources\\model.importSession.ImportSessionTest\\CS2103-testsheet.xlsx");
             importSession.reviewAllRemainingJobEntries(true);
             importSession.closeSession();
         } catch (Exception e) {
