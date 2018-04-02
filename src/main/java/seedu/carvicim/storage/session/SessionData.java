@@ -1,33 +1,188 @@
 package seedu.carvicim.storage.session;
 
+import static java.util.Objects.requireNonNull;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
-
 import java.util.List;
+
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import seedu.carvicim.model.job.Job;
 import seedu.carvicim.storage.session.exceptions.DataIndexOutOfBoundsException;
+import seedu.carvicim.storage.session.exceptions.FileAccessException;
+import seedu.carvicim.storage.session.exceptions.FileFormatException;
 
 //@@author yuhongherald
 /**
  * A data structure used to keep track of job entries in an (@code ImportSession)
  */
 public class SessionData {
+    public static final String ERROR_MESSAGE_FILE_OPEN = "An excel file is already open.";
+    public static final String ERROR_MESSAGE_INVALID_FILEPATH = "Please check the path to your file.";
+    public static final String ERROR_MESSAGE_READ_PERMISSION = "Please enable file read permission.";
+    public static final String ERROR_MESSAGE_FILE_FORMAT = "Unable to read the format of file. "
+            + "Please ensure the file is in .xls or .xlsx format";
+    public static final String ERROR_MESSAGE_IO_EXCEPTION = "Unable to read file. Please close the file and try again.";
     public static final String ERROR_MESSAGE_EMPTY_UNREVIWED_JOB_LIST = "There are no unreviewed job entries left!";
+
+    public static final String FILE_PATH_CHARACTER = "/";
+    public static final String TIMESTAMP_FORMAT = "yyyy.MM.dd.HH.mm.ss";
+    public static final String SAVEFILE_SUFFIX = "save";
+    public static final String TEMPFILE_SUFFIX = "temp";
 
     private final ArrayList<JobEntry> unreviewedJobEntries;
     private final ArrayList<JobEntry> reviewedJobEntries;
     private final ArrayList<SheetWithHeaderFields> sheets;
-
     // will be using an ObservableList
 
-    SessionData() {
+    private File importFile;
+    private File tempFile;
+    private Workbook workbook; // write comments to column after last row, with approval status
+    private File saveFile;
+
+
+    public SessionData() {
         unreviewedJobEntries = new ArrayList<>();
         reviewedJobEntries = new ArrayList<>();
         sheets = new ArrayList<>();
     }
 
+    /*===================================================================
+    savefile methods
+    ===================================================================*/
+
+    /**
+     * Creates a file using relative filePath of (@code importFile), then appending a timestamp and
+     * (@code appendedName) to make it unique
+     */
+    private File generateFile(String appendedName) {
+        requireNonNull(importFile);
+        String timeStamp = new SimpleDateFormat(TIMESTAMP_FORMAT).format(new Date());
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(importFile.getParent());
+        stringBuilder.append(FILE_PATH_CHARACTER);
+        stringBuilder.append(timeStamp);
+        stringBuilder.append(importFile.getName());
+        stringBuilder.append(appendedName);
+        return new File(stringBuilder.toString());
+    }
+
+    public String getSaveFilePath() {
+        if (saveFile != null) {
+            return saveFile.getPath();
+        }
+        saveFile = generateFile(SAVEFILE_SUFFIX);
+        return saveFile.getPath();
+    }
+
+    /**
+     * Sets the filePath using relative address from import file
+     */
+    public void setSaveFile(String filePath) {
+        saveFile = new File(filePath);
+    }
+
+    /*===================================================================
+    Initialization methods
+    ===================================================================*/
+
+    /**
+     * Attempts load file specified at (@code filePath) if there is no currently open file and
+     * specified file exists, is readable and is an excel file
+     */
+    public void loadFile(String filePath) throws FileAccessException, FileFormatException {
+        if (workbook != null) {
+            throw new FileAccessException(ERROR_MESSAGE_FILE_OPEN);
+        }
+        File file = new File(filePath);
+        if (!file.exists()) {
+            throw new FileAccessException(ERROR_MESSAGE_INVALID_FILEPATH);
+        } else if (!file.canRead()) {
+            throw new FileAccessException(ERROR_MESSAGE_READ_PERMISSION);
+        }
+        importFile = file;
+
+        try {
+            workbook = createWorkBook(file);
+        } catch (InvalidFormatException e) {
+            throw new FileFormatException(ERROR_MESSAGE_FILE_FORMAT);
+        } catch (IOException e) {
+            throw new FileFormatException(ERROR_MESSAGE_IO_EXCEPTION);
+        }
+
+        initializeSessionData();
+    }
+
+    /**
+     * Attempts to create a (@code Workbook) for a given (@code File)
+     */
+    private Workbook createWorkBook(File file) throws IOException, InvalidFormatException {
+        tempFile = generateFile(TEMPFILE_SUFFIX);
+        FileOutputStream fileOutputStream = new FileOutputStream(tempFile);
+        Workbook workbook = WorkbookFactory.create(file);
+        workbook.write(fileOutputStream);
+        workbook.close();
+        workbook = WorkbookFactory.create(tempFile);
+        return workbook;
+    }
+    /**
+     * Attempts to parse the column headers and retrieve job entries
+     */
+    public void initializeSessionData() throws FileFormatException {
+        SheetWithHeaderFields sheetWithHeaderFields;
+        SheetParser sheetParser;
+        Sheet sheet;
+
+        for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
+            sheet = workbook.getSheetAt(workbook.getFirstVisibleTab() + i);
+            sheetParser = new SheetParser(sheet);
+            sheetWithHeaderFields = sheetParser.parseSheetWithHeaderField();
+            addSheet(sheetWithHeaderFields);
+        }
+    }
+
+    /**
+     * Saves feedback to specified saveFile path
+     */
+    public void saveData() throws IOException {
+        if (workbook == null) {
+            return;
+        }
+        if (saveFile == null) { // does not check if a file exists
+            saveFile = generateFile(SAVEFILE_SUFFIX);
+        }
+        FileOutputStream fileOut = new FileOutputStream(saveFile);
+        System.out.println(saveFile.getAbsolutePath()); // for debug
+        workbook.write(fileOut);
+        fileOut.close();
+        workbook.close();
+        tempFile.delete();
+        freeResources();
+    }
+    /**
+     * Releases resources associated with ImportSession by nulling field
+     */
+    private void freeResources() {
+        workbook = null;
+        importFile = null;
+        tempFile = null;
+        saveFile = null;
+    }
+
+    /*===================================================================
+    Job review methods
+    ===================================================================*/
     /**
      * @return a copy of unreviewed jobs stored in this sheet
      */
@@ -56,7 +211,7 @@ public class SessionData {
     /**
      * Reviews all remaining jobs using (@code reviewJobEntry)
      */
-    void reviewAllRemainingJobEntries(boolean approved, String comments) throws DataIndexOutOfBoundsException {
+    public void reviewAllRemainingJobEntries(boolean approved, String comments) throws DataIndexOutOfBoundsException {
         while (!getUnreviewedJobEntries().isEmpty()) {
             reviewJobEntry(0, approved, comments);
         }
@@ -68,7 +223,7 @@ public class SessionData {
      * @param approved whether job entry will be added to Carvicim
      * @param comments feedback in string representation
      */
-    void reviewJobEntry(int listIndex, boolean approved, String comments) throws DataIndexOutOfBoundsException {
+    public void reviewJobEntry(int listIndex, boolean approved, String comments) throws DataIndexOutOfBoundsException {
         if (unreviewedJobEntries.isEmpty()) {
             throw new IllegalStateException(ERROR_MESSAGE_EMPTY_UNREVIWED_JOB_LIST);
         } else if (listIndex < 0 || listIndex >= unreviewedJobEntries.size()) {

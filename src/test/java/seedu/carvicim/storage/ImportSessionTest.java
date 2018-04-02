@@ -1,12 +1,13 @@
 package seedu.carvicim.storage;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import org.junit.Test;
 
 import seedu.carvicim.storage.session.ImportSession;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 //@@author yuhongherald
 public class ImportSessionTest {
