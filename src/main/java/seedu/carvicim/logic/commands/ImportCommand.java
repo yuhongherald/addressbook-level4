@@ -2,7 +2,12 @@ package seedu.carvicim.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import seedu.carvicim.commons.core.EventsCenter;
+import seedu.carvicim.commons.events.ui.DisplayAllJobsEvent;
 import seedu.carvicim.logic.commands.exceptions.CommandException;
+import seedu.carvicim.model.job.Job;
 import seedu.carvicim.storage.session.ImportSession;
 import seedu.carvicim.storage.session.exceptions.FileAccessException;
 import seedu.carvicim.storage.session.exceptions.FileFormatException;
@@ -44,6 +49,14 @@ public class ImportCommand extends UndoableCommand {
             throw new CommandException("Excel file first row headers are not defined properly. "
                     + "Type 'help' to read more.");
         }
+
+        ObservableList<Job> jobList = FXCollections.observableList(
+                    ImportSession.getInstance().getSessionData().getUnreviewedJobEntries());
+        if (!model.isViewingImportedJobs()) {
+            model.switchJobView();
+        }
+        EventsCenter.getInstance().post(
+                new DisplayAllJobsEvent(FXCollections.unmodifiableObservableList(jobList)));
         return new CommandResult(getMessageSuccess(importSession.getSessionData()
                 .getUnreviewedJobEntries().size()));
     }

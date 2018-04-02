@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import seedu.carvicim.logic.commands.AcceptAllCommand;
+import seedu.carvicim.logic.commands.AcceptCommand;
 import seedu.carvicim.logic.commands.AddEmployeeCommand;
 import seedu.carvicim.logic.commands.AddJobCommand;
 import seedu.carvicim.logic.commands.ArchiveCommand;
@@ -26,6 +27,7 @@ import seedu.carvicim.logic.commands.ListJobCommand;
 import seedu.carvicim.logic.commands.LoginCommand;
 import seedu.carvicim.logic.commands.RedoCommand;
 import seedu.carvicim.logic.commands.RejectAllCommand;
+import seedu.carvicim.logic.commands.RejectCommand;
 import seedu.carvicim.logic.commands.SaveCommand;
 import seedu.carvicim.logic.commands.SelectCommand;
 import seedu.carvicim.logic.commands.SetCommand;
@@ -160,6 +162,12 @@ public class CarvicimParser {
 
         case RejectAllCommand.COMMAND_WORD:
             return new RejectAllCommand();
+
+        case RejectCommand.COMMAND_WORD:
+            return new RejectCommandParser().parse(arguments);
+
+        case AcceptCommand.COMMAND_WORD:
+            return new AcceptCommandParser().parse(arguments);
 
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);

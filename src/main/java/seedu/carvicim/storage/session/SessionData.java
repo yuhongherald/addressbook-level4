@@ -22,6 +22,7 @@ import seedu.carvicim.model.job.Job;
 import seedu.carvicim.storage.session.exceptions.DataIndexOutOfBoundsException;
 import seedu.carvicim.storage.session.exceptions.FileAccessException;
 import seedu.carvicim.storage.session.exceptions.FileFormatException;
+import seedu.carvicim.storage.session.exceptions.InvalidDataException;
 import seedu.carvicim.storage.session.exceptions.UnitializedException;
 
 //@@author yuhongherald
@@ -229,6 +230,28 @@ public class SessionData {
 
     /**
      * Reviews a (@code JobEntry) specified by (@code listIndex)
+     * @param jobNumber index of (@code JobEntry) in (@code unreviewedJobEntries)
+     * @param approved whether job entry will be added to Carvicim
+     * @param comments feedback in string representation
+     */
+    public void reviewJobEntryUsingJobNumber(int jobNumber, boolean approved, String comments)
+            throws DataIndexOutOfBoundsException, InvalidDataException {
+        if (unreviewedJobEntries.isEmpty()) {
+            throw new IllegalStateException(ERROR_MESSAGE_EMPTY_UNREVIWED_JOB_LIST);
+        }
+        JobEntry entry;
+        for (int i = 0; i < unreviewedJobEntries.size(); i++) {
+            entry = unreviewedJobEntries.get(i);
+            if (entry.getJobNumber().asInteger() == jobNumber) {
+                reviewJobEntry(i, approved, comments);
+                return;
+            }
+        }
+        throw new InvalidDataException("Job number not found!");
+    }
+
+    /**
+     * Reviews a (@code JobEntry) specified by (@code listIndex)
      * @param listIndex index of (@code JobEntry) in (@code unreviewedJobEntries)
      * @param approved whether job entry will be added to Carvicim
      * @param comments feedback in string representation
@@ -243,7 +266,9 @@ public class SessionData {
         JobEntry jobEntry = unreviewedJobEntries.get(listIndex);
         jobEntry.review(approved, comments);
         unreviewedJobEntries.remove(jobEntry);
-        reviewedJobEntries.add(jobEntry);
+        if (approved) {
+            reviewedJobEntries.add(jobEntry);
+        }
         SheetWithHeaderFields sheet = sheets.get(jobEntry.getSheetNumber());
         sheet.commentJobEntry(jobEntry.getRowNumber(), jobEntry.getCommentsAsString());
         if (approved) {
