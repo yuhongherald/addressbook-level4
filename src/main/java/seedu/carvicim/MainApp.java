@@ -34,8 +34,6 @@ import seedu.carvicim.storage.StorageManager;
 import seedu.carvicim.storage.UserPrefsStorage;
 import seedu.carvicim.storage.XmlArchiveJobStorage;
 import seedu.carvicim.storage.XmlCarvicimStorage;
-import seedu.carvicim.storage.session.SessionData;
-import seedu.carvicim.storage.session.SessionDataStorage;
 import seedu.carvicim.ui.Ui;
 import seedu.carvicim.ui.UiManager;
 
@@ -182,40 +180,6 @@ public class MainApp extends Application {
         }
 
         return initializedPrefs;
-    }
-
-    /**
-     * Returns a {@code UserPrefs} using the file at {@code storage}'s user prefs file path,
-     * or a new {@code UserPrefs} with default configuration if errors occur when
-     * reading from the file.
-     */
-    protected SessionData initPrefs(SessionDataStorage storage) {
-        String prefsFilePath = storage.getUserPrefsFilePath();
-        logger.info("Using prefs file : " + prefsFilePath);
-
-        SessionData initializedSession;
-        try {
-            Optional<SessionData> prefsOptional = storage.readSessionData();
-            initializedSession = prefsOptional.orElse(new SessionData());
-        } catch (DataConversionException e) {
-            logger.warning("Session data file at " + prefsFilePath + " is not in the correct format. "
-                    + "Using default user prefs");
-            initializedSession = new SessionData();
-        } catch (IOException e) {
-            logger.warning("Problem while reading from the file. Will be starting without empty session");
-            initializedSession = new SessionData();
-        }
-
-        //initializedSession.checkIntegrity();
-
-        //Update session data file in case it was missing to begin with or there are new/unused fields
-        try {
-            storage.saveSessionData(initializedSession);
-        } catch (IOException e) {
-            logger.warning("Failed to save session data file : " + StringUtil.getDetails(e));
-        }
-
-        return initializedSession;
     }
 
     private void initEventsCenter() {
