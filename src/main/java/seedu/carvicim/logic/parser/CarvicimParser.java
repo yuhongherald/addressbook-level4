@@ -6,6 +6,7 @@ import static seedu.carvicim.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import seedu.carvicim.logic.commands.AcceptAllCommand;
 import seedu.carvicim.logic.commands.AddEmployeeCommand;
 import seedu.carvicim.logic.commands.AddJobCommand;
 import seedu.carvicim.logic.commands.ArchiveCommand;
@@ -24,10 +25,12 @@ import seedu.carvicim.logic.commands.ListEmployeeCommand;
 import seedu.carvicim.logic.commands.ListJobCommand;
 import seedu.carvicim.logic.commands.LoginCommand;
 import seedu.carvicim.logic.commands.RedoCommand;
+import seedu.carvicim.logic.commands.RejectAllCommand;
 import seedu.carvicim.logic.commands.SaveCommand;
 import seedu.carvicim.logic.commands.SelectCommand;
 import seedu.carvicim.logic.commands.SetCommand;
 import seedu.carvicim.logic.commands.SortCommand;
+import seedu.carvicim.logic.commands.SwitchCommand;
 import seedu.carvicim.logic.commands.ThemeCommand;
 import seedu.carvicim.logic.commands.UndoCommand;
 
@@ -148,6 +151,15 @@ public class CarvicimParser {
 
         case ListJobCommand.COMMAND_WORD:
             return new ListJobCommand();
+
+        case SwitchCommand.COMMAND_WORD:
+            return new SwitchCommand();
+
+        case AcceptAllCommand.COMMAND_WORD:
+            return new AcceptAllCommand();
+
+        case RejectAllCommand.COMMAND_WORD:
+            return new RejectAllCommand();
 
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);

@@ -63,6 +63,10 @@ public class ModelManager extends ComponentManager implements Model {
         return isViewingImportedJobs;
     }
 
+    public void switchJobView() {
+        isViewingImportedJobs = !isViewingImportedJobs;
+    }
+
     //@@author whenzei
     /**
      * Initializes the running job number based on the past job numbers.

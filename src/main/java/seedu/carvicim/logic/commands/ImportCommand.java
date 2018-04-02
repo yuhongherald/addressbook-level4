@@ -10,7 +10,7 @@ import seedu.carvicim.storage.session.exceptions.FileFormatException;
 //@@author yuhongherald
 
 /**
- * Attempts to import all (@code JobEntry) into Servicing Manager
+ * Attempts to import specified file into Servicing Manager
  */
 public class ImportCommand extends UndoableCommand {
 
@@ -39,7 +39,7 @@ public class ImportCommand extends UndoableCommand {
         try {
             importSession.initializeSession(filePath);
         } catch (FileAccessException e) {
-            e.printStackTrace();
+            throw new CommandException(e.getMessage());
         } catch (FileFormatException e) {
             throw new CommandException("Excel file first row headers are not defined properly. "
                     + "Type 'help' to read more.");

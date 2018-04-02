@@ -9,7 +9,7 @@ import seedu.carvicim.storage.session.exceptions.UnitializedException;
 //@@author yuhongherald
 
 /**
- * Attempts to import all (@code JobEntry) into Servicing Manager
+ * Attempts to write reviewed jobs with feedback into an excel file
  */
 public class SaveCommand extends UndoableCommand {
 

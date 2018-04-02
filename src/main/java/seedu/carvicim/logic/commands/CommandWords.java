@@ -41,7 +41,10 @@ public class CommandWords implements Serializable {
         SortCommand.COMMAND_WORD,
         ImportCommand.COMMAND_WORD,
         SaveCommand.COMMAND_WORD,
-        ListJobCommand.COMMAND_WORD
+        ListJobCommand.COMMAND_WORD,
+        SwitchCommand.COMMAND_WORD,
+        AcceptAllCommand.COMMAND_WORD,
+        RejectAllCommand.COMMAND_WORD
     };
 
     public final HashMap<String, String> commands;

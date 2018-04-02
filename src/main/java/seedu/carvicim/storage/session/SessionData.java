@@ -39,7 +39,7 @@ public class SessionData {
 
     public static final String FILE_PATH_CHARACTER = "/";
     public static final String TIMESTAMP_FORMAT = "yyyy.MM.dd.HH.mm.ss";
-    public static final String SAVEFILE_SUFFIX = "save";
+    public static final String SAVEFILE_SUFFIX = "";
     public static final String TEMPFILE_SUFFIX = "temp";
     public static final String ERROR_MESSAGE_UNITIALIZED = "There is no imported file to save!";
 

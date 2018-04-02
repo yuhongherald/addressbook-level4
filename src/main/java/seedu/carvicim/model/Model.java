@@ -26,6 +26,8 @@ public interface Model {
 
     boolean isViewingImportedJobs();
 
+    void switchJobView();
+
     /** Clears existing backing model and replaces with the provided new data. */
     void resetData(ReadOnlyCarvicim newData, CommandWords newCommandWords);
 
