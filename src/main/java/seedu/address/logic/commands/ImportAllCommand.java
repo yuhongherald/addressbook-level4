@@ -1,4 +1,4 @@
-package seedu.address.logic.commands;
+package seedu.carvicim.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
@@ -7,12 +7,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.job.Job;
-import seedu.address.storage.session.ImportSession;
-import seedu.address.storage.session.exceptions.DataIndexOutOfBoundsException;
-import seedu.address.storage.session.exceptions.FileAccessException;
-import seedu.address.storage.session.exceptions.FileFormatException;
+import seedu.carvicim.logic.commands.exceptions.CommandException;
+import seedu.carvicim.model.job.Job;
+import seedu.carvicim.storage.session.ImportSession;
+import seedu.carvicim.storage.session.exceptions.DataIndexOutOfBoundsException;
+import seedu.carvicim.storage.session.exceptions.FileAccessException;
+import seedu.carvicim.storage.session.exceptions.FileFormatException;
 
 //@@author yuhongherald
 /**
