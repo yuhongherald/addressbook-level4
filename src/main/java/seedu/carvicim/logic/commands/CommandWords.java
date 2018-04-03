@@ -3,6 +3,8 @@ package seedu.carvicim.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -233,9 +235,14 @@ public class CommandWords implements Serializable {
         builder.append("Commands: \n");
         Iterator<Map.Entry<String, String>> commandList = commands.entrySet().iterator();
         Map.Entry<String, String> currentCommand;
+        ArrayList<String> lines = new ArrayList<>();
         while (commandList.hasNext()) {
             currentCommand = commandList.next();
-            builder.append(currentCommand.getKey() + ":" + currentCommand.getValue() + "\n");
+            lines.add(currentCommand.getKey() + ":" + currentCommand.getValue() + "\n");
+        }
+        Collections.sort(lines);
+        for (int i = 0; i < lines.size(); i++) {
+            builder.append(lines.get(i));
         }
         return builder.toString();
     }
