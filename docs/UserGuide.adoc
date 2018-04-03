@@ -147,6 +147,31 @@ Examples:
 You can use this command to view a list of all employees in CarviciM. +
 Format: `liste`
 
+=== Selecting employees by list number: `select`
+
+You can use this command to select the specified employee from CarviciM to view jobs associated
+with the emlpoyee. +
+Format: `select INDEX`
+
+****
+* Selects the employee at the specified `INDEX`.
+* The index refers to the index number shown in the most recent listing.
+* The index *must be a positive integer* 1, 2, 3, ...
+****
+Examples:
+
+** Example 1: +
+. `liste` +
+*** You will see a list of employees displayed in the UI panel.
+. `select 2` +
+*** You will see an updated <<job-display-panel,job display panel>> which has the jobs of the 2nd employee.
+
+** Example 2: +
+. `finde Betsy` +
+*** You will see the results of the `finde` command which shows all employees with matching keyword name.
+. `select 1` +
+*** You will see an updated <<job-display-panel,job display panel>> which has the jobs of the 1st employee.
+
 === Locating employees by name: `finde`
 
 You can use this command to find employees, whose names contain any of the given keywords. +
@@ -169,6 +194,7 @@ Examples:
 ** Example 2: +
 . `finde Betsy Tim John` +
 *** You will see all employees with `Betsy`, `Tim`, or `John` (not case-sensitive), shown in the employees UI panel.
+
 
 === Deleting an employee : `deletee`
 
@@ -211,14 +237,14 @@ Format: `set OLD_COMMAND_WORD NEW_COMMAND_WORD`
 Examples:
 
 ** Example 1: +
-. `set add a` +
-*** Sets `add` command word to `a` using default. +
-*** You will see "add has been replaced with a!" in the <<result-display,result display>>.
+. `set adde a` +
+*** Sets `adde` command word to `a` using default. +
+*** You will see "adde has been replaced with a!" in the <<result-display,result display>>.
 
 ** Example 2: +
-. `set delete d` +
-*** Sets `delete` command word to `d` using default. +
-*** You will see "delete has been replaced with d!" in the result display.
+. `set deletee d` +
+*** Sets `deletee` command word to `d` using default. +
+*** You will see "deletee has been replaced with d!" in the result display.
 // end::set[]
 
 // tag::importexport[]
@@ -245,21 +271,21 @@ Examples:
 ==== Accepting and rejecting changes
 
 You can use 4 commands when reviewing changes:
-* `accept INDEX`
-* `reject INDEX`
+* `accept NUMBER`
+* `reject NUMBER`
 * `acceptAll`
 * `rejectAll`
 
 ===== Accepting 1 job: `accept`
 
-Accepts a job specified at position INDEX in imported list.
-Format: `accept INDEX`
+Accepts a job with job number NUMBER in imported list.
+Format: `accept NUMBER`
 
 Examples:
 
 ** Example 1: +
 . `accept 1` +
-*** Accepts the first job entry and removes it from imported list.
+*** Accepts the job entry with job number 1 and removes it from imported list.
 
 ===== Accepting all remaining imported jobs: `acceptAll`
 
@@ -274,14 +300,14 @@ Examples:
 
 ===== Rejecting 1 job: `reject`
 
-Rejects a job specified at position INDEX in imported list.
-Format: `reject INDEX`
+Rejects a job with job number NUMBER in imported list.
+Format: `reject NUMBER`
 
 Examples:
 
 ** Example 1: +
 . `reject 1` +
-*** Rejects the first job entry and removes it from imported list.
+*** Rejects job entry with job number 1 and removes it from imported list. It is not added to CarviciM.
 
 ===== Rejecting all remaining imported jobs: `rejectAll`
 
@@ -294,7 +320,7 @@ Examples:
 . `rejectAll` +
 *** Rejects all remaining job entries and clears the imported list.
 
-==== Writing comments to your reviews
+==== Writing comments to your reviews #Coming in V1.5#
 
 While accepting or rejecting changes, you can enter your comments behind the command.
 
@@ -324,14 +350,12 @@ Examples:
 ==== Sharing your feedback with your employees
 
 If you want to share your feedback, you can save it as an excel file, reflecting accept/reject with comments.
-Format: `save FILE_PATH`
+Format: `save`
 
 [TIP]
 ====
-* You can type any filename supported by your computer's storage format.
-* If you forgot to save your feedback, you can find it in the same directory as the imported excel file, with the time
+* You can find it in the same directory as the imported excel file, with the time
 it is saved added to the end of the filename.
-* The feedback file's format is support for future imports.
 ====
 
 [NOTE]
