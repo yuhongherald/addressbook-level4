@@ -2,8 +2,6 @@ package seedu.carvicim.logic.commands;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import seedu.carvicim.commons.core.EventsCenter;
-import seedu.carvicim.commons.events.ui.DisplayAllJobsEvent;
 import seedu.carvicim.logic.commands.exceptions.CommandException;
 import seedu.carvicim.model.job.Job;
 import seedu.carvicim.storage.session.ImportSession;
