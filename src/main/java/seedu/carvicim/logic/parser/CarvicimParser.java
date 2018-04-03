@@ -12,10 +12,10 @@ import seedu.carvicim.logic.commands.AddEmployeeCommand;
 import seedu.carvicim.logic.commands.AddJobCommand;
 import seedu.carvicim.logic.commands.ArchiveCommand;
 import seedu.carvicim.logic.commands.ClearCommand;
+import seedu.carvicim.logic.commands.CloseJobCommand;
 import seedu.carvicim.logic.commands.Command;
 import seedu.carvicim.logic.commands.CommandWords;
 import seedu.carvicim.logic.commands.DeleteEmployeeCommand;
-import seedu.carvicim.logic.commands.EditCommand;
 import seedu.carvicim.logic.commands.EmailCommand;
 import seedu.carvicim.logic.commands.ExitCommand;
 import seedu.carvicim.logic.commands.FindEmployeeCommand;
@@ -29,8 +29,9 @@ import seedu.carvicim.logic.commands.LoginCommand;
 import seedu.carvicim.logic.commands.RedoCommand;
 import seedu.carvicim.logic.commands.RejectAllCommand;
 import seedu.carvicim.logic.commands.RejectCommand;
+import seedu.carvicim.logic.commands.RemarkCommand;
 import seedu.carvicim.logic.commands.SaveCommand;
-import seedu.carvicim.logic.commands.SelectCommand;
+import seedu.carvicim.logic.commands.SelectEmployeeCommand;
 import seedu.carvicim.logic.commands.SetCommand;
 import seedu.carvicim.logic.commands.SortCommand;
 import seedu.carvicim.logic.commands.SwitchCommand;
@@ -92,11 +93,8 @@ public class CarvicimParser {
         case AddEmployeeCommand.COMMAND_WORD:
             return new AddEmployeeCommandParser().parse(arguments);
 
-        case EditCommand.COMMAND_WORD:
-            return new EditCommandParser().parse(arguments);
-
-        case SelectCommand.COMMAND_WORD:
-            return new SelectCommandParser().parse(arguments);
+        case SelectEmployeeCommand.COMMAND_WORD:
+            return new SelectEmployeeCommandParser().parse(arguments);
 
         case DeleteEmployeeCommand.COMMAND_WORD:
             return new DeleteEmployeeCommandParser().parse(arguments);
@@ -143,6 +141,9 @@ public class CarvicimParser {
         case AddJobCommand.COMMAND_WORD:
             return new AddJobCommandParser().parse(arguments);
 
+        case RemarkCommand.COMMAND_WORD:
+            return new RemarkCommandParser().parse(arguments);
+
         case LoginCommand.COMMAND_WORD:
             return new LoginCommand();
 
@@ -169,6 +170,9 @@ public class CarvicimParser {
 
         case RejectCommand.COMMAND_WORD:
             return new RejectCommandParser().parse(arguments);
+
+        case CloseJobCommand.COMMAND_WORD:
+            return new CloseJobCommandParser().parse(arguments);
 
         case AcceptCommand.COMMAND_WORD:
             return new AcceptCommandParser().parse(arguments);

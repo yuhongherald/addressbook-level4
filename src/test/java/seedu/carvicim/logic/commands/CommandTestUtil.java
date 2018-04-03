@@ -5,9 +5,12 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static seedu.carvicim.logic.parser.CliSyntax.PREFIX_ASSIGNED_EMPLOYEE;
 import static seedu.carvicim.logic.parser.CliSyntax.PREFIX_EMAIL;
+
 import static seedu.carvicim.logic.parser.CliSyntax.PREFIX_END_DATE;
+import static seedu.carvicim.logic.parser.CliSyntax.PREFIX_JOB_NUMBER;
 import static seedu.carvicim.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.carvicim.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.carvicim.logic.parser.CliSyntax.PREFIX_REMARK;
 import static seedu.carvicim.logic.parser.CliSyntax.PREFIX_START_DATE;
 import static seedu.carvicim.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.carvicim.logic.parser.CliSyntax.PREFIX_VEHICLE_NUMBER;
@@ -25,7 +28,6 @@ import seedu.carvicim.model.Model;
 import seedu.carvicim.model.person.Employee;
 import seedu.carvicim.model.person.NameContainsKeywordsPredicate;
 import seedu.carvicim.model.person.exceptions.EmployeeNotFoundException;
-import seedu.carvicim.testutil.EditPersonDescriptorBuilder;
 
 /**
  * Contains helper methods for testing COMMANDS.
@@ -46,6 +48,9 @@ public class CommandTestUtil {
     public static final String VALID_VEHICLE_NUMBER_B = "ABC166Z";
     public static final String VALID_ASSIGNED_EMPLOYEE_INDEX_A = "1";
     public static final String VALID_ASSIGNED_EMPLOYEE_INDEX_B = "2";
+    public static final String VALID_REMARK = "hello abc df sds";
+    public static final String VALID_JOB_NUMBER_ONE = "1";
+    public static final String VALID_JOB_NUMBER_TWO = "2";
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
@@ -63,7 +68,9 @@ public class CommandTestUtil {
             + VALID_ASSIGNED_EMPLOYEE_INDEX_A;
     public static final String ASSIGNED_EMPLOYEE_INDEX_DESC_TWO = " " + PREFIX_ASSIGNED_EMPLOYEE
             + VALID_ASSIGNED_EMPLOYEE_INDEX_A + " " + PREFIX_ASSIGNED_EMPLOYEE + VALID_ASSIGNED_EMPLOYEE_INDEX_B;
-
+    public static final String REMARK_DESC = " " + PREFIX_REMARK + VALID_REMARK;
+    public static final String JOB_NUMBER_DESC_A = " " + PREFIX_JOB_NUMBER + VALID_JOB_NUMBER_ONE;
+    public static final String JOB_NUMBER_DESC_B = " " + PREFIX_JOB_NUMBER + VALID_JOB_NUMBER_TWO;
 
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
@@ -73,20 +80,11 @@ public class CommandTestUtil {
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "mechanic*"; // '*' not allowed in tags
     public static final String INVALID_VEHICLE_NUM_DESC = " " + PREFIX_VEHICLE_NUMBER; //empty string allowed
     public static final String INVALID_ASSIGNED_EMPLOYEE_INDEX_DESC = " " + PREFIX_ASSIGNED_EMPLOYEE + "-1";
+    public static final String INVALID_REMARK_DESC = " " + PREFIX_REMARK + ""; //blank remark is not allowed
+    public static final String INVALID_JOB_NUMBER_DESC = " " + PREFIX_JOB_NUMBER + "-1";
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
-
-    public static final EditCommand.EditPersonDescriptor DESC_AMY;
-    public static final EditCommand.EditPersonDescriptor DESC_BOB;
-
-    static {
-        DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
-                .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).withTags(VALID_TAG_TECHNICIAN).build();
-        DESC_BOB = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB)
-                .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB)
-                .withTags(VALID_TAG_MECHANIC, VALID_TAG_TECHNICIAN).build();
-    }
 
     /**
      * Executes the given {@code command}, confirms that <br>

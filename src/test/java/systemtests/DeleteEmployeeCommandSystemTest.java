@@ -66,7 +66,7 @@ public class DeleteEmployeeCommandSystemTest extends CarvicimSystemTest {
         assertTrue(index.getZeroBased() < getModel().getFilteredPersonList().size());
         assertCommandSuccess(index);
 
-        /* Case: filtered employee list, delete index within bounds of carvicim book but out of bounds of employee list
+        /* Case: filtered employee list, delete index within bounds of carvicim but out of bounds of employee list
          * -> rejected
          */
         showPersonsWithName(KEYWORD_MATCHING_MEIER);
@@ -149,7 +149,7 @@ public class DeleteEmployeeCommandSystemTest extends CarvicimSystemTest {
      * 1. Asserts that the command box displays an empty string.<br>
      * 2. Asserts that the result display box displays {@code expectedResultMessage}.<br>
      * 3. Asserts that the model related components equal to {@code expectedModel}.<br>
-     * 4. Asserts that the browser url and selected card remains unchanged.<br>
+     * 4. Asserts that the selected card remains unchanged.<br>
      * 5. Asserts that the status bar's sync status changes.<br>
      * 6. Asserts that the command box has the default style class.<br>
      * Verifications 1 to 3 are performed by
@@ -177,7 +177,7 @@ public class DeleteEmployeeCommandSystemTest extends CarvicimSystemTest {
      * 1. Asserts that the command box displays {@code command}.<br>
      * 2. Asserts that result display box displays {@code expectedResultMessage}.<br>
      * 3. Asserts that the model related components equal to the current model.<br>
-     * 4. Asserts that the browser url, selected card and status bar remain unchanged.<br>
+     * 4. Asserts that the selected card and status bar remain unchanged.<br>
      * 5. Asserts that the command box has the error style.<br>
      * Verifications 1 to 3 are performed by
      * {@code CarvicimSystemTest#assertApplicationDisplaysExpected(String, String, Model)}.<br>
