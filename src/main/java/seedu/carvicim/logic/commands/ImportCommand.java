@@ -50,13 +50,10 @@ public class ImportCommand extends UndoableCommand {
                     + "Type 'help' to read more.");
         }
 
-        ObservableList<Job> jobList = FXCollections.observableList(
-                    ImportSession.getInstance().getSessionData().getUnreviewedJobEntries());
         if (!model.isViewingImportedJobs()) {
             model.switchJobView();
         }
-        EventsCenter.getInstance().post(
-                new DisplayAllJobsEvent(FXCollections.unmodifiableObservableList(jobList)));
+        model.resetJobView();
         return new CommandResult(getMessageSuccess(importSession.getSessionData()
                 .getUnreviewedJobEntries().size()));
     }

@@ -51,8 +51,7 @@ public class AcceptCommand extends UndoableCommand {
         if (!model.isViewingImportedJobs()) {
             model.switchJobView();
         }
-        EventsCenter.getInstance().post(
-                new DisplayAllJobsEvent(FXCollections.unmodifiableObservableList(jobList)));
+        model.resetJobView();
         return new CommandResult(getMessageSuccess());
     }
 
