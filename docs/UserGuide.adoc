@@ -506,6 +506,16 @@ e.g. `finde James Jake`
 * *List Employee* : `liste`
 * *Import excel file* : `import` +
 e.g. `import excel.xls`
+* *Accept imported job* : `accept NUMBER` +
+e.g. `accept 1`
+* *Reject imported job* : `reject NUMBER` +
+e.g. `reject 1`
+* *Accept all imported job* : `acceptAll` +
+e.g. `acceptAll`
+* *Reject all imported job* : `rejectAll` +
+e.g. `rejectAll`
+* *Save comments on job imports* : `save` +
+e.g. `save`
 * *Help* : `help`
 * *History* : `history`
 * *Undo* : `undo`
@@ -513,7 +523,7 @@ e.g. `import excel.xls`
 * *Email Assigned Employees Of A Job* : `email JOB_NUMBER` +
 e.g. `email 123`
 * *Change <<command-word,Command Word>>* : `set` +
-e.g. `set add a`
+e.g. `set adde a`
 * *Theme* : `theme INDEX` +
 e.g. `theme 1`
 
