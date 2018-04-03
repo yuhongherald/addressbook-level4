@@ -1,6 +1,7 @@
 package seedu.carvicim.model.job;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.carvicim.commons.util.AppUtil.checkArgument;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -34,7 +35,7 @@ public class Date {
 
     public Date(String date) {
         requireNonNull(date);
-        // checkArgument(isValidDate(date), MESSAGE_DATE_CONSTRAINTS);
+        checkArgument(isValidDate(date), MESSAGE_DATE_CONSTRAINTS);
         String trimmedDate = date.trim();
         String[] splitAddress = trimmedDate.split(DATE_SPLIT_REGEX);
         this.day = Integer.parseInt(splitAddress[DATE_DATA_INDEX_DAY]);
