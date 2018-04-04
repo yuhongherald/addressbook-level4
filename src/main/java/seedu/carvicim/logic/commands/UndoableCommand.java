@@ -48,6 +48,7 @@ public abstract class UndoableCommand extends Command {
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         model.updateFilteredJobList(PREDICATE_SHOW_ALL_JOBS);
         ImportSession.getInstance().setSessionData(sessionData);
+        model.resetJobView();
     }
 
     /**

@@ -61,6 +61,25 @@ public class SessionData {
         sheets = new ArrayList<>();
     }
 
+    public SessionData(ArrayList<JobEntry> unreviewedJobEntries, ArrayList<JobEntry> reviewedJobEntries,
+                       ArrayList<SheetWithHeaderFields> sheets,
+                       File importFile, File tempFile, Workbook workbook, File saveFile) {
+        this.unreviewedJobEntries = unreviewedJobEntries;
+        this.reviewedJobEntries = reviewedJobEntries;
+        this.sheets = sheets;
+        this.importFile = importFile;
+        this.tempFile = tempFile;
+        this.workbook = workbook;
+        this.saveFile = saveFile;
+    }
+
+    public SessionData createCopy() {
+        SessionData other = new SessionData(new ArrayList<JobEntry>(unreviewedJobEntries),
+                new ArrayList<JobEntry>(reviewedJobEntries), new ArrayList<SheetWithHeaderFields>(sheets), importFile,
+                tempFile, workbook, saveFile);
+        return other;
+    }
+
     public boolean isInitialized() {
         return (workbook != null);
     }

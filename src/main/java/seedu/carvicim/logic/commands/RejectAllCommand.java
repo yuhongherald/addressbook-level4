@@ -15,7 +15,7 @@ import seedu.carvicim.storage.session.exceptions.UnitializedException;
 /**
  * Rejects all remaining unreviewed job entries into Servicing Manager
  */
-public class RejectAllCommand extends UndoableCommand {
+public class RejectAllCommand extends Command {
 
     public static final String COMMAND_WORD = "rejectAll";
 
@@ -29,8 +29,11 @@ public class RejectAllCommand extends UndoableCommand {
     }
 
     @Override
-    public CommandResult executeUndoableCommand() throws CommandException {
+    public CommandResult execute() throws CommandException {
         ImportSession importSession = ImportSession.getInstance();
+        if (importSession.getSessionData().getUnreviewedJobEntries().isEmpty()) {
+            throw new CommandException("There are no job entries to review!");
+        }
         try {
             importSession.reviewAllRemainingJobEntries(false);
             List<Job> jobs = new ArrayList<>(importSession.getSessionData().getReviewedJobEntries());

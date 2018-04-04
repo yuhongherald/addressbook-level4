@@ -13,7 +13,7 @@ import seedu.carvicim.storage.session.exceptions.InvalidDataException;
 /**
  * Rejects an unreviewed job entry using job number
  */
-public class RejectCommand extends UndoableCommand {
+public class RejectCommand extends Command {
 
     public static final String COMMAND_WORD = "reject";
 
@@ -33,8 +33,11 @@ public class RejectCommand extends UndoableCommand {
     }
 
     @Override
-    public CommandResult executeUndoableCommand() throws CommandException {
+    public CommandResult execute() throws CommandException {
         ImportSession importSession = ImportSession.getInstance();
+        if (importSession.getSessionData().getUnreviewedJobEntries().isEmpty()) {
+            throw new CommandException("There are no job entries to review!");
+        }
         try {
             importSession.getSessionData().reviewJobEntryUsingJobNumber(jobNumber, false, "");
         } catch (DataIndexOutOfBoundsException e) {
