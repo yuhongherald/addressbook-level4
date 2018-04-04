@@ -1,9 +1,6 @@
 package seedu.carvicim.logic.commands;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import seedu.carvicim.logic.commands.exceptions.CommandException;
-import seedu.carvicim.model.job.Job;
 import seedu.carvicim.storage.session.ImportSession;
 import seedu.carvicim.storage.session.exceptions.DataIndexOutOfBoundsException;
 import seedu.carvicim.storage.session.exceptions.InvalidDataException;
