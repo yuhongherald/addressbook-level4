@@ -183,7 +183,7 @@ public class SessionData {
     public void freeResources() {
         workbook = null;
         importFile = null;
-        if (importFile != null) {
+        if (tempFile != null) {
             tempFile.delete();
         }
         tempFile = null;

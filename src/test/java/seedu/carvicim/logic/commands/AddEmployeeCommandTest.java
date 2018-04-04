@@ -25,10 +25,12 @@ import seedu.carvicim.model.Model;
 import seedu.carvicim.model.ReadOnlyCarvicim;
 import seedu.carvicim.model.job.DateRange;
 import seedu.carvicim.model.job.Job;
+import seedu.carvicim.model.job.JobList;
 import seedu.carvicim.model.job.exceptions.JobNotFoundException;
 import seedu.carvicim.model.person.Employee;
 import seedu.carvicim.model.person.exceptions.DuplicateEmployeeException;
 import seedu.carvicim.model.person.exceptions.EmployeeNotFoundException;
+import seedu.carvicim.model.remark.Remark;
 import seedu.carvicim.testutil.EmployeeBuilder;
 
 public class AddEmployeeCommandTest {
@@ -177,6 +179,11 @@ public class AddEmployeeCommandTest {
         }
 
         @Override
+        public void addRemark(Job job, Remark remark) {
+            fail("This method should not be called");
+        }
+
+        @Override
         public void deletePerson(Employee target) throws EmployeeNotFoundException {
             fail("This method should not be called.");
         }
@@ -189,6 +196,12 @@ public class AddEmployeeCommandTest {
         @Override
         public void archiveJob(DateRange dateRange) {
             fail("This method should not be called");
+        }
+
+        @Override
+        public JobList analyseJob(JobList joblist) {
+            fail("This method should not be called");
+            return null;
         }
 
         @Override

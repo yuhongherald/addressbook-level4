@@ -5,8 +5,13 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static seedu.carvicim.logic.parser.CliSyntax.PREFIX_ASSIGNED_EMPLOYEE;
 import static seedu.carvicim.logic.parser.CliSyntax.PREFIX_EMAIL;
+
+import static seedu.carvicim.logic.parser.CliSyntax.PREFIX_END_DATE;
+import static seedu.carvicim.logic.parser.CliSyntax.PREFIX_JOB_NUMBER;
 import static seedu.carvicim.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.carvicim.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.carvicim.logic.parser.CliSyntax.PREFIX_REMARK;
+import static seedu.carvicim.logic.parser.CliSyntax.PREFIX_START_DATE;
 import static seedu.carvicim.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.carvicim.logic.parser.CliSyntax.PREFIX_VEHICLE_NUMBER;
 
@@ -23,7 +28,6 @@ import seedu.carvicim.model.Model;
 import seedu.carvicim.model.person.Employee;
 import seedu.carvicim.model.person.NameContainsKeywordsPredicate;
 import seedu.carvicim.model.person.exceptions.EmployeeNotFoundException;
-import seedu.carvicim.testutil.EditPersonDescriptorBuilder;
 
 /**
  * Contains helper methods for testing COMMANDS.
@@ -36,12 +40,17 @@ public class CommandTestUtil {
     public static final String VALID_PHONE_BOB = "22222222";
     public static final String VALID_EMAIL_AMY = "amy@example.com";
     public static final String VALID_EMAIL_BOB = "bob@example.com";
+    public static final String VALID_START_DATE = "Mar 01 2018";
+    public static final String VALID_END_DATE = "Mar 25 2018";
     public static final String VALID_TAG_MECHANIC = "mechanic";
     public static final String VALID_TAG_TECHNICIAN = "technician";
     public static final String VALID_VEHICLE_NUMBER_A = "SAT166A";
     public static final String VALID_VEHICLE_NUMBER_B = "ABC166Z";
     public static final String VALID_ASSIGNED_EMPLOYEE_INDEX_A = "1";
     public static final String VALID_ASSIGNED_EMPLOYEE_INDEX_B = "2";
+    public static final String VALID_REMARK = "hello abc df sds";
+    public static final String VALID_JOB_NUMBER_ONE = "1";
+    public static final String VALID_JOB_NUMBER_TWO = "2";
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
@@ -49,6 +58,8 @@ public class CommandTestUtil {
     public static final String PHONE_DESC_BOB = " " + PREFIX_PHONE + VALID_PHONE_BOB;
     public static final String EMAIL_DESC_AMY = " " + PREFIX_EMAIL + VALID_EMAIL_AMY;
     public static final String EMAIL_DESC_BOB = " " + PREFIX_EMAIL + VALID_EMAIL_BOB;
+    public static final String DATERANGE_DESC_ONE = " " + PREFIX_START_DATE + VALID_START_DATE;
+    public static final String DATERANGE_DESC_TWO = " " + PREFIX_END_DATE + VALID_END_DATE;
     public static final String TAG_DESC_TECHNICIAN = " " + PREFIX_TAG + VALID_TAG_TECHNICIAN;
     public static final String TAG_DESC_MECHANIC = " " + PREFIX_TAG + VALID_TAG_MECHANIC;
     public static final String VEHICLE_NUMBER_DESC_ONE = " " + PREFIX_VEHICLE_NUMBER + VALID_VEHICLE_NUMBER_A;
@@ -57,28 +68,23 @@ public class CommandTestUtil {
             + VALID_ASSIGNED_EMPLOYEE_INDEX_A;
     public static final String ASSIGNED_EMPLOYEE_INDEX_DESC_TWO = " " + PREFIX_ASSIGNED_EMPLOYEE
             + VALID_ASSIGNED_EMPLOYEE_INDEX_A + " " + PREFIX_ASSIGNED_EMPLOYEE + VALID_ASSIGNED_EMPLOYEE_INDEX_B;
-
+    public static final String REMARK_DESC = " " + PREFIX_REMARK + VALID_REMARK;
+    public static final String JOB_NUMBER_DESC_A = " " + PREFIX_JOB_NUMBER + VALID_JOB_NUMBER_ONE;
+    public static final String JOB_NUMBER_DESC_B = " " + PREFIX_JOB_NUMBER + VALID_JOB_NUMBER_TWO;
 
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
     public static final String INVALID_EMAIL_DESC = " " + PREFIX_EMAIL + "bob!yahoo"; // missing '@' symbol
+    public static final String INVALID_DATERANGE_DESC = " " + PREFIX_START_DATE + "01/03/2018" + " "
+            + PREFIX_END_DATE + "25/03/2018"; // invalid date format
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "mechanic*"; // '*' not allowed in tags
     public static final String INVALID_VEHICLE_NUM_DESC = " " + PREFIX_VEHICLE_NUMBER; //empty string allowed
     public static final String INVALID_ASSIGNED_EMPLOYEE_INDEX_DESC = " " + PREFIX_ASSIGNED_EMPLOYEE + "-1";
+    public static final String INVALID_REMARK_DESC = " " + PREFIX_REMARK + ""; //blank remark is not allowed
+    public static final String INVALID_JOB_NUMBER_DESC = " " + PREFIX_JOB_NUMBER + "-1";
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
-
-    public static final EditCommand.EditPersonDescriptor DESC_AMY;
-    public static final EditCommand.EditPersonDescriptor DESC_BOB;
-
-    static {
-        DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
-                .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).withTags(VALID_TAG_TECHNICIAN).build();
-        DESC_BOB = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB)
-                .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB)
-                .withTags(VALID_TAG_MECHANIC, VALID_TAG_TECHNICIAN).build();
-    }
 
     /**
      * Executes the given {@code command}, confirms that <br>

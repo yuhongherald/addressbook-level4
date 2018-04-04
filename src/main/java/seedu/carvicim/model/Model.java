@@ -8,10 +8,12 @@ import javafx.collections.ObservableList;
 import seedu.carvicim.logic.commands.CommandWords;
 import seedu.carvicim.model.job.DateRange;
 import seedu.carvicim.model.job.Job;
+import seedu.carvicim.model.job.JobList;
 import seedu.carvicim.model.job.exceptions.JobNotFoundException;
 import seedu.carvicim.model.person.Employee;
 import seedu.carvicim.model.person.exceptions.DuplicateEmployeeException;
 import seedu.carvicim.model.person.exceptions.EmployeeNotFoundException;
+import seedu.carvicim.model.remark.Remark;
 
 /**
  * The API of the Model component.
@@ -46,14 +48,20 @@ public interface Model {
     /** Initializes the job number based on the list of jobs */
     void initJobNumber();
 
+    /** Adds the given remark to the job */
+    void addRemark(Job job, Remark remark) throws JobNotFoundException;
+
     /** Adds the given job */
     void addJob(Job job);
 
     /** Closes the given job */
     void closeJob(Job target) throws JobNotFoundException;
 
-    /** Archives the job entries within the date range*/
+    /** Archives the job entries within the date range */
     void archiveJob(DateRange dateRange);
+
+    /** Analyse job entries within this month */
+    JobList analyseJob(JobList jobList);
 
     /** Deletes the given employee. */
     void deletePerson(Employee target) throws EmployeeNotFoundException;

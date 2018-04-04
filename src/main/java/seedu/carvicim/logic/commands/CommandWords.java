@@ -25,10 +25,10 @@ public class CommandWords implements Serializable {
      */
     public static final String[] COMMANDS = {
         AddEmployeeCommand.COMMAND_WORD,
+        AnalyseCommand.COMMAND_WORD,
         ArchiveCommand.COMMAND_WORD,
         ClearCommand.COMMAND_WORD,
         DeleteEmployeeCommand.COMMAND_WORD,
-        EditCommand.COMMAND_WORD,
         ExitCommand.COMMAND_WORD,
         FindEmployeeCommand.COMMAND_WORD,
         HelpCommand.COMMAND_WORD,
@@ -36,7 +36,7 @@ public class CommandWords implements Serializable {
         ImportAllCommand.COMMAND_WORD,
         ListEmployeeCommand.COMMAND_WORD,
         RedoCommand.COMMAND_WORD,
-        SelectCommand.COMMAND_WORD,
+        SelectEmployeeCommand.COMMAND_WORD,
         SetCommand.COMMAND_WORD,
         UndoCommand.COMMAND_WORD,
         ThemeCommand.COMMAND_WORD,

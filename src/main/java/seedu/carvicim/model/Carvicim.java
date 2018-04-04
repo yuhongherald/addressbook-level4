@@ -17,10 +17,12 @@ import seedu.carvicim.model.job.Date;
 import seedu.carvicim.model.job.DateRange;
 import seedu.carvicim.model.job.Job;
 import seedu.carvicim.model.job.JobList;
+import seedu.carvicim.model.job.exceptions.JobNotFoundException;
 import seedu.carvicim.model.person.Employee;
 import seedu.carvicim.model.person.UniqueEmployeeList;
 import seedu.carvicim.model.person.exceptions.DuplicateEmployeeException;
 import seedu.carvicim.model.person.exceptions.EmployeeNotFoundException;
+import seedu.carvicim.model.remark.Remark;
 import seedu.carvicim.model.tag.Tag;
 import seedu.carvicim.model.tag.UniqueTagList;
 
@@ -89,6 +91,7 @@ public class Carvicim implements ReadOnlyCarvicim {
 
         try {
             setEmployees(syncedEmployeeList);
+            setJobs(syncedJobList);
         } catch (DuplicateEmployeeException e) {
             throw new AssertionError("AddressBooks should not have duplicate employees");
         }
@@ -102,6 +105,33 @@ public class Carvicim implements ReadOnlyCarvicim {
      */
     public void addJob(Job job) {
         jobs.add(job);
+    }
+
+    /**
+     * Removes {@code job} from this {@code Carvicim}.
+     * @throws JobNotFoundException if the {@code job} is not in this {@code Carvicim}.
+     */
+    public boolean closeJob(Job job) throws JobNotFoundException {
+        if (jobs.remove(job)) {
+            return true;
+        } else {
+            throw new JobNotFoundException();
+        }
+    }
+
+
+    /**
+     * Adds a remark to a specified job in Carvicim
+     */
+    public void addRemark(Job job, Remark remark) {
+        Iterator<Job> iterator = jobs.iterator();
+        while (iterator.hasNext()) {
+            Job currJob = iterator.next();
+            if (currJob.equals(job)) {
+                job.addRemark(remark);
+                break;
+            }
+        }
     }
 
     //@@author richardson0694
@@ -120,6 +150,13 @@ public class Carvicim implements ReadOnlyCarvicim {
                 archiveJobs.add(job);
             }
         }
+    }
+
+    /**
+     * Analyses job entries in Carvicim for this month.
+     */
+    public JobList analyseJob(JobList jobList) {
+        return jobList.analyseList(jobs);
     }
 
     //// employee-level operations
@@ -246,6 +283,8 @@ public class Carvicim implements ReadOnlyCarvicim {
         return other == this // short circuit if same object
                 || (other instanceof Carvicim // instanceof handles nulls
                 && this.employees.equals(((Carvicim) other).employees)
+                && this.jobs.equals(((Carvicim) other).jobs)
+                && this.archiveJobs.equals(((Carvicim) other).archiveJobs)
                 && this.tags.equalsOrderInsensitive(((Carvicim) other).tags));
     }
 
