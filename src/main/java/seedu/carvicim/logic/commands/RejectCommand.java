@@ -13,7 +13,7 @@ import seedu.carvicim.storage.session.exceptions.InvalidDataException;
 /**
  * Rejects an unreviewed job entry using job number
  */
-public class RejectCommand extends Command {
+public class RejectCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "reject";
 
@@ -33,7 +33,7 @@ public class RejectCommand extends Command {
     }
 
     @Override
-    public CommandResult execute() throws CommandException {
+    public CommandResult executeUndoableCommand() throws CommandException {
         ImportSession importSession = ImportSession.getInstance();
         if (importSession.getSessionData().getUnreviewedJobEntries().isEmpty()) {
             throw new CommandException("There are no job entries to review!");
@@ -46,8 +46,6 @@ public class RejectCommand extends Command {
         } catch (InvalidDataException e) {
             throw new CommandException(e.getMessage());
         }
-        ObservableList<Job> jobList = FXCollections.observableList(
-                ImportSession.getInstance().getSessionData().getUnreviewedJobEntries());
         if (!model.isViewingImportedJobs()) {
             model.switchJobView();
         }
