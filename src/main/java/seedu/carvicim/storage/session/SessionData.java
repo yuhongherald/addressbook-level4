@@ -63,7 +63,7 @@ public class SessionData {
         sheets = new ArrayList<>();
     }
 
-    public SessionData(ArrayList<JobEntry> unreviewedJobEntries, ArrayList<JobEntry> jobEntries,
+    public SessionData(ArrayList<JobEntry> jobEntries, ArrayList<JobEntry> unreviewedJobEntries,
                        ArrayList<JobEntry> reviewedJobEntries,
                        ArrayList<SheetWithHeaderFields> sheets,
                        File importFile, File tempFile, Workbook workbook, File saveFile) {
