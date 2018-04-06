@@ -153,7 +153,7 @@ public class Carvicim implements ReadOnlyCarvicim {
             boolean withinRange = (dateRange.compareTo(date, startDate) >= 0 && dateRange.compareTo(date, endDate) <= 0)
                     ? true
                     : false;
-            if (withinRange && status.equals(closed)) {
+            if (withinRange) {
                 archiveJobs.add(job);
                 archiveJobCount++;
             }
