@@ -55,13 +55,15 @@ image::Ui.png[width="790"]
 
 You are all set to use CarviciM now! You can read the next section to find out more on how to use CarviciM.
 
-== How To Use CarviciM
+== Quick Start
 
-This section will show you the basics of working around in the application.
+This section will cover the basics you need to know for using the guide and the application.
 
 === Various Regions In The GUI
 
 The GUI is made up of various regions as shown in the image below.
+
+image::UI_Orientation.PNG[width="900"]
 
 Command Box::
 A region on the User Interface which allows you to type in commands.
