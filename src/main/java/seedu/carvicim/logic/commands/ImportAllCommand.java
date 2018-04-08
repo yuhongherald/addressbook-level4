@@ -2,18 +2,14 @@ package seedu.carvicim.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
-import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import seedu.carvicim.logic.commands.exceptions.CommandException;
 import seedu.carvicim.model.job.Job;
 import seedu.carvicim.storage.session.ImportSession;
-import seedu.carvicim.storage.session.exceptions.DataIndexOutOfBoundsException;
 import seedu.carvicim.storage.session.exceptions.FileAccessException;
 import seedu.carvicim.storage.session.exceptions.FileFormatException;
-import seedu.carvicim.storage.session.exceptions.UninitializedException;
 
 //@@author yuhongherald
 /**
@@ -45,14 +41,11 @@ public class ImportAllCommand extends UndoableCommand {
         ImportSession importSession = ImportSession.getInstance();
         try {
             importSession.initializeSession(filePath);
-        } catch (FileAccessException e) {
+        } catch (FileAccessException | FileFormatException e) {
             throw new CommandException(e.getMessage());
-        } catch (FileFormatException e) {
-            throw new CommandException("Excel file first row headers are not defined properly. "
-                    + "Type 'help' to read more.");
         }
-        importSession.reviewAllRemainingJobEntries(true);
-        List<Job> jobs = new ArrayList<>(importSession.getSessionData().getReviewedJobEntries());
+        List<Job> jobs = new ArrayList<>(importSession.getSessionData()
+                .reviewAllRemainingJobEntries(true, ""));
         model.addJobs(jobs);
         importSession.closeSession();
         return new CommandResult(getMessageSuccess(jobs.size()));

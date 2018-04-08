@@ -16,7 +16,8 @@ import seedu.carvicim.storage.session.exceptions.UninitializedException;
  */
 public class ImportSession {
 
-    public static final String ERROR_MESSAGE_EXPORT = "Unable to export file. Please close the application and try again.";
+    public static final String ERROR_MESSAGE_EXPORT =
+            "Unable to export file. Please close the application and try again.";
     private static ImportSession importSession;
 
     private SessionData sessionData;
@@ -47,10 +48,6 @@ public class ImportSession {
      */
     public void initializeSession(String filePath) throws FileAccessException, FileFormatException {
         sessionData.loadFile(filePath);
-    }
-
-    public void reviewAllRemainingJobEntries(boolean approve) throws CommandException {
-        sessionData.reviewAllRemainingJobEntries(approve, "Imported with no comments.");
     }
 
     public SessionData getSessionData() {

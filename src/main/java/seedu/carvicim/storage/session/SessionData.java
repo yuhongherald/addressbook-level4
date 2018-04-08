@@ -140,7 +140,7 @@ public class SessionData {
      */
     public void loadFile(String filePath) throws FileAccessException, FileFormatException {
         if (isInitialized()) {
-            throw new FileAccessException(ERROR_MESSAGE_FILE_OPEN);
+            // this check has been removed, can import to overwrite current import session
         }
         freeResources(); // from previous session
         File file = new File(filePath);

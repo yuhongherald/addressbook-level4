@@ -18,6 +18,7 @@ public abstract class UndoableCommand extends Command {
     private ReadOnlyCarvicim previousAddressBook;
     private CommandWords previousCommandWords;
     private SessionData sessionData;
+    private boolean isViewingImportedJobs;
 
     protected abstract CommandResult executeUndoableCommand() throws CommandException;
 
@@ -29,6 +30,7 @@ public abstract class UndoableCommand extends Command {
         this.previousAddressBook = new Carvicim(model.getCarvicim());
         this.previousCommandWords = new CommandWords(model.getCommandWords());
         this.sessionData = ImportSession.getInstance().getSessionData().createCopy();
+        isViewingImportedJobs = model.isViewingImportedJobs();
     }
 
     /**
@@ -49,6 +51,9 @@ public abstract class UndoableCommand extends Command {
         model.updateFilteredJobList(PREDICATE_SHOW_ALL_JOBS);
         ImportSession.getInstance().setSessionData(sessionData);
         sessionData = sessionData.createCopy();
+        if (model.isViewingImportedJobs() != isViewingImportedJobs) {
+            model.switchJobView();
+        }
         model.resetJobView();
         model.resetJobDisplayPanel();
     }
