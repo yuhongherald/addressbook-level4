@@ -32,9 +32,14 @@ public class ImportSession {
         return importSession;
     }
 
-    public void setSessionData(SessionData sessionData) {
+    public void setSessionData(SessionData sessionData) throws CommandException {
         requireNonNull(sessionData);
         this.sessionData = sessionData;
+        try {
+            sessionData.loadTempWorkBook();
+        } catch (FileAccessException | FileFormatException e) {
+            throw new CommandException(e.getMessage());
+        }
     }
 
     /**

@@ -38,11 +38,8 @@ public class ImportCommand extends UndoableCommand {
         ImportSession importSession = ImportSession.getInstance();
         try {
             importSession.initializeSession(filePath);
-        } catch (FileAccessException e) {
+        } catch (FileAccessException | FileFormatException e) {
             throw new CommandException(e.getMessage());
-        } catch (FileFormatException e) {
-            throw new CommandException("Excel file first row headers are not defined properly. "
-                    + "Type 'help' to read more.");
         }
 
         if (!model.isViewingImportedJobs()) {

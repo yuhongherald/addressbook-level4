@@ -1,8 +1,6 @@
 package seedu.carvicim.storage.session;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.carvicim.model.job.Status.STATUS_CLOSED;
-import static seedu.carvicim.model.job.Status.STATUS_ONGOING;
 import static seedu.carvicim.model.job.VehicleNumber.isValidVehicleNumber;
 import static seedu.carvicim.model.person.Email.isValidEmail;
 import static seedu.carvicim.model.person.Name.isValidName;
@@ -17,7 +15,6 @@ import static seedu.carvicim.storage.session.SheetParser.EMPLOYEE_EMAIL;
 import static seedu.carvicim.storage.session.SheetParser.EMPLOYEE_NAME;
 import static seedu.carvicim.storage.session.SheetParser.EMPLOYEE_PHONE;
 import static seedu.carvicim.storage.session.SheetParser.REMARKS;
-import static seedu.carvicim.storage.session.SheetParser.STATUS;
 import static seedu.carvicim.storage.session.SheetParser.VEHICLE_NUMBER;
 
 import java.util.ArrayList;
@@ -54,11 +51,11 @@ import seedu.carvicim.storage.session.exceptions.FileFormatException;
  */
 public class SheetWithHeaderFields implements Iterable<JobEntry> {
     public static final String SEPARATOR = ", ";
+    public static final String APPROVAL_STATUS_ACCEPTED = "accepted";
+    public static final String APPROVAL_STATUS_REJECTED = "rejected";
 
     private static final String ERROR_MESSAGE_EMPTY_SHEET = "Sheet %d contains no valid job entries!";
     private static final String ERROR_MESSAGE_CORRUPT_JOB_ENTRY = "The following fields are corrupt: ";
-    public static final String APPROVAL_STATUS_ACCEPTED = "accepted";
-    public static final String APPROVAL_STATUS_REJECTED = "rejected";
 
     private final Sheet sheet;
     private final HashMap<String, RowData> compulsoryFields;
@@ -129,7 +126,7 @@ public class SheetWithHeaderFields implements Iterable<JobEntry> {
     }
 
     public String getEmptySheetMessage() {
-        return String.format(ERROR_MESSAGE_EMPTY_SHEET, getSheetIndex());
+        return String.format(ERROR_MESSAGE_EMPTY_SHEET, getSheetIndex() + 1);
     }
 
     public String getCorruptedFieldsMessage(Person client, VehicleNumber vehicleNumber, Employee employee) {
@@ -172,7 +169,7 @@ public class SheetWithHeaderFields implements Iterable<JobEntry> {
                 continue;
             }
             String approvalStatus = getApprovalStatus(i);
-            if (approvalStatus == APPROVAL_STATUS_ACCEPTED || approvalStatus == APPROVAL_STATUS_REJECTED) {
+            if (approvalStatus.equals(APPROVAL_STATUS_ACCEPTED) || approvalStatus.equals(APPROVAL_STATUS_REJECTED)) {
                 continue;
             }
             employeeList = new UniqueEmployeeList();
@@ -309,7 +306,8 @@ public class SheetWithHeaderFields implements Iterable<JobEntry> {
                     return null;
                 }
                 String approvalStatus = getApprovalStatus(currentRow);
-                if (approvalStatus == APPROVAL_STATUS_ACCEPTED || approvalStatus == APPROVAL_STATUS_REJECTED) {
+                if (approvalStatus.equals(APPROVAL_STATUS_ACCEPTED)
+                        || approvalStatus.equals(APPROVAL_STATUS_REJECTED)) {
                     currentRow++;
                     return next();
                 }

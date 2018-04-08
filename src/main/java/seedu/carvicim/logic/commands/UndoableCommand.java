@@ -42,12 +42,13 @@ public abstract class UndoableCommand extends Command {
      * was executed and updates the filtered employee list to
      * show all persons.
      */
-    protected final void undo() {
+    protected final void undo() throws CommandException {
         requireAllNonNull(model, previousAddressBook);
         model.resetData(previousAddressBook, previousCommandWords);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         model.updateFilteredJobList(PREDICATE_SHOW_ALL_JOBS);
         ImportSession.getInstance().setSessionData(sessionData);
+        sessionData = sessionData.createCopy();
         model.resetJobView();
         model.resetJobDisplayPanel();
     }
