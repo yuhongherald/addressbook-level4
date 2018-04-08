@@ -1,6 +1,5 @@
 package seedu.carvicim.logic.commands;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
