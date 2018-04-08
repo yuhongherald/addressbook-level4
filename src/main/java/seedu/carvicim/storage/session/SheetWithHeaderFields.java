@@ -232,7 +232,7 @@ public class SheetWithHeaderFields implements Iterable<JobEntry> {
     }
 
     private String getApprovalStatus(int rowNumber) {
-        String approvalStatus = readFirstData(optionalFields.get(APPROVAL_STATUS), rowNumber).toLowerCase();
+        String approvalStatus = readFirstData(commentFields.get(APPROVAL_STATUS), rowNumber).toLowerCase();
         return approvalStatus;
     }
 
