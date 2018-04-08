@@ -5,10 +5,8 @@ import static java.util.Objects.requireNonNull;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -39,10 +37,10 @@ public class SessionData {
     public static final String ERROR_MESSAGE_EMPTY_UNREVIWED_JOB_LIST = "There are no unreviewed job entries left!";
 
     public static final String FILE_PATH_CHARACTER = "/";
-    public static final String TIMESTAMP_FORMAT = "yyyy.MM.dd.HH.mm.ss";
-    public static final String SAVEFILE_SUFFIX = "";
-    public static final String TEMPFILE_SUFFIX = "temp";
+    public static final String SAVEFILE_SUFFIX = "-comments";
     public static final String ERROR_MESSAGE_UNITIALIZED = "There is no imported file to save!";
+    public static final String XLS_SUFFIX = ".xls";
+    public static final String XLSX_SUFFIX = ".xlsx";
 
     private final ArrayList<JobEntry> jobEntries;
     private final ArrayList<JobEntry> unreviewedJobEntries;
@@ -51,8 +49,8 @@ public class SessionData {
     // will be using an ObservableList
 
     private File importFile;
-    private File tempFile;
     private Workbook workbook; // write comments to column after last row, with approval status
+    private File tempFile;
     private File saveFile;
 
 
@@ -66,15 +64,18 @@ public class SessionData {
     public SessionData(ArrayList<JobEntry> jobEntries, ArrayList<JobEntry> unreviewedJobEntries,
                        ArrayList<JobEntry> reviewedJobEntries,
                        ArrayList<SheetWithHeaderFields> sheets,
-                       File importFile, File tempFile, Workbook workbook, File saveFile) {
+                       File importFile, File tempFile, File saveFile) {
         this.jobEntries = jobEntries;
         this.unreviewedJobEntries = unreviewedJobEntries;
         this.reviewedJobEntries = reviewedJobEntries;
         this.sheets = sheets;
         this.importFile = importFile;
-        this.tempFile = tempFile;
-        this.workbook = workbook;
+        this.workbook = workbook; // will be removing
         this.saveFile = saveFile;
+        // overwrite the old save file and load workbook data
+        if (saveFile != null && workbook != null) {
+
+        }
     }
 
     /**
@@ -83,7 +84,7 @@ public class SessionData {
     public SessionData createCopy() {
         SessionData other = new SessionData(new ArrayList<>(jobEntries), new ArrayList<>(unreviewedJobEntries),
                 new ArrayList<>(reviewedJobEntries), new ArrayList<>(sheets), importFile,
-                tempFile, workbook, saveFile);
+                new File("comments.temp"), saveFile);
         return other;
     }
 
@@ -96,34 +97,27 @@ public class SessionData {
     ===================================================================*/
 
     /**
-     * Creates a file using relative filePath of (@code importFile), then appending a timestamp and
-     * (@code appendedName) to make it unique
+     * Creates a file using relative filePath of (@code importFile), then appending a SAVEFILE_SUFFIX
      */
-    private File generateFile(String appendedName) {
+    private File generateSaveFile() {
         requireNonNull(importFile);
-        String timeStamp = new SimpleDateFormat(TIMESTAMP_FORMAT).format(new Date());
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(importFile.getParent());
         stringBuilder.append(FILE_PATH_CHARACTER);
-        stringBuilder.append(timeStamp);
-        stringBuilder.append(importFile.getName());
-        stringBuilder.append(appendedName);
-        return new File(stringBuilder.toString());
-    }
-
-    public String getSaveFilePath() {
-        if (saveFile != null) {
-            return saveFile.getPath();
+        String fullFillName = importFile.getName();
+        String fileName;
+        String suffix = "";
+        if (fullFillName.endsWith(XLS_SUFFIX)) {
+            suffix = XLS_SUFFIX;
+        } else if (fullFillName.endsWith(XLSX_SUFFIX)) {
+            suffix = XLSX_SUFFIX;
         }
-        saveFile = generateFile(SAVEFILE_SUFFIX);
-        return saveFile.getPath();
-    }
+        fileName = fullFillName.substring(0, fullFillName.length() - suffix.length());
 
-    /**
-     * Sets the filePath using relative address from import file
-     */
-    public void setSaveFile(String filePath) {
-        saveFile = new File(filePath);
+        stringBuilder.append(fileName);
+        stringBuilder.append(SAVEFILE_SUFFIX);
+        stringBuilder.append(suffix);
+        return new File(stringBuilder.toString());
     }
 
     /*===================================================================
@@ -147,7 +141,7 @@ public class SessionData {
         importFile = file;
 
         try {
-            workbook = createWorkBook(file);
+            workbook = retrieveWorkBook(file);
         } catch (InvalidFormatException e) {
             throw new FileFormatException(ERROR_MESSAGE_FILE_FORMAT);
         } catch (IOException e) {
@@ -160,14 +154,20 @@ public class SessionData {
     /**
      * Attempts to create a (@code Workbook) for a given (@code File)
      */
-    private Workbook createWorkBook(File file) throws IOException, InvalidFormatException {
-        tempFile = generateFile(TEMPFILE_SUFFIX);
-        FileOutputStream fileOutputStream = new FileOutputStream(tempFile);
-        Workbook workbook = WorkbookFactory.create(file);
-        workbook.write(fileOutputStream);
-        workbook.close();
-        workbook = WorkbookFactory.create(tempFile);
-        return workbook;
+    private Workbook retrieveWorkBook(File file) throws IOException, InvalidFormatException {
+        saveFile = generateSaveFile();
+        Workbook workbook;
+        if (saveFile.exists()) {
+            workbook = WorkbookFactory.create(saveFile);
+            return workbook;
+        } else {
+            FileOutputStream fileOutputStream = new FileOutputStream(saveFile);
+            workbook = WorkbookFactory.create(file);
+            workbook.write(fileOutputStream);
+            workbook.close();
+            workbook = WorkbookFactory.create(saveFile);
+            return workbook;
+        }
     }
     /**
      * Attempts to parse the column headers and retrieve job entries
@@ -203,7 +203,7 @@ public class SessionData {
         }
 
         if (saveFile == null) { // does not check if a file exists
-            saveFile = generateFile(SAVEFILE_SUFFIX);
+            saveFile = generateSaveFile();
         }
         FileOutputStream fileOut = new FileOutputStream(saveFile);
         String path = saveFile.getAbsolutePath();
@@ -217,6 +217,13 @@ public class SessionData {
      * Releases resources associated with ImportSession by nulling field
      */
     public void freeResources() {
+        if (workbook != null) {
+            try {
+                workbook.close();
+            } catch (IOException e) {
+                ; // can't close it, but application is already closing
+            }
+        }
         workbook = null;
         importFile = null;
         if (tempFile != null) {

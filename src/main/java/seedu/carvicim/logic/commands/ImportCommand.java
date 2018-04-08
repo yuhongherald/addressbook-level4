@@ -18,7 +18,7 @@ public class ImportCommand extends UndoableCommand {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Imports an excel file for reviewing. "
             + "Parameters: FILEPATH\n"
-            + "Example: " + COMMAND_WORD + "yourfile.xls";
+            + "Example: " + COMMAND_WORD + " yourfile.xls";
 
     public static final String MESSAGE_SUCCESS = "%s has been imported, with %d job entries!";
 
