@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.poi.EmptyFileException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -64,9 +65,9 @@ public class SessionData {
     }
 
     public SessionData(ArrayList<JobEntry> jobEntries, ArrayList<JobEntry> unreviewedJobEntries,
-                       ArrayList<JobEntry> reviewedJobEntries,
-                       ArrayList<SheetWithHeaderFields> sheets,
-                       File importFile, File tempFile, File saveFile) throws FileAccessException, FileFormatException {
+            ArrayList<JobEntry> reviewedJobEntries,
+            ArrayList<SheetWithHeaderFields> sheets,
+            File importFile, File tempFile, File saveFile) throws FileAccessException, FileFormatException {
         this.jobEntries = jobEntries;
         this.unreviewedJobEntries = unreviewedJobEntries;
         this.reviewedJobEntries = reviewedJobEntries;
@@ -97,7 +98,7 @@ public class SessionData {
         } catch (IOException e) {
             throw new CommandException(ERROR_MESSAGE_IO_EXCEPTION);
         } catch (UninitializedException e) {
-            throw new CommandException(ERROR_MESSAGE_UNINITIALIZED);
+            tempFile = null; // no data to save
         }
         try {
             other = new SessionData(new ArrayList<>(jobEntries), new ArrayList<>(unreviewedJobEntries),
@@ -180,8 +181,14 @@ public class SessionData {
         saveFile = generateSaveFile();
         Workbook workbook;
         if (saveFile.exists()) {
-            workbook = WorkbookFactory.create(saveFile);
-            return workbook;
+            try {
+                workbook = WorkbookFactory.create(saveFile);
+                return workbook;
+            } catch (EmptyFileException e) {
+                saveFile.delete();
+                saveFile = null;
+                return retrieveWorkBook(file);
+            }
         } else {
             FileOutputStream fileOutputStream = new FileOutputStream(saveFile);
             workbook = WorkbookFactory.create(file);
@@ -297,7 +304,7 @@ public class SessionData {
     public void reviewAllRemainingJobEntries(boolean approved, String comments) throws CommandException {
         try {
             while (!getUnreviewedJobEntries().isEmpty()) {
-                    reviewJobEntry(0, approved, comments);
+                reviewJobEntry(0, approved, comments);
             }
         } catch (DataIndexOutOfBoundsException e) {
             throw new CommandException(e.getMessage());

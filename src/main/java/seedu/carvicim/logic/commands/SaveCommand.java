@@ -1,6 +1,5 @@
 package seedu.carvicim.logic.commands;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,8 +7,6 @@ import javafx.collections.ObservableList;
 import seedu.carvicim.logic.commands.exceptions.CommandException;
 import seedu.carvicim.model.job.Job;
 import seedu.carvicim.storage.session.ImportSession;
-import seedu.carvicim.storage.session.exceptions.DataIndexOutOfBoundsException;
-import seedu.carvicim.storage.session.exceptions.UninitializedException;
 
 //@@author yuhongherald
 
@@ -36,7 +33,7 @@ public class SaveCommand extends UndoableCommand {
         if (!importSession.getSessionData().getUnreviewedJobEntries().isEmpty()) {
             throw new CommandException("Please review all remaining job entries before saving!");
         }
-        importSession.reviewAllRemainingJobEntries(true);
+        //importSession.reviewAllRemainingJobEntries(true);
         List<Job> jobs = new ArrayList<>(importSession.getSessionData().getReviewedJobEntries());
         model.addJobs(jobs);
         message = importSession.closeSession();
