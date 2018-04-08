@@ -8,7 +8,7 @@ import seedu.carvicim.logic.commands.exceptions.CommandException;
 import seedu.carvicim.model.job.Job;
 import seedu.carvicim.storage.session.ImportSession;
 import seedu.carvicim.storage.session.exceptions.DataIndexOutOfBoundsException;
-import seedu.carvicim.storage.session.exceptions.UnitializedException;
+import seedu.carvicim.storage.session.exceptions.UninitializedException;
 
 //@@author yuhongherald
 
@@ -34,20 +34,11 @@ public class AcceptAllCommand extends UndoableCommand {
         if (importSession.getSessionData().getUnreviewedJobEntries().isEmpty()) {
             throw new CommandException("There are no job entries to review!");
         }
-        try {
-            importSession.reviewAllRemainingJobEntries(true);
-            List<Job> jobs = new ArrayList<>(importSession.getSessionData().getReviewedJobEntries());
-            model.addJobs(jobs);
-            importSession.closeSession();
-            return new CommandResult(getMessageSuccess(jobs.size()));
-        } catch (DataIndexOutOfBoundsException e) {
-            throw new CommandException("Excel file has bad format. Try copying the cell values into a new excel file "
-                    + "before trying again");
-        } catch (IOException e) {
-            throw new CommandException("Unable to export file. Please close the application and try again.");
-        } catch (UnitializedException e) {
-            throw new CommandException(e.getMessage());
-        }
+        importSession.reviewAllRemainingJobEntries(true);
+        List<Job> jobs = new ArrayList<>(importSession.getSessionData().getReviewedJobEntries());
+        model.addJobs(jobs);
+        importSession.closeSession();
+        return new CommandResult(getMessageSuccess(jobs.size()));
     }
 
     @Override

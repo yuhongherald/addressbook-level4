@@ -2,8 +2,6 @@ package seedu.carvicim.logic.commands;
 
 import seedu.carvicim.logic.commands.exceptions.CommandException;
 import seedu.carvicim.storage.session.ImportSession;
-import seedu.carvicim.storage.session.exceptions.DataIndexOutOfBoundsException;
-import seedu.carvicim.storage.session.exceptions.InvalidDataException;
 
 //@@author yuhongherald
 
@@ -35,15 +33,8 @@ public class AcceptCommand extends UndoableCommand {
         if (importSession.getSessionData().getUnreviewedJobEntries().isEmpty()) {
             throw new CommandException("There are no job entries to review!");
         }
-        try {
-            importSession.getSessionData().reviewJobEntryUsingJobNumber(jobNumber, true, "");
+        importSession.getSessionData().reviewJobEntryUsingJobNumber(jobNumber, true, "");
 
-        } catch (DataIndexOutOfBoundsException e) {
-            throw new CommandException("Excel file has bad format. Try copying the cell values into a new excel file "
-                    + "before trying again");
-        } catch (InvalidDataException e) {
-            throw new CommandException(e.getMessage());
-        }
         if (!model.isViewingImportedJobs()) {
             model.switchJobView();
         }

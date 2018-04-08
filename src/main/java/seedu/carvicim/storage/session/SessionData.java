@@ -16,12 +16,12 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
+import seedu.carvicim.logic.commands.exceptions.CommandException;
 import seedu.carvicim.model.job.Job;
 import seedu.carvicim.storage.session.exceptions.DataIndexOutOfBoundsException;
 import seedu.carvicim.storage.session.exceptions.FileAccessException;
 import seedu.carvicim.storage.session.exceptions.FileFormatException;
-import seedu.carvicim.storage.session.exceptions.InvalidDataException;
-import seedu.carvicim.storage.session.exceptions.UnitializedException;
+import seedu.carvicim.storage.session.exceptions.UninitializedException;
 
 //@@author yuhongherald
 /**
@@ -38,15 +38,17 @@ public class SessionData {
 
     public static final String FILE_PATH_CHARACTER = "/";
     public static final String SAVEFILE_SUFFIX = "-comments";
-    public static final String ERROR_MESSAGE_UNITIALIZED = "There is no imported file to save!";
+    public static final String ERROR_MESSAGE_UNINITIALIZED = "There is no imported file to save!";
     public static final String XLS_SUFFIX = ".xls";
     public static final String XLSX_SUFFIX = ".xlsx";
+    public static final String TEMPFILE_NAME = "comments.temp";
+    public static final String ERROR_MESSAGE_INVALID_JOB_NUMBER = "Job number not found!";
 
     private final ArrayList<JobEntry> jobEntries;
     private final ArrayList<JobEntry> unreviewedJobEntries;
     private final ArrayList<JobEntry> reviewedJobEntries;
     private final ArrayList<SheetWithHeaderFields> sheets;
-    // will be using an ObservableList
+    // implement a logger
 
     private File importFile;
     private Workbook workbook; // write comments to column after last row, with approval status
@@ -64,27 +66,46 @@ public class SessionData {
     public SessionData(ArrayList<JobEntry> jobEntries, ArrayList<JobEntry> unreviewedJobEntries,
                        ArrayList<JobEntry> reviewedJobEntries,
                        ArrayList<SheetWithHeaderFields> sheets,
-                       File importFile, File tempFile, File saveFile) {
+                       File importFile, File tempFile, File saveFile) throws FileAccessException, FileFormatException {
         this.jobEntries = jobEntries;
         this.unreviewedJobEntries = unreviewedJobEntries;
         this.reviewedJobEntries = reviewedJobEntries;
         this.sheets = sheets;
         this.importFile = importFile;
-        this.workbook = workbook; // will be removing
+        this.tempFile = tempFile;
         this.saveFile = saveFile;
         // overwrite the old save file and load workbook data
-        if (saveFile != null && workbook != null) {
-
+        if (tempFile != null) {
+            try {
+                workbook = retrieveWorkBook(tempFile);
+            } catch (IOException e) {
+                throw new FileAccessException(ERROR_MESSAGE_IO_EXCEPTION);
+            } catch (InvalidFormatException e) {
+                throw new FileFormatException(ERROR_MESSAGE_FILE_FORMAT);
+            }
         }
     }
 
     /**
      * Creates a copy of sessionData and returns it
      */
-    public SessionData createCopy() {
-        SessionData other = new SessionData(new ArrayList<>(jobEntries), new ArrayList<>(unreviewedJobEntries),
-                new ArrayList<>(reviewedJobEntries), new ArrayList<>(sheets), importFile,
-                new File("comments.temp"), saveFile);
+    public SessionData createCopy() throws CommandException {
+        SessionData other = null;
+        tempFile = new File(TEMPFILE_NAME);
+        try {
+            saveDataToFile(tempFile);
+        } catch (IOException e) {
+            throw new CommandException(ERROR_MESSAGE_IO_EXCEPTION);
+        } catch (UninitializedException e) {
+            throw new CommandException(ERROR_MESSAGE_UNINITIALIZED);
+        }
+        try {
+            other = new SessionData(new ArrayList<>(jobEntries), new ArrayList<>(unreviewedJobEntries),
+                    new ArrayList<>(reviewedJobEntries), new ArrayList<>(sheets), importFile,
+                    tempFile, saveFile);
+        } catch (FileAccessException | FileFormatException e) {
+            throw new CommandException(e.getMessage());
+        }
         return other;
     }
 
@@ -132,6 +153,7 @@ public class SessionData {
         if (isInitialized()) {
             throw new FileAccessException(ERROR_MESSAGE_FILE_OPEN);
         }
+        freeResources(); // from previous session
         File file = new File(filePath);
         if (!file.exists()) {
             throw new FileAccessException(ERROR_MESSAGE_INVALID_FILEPATH);
@@ -185,12 +207,16 @@ public class SessionData {
         }
     }
 
+    public String saveDataToSaveFile() throws IOException, UninitializedException {
+        return saveDataToFile(saveFile);
+    }
+
     /**
-     * Saves feedback to specified saveFile path
+     * Saves feedback to (@code file)
      */
-    public String saveData() throws IOException, UnitializedException {
+    public String saveDataToFile(File file) throws IOException, UninitializedException {
         if (!isInitialized()) {
-            throw new UnitializedException(ERROR_MESSAGE_UNITIALIZED);
+            throw new UninitializedException(ERROR_MESSAGE_UNINITIALIZED);
         }
         for (JobEntry jobEntry : jobEntries) {
             SheetWithHeaderFields sheet = sheets.get(jobEntry.getSheetNumber());
@@ -202,15 +228,13 @@ public class SessionData {
             }
         }
 
-        if (saveFile == null) { // does not check if a file exists
-            saveFile = generateSaveFile();
+        if (file == null) { // does not check if a file exists
+            file = generateSaveFile();
         }
-        FileOutputStream fileOut = new FileOutputStream(saveFile);
-        String path = saveFile.getAbsolutePath();
+        FileOutputStream fileOut = new FileOutputStream(file);
+        String path = file.getAbsolutePath();
         workbook.write(fileOut);
         fileOut.close();
-        workbook.close();
-        freeResources();
         return path;
     }
     /**
@@ -236,6 +260,20 @@ public class SessionData {
         sheets.clear();
     }
 
+    /**
+     * Adds job entries from (@code sheetWithHeaderFields) into (@code SessionData)
+     */
+    public void addSheet(SheetWithHeaderFields sheetWithHeaderFields) {
+        Iterator<JobEntry> jobEntryIterator = sheetWithHeaderFields.iterator();
+        JobEntry jobEntry;
+        while (jobEntryIterator.hasNext()) {
+            jobEntry = jobEntryIterator.next();
+            jobEntries.add(jobEntry);
+            unreviewedJobEntries.add(jobEntry);
+        }
+        sheets.add(sheetWithHeaderFields.getSheetIndex(), sheetWithHeaderFields);
+    }
+
     /*===================================================================
     Job review methods
     ===================================================================*/
@@ -254,36 +292,34 @@ public class SessionData {
     }
 
     /**
-     * Adds job entries from (@code sheetWithHeaderFields) into (@code SessionData)
+     * Reviews all remaining jobs using (@code reviewJobEntry). Writes to (@code saveFile) when done.
      */
-    public void addSheet(SheetWithHeaderFields sheetWithHeaderFields) {
-        Iterator<JobEntry> jobEntryIterator = sheetWithHeaderFields.iterator();
-        JobEntry jobEntry;
-        while (jobEntryIterator.hasNext()) {
-            jobEntry = jobEntryIterator.next();
-            jobEntries.add(jobEntry);
-            unreviewedJobEntries.add(jobEntry);
+    public void reviewAllRemainingJobEntries(boolean approved, String comments) throws CommandException {
+        try {
+            while (!getUnreviewedJobEntries().isEmpty()) {
+                    reviewJobEntry(0, approved, comments);
+            }
+        } catch (DataIndexOutOfBoundsException e) {
+            throw new CommandException(e.getMessage());
         }
-        sheets.add(sheetWithHeaderFields.getSheetIndex(), sheetWithHeaderFields);
-    }
 
-    /**
-     * Reviews all remaining jobs using (@code reviewJobEntry)
-     */
-    public void reviewAllRemainingJobEntries(boolean approved, String comments) throws DataIndexOutOfBoundsException {
-        while (!getUnreviewedJobEntries().isEmpty()) {
-            reviewJobEntry(0, approved, comments);
+        try {
+            saveDataToSaveFile();
+        } catch (UninitializedException e) {
+            throw new RuntimeException(e.getMessage());
+        } catch (IOException e) {
+            throw new CommandException(ERROR_MESSAGE_IO_EXCEPTION);
         }
     }
 
     /**
-     * Reviews a (@code JobEntry) specified by (@code listIndex)
+     * Reviews a (@code JobEntry) specified by (@code listIndex). Writes to (@code saveFile) when done.
      * @param jobNumber index of (@code JobEntry) in (@code unreviewedJobEntries)
      * @param approved whether job entry will be added to Carvicim
      * @param comments feedback in string representation
      */
     public void reviewJobEntryUsingJobNumber(int jobNumber, boolean approved, String comments)
-            throws DataIndexOutOfBoundsException, InvalidDataException {
+            throws CommandException {
         if (unreviewedJobEntries.isEmpty()) {
             throw new IllegalStateException(ERROR_MESSAGE_EMPTY_UNREVIWED_JOB_LIST);
         }
@@ -291,11 +327,22 @@ public class SessionData {
         for (int i = 0; i < unreviewedJobEntries.size(); i++) {
             entry = unreviewedJobEntries.get(i);
             if (entry.getJobNumber().asInteger() == jobNumber) {
-                reviewJobEntry(i, approved, comments);
+                try {
+                    reviewJobEntry(i, approved, comments);
+                } catch (DataIndexOutOfBoundsException e) {
+                    throw new CommandException(e.getMessage());
+                }
+                try {
+                    saveDataToSaveFile();
+                } catch (IOException e) {
+                    throw new CommandException(ERROR_MESSAGE_IO_EXCEPTION);
+                } catch (UninitializedException e) {
+                    throw new CommandException(ERROR_MESSAGE_UNINITIALIZED);
+                }
                 return;
             }
         }
-        throw new InvalidDataException("Job number not found!");
+        throw new CommandException(ERROR_MESSAGE_INVALID_JOB_NUMBER);
     }
 
     /**
@@ -304,7 +351,7 @@ public class SessionData {
      * @param approved whether job entry will be added to Carvicim
      * @param comments feedback in string representation
      */
-    public void reviewJobEntry(int listIndex, boolean approved, String comments) throws DataIndexOutOfBoundsException {
+    private void reviewJobEntry(int listIndex, boolean approved, String comments) throws DataIndexOutOfBoundsException {
         if (unreviewedJobEntries.isEmpty()) {
             throw new IllegalStateException(ERROR_MESSAGE_EMPTY_UNREVIWED_JOB_LIST);
         } else if (listIndex < 0 || listIndex >= unreviewedJobEntries.size()) {

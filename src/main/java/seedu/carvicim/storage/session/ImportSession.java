@@ -4,10 +4,10 @@ import static java.util.Objects.requireNonNull;
 
 import java.io.IOException;
 
-import seedu.carvicim.storage.session.exceptions.DataIndexOutOfBoundsException;
+import seedu.carvicim.logic.commands.exceptions.CommandException;
 import seedu.carvicim.storage.session.exceptions.FileAccessException;
 import seedu.carvicim.storage.session.exceptions.FileFormatException;
-import seedu.carvicim.storage.session.exceptions.UnitializedException;
+import seedu.carvicim.storage.session.exceptions.UninitializedException;
 
 //@@author yuhongherald
 /**
@@ -16,6 +16,7 @@ import seedu.carvicim.storage.session.exceptions.UnitializedException;
  */
 public class ImportSession {
 
+    public static final String ERROR_MESSAGE_EXPORT = "Unable to export file. Please close the application and try again.";
     private static ImportSession importSession;
 
     private SessionData sessionData;
@@ -43,7 +44,7 @@ public class ImportSession {
         sessionData.loadFile(filePath);
     }
 
-    public void reviewAllRemainingJobEntries(boolean approve) throws DataIndexOutOfBoundsException {
+    public void reviewAllRemainingJobEntries(boolean approve) throws CommandException {
         sessionData.reviewAllRemainingJobEntries(approve, "Imported with no comments.");
     }
 
@@ -54,7 +55,13 @@ public class ImportSession {
     /**
      * Flushes feedback to (@code outFile) and releases resources. Currently not persistent.
      */
-    public String closeSession() throws IOException, UnitializedException {
-        return sessionData.saveData();
+    public String closeSession() throws CommandException {
+        try {
+            return sessionData.saveDataToSaveFile();
+        } catch (IOException e) {
+            throw new CommandException(ERROR_MESSAGE_EXPORT);
+        } catch (UninitializedException e) {
+            throw new CommandException(e.getMessage());
+        }
     }
 }

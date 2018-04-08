@@ -24,7 +24,7 @@ public abstract class UndoableCommand extends Command {
     /**
      * Stores the current state of {@code model#carvicim}.
      */
-    private void saveAddressBookSnapshot() {
+    private void saveAddressBookSnapshot() throws CommandException {
         requireNonNull(model);
         this.previousAddressBook = new Carvicim(model.getCarvicim());
         this.previousCommandWords = new CommandWords(model.getCommandWords());

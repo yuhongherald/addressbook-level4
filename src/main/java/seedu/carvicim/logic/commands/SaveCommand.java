@@ -9,7 +9,7 @@ import seedu.carvicim.logic.commands.exceptions.CommandException;
 import seedu.carvicim.model.job.Job;
 import seedu.carvicim.storage.session.ImportSession;
 import seedu.carvicim.storage.session.exceptions.DataIndexOutOfBoundsException;
-import seedu.carvicim.storage.session.exceptions.UnitializedException;
+import seedu.carvicim.storage.session.exceptions.UninitializedException;
 
 //@@author yuhongherald
 
@@ -36,18 +36,10 @@ public class SaveCommand extends UndoableCommand {
         if (!importSession.getSessionData().getUnreviewedJobEntries().isEmpty()) {
             throw new CommandException("Please review all remaining job entries before saving!");
         }
-        try {
-            importSession.reviewAllRemainingJobEntries(true);
-            List<Job> jobs = new ArrayList<>(importSession.getSessionData().getReviewedJobEntries());
-            model.addJobs(jobs);
-            message = importSession.closeSession();
-        } catch (IOException e) {
-            throw new CommandException("Unable to export file. Please close the application and try again.");
-        } catch (UnitializedException e) {
-            throw new CommandException(e.getMessage());
-        } catch (DataIndexOutOfBoundsException e) {
-            throw new CommandException((e.getMessage()));
-        }
+        importSession.reviewAllRemainingJobEntries(true);
+        List<Job> jobs = new ArrayList<>(importSession.getSessionData().getReviewedJobEntries());
+        model.addJobs(jobs);
+        message = importSession.closeSession();
         ObservableList<Job> jobList = model.getFilteredJobList();
         if (model.isViewingImportedJobs()) {
             model.switchJobView();
