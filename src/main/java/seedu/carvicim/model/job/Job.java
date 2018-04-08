@@ -65,8 +65,16 @@ public class Job {
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
      */
-    public Set<Employee> getAssignedEmployees() {
+    public Set<Employee> getAssignedEmployeesAsSet() {
         return Collections.unmodifiableSet(assignedEmployees.toSet());
+    }
+
+    /**
+     * Returns assignedEmployees as UniqueEmployeeList
+     * @return
+     */
+    public UniqueEmployeeList getAssignedEmployees() {
+        return assignedEmployees;
     }
 
     public ObservableList getAssignedEmployeesAsObservableList() {
@@ -74,11 +82,10 @@ public class Job {
     }
 
     /**
-     * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
-     * if modification is attempted.
+     * Returns an arraylist of remarks
      */
-    public Set<Remark> getRemarks() {
-        return Collections.unmodifiableSet(remarks.toSet());
+    public RemarkList getRemarkList() {
+        return remarks;
     }
 
     public void addRemark(Remark remark) {
@@ -108,9 +115,9 @@ public class Job {
                 && otherJob.getVehicleNumber().equals(this.getVehicleNumber())
                 && otherJob.getJobNumber().equals(this.getJobNumber())
                 && otherJob.getDate().equals(this.getDate())
-                && otherJob.getAssignedEmployees().equals(this.getAssignedEmployees())
+                && otherJob.getAssignedEmployeesAsSet().equals(this.getAssignedEmployeesAsSet())
                 && otherJob.getStatus().equals(this.getStatus())
-                && otherJob.getRemarks().equals(this.getRemarks());
+                && otherJob.getRemarkList().equals(this.getRemarkList());
     }
 
     @Override
