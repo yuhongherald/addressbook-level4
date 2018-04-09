@@ -14,7 +14,7 @@ public class RejectCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "reject";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Rejects job entry using job number. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Rejects job entry using index. "
             + "Example: " + COMMAND_WORD + " JOB_NUMBER";
 
     public static final String MESSAGE_SUCCESS = "Job #%d rejected!";
@@ -37,7 +37,7 @@ public class RejectCommand extends UndoableCommand {
         if (sessionData.getUnreviewedJobEntries().isEmpty()) {
             throw new CommandException("There are no job entries to review!");
         }
-        Job job = sessionData.reviewJobEntryUsingJobNumber(jobNumber, false, comment);
+        Job job = sessionData.reviewJobEntryUsingJobIndex(jobNumber, false, comment);
         model.addJob(job);
 
         if (!model.isViewingImportedJobs()) {

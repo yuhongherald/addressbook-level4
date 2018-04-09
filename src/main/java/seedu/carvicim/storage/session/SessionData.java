@@ -46,6 +46,7 @@ public class SessionData {
     public static final String TEMPFILE_NAME = "comments.temp";
     public static final String TEMPWORKBOOKFILE_NAME = "workbook.temp";
     public static final String ERROR_MESSAGE_INVALID_JOB_NUMBER = "Job number not found!";
+    public static final String ERROR_MESSAGE_INVALID_JOB_INDEX = "Job index not found!";
 
     private final ArrayList<JobEntry> unreviewedJobEntries;
     private final ArrayList<JobEntry> reviewedJobEntries;
@@ -161,8 +162,8 @@ public class SessionData {
         if (tempFile == null) {
             return;
         }
-        if (saveFile.exists()) {
-            saveFile.delete();
+        if (saveFile.exists() && !saveFile.delete()) {
+            throw new FileAccessException(ERROR_MESSAGE_IO_EXCEPTION);
         }
         try {
             setWorkBook(tempFile);
@@ -190,9 +191,9 @@ public class SessionData {
                 saveFile = null;
                 setWorkBook(file);
             } finally {
-                FileOutputStream fileOutputStream = new FileOutputStream(saveFile);
-                workbook.write(fileOutputStream);
-                fileOutputStream.close();
+                //FileOutputStream fileOutputStream = new FileOutputStream(saveFile);
+                //workbook.write(fileOutputStream);
+                //fileOutputStream.close();
                 workbook = WorkbookFactory.create(saveFile);
             }
         } else {
@@ -358,24 +359,36 @@ public class SessionData {
 
     /**
      * Reviews a (@code JobEntry) specified by (@code listIndex). Writes to (@code saveFile) when done.
-     * @param jobNumber index of (@code JobEntry) in (@code unreviewedJobEntries)
+     * @param jobIndex index of (@code JobEntry) in (@code unreviewedJobEntries)
      * @param approved whether job entry will be added to Carvicim
      * @param comments feedback in string representation
      * @return reviewed jobEntry
      */
-    public JobEntry reviewJobEntryUsingJobNumber(int jobNumber, boolean approved, String comments)
+    public JobEntry reviewJobEntryUsingJobIndex(int jobIndex, boolean approved, String comments)
             throws CommandException {
         if (unreviewedJobEntries.isEmpty()) {
             throw new CommandException(ERROR_MESSAGE_EMPTY_UNREVIWED_JOB_LIST);
         }
-        JobEntry entry;
-        for (int i = 0; i < unreviewedJobEntries.size(); i++) {
-            entry = unreviewedJobEntries.get(i);
-            if (reviewJobNumberIfPresent(jobNumber, approved, comments, entry, i)) {
-                return entry;
-            }
+        if (unreviewedJobEntries.size() < jobIndex || jobIndex <= 0) {
+            throw new CommandException(ERROR_MESSAGE_INVALID_JOB_INDEX);
         }
-        throw new CommandException(ERROR_MESSAGE_INVALID_JOB_NUMBER);
+        JobEntry entry = unreviewedJobEntries.get(jobIndex - 1);
+        try {
+            reviewJobEntry(jobIndex - 1, approved, comments);
+        } catch (DataIndexOutOfBoundsException e) {
+            throw new CommandException(e.getMessage());
+        }
+        try {
+            saveDataToSaveFile();
+        } catch (IOException e) {
+            unreviewJobEntry(entry);
+            throw new CommandException(ERROR_MESSAGE_IO_EXCEPTION);
+        } catch (UninitializedException e) {
+            unreviewJobEntry(entry);
+            throw new CommandException(ERROR_MESSAGE_UNINITIALIZED);
+        }
+        entry.confirmLastReview();
+        return entry;
     }
 
     /**

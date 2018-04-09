@@ -335,14 +335,14 @@ You can use 4 commands when reviewing changes:
 
 ===== Accepting 1 job: `accept`
 
-Accepts a job with job number NUMBER in imported list.
+Accepts a job with index NUMBER in imported list.
 Format: `accept NUMBER`
 
 Examples:
 
 ** Example 1: +
 . `accept 1` +
-*** Accepts the job entry with job number 1 and removes it from imported list.
+*** Accepts the job entry with index 1 and removes it from imported list.
 
 [[acceptAll-command]]
 ===== Accepting all remaining imported jobs: `acceptAll`
@@ -358,14 +358,14 @@ Examples:
 
 ===== Rejecting 1 job: `reject`
 
-Rejects a job with job number NUMBER in imported list.
+Rejects a job with index NUMBER in imported list.
 Format: `reject NUMBER`
 
 Examples:
 
 ** Example 1: +
 . `reject 1` +
-*** Rejects job entry with job number 1 and removes it from imported list. It is not added to CarviciM.
+*** Rejects job entry with index 1 and removes it from imported list. It is not added to CarviciM.
 
 ===== Rejecting all remaining imported jobs: `rejectAll`
 
