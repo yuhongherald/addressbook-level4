@@ -22,7 +22,6 @@ import seedu.carvicim.logic.commands.CommandWords;
 import seedu.carvicim.model.job.DateRange;
 import seedu.carvicim.model.job.Job;
 import seedu.carvicim.model.job.JobList;
-import seedu.carvicim.model.job.JobNumber;
 import seedu.carvicim.model.job.exceptions.JobNotFoundException;
 import seedu.carvicim.model.person.Employee;
 import seedu.carvicim.model.person.exceptions.DuplicateEmployeeException;
@@ -92,25 +91,6 @@ public class ModelManager extends ComponentManager implements Model {
         EventsCenter.getInstance().post(new JobDisplayPanelResetRequestEvent());
     }
 
-    //@@author whenzei
-    /**
-     * Initializes the running job number based on the past job numbers.
-     */
-    @Override
-    public void initJobNumber() {
-        if (filteredJobs.isEmpty()) {
-            JobNumber.initialize(ONE_AS_STRING);
-            return;
-        }
-        int largest = filteredJobs.get(0).getJobNumber().asInteger();
-        for (Job job : filteredJobs) {
-            if (job.getJobNumber().asInteger() > largest) {
-                largest = job.getJobNumber().asInteger();
-            }
-        }
-        JobNumber.initialize(largest + 1);
-    }
-
     @Override
     public void resetData(ReadOnlyCarvicim newData, CommandWords newCommandWords) {
         carvicim.resetData(newData);
@@ -144,14 +124,14 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public synchronized void addJob(Job job) {
         carvicim.addJob(job);
-        updateFilteredJobList(PREDICATE_SHOW_ALL_JOBS);
+        updateFilteredJobList(PREDICATE_SHOW_ONGOING_JOBS);
         indicateAddressBookChanged();
     }
 
     @Override
-    public synchronized void closeJob(Job target) throws JobNotFoundException {
-        carvicim.closeJob(target);
-        updateFilteredJobList(PREDICATE_SHOW_ALL_JOBS);
+    public synchronized void closeJob(Job target, Job updatedJob) throws JobNotFoundException {
+        carvicim.updateJob(target, updatedJob);
+        updateFilteredJobList(PREDICATE_SHOW_ONGOING_JOBS);
         indicateAddressBookChanged();
     }
 
@@ -173,8 +153,8 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public synchronized void addRemark(Job target, Job updatedJob) {
-        carvicim.addRemark(target, updatedJob);
-        updateFilteredJobList(PREDICATE_SHOW_ALL_JOBS);
+        carvicim.updateJob(target, updatedJob);
+        updateFilteredJobList(PREDICATE_SHOW_ONGOING_JOBS);
         indicateAddressBookChanged();
     }
 
