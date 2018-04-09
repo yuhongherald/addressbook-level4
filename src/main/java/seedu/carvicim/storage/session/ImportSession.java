@@ -55,7 +55,7 @@ public class ImportSession {
     }
 
     /**
-     * Flushes feedback to (@code outFile) and releases resources. Currently not persistent.
+     * Flushes feedback to (@return pathToOutfile) and releases resources. Currently not persistent.
      */
     public String closeSession() throws CommandException {
         try {

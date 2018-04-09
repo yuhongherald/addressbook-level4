@@ -10,21 +10,21 @@ import seedu.carvicim.logic.parser.exceptions.ParseException;
 //@@author yuhongherald
 
 /**
- * Parses input arguments and creates a new ImporatAllCommand object
+ * Parses input arguments and creates a new AcceptCommand object
  */
 public class AcceptCommandParser implements Parser<AcceptCommand> {
 
     /**
      * Parses the given {@code String} of arg
-     * uments in the context of the ImportAllCommand
-     * and returns an ImportAllCommand object for execution.
+     * uments in the context of the AcceptCommand
+     * and returns an AcceptCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
     public AcceptCommand parse(String args) throws ParseException {
         String[] arguments = args.split(" ", 1);
         String comment = "";
         if (arguments.length == 2) {
-            comment = arguments[1];
+            comment = arguments[1].trim();
         }
         try {
             int jobNumber = parseInteger(arguments[0]);
