@@ -172,7 +172,7 @@ public class SessionData {
         } catch (InvalidFormatException e) {
             throw new FileFormatException(ERROR_MESSAGE_FILE_FORMAT);
         }
-        //initializeSessionData();
+        initializeSessionData();
         tempFile.delete();
         tempFile = null;
     }
