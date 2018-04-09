@@ -122,9 +122,9 @@ public class SheetWithHeaderFields implements Iterable<JobEntry> {
         }
     }
 
-        /**
-         * Appends a comment for job at (@oode row)
-         */
+    /**
+     * Appends a comment for job at (@oode row)
+     */
     public void commentJobEntry(int row, String comment) {
         int index = commentFields.get(COMMENTS).getStartIndex();
         Cell cell = sheet.getRow(row).createCell(index);

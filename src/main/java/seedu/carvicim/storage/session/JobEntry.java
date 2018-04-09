@@ -1,7 +1,5 @@
 package seedu.carvicim.storage.session;
 
-import static seedu.carvicim.model.remark.Remark.isValidRemark;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
