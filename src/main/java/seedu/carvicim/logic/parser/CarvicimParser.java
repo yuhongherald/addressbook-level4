@@ -158,10 +158,10 @@ public class CarvicimParser {
             return new SwitchCommand();
 
         case AcceptAllCommand.COMMAND_WORD:
-            return new AcceptAllCommand();
+            return new AcceptAllCommandParser().parse(arguments);
 
         case RejectAllCommand.COMMAND_WORD:
-            return new RejectAllCommand();
+            return new RejectAllCommandParser().parse(arguments);
 
         case RejectCommand.COMMAND_WORD:
             return new RejectCommandParser().parse(arguments);
