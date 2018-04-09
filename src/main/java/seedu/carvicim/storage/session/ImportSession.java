@@ -7,6 +7,7 @@ import java.io.IOException;
 import seedu.carvicim.logic.commands.exceptions.CommandException;
 import seedu.carvicim.storage.session.exceptions.FileAccessException;
 import seedu.carvicim.storage.session.exceptions.FileFormatException;
+
 import seedu.carvicim.storage.session.exceptions.UninitializedException;
 
 //@@author yuhongherald
@@ -35,10 +36,12 @@ public class ImportSession {
 
     public void setSessionData(SessionData sessionData) throws CommandException {
         requireNonNull(sessionData);
-        this.sessionData = sessionData;
         try {
+            this.sessionData.closeWorkBook();
             sessionData.loadTempWorkBook();
+            this.sessionData = sessionData;
         } catch (FileAccessException | FileFormatException e) {
+            this.sessionData.reloadFile();
             throw new CommandException(e.getMessage());
         }
     }

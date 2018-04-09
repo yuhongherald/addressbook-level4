@@ -71,14 +71,9 @@ public abstract class UndoableCommand extends Command {
      * Executes the command and updates the filtered employee
      * list to show all persons.
      */
-    protected final void redo() {
+    protected final void redo() throws CommandException {
         requireNonNull(model);
-        try {
-            executeUndoableCommand();
-        } catch (CommandException ce) {
-            throw new AssertionError("The command has been successfully executed previously; "
-                    + "it should not fail now");
-        }
+        executeUndoableCommand();
 
         if (prevJobNumber != null) {
             JobNumber.setNextJobNumber(Integer.valueOf(prevJobNumber) + 1 + "");

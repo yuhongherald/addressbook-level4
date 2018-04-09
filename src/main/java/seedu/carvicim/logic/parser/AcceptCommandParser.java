@@ -30,7 +30,7 @@ public class AcceptCommandParser implements Parser<AcceptCommand> {
             int jobNumber = parseInteger(arguments[0]);
             return new AcceptCommand(jobNumber, comment);
         } catch (IllegalValueException ive) {
-            System.out.println(arguments.toString());
+            System.out.println(args);
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AcceptCommand.MESSAGE_USAGE));
         }
     }
