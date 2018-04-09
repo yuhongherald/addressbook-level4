@@ -41,7 +41,7 @@ public class ImportSession {
             sessionData.loadTempWorkBook();
             this.sessionData = sessionData;
         } catch (FileAccessException | FileFormatException e) {
-            this.sessionData.reloadFile();
+            //this.sessionData.reloadFile();
             throw new CommandException(e.getMessage());
         }
     }

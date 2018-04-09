@@ -46,6 +46,7 @@ public class SessionData {
     public static final String TEMPFILE_NAME = "comments.temp";
     public static final String TEMPWORKBOOKFILE_NAME = "workbook.temp";
     public static final String ERROR_MESSAGE_INVALID_JOB_NUMBER = "Job number not found!";
+    public static final String ERROR_MESSAGE_INVALID_JOB_INDEX = "Job index not found!";
 
     private final ArrayList<JobEntry> unreviewedJobEntries;
     private final ArrayList<JobEntry> reviewedJobEntries;
@@ -56,7 +57,7 @@ public class SessionData {
     private Workbook workbook; // write comments to column after last row, with approval status
     private File tempFile;
     private File saveFile;
-
+    private File tempWorkbookFile;
 
     public SessionData() {
         unreviewedJobEntries = new ArrayList<>();
@@ -87,8 +88,7 @@ public class SessionData {
         } catch (UninitializedException e) {
             tempFile = null; // no data to save
         }
-        other = new SessionData(importFile,
-                tempFile, saveFile);
+        other = new SessionData(importFile, tempFile, saveFile);
         return other;
     }
 
@@ -152,7 +152,6 @@ public class SessionData {
         } catch (IOException e) {
             throw new FileFormatException(ERROR_MESSAGE_IO_EXCEPTION);
         }
-
         initializeSessionData();
     }
 
@@ -163,8 +162,8 @@ public class SessionData {
         if (tempFile == null) {
             return;
         }
-        if (saveFile.exists()) {
-            saveFile.delete();
+        if (saveFile.exists() && !saveFile.delete()) {
+            throw new FileAccessException(ERROR_MESSAGE_IO_EXCEPTION);
         }
         try {
             setWorkBook(tempFile);
@@ -173,25 +172,16 @@ public class SessionData {
         } catch (InvalidFormatException e) {
             throw new FileFormatException(ERROR_MESSAGE_FILE_FORMAT);
         }
+        //initializeSessionData();
         tempFile.delete();
         tempFile = null;
     }
-
-
-    /**
-     * Attempts to reload (@code workBook) into (@code saveFile)
-     */
-    public void reloadFile() {
-        if (workbook == null) {
-            return;
-        }
-    }
-
 
     /**
      * Attempts to create and set (@code Workbook) for a given (@code File)
      */
     private void setWorkBook(File file) throws IOException, InvalidFormatException {
+        requireNonNull(file);
         saveFile = generateSaveFile();
         if (saveFile.exists()) {
             try {
@@ -201,14 +191,14 @@ public class SessionData {
                 saveFile = null;
                 setWorkBook(file);
             } finally {
-                FileOutputStream fileOutputStream = new FileOutputStream(saveFile);
-                workbook.write(fileOutputStream);
-                fileOutputStream.close();
+                //FileOutputStream fileOutputStream = new FileOutputStream(saveFile);
+                //workbook.write(fileOutputStream);
+                //fileOutputStream.close();
                 workbook = WorkbookFactory.create(saveFile);
             }
         } else {
-            FileOutputStream fileOutputStream = new FileOutputStream(saveFile);
             workbook = WorkbookFactory.create(file);
+            FileOutputStream fileOutputStream = new FileOutputStream(saveFile);
             workbook.write(fileOutputStream);
             fileOutputStream.close();
             workbook = WorkbookFactory.create(saveFile);
@@ -239,12 +229,9 @@ public class SessionData {
      * Saves feedback to (@code file)
      */
     public String saveDataToFile(File file) throws IOException, UninitializedException {
+        requireNonNull(file);
         if (!isInitialized()) {
             throw new UninitializedException(ERROR_MESSAGE_UNINITIALIZED);
-        }
-
-        if (file == null) { // does not check if a file exists
-            file = generateSaveFile();
         }
         FileOutputStream fileOut = new FileOutputStream(file);
         String path = file.getAbsolutePath();
@@ -303,6 +290,16 @@ public class SessionData {
         }
         workbook = newWorkBook;
     }
+
+    /**
+     * Attempts to reload (@code workBook) into (@code saveFile)
+     */
+    public void reloadFile() {
+        if (workbook == null) {
+            return;
+        }
+    }
+
     /**
      * Adds job entries from (@code sheetWithHeaderFields) into (@code SessionData)
      */
@@ -348,33 +345,50 @@ public class SessionData {
         try {
             saveDataToSaveFile();
         } catch (UninitializedException e) {
-            throw new RuntimeException(e.getMessage());
+            unreviewJobEntries(reviewedEntries);
+            throw new CommandException(e.getMessage());
         } catch (IOException e) {
+            unreviewJobEntries(reviewedEntries);
             throw new CommandException(ERROR_MESSAGE_IO_EXCEPTION);
+        }
+        for (JobEntry jobEntry: reviewedEntries) {
+            jobEntry.confirmLastReview();
         }
         return reviewedEntries;
     }
 
     /**
      * Reviews a (@code JobEntry) specified by (@code listIndex). Writes to (@code saveFile) when done.
-     * @param jobNumber index of (@code JobEntry) in (@code unreviewedJobEntries)
+     * @param jobIndex index of (@code JobEntry) in (@code unreviewedJobEntries)
      * @param approved whether job entry will be added to Carvicim
      * @param comments feedback in string representation
      * @return reviewed jobEntry
      */
-    public JobEntry reviewJobEntryUsingJobNumber(int jobNumber, boolean approved, String comments)
+    public JobEntry reviewJobEntryUsingJobIndex(int jobIndex, boolean approved, String comments)
             throws CommandException {
         if (unreviewedJobEntries.isEmpty()) {
-            throw new IllegalStateException(ERROR_MESSAGE_EMPTY_UNREVIWED_JOB_LIST);
+            throw new CommandException(ERROR_MESSAGE_EMPTY_UNREVIWED_JOB_LIST);
         }
-        JobEntry entry;
-        for (int i = 0; i < unreviewedJobEntries.size(); i++) {
-            entry = unreviewedJobEntries.get(i);
-            if (reviewJobNumberIfPresent(jobNumber, approved, comments, entry, i)) {
-                return entry;
-            }
+        if (unreviewedJobEntries.size() < jobIndex || jobIndex <= 0) {
+            throw new CommandException(ERROR_MESSAGE_INVALID_JOB_INDEX);
         }
-        throw new CommandException(ERROR_MESSAGE_INVALID_JOB_NUMBER);
+        JobEntry entry = unreviewedJobEntries.get(jobIndex - 1);
+        try {
+            reviewJobEntry(jobIndex - 1, approved, comments);
+        } catch (DataIndexOutOfBoundsException e) {
+            throw new CommandException(e.getMessage());
+        }
+        try {
+            saveDataToSaveFile();
+        } catch (IOException e) {
+            unreviewJobEntry(entry);
+            throw new CommandException(ERROR_MESSAGE_IO_EXCEPTION);
+        } catch (UninitializedException e) {
+            unreviewJobEntry(entry);
+            throw new CommandException(ERROR_MESSAGE_UNINITIALIZED);
+        }
+        entry.confirmLastReview();
+        return entry;
     }
 
     /**
@@ -391,10 +405,13 @@ public class SessionData {
             try {
                 saveDataToSaveFile();
             } catch (IOException e) {
+                unreviewJobEntry(entry);
                 throw new CommandException(ERROR_MESSAGE_IO_EXCEPTION);
             } catch (UninitializedException e) {
+                unreviewJobEntry(entry);
                 throw new CommandException(ERROR_MESSAGE_UNINITIALIZED);
             }
+            entry.confirmLastReview();
             return true;
         }
         return false;
@@ -426,5 +443,21 @@ public class SessionData {
             sheet.rejectJobEntry(jobEntry.getRowNumber());
         }
         return jobEntry;
+    }
+
+    private void unreviewJobEntries(ArrayList<JobEntry> jobEntries) {
+        for (JobEntry jobEntry : jobEntries) {
+            unreviewJobEntry(jobEntry);
+        }
+    }
+
+    /**
+     * Reverses the reviewing process of (@code jobEntry) in the event that it cannot be written to file
+     */
+    private void unreviewJobEntry(JobEntry jobEntry) {
+        sheets.get(jobEntry.getSheetNumber()).unreviewJobEntry(jobEntry.getRowNumber());
+        jobEntry.unreviewLastComment();
+        reviewedJobEntries.remove(jobEntry);
+        unreviewedJobEntries.add(jobEntry);
     }
 }
