@@ -337,23 +337,34 @@ public class SessionData {
         JobEntry entry;
         for (int i = 0; i < unreviewedJobEntries.size(); i++) {
             entry = unreviewedJobEntries.get(i);
-            if (entry.getJobNumber().asInteger() == jobNumber) {
-                try {
-                    reviewJobEntry(i, approved, comments);
-                } catch (DataIndexOutOfBoundsException e) {
-                    throw new CommandException(e.getMessage());
-                }
-                try {
-                    saveDataToSaveFile();
-                } catch (IOException e) {
-                    throw new CommandException(ERROR_MESSAGE_IO_EXCEPTION);
-                } catch (UninitializedException e) {
-                    throw new CommandException(ERROR_MESSAGE_UNINITIALIZED);
-                }
+            if (reviewJobNumberIfPresent(jobNumber, approved, comments, entry, i)) {
                 return entry;
             }
         }
         throw new CommandException(ERROR_MESSAGE_INVALID_JOB_NUMBER);
+    }
+
+    /**
+     * Reviews (@code jobNumber) if present and returns review JobEntry
+     */
+    private boolean reviewJobNumberIfPresent(int jobNumber, boolean approved, String comments,
+                                             JobEntry entry, int i) throws CommandException {
+        if (entry.getJobNumber().asInteger() == jobNumber) {
+            try {
+                reviewJobEntry(i, approved, comments);
+            } catch (DataIndexOutOfBoundsException e) {
+                throw new CommandException(e.getMessage());
+            }
+            try {
+                saveDataToSaveFile();
+            } catch (IOException e) {
+                throw new CommandException(ERROR_MESSAGE_IO_EXCEPTION);
+            } catch (UninitializedException e) {
+                throw new CommandException(ERROR_MESSAGE_UNINITIALIZED);
+            }
+            return true;
+        }
+        return false;
     }
 
     /**
