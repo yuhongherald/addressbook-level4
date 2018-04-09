@@ -47,7 +47,8 @@ public class AcceptAllCommand extends UndoableCommand {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof AcceptAllCommand); // instanceof handles nulls
+                || (other instanceof AcceptAllCommand) // instanceof handles nulls
+                && comment.equals(((AcceptAllCommand) other).comment);
     }
 
 }

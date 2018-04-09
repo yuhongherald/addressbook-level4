@@ -50,7 +50,9 @@ public class RejectCommand extends UndoableCommand {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof RejectCommand); // instanceof handles nulls
+                || (other instanceof RejectCommand) // instanceof handles nulls
+                && jobNumber == ((RejectCommand) other).jobNumber
+                && comment.equals(((RejectCommand) other).comment);
     }
 
 }
