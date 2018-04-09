@@ -189,6 +189,11 @@ public class SessionData {
                 saveFile.delete();
                 saveFile = null;
                 setWorkBook(file);
+            } finally {
+                FileOutputStream fileOutputStream = new FileOutputStream(saveFile);
+                workbook.write(fileOutputStream);
+                fileOutputStream.close();
+                workbook = WorkbookFactory.create(saveFile);
             }
         } else {
             workbook = WorkbookFactory.create(file);
