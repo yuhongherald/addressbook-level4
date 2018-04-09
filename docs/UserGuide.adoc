@@ -398,7 +398,8 @@ While accepting or rejecting changes, you can enter your comments behind the com
 
 [TIP]
 ====
-You can type any alphanumeric sentence as a comment, as long as it is after the command.
+You can type any sentence as a comment, as long as it is separated from the last argument with a
+spacebar character.
 ====
 
 Examples:
@@ -420,27 +421,10 @@ Examples:
 *** Rejects all remaining imported jobs and attaches "Please check the customer details." as a comment to all the remaining imported jobs.
 
 [[save-command]]
-==== Sharing your feedback with your employees: `save`
+==== Sharing your feedback with your employees:
 
-If you want to share your feedback, you can save it as an excel file, reflecting accept/reject with comments.
-Format: `save`
-
-[TIP]
-====
-* You can find it in the same directory as the imported excel file, with the time
-it is saved added to the end of the filename.
-====
-
-[NOTE]
-====
-Filepath: A text representation of the file location in the computer.
-====
-
-Examples:
-
-** Example 1: +
-. `export summary report` +
-*** Exports the feedback to "summary report.xls"
+CarviciM autosaves your comments to an excel file with -comments.xls or -comments.xlsx appended,
+in the same directory.
 // end::importexport[]
 
 // tag::theme[]
