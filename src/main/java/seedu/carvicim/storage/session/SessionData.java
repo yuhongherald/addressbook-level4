@@ -3,6 +3,7 @@ package seedu.carvicim.storage.session;
 import static java.util.Objects.requireNonNull;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public class SessionData {
     public static final String XLS_SUFFIX = ".xls";
     public static final String XLSX_SUFFIX = ".xlsx";
     public static final String TEMPFILE_NAME = "comments.temp";
+    public static final String TEMPWORKBOOKFILE_NAME = "workbook.temp";
     public static final String ERROR_MESSAGE_INVALID_JOB_NUMBER = "Job number not found!";
 
     private final ArrayList<JobEntry> unreviewedJobEntries;
@@ -182,6 +184,45 @@ public class SessionData {
         tempFile.delete();
         tempFile = null;
     }
+
+    /**
+     * Attempts to close (@code workBook) so that the file associated can be modified
+     */
+    public void closeWorkBook() throws FileAccessException, FileFormatException {
+        if (workbook == null) {
+            return;
+        }
+        File newFile;
+        Workbook newWorkBook;
+        try {
+            newFile = new File(TEMPWORKBOOKFILE_NAME);
+            FileOutputStream fileOutputStream = new FileOutputStream(newFile);
+            workbook.write(fileOutputStream);
+            newWorkBook = WorkbookFactory.create(newFile);
+        } catch (FileNotFoundException e) {
+            throw new FileAccessException(ERROR_MESSAGE_IO_EXCEPTION);
+        } catch (IOException e) {
+            throw new FileAccessException(ERROR_MESSAGE_IO_EXCEPTION);
+        } catch (InvalidFormatException e) {
+            throw new FileFormatException(ERROR_MESSAGE_FILE_FORMAT);
+        }
+        try {
+            workbook.close();
+        } catch (IOException e) {
+            throw new FileAccessException(ERROR_MESSAGE_IO_EXCEPTION);
+        }
+        workbook = newWorkBook;
+    }
+
+    /**
+     * Attempts to reload (@code workBook) into (@code saveFile)
+     */
+    public void reloadFile() {
+        if (workbook == null) {
+            return;
+        }
+    }
+
 
     /**
      * Attempts to create and set (@code Workbook) for a given (@code File)

@@ -48,6 +48,9 @@ This app will not work with earlier versions of Java 8.
 +
 .  You can download the latest `CarviciM.jar` link:{repoURL}/releases[here].
 .  Copy the file to the folder you want to use as the home folder for your CarviciM.
+[WARNING]
+Please ensure that the no files in the directory are named comments.temp or workbook.temp as this will affect the
+application.
 .  Double-click the file to start the app. You should see the Graphical User Interface (GUI) as shown in the image below.
 +
 image::Ui.png[width="790"]
@@ -332,14 +335,14 @@ You can use 4 commands when reviewing changes:
 
 ===== Accepting 1 job: `accept`
 
-Accepts a job with job number NUMBER in imported list.
+Accepts a job with index NUMBER in imported list.
 Format: `accept NUMBER`
 
 Examples:
 
 ** Example 1: +
 . `accept 1` +
-*** Accepts the job entry with job number 1 and removes it from imported list.
+*** Accepts the job entry with index 1 and removes it from imported list.
 
 [[acceptAll-command]]
 ===== Accepting all remaining imported jobs: `acceptAll`
@@ -355,14 +358,14 @@ Examples:
 
 ===== Rejecting 1 job: `reject`
 
-Rejects a job with job number NUMBER in imported list.
+Rejects a job with index NUMBER in imported list.
 Format: `reject NUMBER`
 
 Examples:
 
 ** Example 1: +
 . `reject 1` +
-*** Rejects job entry with job number 1 and removes it from imported list. It is not added to CarviciM.
+*** Rejects job entry with index 1 and removes it from imported list. It is not added to CarviciM.
 
 ===== Rejecting all remaining imported jobs: `rejectAll`
 
