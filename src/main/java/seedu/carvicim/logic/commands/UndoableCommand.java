@@ -22,6 +22,7 @@ public abstract class UndoableCommand extends Command {
     private CommandWords previousCommandWords;
     private SessionData sessionData;
     private boolean isViewingImportedJobs;
+    private String currentJobNumber;
 
 
     protected abstract CommandResult executeUndoableCommand() throws CommandException;
@@ -35,6 +36,7 @@ public abstract class UndoableCommand extends Command {
         this.previousCommandWords = new CommandWords(model.getCommandWords());
         this.sessionData = ImportSession.getInstance().getSessionData().createCopy();
         isViewingImportedJobs = model.isViewingImportedJobs();
+        currentJobNumber = JobNumber.getNextJobNumber();
     }
 
     /**
@@ -49,6 +51,7 @@ public abstract class UndoableCommand extends Command {
      * show all persons.
      */
     protected final void undo() throws CommandException {
+        JobNumber.setNextJobNumber(currentJobNumber);
         requireAllNonNull(model, previousAddressBook);
         model.resetData(previousAddressBook, previousCommandWords);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);

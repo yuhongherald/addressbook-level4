@@ -20,7 +20,6 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import seedu.carvicim.logic.commands.exceptions.CommandException;
 import seedu.carvicim.model.job.Job;
-import seedu.carvicim.model.job.JobNumber;
 import seedu.carvicim.storage.session.exceptions.DataIndexOutOfBoundsException;
 import seedu.carvicim.storage.session.exceptions.FileAccessException;
 import seedu.carvicim.storage.session.exceptions.FileFormatException;
@@ -53,7 +52,6 @@ public class SessionData {
     private final ArrayList<SheetWithHeaderFields> sheets;
     // implement a logger
 
-    private int jobNumberBeforeImport;
     private File importFile;
     private Workbook workbook; // write comments to column after last row, with approval status
     private File tempFile;
@@ -138,7 +136,6 @@ public class SessionData {
             // this check has been removed, can import to overwrite current import session
         }
         freeResources(); // from previous session
-        jobNumberBeforeImport = Integer.parseInt(JobNumber.getNextJobNumber());
         File file = new File(filePath);
         if (!file.exists()) {
             throw new FileAccessException(ERROR_MESSAGE_INVALID_FILEPATH);
@@ -206,7 +203,6 @@ public class SessionData {
      * Attempts to parse the column headers and retrieve job entries
      */
     public void initializeSessionData() throws FileFormatException {
-        JobNumber.initialize(jobNumberBeforeImport);
         SheetWithHeaderFields sheetWithHeaderFields;
         SheetParser sheetParser;
         Sheet sheet;
