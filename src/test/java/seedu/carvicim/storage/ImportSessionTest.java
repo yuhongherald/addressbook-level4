@@ -66,7 +66,8 @@ public class ImportSessionTest {
 
         ImportSession importSession = ImportSession.getInstance();
 
-        importSession.initializeSession(inputPath);
+        File inputFile = new File(inputPath);
+        importSession.initializeSession(inputFile.getPath());
         importSession.getSessionData().reviewAllRemainingJobEntries(true, "");
         String outputFilePath = importSession.closeSession();
         outputPath = classLoader.getResource(TEST_OUTPUT_FILE).getPath();
