@@ -21,7 +21,7 @@ public class RejectCommandParser implements Parser<RejectCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public RejectCommand parse(String args) throws ParseException {
-        String[] arguments = args.split(" ", 1);
+        String[] arguments = args.split(" ", 2);
         String comment = "";
         if (arguments.length == 2) {
             comment = arguments[1].trim();
