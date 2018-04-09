@@ -21,9 +21,14 @@ public class AcceptCommandParser implements Parser<AcceptCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public AcceptCommand parse(String args) throws ParseException {
+        String[] arguments = args.split(" ", 1);
+        String comment = "";
+        if (arguments.length == 2) {
+            comment = arguments[1];
+        }
         try {
-            int jobNumber = parseInteger(args);
-            return new AcceptCommand(jobNumber);
+            int jobNumber = parseInteger(arguments[0]);
+            return new AcceptCommand(jobNumber, comment);
         } catch (IllegalValueException ive) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AcceptCommand.MESSAGE_USAGE));
         }
