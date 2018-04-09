@@ -268,6 +268,9 @@ public class SessionData {
      * Attempts to close (@code workBook) so that the file associated can be modified
      */
     public void closeWorkBook() throws FileAccessException, FileFormatException {
+        if (workbook == null) {
+            return;
+        }
         File newFile;
         Workbook newWorkBook;
         try {
@@ -287,10 +290,16 @@ public class SessionData {
         } catch (IOException e) {
             throw new FileAccessException(ERROR_MESSAGE_IO_EXCEPTION);
         }
+        workbook = newWorkBook;
     }
 
+    /**
+     * Attempts to reload (@code workBook) into (@code saveFile)
+     */
     public void reloadFile() {
-
+        if (workbook == null) {
+            return;
+        }
     }
 
     /**
