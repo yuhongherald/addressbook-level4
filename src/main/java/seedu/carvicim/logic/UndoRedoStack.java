@@ -36,10 +36,6 @@ public class UndoRedoStack {
         undoStack.add((UndoableCommand) command);
     }
 
-    public void pushRedo(UndoableCommand command) {
-        redoStack.push(command);
-    }
-
     /**
      * Pops and returns the next {@code UndoableCommand} to be undone in the stack.
      */

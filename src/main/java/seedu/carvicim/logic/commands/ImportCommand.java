@@ -3,6 +3,7 @@ package seedu.carvicim.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import seedu.carvicim.logic.commands.exceptions.CommandException;
+import seedu.carvicim.model.job.JobNumber;
 import seedu.carvicim.storage.session.ImportSession;
 import seedu.carvicim.storage.session.exceptions.FileAccessException;
 import seedu.carvicim.storage.session.exceptions.FileFormatException;
