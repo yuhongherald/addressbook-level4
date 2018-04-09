@@ -27,7 +27,7 @@ public class UndoCommand extends Command {
         try {
             command.undo();
         } catch (CommandException e) {
-            undoRedoStack.push(command);
+            undoRedoStack.popRedo();
             throw e;
         }
         return new CommandResult(MESSAGE_SUCCESS);
