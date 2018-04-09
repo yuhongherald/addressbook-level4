@@ -16,6 +16,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import seedu.carvicim.storage.session.ImportSession;
+import seedu.carvicim.storage.session.exceptions.FileAccessException;
+import seedu.carvicim.storage.session.exceptions.FileFormatException;
 
 //@@author yuhongherald
 public class ImportSessionTest {
@@ -24,18 +26,35 @@ public class ImportSessionTest {
             "storage/session/ImportSessionTest/CS2103-testsheet-results.xlsx";
     private static final String TEST_OUTPUT_FILE =
             "storage/session/ImportSessionTest/CS2103-testsheet-comments.xlsx";
+    private static final String EMPTY_FILE =
+            "storage/session/ImportSessionTest/CS2103-testsheet-empty.xls";
+    private static final String EMPTY_OUTPUT_FILE =
+            "storage/session/ImportSessionTest/CS2103-testsheet-empty-comments.xls";
+    private static final String EMPTY_FILE_MESSAGE =
+            "Missing header fields: client name, client phone, client email, "
+            + "vehicle number, employee name, employee phone, employee email, ";
+    private static final String NO_JOBS_MESSAGE = "Sheet 1 contains no valid job entries!";
     private String inputPath;
     private String outputPath;
     private String testPath;
+    private String emptyPath;
+    private String emptyOutputPath;
 
     @Before
     public void cleanUp() throws IOException {
         ClassLoader classLoader = getClass().getClassLoader();
         inputPath = classLoader.getResource(TEST_INPUT_FILE).getPath();
         testPath = classLoader.getResource(TEST_RESULT_FILE).getPath();
+        emptyPath = classLoader.getResource(EMPTY_FILE).getPath();
         try {
             outputPath = classLoader.getResource(TEST_OUTPUT_FILE).getPath();
             deleteFile(outputPath);
+        } catch (NullPointerException e) {
+            ;
+        }
+        try {
+            emptyOutputPath = classLoader.getResource(EMPTY_OUTPUT_FILE).getPath();
+            deleteFile(emptyOutputPath);
         } catch (NullPointerException e) {
             ;
         }
@@ -53,7 +72,23 @@ public class ImportSessionTest {
         outputPath = classLoader.getResource(TEST_OUTPUT_FILE).getPath();
         assertEquals(new File(outputPath).getAbsolutePath(), new File(outputFile).getAbsolutePath());
         assertExcelFilesEquals(testPath, outputFile);
+        try {
+            importSession.initializeSession(inputPath);
+        } catch (FileFormatException e) {
+            assertEquals(NO_JOBS_MESSAGE, e.getMessage());
+        }
         deleteFile(outputFile);
+    }
+
+    @Test
+    public void importTestFileEmpty() throws FileAccessException {
+        ImportSession importSession = ImportSession.getInstance();
+
+        try {
+            importSession.initializeSession(emptyPath);
+        } catch (FileFormatException e) {
+            assertEquals(EMPTY_FILE_MESSAGE, e.getMessage());
+        }
     }
 
     /**
