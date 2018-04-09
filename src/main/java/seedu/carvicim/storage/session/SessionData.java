@@ -203,6 +203,7 @@ public class SessionData {
             fileOutputStream.close();
         }
     }
+
     /**
      * Attempts to parse the column headers and retrieve job entries
      */
