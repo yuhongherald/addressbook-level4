@@ -234,6 +234,7 @@ public class SessionData {
         fileOut.close();
         return path;
     }
+
     /**
      * Releases resources associated with ImportSession by nulling field
      */
@@ -310,6 +311,7 @@ public class SessionData {
     /*===================================================================
     Job review methods
     ===================================================================*/
+
     /**
      * @return a copy of unreviewed jobs stored in this sheet
      */
@@ -386,36 +388,6 @@ public class SessionData {
         return entry;
     }
 
-    /**
-     * Reviews (@code jobNumber) if present and returns review JobEntry
-     */
-    private boolean reviewJobNumberIfPresent(int jobNumber, boolean approved, String comments,
-                                             JobEntry entry, int i) throws CommandException {
-        if (entry.getJobNumber().asInteger() == jobNumber) {
-            try {
-                reviewJobEntry(i, approved, comments);
-            } catch (DataIndexOutOfBoundsException e) {
-                throw new CommandException(e.getMessage());
-            }
-            try {
-                saveDataToSaveFile();
-            } catch (IOException e) {
-                unreviewJobEntry(entry);
-                throw new CommandException(ERROR_MESSAGE_IO_EXCEPTION);
-            } catch (UninitializedException e) {
-                unreviewJobEntry(entry);
-                throw new CommandException(ERROR_MESSAGE_UNINITIALIZED);
-        JobEntry entry;
-        for (int i = 0; i < unreviewedJobEntries.size(); i++) {
-            entry = unreviewedJobEntries.get(i);
-            if (reviewJobNumberIfPresent(jobNumber, approved, comments, entry, i)) {
-                return entry;
-            }
-            entry.confirmLastReview();
-            return true;
-        }
-        return false;
-    }
 
     /**
      * Reviews (@code jobNumber) if present and returns review JobEntry
