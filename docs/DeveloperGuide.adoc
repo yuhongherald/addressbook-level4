@@ -86,6 +86,12 @@ If you plan to develop this as a separate product (i.e. instead of contributing 
 
 Set up Travis to perform Continuous Integration (CI) for your fork. See <<UsingTravis#, UsingTravis.adoc>> to learn how to set it up.
 
+==== Editing JavaFX
+
+To edit the JavaFX scenes, download the `.jar` snapshot from
+https://ci.appveyor.com/project/damithc/scenebuilder/build/1.0.9/artifacts.
+Run the `.jar` file to get started.
+
 ****
 *Optional*
 
