@@ -64,17 +64,14 @@ public class SessionData {
         sheets = new ArrayList<>();
     }
 
-    public SessionData(ArrayList<JobEntry> unreviewedJobEntries,
-            ArrayList<JobEntry> reviewedJobEntries,
-            ArrayList<SheetWithHeaderFields> sheets,
-            File importFile, File tempFile, File saveFile) throws FileAccessException, FileFormatException {
-        this.unreviewedJobEntries = unreviewedJobEntries;
-        this.reviewedJobEntries = reviewedJobEntries;
-        this.sheets = sheets;
+    public SessionData(File importFile, File tempFile, File saveFile) {
+        this.unreviewedJobEntries = new ArrayList<>();
+        this.reviewedJobEntries = new ArrayList<>();
+        this.sheets = new ArrayList<>();
         this.importFile = importFile;
         this.tempFile = tempFile;
         this.saveFile = saveFile;
-        // workbook have to be rewritten to file on undo
+        // workbook and sheets have to be rewritten to file on undo
     }
 
     /**
@@ -90,13 +87,8 @@ public class SessionData {
         } catch (UninitializedException e) {
             tempFile = null; // no data to save
         }
-        try {
-            other = new SessionData(new ArrayList<>(unreviewedJobEntries),
-                    new ArrayList<>(reviewedJobEntries), new ArrayList<>(sheets), importFile,
-                    tempFile, saveFile);
-        } catch (FileAccessException | FileFormatException e) {
-            throw new CommandException(e.getMessage());
-        }
+        other = new SessionData(importFile,
+                tempFile, saveFile);
         return other;
     }
 
@@ -185,34 +177,6 @@ public class SessionData {
         tempFile = null;
     }
 
-    /**
-     * Attempts to close (@code workBook) so that the file associated can be modified
-     */
-    public void closeWorkBook() throws FileAccessException, FileFormatException {
-        if (workbook == null) {
-            return;
-        }
-        File newFile;
-        Workbook newWorkBook;
-        try {
-            newFile = new File(TEMPWORKBOOKFILE_NAME);
-            FileOutputStream fileOutputStream = new FileOutputStream(newFile);
-            workbook.write(fileOutputStream);
-            newWorkBook = WorkbookFactory.create(newFile);
-        } catch (FileNotFoundException e) {
-            throw new FileAccessException(ERROR_MESSAGE_IO_EXCEPTION);
-        } catch (IOException e) {
-            throw new FileAccessException(ERROR_MESSAGE_IO_EXCEPTION);
-        } catch (InvalidFormatException e) {
-            throw new FileFormatException(ERROR_MESSAGE_FILE_FORMAT);
-        }
-        try {
-            workbook.close();
-        } catch (IOException e) {
-            throw new FileAccessException(ERROR_MESSAGE_IO_EXCEPTION);
-        }
-        workbook = newWorkBook;
-    }
 
     /**
      * Attempts to reload (@code workBook) into (@code saveFile)
@@ -311,6 +275,34 @@ public class SessionData {
         sheets.clear();
     }
 
+    /**
+     * Attempts to close (@code workBook) so that the file associated can be modified
+     */
+    public void closeWorkBook() throws FileAccessException, FileFormatException {
+        if (workbook == null) {
+            return;
+        }
+        File newFile;
+        Workbook newWorkBook;
+        try {
+            newFile = new File(TEMPWORKBOOKFILE_NAME);
+            FileOutputStream fileOutputStream = new FileOutputStream(newFile);
+            workbook.write(fileOutputStream);
+            newWorkBook = WorkbookFactory.create(newFile);
+        } catch (FileNotFoundException e) {
+            throw new FileAccessException(ERROR_MESSAGE_IO_EXCEPTION);
+        } catch (IOException e) {
+            throw new FileAccessException(ERROR_MESSAGE_IO_EXCEPTION);
+        } catch (InvalidFormatException e) {
+            throw new FileFormatException(ERROR_MESSAGE_FILE_FORMAT);
+        }
+        try {
+            workbook.close();
+        } catch (IOException e) {
+            throw new FileAccessException(ERROR_MESSAGE_IO_EXCEPTION);
+        }
+        workbook = newWorkBook;
+    }
     /**
      * Adds job entries from (@code sheetWithHeaderFields) into (@code SessionData)
      */
@@ -427,7 +419,7 @@ public class SessionData {
         jobEntry.review(approved, comments);
         unreviewedJobEntries.remove(jobEntry);
         SheetWithHeaderFields sheet = sheets.get(jobEntry.getSheetNumber());
-        sheet.commentJobEntry(jobEntry.getRowNumber(), comments);
+        sheet.commentJobEntry(jobEntry.getRowNumber(), jobEntry.getCommentsAsString());
         if (approved) {
             sheet.approveJobEntry(jobEntry.getRowNumber());
         } else {
