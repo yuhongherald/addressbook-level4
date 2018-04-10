@@ -1,4 +1,4 @@
-package systemtests;
+package guisystemtests;
 
 import java.util.concurrent.TimeoutException;
 import java.util.function.Supplier;

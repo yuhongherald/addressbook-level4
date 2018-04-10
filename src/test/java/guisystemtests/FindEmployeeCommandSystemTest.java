@@ -1,4 +1,4 @@
-package systemtests;
+package guisystemtests;
 
 import static org.junit.Assert.assertFalse;
 import static seedu.carvicim.commons.core.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW;

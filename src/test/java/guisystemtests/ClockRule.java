@@ -1,4 +1,4 @@
-package systemtests;
+package guisystemtests;
 
 import java.time.Clock;
 import java.time.Instant;

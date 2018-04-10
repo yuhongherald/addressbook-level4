@@ -1,4 +1,4 @@
-package systemtests;
+package guisystemtests;
 
 import java.util.Arrays;
 import java.util.List;

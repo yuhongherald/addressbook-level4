@@ -1,4 +1,4 @@
-package systemtests;
+package guisystemtests;
 
 import static seedu.carvicim.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.carvicim.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;

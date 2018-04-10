@@ -1,4 +1,4 @@
-package systemtests;
+package guisystemtests;
 
 import static seedu.carvicim.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.carvicim.testutil.TypicalEmployees.KEYWORD_MATCHING_MEIER;

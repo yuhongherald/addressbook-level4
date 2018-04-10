@@ -1,4 +1,4 @@
-package systemtests;
+package guisystemtests;
 
 import static seedu.carvicim.ui.testutil.GuiTestAssert.assertListMatching;
 
