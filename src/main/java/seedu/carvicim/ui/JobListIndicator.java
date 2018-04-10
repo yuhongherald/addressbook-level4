@@ -1,6 +1,9 @@
 package seedu.carvicim.ui;
 
+import java.util.logging.Logger;
+
 import com.google.common.eventbus.Subscribe;
+
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -9,9 +12,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.Region;
 import seedu.carvicim.commons.core.LogsCenter;
 import seedu.carvicim.commons.events.ui.JobListSwitchEvent;
-import seedu.carvicim.commons.events.ui.NewResultAvailableEvent;
-
-import java.util.logging.Logger;
 
 //@@author yuhongherald
 /**
