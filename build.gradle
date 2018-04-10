@@ -124,7 +124,7 @@ guiTests.dependsOn test
 nonGuiTests.dependsOn test
 
 task filepermission(type: Exec) {
-    commandLine 'chmod', '777', '.'
+    commandLine 'chmod', '777', '/usr/local/clang-5.0.0/bin'
 }
 
 task(allTests)
