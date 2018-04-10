@@ -55,7 +55,7 @@ alternative to the original.
 *** PRs reviewed (with non-trivial review comments):
  https://github.com/CS2103JAN2018-W09-B1/main/pull/73[#73]
 
-*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com[1], https://github.com[2], https://github.com[3])
+*** Reported bugs and suggestions for other teams in the class
  https://github.com/CS2103JAN2018-F14-B1/main/issues/133[#133]
  https://github.com/CS2103JAN2018-F14-B1/main/issues/134[#134]
  https://github.com/CS2103JAN2018-F14-B1/main/issues/135[#135]
