@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.function.Supplier;
 
+import guisystemtests.ModelHelper;
+
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+
 import seedu.carvicim.commons.core.Config;
 import seedu.carvicim.commons.core.GuiSettings;
 import seedu.carvicim.commons.exceptions.DataConversionException;
@@ -19,7 +22,6 @@ import seedu.carvicim.model.UserPrefs;
 import seedu.carvicim.storage.UserPrefsStorage;
 import seedu.carvicim.storage.XmlSerializableCarvicim;
 import seedu.carvicim.testutil.TestUtil;
-import guisystemtests.ModelHelper;
 
 /**
  * This class is meant to override some properties of MainApp so that it will be suited for
