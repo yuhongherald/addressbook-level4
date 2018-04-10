@@ -396,7 +396,7 @@ The close job mechanisim is facilitated by a `CloseJobCommand`. `CloseJobCommand
 
 Since `CloseJobCommand` is an undoable command, it overrides the `preprocessUndoableCommand` method of `UndoableCommand`, to check if the specified job can be closed.
 
-[NOTE}
+[NOTE]
 ====
 If the provided `JOB_NUMBER` belongs to a closed job or does not match any job in the job list, `CloseJobCommand` will return an invalid message. `CloseJobCommand` creates a copy of the job if it is found, and sets the status of the duplicate job to be "closed". This is to complement the undo feature.
 ====
