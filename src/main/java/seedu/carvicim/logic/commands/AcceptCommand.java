@@ -14,7 +14,7 @@ public class AcceptCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "accept";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Accepts job entry using job number. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Accepts job entry using index. "
             + "Example: " + COMMAND_WORD + " JOB_NUMBER";
 
     public static final String MESSAGE_SUCCESS = "Job #%d accepted!";
@@ -37,7 +37,7 @@ public class AcceptCommand extends UndoableCommand {
         if (sessionData.getUnreviewedJobEntries().isEmpty()) {
             throw new CommandException("There are no job entries to review!");
         }
-        Job job = sessionData.reviewJobEntryUsingJobNumber(jobNumber, true, comment);
+        Job job = sessionData.reviewJobEntryUsingJobIndex(jobNumber, true, comment);
         model.addJob(job);
 
         if (!model.isViewingImportedJobs()) {
