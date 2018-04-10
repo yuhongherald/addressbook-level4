@@ -75,13 +75,13 @@ public class ImportSessionTest {
         File outputFile = new File(outputFilePath);
         File expectedOutputFile = new File(outputPath);
         assertEquals(expectedOutputFile.getAbsolutePath(), outputFile.getAbsolutePath());
-        // assertExcelFilesEquals(testFile, outputFile);
-        // try {
-        //     importSession.initializeSession(inputPath);
-        // } catch (FileFormatException e) {
-        //     assertEquals(NO_JOBS_MESSAGE, e.getMessage());
-        // }
-        // deleteFile(outputFilePath);
+         assertExcelFilesEquals(testFile, outputFile);
+         try {
+             importSession.initializeSession(inputPath);
+         } catch (FileFormatException e) {
+             assertEquals(NO_JOBS_MESSAGE, e.getMessage());
+         }
+         deleteFile(outputFilePath);
     }
 
     @Test
