@@ -75,6 +75,7 @@ public class ImportSessionTest {
         File outputFile = new File(outputFilePath);
         File expectedOutputFile = new File(outputPath);
         assertEquals(expectedOutputFile.getAbsolutePath(), outputFile.getAbsolutePath());
+        importSession.getSessionData().freeResources();
         assertExcelFilesEquals(testFile, outputFile);
         try {
             importSession.initializeSession(inputPath);
