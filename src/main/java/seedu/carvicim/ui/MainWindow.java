@@ -24,6 +24,7 @@ import seedu.carvicim.commons.events.ui.ShowHelpRequestEvent;
 import seedu.carvicim.logic.Logic;
 import seedu.carvicim.logic.commands.exceptions.CommandException;
 import seedu.carvicim.model.UserPrefs;
+import seedu.carvicim.model.job.JobList;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -43,6 +44,7 @@ public class MainWindow extends UiPart<Stage> {
     private JobDisplayPanel jobDisplayPanel;
     private PersonListPanel personListPanel;
     private JobListPanel jobListPanel;
+    private JobListIndicator jobListIndicator;
     private Config config;
     private UserPrefs prefs;
 
@@ -63,6 +65,9 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private StackPane resultDisplayPlaceholder;
+
+    @FXML
+    private StackPane jobListIndicatorPlaceholder;
 
     @FXML
     private StackPane statusbarPlaceholder;
@@ -137,6 +142,9 @@ public class MainWindow extends UiPart<Stage> {
 
         ResultDisplay resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
+
+        jobListIndicator = new JobListIndicator();
+        jobListIndicatorPlaceholder.getChildren().add(jobListIndicator.getRoot());
 
         StatusBarFooter statusBarFooter = new StatusBarFooter(prefs.getCarvicimFilePath());
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
