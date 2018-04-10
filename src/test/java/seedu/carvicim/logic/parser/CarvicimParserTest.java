@@ -33,6 +33,7 @@ import org.junit.rules.ExpectedException;
 import seedu.carvicim.commons.core.index.Index;
 import seedu.carvicim.logic.commands.AddEmployeeCommand;
 import seedu.carvicim.logic.commands.AddJobCommand;
+import seedu.carvicim.logic.commands.AnalyseCommand;
 import seedu.carvicim.logic.commands.ClearCommand;
 import seedu.carvicim.logic.commands.CloseJobCommand;
 import seedu.carvicim.logic.commands.DeleteEmployeeCommand;
@@ -96,6 +97,11 @@ public class CarvicimParserTest {
     @Test
     public void parseCommand_sort() throws Exception {
         assertTrue(parser.parseCommand(SortCommand.COMMAND_WORD) instanceof SortCommand);
+    }
+
+    @Test
+    public void parseCommand_analyse() throws Exception {
+        assertTrue(parser.parseCommand(AnalyseCommand.COMMAND_WORD) instanceof AnalyseCommand);
     }
 
     @Test

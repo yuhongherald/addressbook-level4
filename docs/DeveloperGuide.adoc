@@ -837,6 +837,74 @@ image::ArchiveSequenceDiagram.png[width="800"]
 ** Cons: We cannot archive multiple files.
 // end::archive[]
 
+// tag::analyse[]
+=== Analyse feature
+==== Current Implementation
+
+The `AnalyseCommand` is facilitated by a `HashMap`, which is responsible for keeping track of
+the number of jobs assigned to each employee.
+
+The `HashMap` is initialized this way:
+[source,java]
+----
+private HashMap<Name, Integer> analyse = new HashMap<Name, Integer>();
+
+public void initEmployeeJobCount(UniqueEmployeeList employeeList) {
+    Iterator<Employee> iteratorEmployee = employeeList.iterator();
+    while (iteratorEmployee.hasNext()) {
+        Employee employee = iteratorEmployee.next();
+        analyse.put(employee.getName(), 0);
+    }
+}
+----
+
+The `HashMap` is updated this way:
+[source,java]
+----
+public void updateEmployeeJobCount(Job job) {
+    Iterator<Employee> iteratorEmployee = job.getAssignedEmployees().iterator();
+    while (iteratorEmployee.hasNext()) {
+        Employee employee = iteratorEmployee.next();
+        int jobCount = analyse.get(employee.getName());
+        analyse.put(employee.getName(), jobCount + 1);
+    }
+}
+----
+
+`JobList` code snippet that formats the analyse result:
+[source,java]
+----
+public String getAnalyseResult() {
+    final StringBuilder builder = new StringBuilder();
+    builder.append("Number of Jobs: ")
+            .append(jobCount)
+            .append(" Number of Ongoing: ")
+            .append(ongoingCount)
+            .append(" Number of Closed: ")
+            .append(closedCount)
+            .append("\n");
+    Set set = analyse.entrySet();
+    builder.append(set);
+    return builder.toString();
+}
+----
+
+The following sequence diagram shows how the analyse operation works:
+
+.`AnalyseCommand` sequence diagram
+image::AnalyseSequenceDiagram.png[width="800"]
+
+==== Design Considerations
+
+===== Aspect: How `AnalyseCommand` executes +
+* **Current choice:** Analyses job entries within the current month.
+** Pros: We get to decide who should be assigned more jobs based on the analyse result.
+** Cons: Harder to implement.
+* _Alternative:_ Analyses all job entries.
+** Pros: Easy to implement.
+** Cons: The analyse result would be less helpful for job assignment.
+// end::analyse[]
+
 // tag::undoredo[]
 === Undo/Redo feature
 ==== Current Implementation
@@ -1593,8 +1661,8 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 As a Car Servicing Manager::
 * has a need to manage a significant number of car servicing jobs
 * has a need to assign employees to jobs with ease
-* has a need to keep an archive of completed job entries
-* has a need to monitor employee’s performance
+* has a need to keep an archive of closed job entries
+* has a need to monitor employee’s workload
 
 For optimal use::
 * prefer desktop apps over other types
