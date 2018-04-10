@@ -48,6 +48,9 @@ This app will not work with earlier versions of Java 8.
 +
 .  You can download the latest `CarviciM.jar` link:{repoURL}/releases[here].
 .  Copy the file to the folder you want to use as the home folder for your CarviciM.
+[WARNING]
+Please ensure that the no files in the directory are named comments.temp or workbook.temp as this will affect the
+application.
 .  Double-click the file to start the app. You should see the Graphical User Interface (GUI) as shown in the image below.
 +
 image::Ui.png[width="790"]
@@ -397,13 +400,13 @@ You can use 4 commands when reviewing changes:
 
 ===== Accepting 1 job: `accept`
 
-To accept a job with job number `NUMBER` in the imported list, you can use this command.
+To accept a job with job index `NUMBER` in the imported list, you can use this command.
 Format: `accept NUMBER`
 
 Example:
 
 `accept 1` +
-Accepts the job entry with job number 1 and removes it from imported list.
+Accepts the job entry with job index number 1 and removes it from imported list.
 
 [[acceptAll-command]]
 ===== Accepting all remaining imported jobs: `acceptAll`
@@ -418,13 +421,13 @@ Accepts all remaining job entries and clears the imported list.
 
 ===== Rejecting 1 job: `reject`
 
-To reject a job with job number `NUMBER` in the imported list, you can use this command.
+To reject a job with job index `NUMBER` in the imported list, you can use this command.
 Format: `reject NUMBER`
 
 Example:
 
 `reject 1` +
-Rejects job entry with job number 1 and removes it from imported list. It is not added to CarviciM.
+Rejects job entry with job index number 1 and removes it from imported list. It is not added to CarviciM.
 
 ===== Rejecting all remaining imported jobs: `rejectAll`
 
@@ -471,15 +474,8 @@ Rejects all remaining imported jobs and attaches "Please check the customer deta
 [[save-command]]
 ==== Sharing your feedback with your employees:
 
-[NOTE]
-====
-Filepath: A text representation of the file location in the computer.
-====
-
-Example:
-
-`export summary report` +
-Exports the feedback to "summary report.xls"
+CarviciM autosaves your comments to an excel file with -comments.xls or -comments.xlsx appended,
+in the same directory.
 // end::importexport[]
 
 // tag::theme[]
