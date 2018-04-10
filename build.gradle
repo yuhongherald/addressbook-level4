@@ -124,7 +124,7 @@ guiTests.dependsOn test
 nonGuiTests.dependsOn test
 
 task filepermission(type: Exec) {
-    commandLine 'chmod', '777', '${buildDir}/jacoco'
+    commandLine 'chmod', '777', '.'
 }
 
 task(allTests)
