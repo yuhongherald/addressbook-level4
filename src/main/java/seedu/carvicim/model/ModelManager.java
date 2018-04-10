@@ -15,6 +15,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.carvicim.commons.core.ComponentManager;
 import seedu.carvicim.commons.core.EventsCenter;
 import seedu.carvicim.commons.core.LogsCenter;
+import seedu.carvicim.commons.events.model.ArchiveEvent;
 import seedu.carvicim.commons.events.model.CarvicimChangedEvent;
 import seedu.carvicim.commons.events.ui.DisplayAllJobsEvent;
 import seedu.carvicim.commons.events.ui.JobDisplayPanelResetRequestEvent;
@@ -140,6 +141,11 @@ public class ModelManager extends ComponentManager implements Model {
         raise(new CarvicimChangedEvent(carvicim));
     }
 
+    /** Raises an event to indicate the model has changed */
+    private void indicateArchiveEvent() {
+        raise(new ArchiveEvent(carvicim));
+    }
+
     @Override
     public synchronized void addJob(Job job) {
         carvicim.addJob(job);
@@ -159,7 +165,8 @@ public class ModelManager extends ComponentManager implements Model {
         int archiveJobCount;
         archiveJobCount = carvicim.archiveJob(dateRange);
         if (archiveJobCount != 0) {
-            indicateAddressBookChanged();
+            carvicim.removeArchivedJob();
+            indicateArchiveEvent();
         }
         return archiveJobCount;
     }
