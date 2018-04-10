@@ -80,8 +80,10 @@ public class ImportSessionTest {
             importSession.initializeSession(inputPath);
         } catch (FileFormatException e) {
             assertEquals(NO_JOBS_MESSAGE, e.getMessage());
+        } finally {
+            deleteFile(outputFilePath);
+            importSession.getSessionData().freeResources();
         }
-        deleteFile(outputFilePath);
     }
 
     @Test
@@ -92,6 +94,8 @@ public class ImportSessionTest {
             importSession.initializeSession(emptyPath);
         } catch (FileFormatException e) {
             assertEquals(EMPTY_FILE_MESSAGE, e.getMessage());
+        } finally {
+            importSession.getSessionData().freeResources();
         }
     }
 
