@@ -165,7 +165,7 @@ test {
         }
 
         if (runGuiTests) {
-            test.include 'guisystemtests/**'
+            test.include 'systemtests/**'
             test.include 'seedu/carvicim/**'
         }
 

@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.function.Supplier;
 
-import guisystemtests.ModelHelper;
+import systemtests.ModelHelper;
 
 import javafx.stage.Screen;
 import javafx.stage.Stage;

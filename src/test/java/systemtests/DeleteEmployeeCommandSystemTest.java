@@ -1,4 +1,4 @@
-package guisystemtests;
+package systemtests;
 
 import static org.junit.Assert.assertTrue;
 import static seedu.carvicim.commons.core.Messages.MESSAGE_INVALID_EMPLOYEE_DISPLAYED_INDEX;

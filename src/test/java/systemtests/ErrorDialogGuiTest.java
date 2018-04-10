@@ -1,4 +1,4 @@
-package guisystemtests;
+package systemtests;
 
 import static org.junit.Assert.assertEquals;
 import static seedu.carvicim.testutil.EventsUtil.postLater;
