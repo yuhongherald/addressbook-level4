@@ -65,6 +65,7 @@ public class ModelManager extends ComponentManager implements Model {
         this(new Carvicim(), new UserPrefs());
     }
 
+    //@@author yuhongherald
     @Override
     public boolean isViewingImportedJobs() {
         return isViewingImportedJobs;
@@ -108,6 +109,7 @@ public class ModelManager extends ComponentManager implements Model {
         EventsCenter.getInstance().post(new JobDisplayPanelResetRequestEvent());
     }
 
+    //@@author
     @Override
     public void resetData(ReadOnlyCarvicim newData, CommandWords newCommandWords) {
         carvicim.resetData(newData);
