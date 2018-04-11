@@ -14,76 +14,96 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.junit.Test;
 
+import seedu.carvicim.logic.commands.exceptions.CommandException;
 import seedu.carvicim.storage.session.ImportSession;
+import seedu.carvicim.storage.session.exceptions.FileAccessException;
+import seedu.carvicim.storage.session.exceptions.FileFormatException;
 
 //@@author yuhongherald
 public class ImportSessionTest {
-    private static final String ERROR_INPUT_FILE = "storage/session/ImportSessionTest/CS2103-testsheet.xlsx";
-    private static final String ERROR_RESULT_FILE =
+    protected static final String ERROR_INPUT_FILE = "storage/session/ImportSessionTest/CS2103-testsheet.xlsx";
+    protected static final String ERROR_RESULT_FILE =
             "storage/session/ImportSessionTest/CS2103-testsheet-results.xlsx";
-    private static final String ERROR_OUTPUT_FILE =
+    protected static final String ERROR_OUTPUT_FILE =
             "storage/session/ImportSessionTest/CS2103-testsheet-comments.xlsx";
-    private static final String MULTIPLE_INPUT_FILE =
+    protected static final String MULTIPLE_INPUT_FILE =
             "storage/session/ImportSessionTest/CS2103-testsheet-multiple.xlsx";
-    private static final String MULTIPLE_RESULT_FILE =
+    protected static final String MULTIPLE_RESULT_FILE =
             "storage/session/ImportSessionTest/CS2103-testsheet-multiple-results.xlsx";
-    private static final String MULTIPLE_OUTPUT_FILE =
-            "storage/session/ImportSessionTest/CS2103-testsheet-multiple-results.xlsx";
-    private static final String CORRUPT_INPUT_FILE =
+    protected static final String MULTIPLE_OUTPUT_FILE =
+            "storage/session/ImportSessionTest/CS2103-testsheet-multiple-comments.xlsx";
+    protected static final String CORRUPT_INPUT_FILE =
             "storage/session/ImportSessionTest/CS2103-testsheet-corrupt.xlsx";
-    private static final String CORRUPT_RESULT_FILE =
+    protected static final String CORRUPT_RESULT_FILE =
             "storage/session/ImportSessionTest/CS2103-testsheet-corrupt-results.xlsx";
-    private static final String CORRUPT_OUTPUT_FILE =
-            "storage/session/ImportSessionTest/CS2103-testsheet-corrupt-results.xlsx";
+    protected static final String CORRUPT_OUTPUT_FILE =
+            "storage/session/ImportSessionTest/CS2103-testsheet-corrupt-comments.xlsx";
 
-    private static final String NO_JOBS_MESSAGE = "Sheet 1 contains no valid job entries!";
     private String inputPath;
     private String outputPath;
     private String resultPath;
+    private File testFile;
+    private File outputFile;
+    private File expectedOutputFile;
+    private String outputFilePath;
+    private String expectedOutputPath;
 
     @Test
     public void import_testFileWithErrorCorrection_success() throws Exception {
-        setup(MULTIPLE_INPUT_FILE, MULTIPLE_RESULT_FILE, MULTIPLE_OUTPUT_FILE);
+        setup(ERROR_INPUT_FILE, ERROR_RESULT_FILE, ERROR_OUTPUT_FILE);
         assertOutputResultEqual();
+        cleanup();
     }
 
     @Test
     public void import_testFileWithMultipleSheets_success() throws Exception {
-        setup(ERROR_INPUT_FILE, ERROR_RESULT_FILE, ERROR_OUTPUT_FILE);
+        setup(MULTIPLE_INPUT_FILE, MULTIPLE_RESULT_FILE, MULTIPLE_OUTPUT_FILE);
         assertOutputResultEqual();
+        cleanup();
     }
 
     @Test
     public void import_testFileWithCorruptEntry_success() throws Exception {
-        setup(MULTIPLE_INPUT_FILE, MULTIPLE_RESULT_FILE, MULTIPLE_OUTPUT_FILE);
+        setup(CORRUPT_INPUT_FILE, CORRUPT_RESULT_FILE, CORRUPT_OUTPUT_FILE);
         assertOutputResultEqual();
+        cleanup();
+    }
+
+    protected void cleanup() throws IOException {
+        deleteFile(outputFilePath);
     }
 
     /**
      * asserts output file from importAll of input file is the same as result file
      */
-    private void assertOutputResultEqual() throws Exception {
+    protected void assertOutputResultEqual() throws Exception {
+        importAll();
+        assertEquals(expectedOutputFile.getAbsolutePath(), outputFile.getAbsolutePath());
+        ImportSession.getInstance().getSessionData().freeResources();
+        assertExcelFilesEquals(testFile, outputFile);
+    }
+
+    /**
+     * Imports all job entries from excel file by accepting them
+     */
+    private void importAll() throws FileAccessException, FileFormatException, CommandException {
         ClassLoader classLoader = getClass().getClassLoader();
         ImportSession importSession = ImportSession.getInstance();
         File inputFile = new File(inputPath);
         importSession.initializeSession(inputFile.getPath());
         importSession.getSessionData().reviewAllRemainingJobEntries(true, "");
-        String outputFilePath = importSession.closeSession();
-        outputPath = classLoader.getResource(ERROR_OUTPUT_FILE).getPath();
-        File testFile = new File(resultPath);
-        File outputFile = new File(outputFilePath);
-        File expectedOutputFile = new File(outputPath);
-        assertEquals(expectedOutputFile.getAbsolutePath(), outputFile.getAbsolutePath());
-        importSession.getSessionData().freeResources();
-        assertExcelFilesEquals(testFile, outputFile);
-        deleteFile(outputFilePath);
-        importSession.getSessionData().freeResources();
+        outputFilePath = importSession.closeSession();
+        outputPath = classLoader.getResource(expectedOutputPath).getPath();
+        testFile = new File(resultPath);
+        outputFile = new File(outputFilePath);
+        expectedOutputFile = new File(outputPath);
     }
 
-    private void setup(String inputPath, String resultPath, String outputPath) throws IOException {
+    protected void setup(String inputPath, String resultPath, String outputPath) throws IOException {
         ClassLoader classLoader = getClass().getClassLoader();
         this.inputPath = classLoader.getResource(inputPath).getPath();
         this.resultPath = classLoader.getResource(resultPath).getPath();
+        this.expectedOutputPath = outputPath;
         try {
             this.outputPath = classLoader.getResource(outputPath).getPath();
             deleteFile(this.outputPath);
