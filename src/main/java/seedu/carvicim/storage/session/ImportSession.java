@@ -2,6 +2,8 @@ package seedu.carvicim.storage.session;
 
 import static java.util.Objects.requireNonNull;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 
 import seedu.carvicim.logic.commands.exceptions.CommandException;
@@ -32,6 +34,25 @@ public class ImportSession {
             importSession = new ImportSession();
         }
         return importSession;
+    }
+
+    /**
+     * Attempts to clean all the temp files in working directory
+     */
+    public static void cleanCache() {
+        File folder = new File(".");
+        File[] files = folder.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept( final File dir,
+                                   final String name ) {
+                return true;
+            }
+        } );
+        for ( final File file : files ) {
+            if (file.getName().endsWith(".temp")) {
+                file.delete();
+            }
+        }
     }
 
     public void setSessionData(SessionData sessionData) throws CommandException {

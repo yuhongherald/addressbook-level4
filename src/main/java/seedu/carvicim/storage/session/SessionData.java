@@ -78,7 +78,7 @@ public class SessionData {
     }
 
     public static String getTimeStamp() {
-        return new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+        return new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss.SSS").format(new Date());
     }
 
     /**
@@ -86,7 +86,7 @@ public class SessionData {
      */
     public SessionData createCopy() throws CommandException {
         SessionData other = null;
-        tempFile = new File(getTimeStamp() + TEMPFILE_NAME);
+        tempFile = new File("." + getTimeStamp() + TEMPFILE_NAME);
         try {
             saveDataToFile(tempFile);
         } catch (IOException e) {
@@ -209,7 +209,7 @@ public class SessionData {
     /**
      * Attempts to parse the column headers and retrieve job entries
      */
-    public void initializeSessionData() throws FileFormatException {
+    public void initializeSessionData() {
         SheetWithHeaderFields sheetWithHeaderFields;
         SheetParser sheetParser;
         Sheet sheet;
@@ -217,8 +217,12 @@ public class SessionData {
         for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
             sheet = workbook.getSheetAt(workbook.getFirstVisibleTab() + i);
             sheetParser = new SheetParser(sheet);
-            sheetWithHeaderFields = sheetParser.parseSheetWithHeaderField();
-            addSheet(sheetWithHeaderFields);
+            try {
+                sheetWithHeaderFields = sheetParser.parseSheetWithHeaderField();
+                addSheet(sheetWithHeaderFields);
+            } catch (FileFormatException e) {
+                sheets.add(null);
+            }
         }
     }
 
@@ -274,7 +278,7 @@ public class SessionData {
         File newFile;
         Workbook newWorkBook;
         try {
-            newFile = new File(getTimeStamp() + TEMPWORKBOOKFILE_NAME);
+            newFile = new File("." + getTimeStamp() + TEMPWORKBOOKFILE_NAME);
             FileOutputStream fileOutputStream = new FileOutputStream(newFile);
             workbook.write(fileOutputStream);
             newWorkBook = WorkbookFactory.create(newFile);
