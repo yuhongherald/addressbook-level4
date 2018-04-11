@@ -3,7 +3,6 @@ package seedu.carvicim.storage.session;
 import static java.util.Objects.requireNonNull;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 
 import seedu.carvicim.logic.commands.exceptions.CommandException;
@@ -41,14 +40,8 @@ public class ImportSession {
      */
     public static void cleanCache() {
         File folder = new File(".");
-        File[] files = folder.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept( final File dir,
-                                   final String name ) {
-                return true;
-            }
-        } );
-        for ( final File file : files ) {
+        File[] files = folder.listFiles();
+        for (File file : files) {
             if (file.getName().endsWith(".temp")) {
                 file.delete();
             }
