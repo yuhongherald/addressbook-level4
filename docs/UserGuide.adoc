@@ -382,6 +382,9 @@ Format: `import FILE_PATH`
 ** The first row specifies the type of detail in the column.
 ====
 
+[WARNING]
+The excel file must not be password-protected
+
 Example:
 
 `import excel.xlsx` +

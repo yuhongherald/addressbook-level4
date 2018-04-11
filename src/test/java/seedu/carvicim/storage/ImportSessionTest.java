@@ -12,92 +12,84 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.junit.Before;
 import org.junit.Test;
 
 import seedu.carvicim.storage.session.ImportSession;
-import seedu.carvicim.storage.session.exceptions.FileAccessException;
-import seedu.carvicim.storage.session.exceptions.FileFormatException;
 
 //@@author yuhongherald
 public class ImportSessionTest {
-    private static final String TEST_INPUT_FILE = "storage/session/ImportSessionTest/CS2103-testsheet.xlsx";
-    private static final String TEST_RESULT_FILE =
+    private static final String ERROR_INPUT_FILE = "storage/session/ImportSessionTest/CS2103-testsheet.xlsx";
+    private static final String ERROR_RESULT_FILE =
             "storage/session/ImportSessionTest/CS2103-testsheet-results.xlsx";
-    private static final String TEST_OUTPUT_FILE =
+    private static final String ERROR_OUTPUT_FILE =
             "storage/session/ImportSessionTest/CS2103-testsheet-comments.xlsx";
-    private static final String EMPTY_FILE =
-            "storage/session/ImportSessionTest/CS2103-testsheet-empty.xls";
-    private static final String EMPTY_OUTPUT_FILE =
-            "storage/session/ImportSessionTest/CS2103-testsheet-empty-comments.xls";
-    private static final String EMPTY_FILE_MESSAGE =
-            "Missing header fields: client name, client phone, client email, "
-            + "vehicle number, employee name, employee phone, employee email, ";
+    private static final String MULTIPLE_INPUT_FILE =
+            "storage/session/ImportSessionTest/CS2103-testsheet-multiple.xlsx";
+    private static final String MULTIPLE_RESULT_FILE =
+            "storage/session/ImportSessionTest/CS2103-testsheet-multiple-results.xlsx";
+    private static final String MULTIPLE_OUTPUT_FILE =
+            "storage/session/ImportSessionTest/CS2103-testsheet-multiple-results.xlsx";
+    private static final String CORRUPT_INPUT_FILE =
+            "storage/session/ImportSessionTest/CS2103-testsheet-corrupt.xlsx";
+    private static final String CORRUPT_RESULT_FILE =
+            "storage/session/ImportSessionTest/CS2103-testsheet-corrupt-results.xlsx";
+    private static final String CORRUPT_OUTPUT_FILE =
+            "storage/session/ImportSessionTest/CS2103-testsheet-corrupt-results.xlsx";
+
     private static final String NO_JOBS_MESSAGE = "Sheet 1 contains no valid job entries!";
     private String inputPath;
     private String outputPath;
-    private String testPath;
-    private String emptyPath;
-    private String emptyOutputPath;
+    private String resultPath;
 
-    @Before
-    public void cleanUp() throws IOException {
-        ClassLoader classLoader = getClass().getClassLoader();
-        inputPath = classLoader.getResource(TEST_INPUT_FILE).getPath();
-        testPath = classLoader.getResource(TEST_RESULT_FILE).getPath();
-        emptyPath = classLoader.getResource(EMPTY_FILE).getPath();
-        try {
-            outputPath = classLoader.getResource(TEST_OUTPUT_FILE).getPath();
-            deleteFile(outputPath);
-        } catch (NullPointerException e) {
-            ;
-        }
-        try {
-            emptyOutputPath = classLoader.getResource(EMPTY_OUTPUT_FILE).getPath();
-            deleteFile(emptyOutputPath);
-        } catch (NullPointerException e) {
-            ;
-        }
+    @Test
+    public void import_testFileWithErrorCorrection_success() throws Exception {
+        setup(MULTIPLE_INPUT_FILE, MULTIPLE_RESULT_FILE, MULTIPLE_OUTPUT_FILE);
+        assertOutputResultEqual();
     }
 
     @Test
-    public void importTestFileWithErrorCorrection() throws Exception {
+    public void import_testFileWithMultipleSheets_success() throws Exception {
+        setup(ERROR_INPUT_FILE, ERROR_RESULT_FILE, ERROR_OUTPUT_FILE);
+        assertOutputResultEqual();
+    }
+
+    @Test
+    public void import_testFileWithCorruptEntry_success() throws Exception {
+        setup(MULTIPLE_INPUT_FILE, MULTIPLE_RESULT_FILE, MULTIPLE_OUTPUT_FILE);
+        assertOutputResultEqual();
+    }
+
+    /**
+     * asserts output file from importAll of input file is the same as result file
+     */
+    private void assertOutputResultEqual() throws Exception {
         ClassLoader classLoader = getClass().getClassLoader();
-
         ImportSession importSession = ImportSession.getInstance();
-
         File inputFile = new File(inputPath);
         importSession.initializeSession(inputFile.getPath());
         importSession.getSessionData().reviewAllRemainingJobEntries(true, "");
         String outputFilePath = importSession.closeSession();
-        outputPath = classLoader.getResource(TEST_OUTPUT_FILE).getPath();
-        File testFile = new File(testPath);
+        outputPath = classLoader.getResource(ERROR_OUTPUT_FILE).getPath();
+        File testFile = new File(resultPath);
         File outputFile = new File(outputFilePath);
         File expectedOutputFile = new File(outputPath);
         assertEquals(expectedOutputFile.getAbsolutePath(), outputFile.getAbsolutePath());
         importSession.getSessionData().freeResources();
         assertExcelFilesEquals(testFile, outputFile);
-        try {
-            importSession.initializeSession(inputPath);
-        } catch (FileFormatException e) {
-            assertEquals(NO_JOBS_MESSAGE, e.getMessage());
-        } finally {
-            deleteFile(outputFilePath);
-            importSession.getSessionData().freeResources();
-        }
+        deleteFile(outputFilePath);
+        importSession.getSessionData().freeResources();
     }
 
-    @Test
-    public void importTestFileEmpty() throws FileAccessException {
-        //ImportSession importSession = ImportSession.getInstance();
-
-        //try {
-        //    importSession.initializeSession(emptyPath);
-        //} catch (FileFormatException e) {
-        //    assertEquals(EMPTY_FILE_MESSAGE, e.getMessage());
-        //} finally {
-        //    importSession.getSessionData().freeResources();
-        //}
+    private void setup(String inputPath, String resultPath, String outputPath) throws IOException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        this.inputPath = classLoader.getResource(inputPath).getPath();
+        this.resultPath = classLoader.getResource(resultPath).getPath();
+        try {
+            this.outputPath = classLoader.getResource(outputPath).getPath();
+            deleteFile(this.outputPath);
+        } catch (NullPointerException e) {
+            ;
+        }
     }
 
     /**
