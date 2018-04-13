@@ -80,6 +80,7 @@ public class ImportSessionTest {
      * asserts output file from importAll of input file is the same as result file
      */
     protected void assertOutputResultEqual() throws Exception {
+        importAll();
         assertEquals(expectedOutputFile.getAbsolutePath(), outputFile.getAbsolutePath());
         ImportSession.getInstance().getSessionData().freeResources();
         assertExcelFilesEquals(testFile, outputFile);
