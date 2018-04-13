@@ -27,6 +27,9 @@ This user guide shows you how to get started using the CarviciM. It shows you ho
 ====
 *Legend*
 
+[Warning]
+This icon represents a warning
+
 [NOTE]
 This icon represents something noteworthy
 
