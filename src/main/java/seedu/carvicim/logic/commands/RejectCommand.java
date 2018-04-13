@@ -19,16 +19,16 @@ public class RejectCommand extends UndoableCommand {
 
     public static final String MESSAGE_SUCCESS = "Job #%d rejected!";
 
-    private final int jobNumber;
+    private final int jobIndex;
     private final String comment;
 
-    public RejectCommand(int jobNumber, String comment) {
-        this.jobNumber = jobNumber;
+    public RejectCommand(int jobIndex, String comment) {
+        this.jobIndex = jobIndex;
         this.comment = comment;
     }
 
     public String getMessageSuccess() {
-        return String.format(MESSAGE_SUCCESS, jobNumber);
+        return String.format(MESSAGE_SUCCESS, jobIndex);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class RejectCommand extends UndoableCommand {
         if (sessionData.getUnreviewedJobEntries().isEmpty()) {
             throw new CommandException("There are no job entries to review!");
         }
-        Job job = sessionData.reviewJobEntryUsingJobIndex(jobNumber, false, comment);
+        Job job = sessionData.reviewJobEntryUsingJobIndex(jobIndex, false, comment);
         model.addJob(job);
 
         if (!model.isViewingImportedJobs()) {
@@ -51,7 +51,7 @@ public class RejectCommand extends UndoableCommand {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof RejectCommand) // instanceof handles nulls
-                && jobNumber == ((RejectCommand) other).jobNumber
+                && jobIndex == ((RejectCommand) other).jobIndex
                 && comment.equals(((RejectCommand) other).comment);
     }
 

@@ -36,7 +36,8 @@ public class ImportSession {
     }
 
     /**
-     * Attempts to clean all the temp files in working directory
+     * Attempts to clean all the temp files in working directory. Does not clean all the .temp files, just
+     * keeps their total size constant after close.
      */
     public static void cleanCache() {
         File folder = new File(".");

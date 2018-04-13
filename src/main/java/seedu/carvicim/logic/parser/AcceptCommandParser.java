@@ -1,7 +1,10 @@
 package seedu.carvicim.logic.parser;
 
 import static seedu.carvicim.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.carvicim.commons.util.AppUtil.checkArgument;
 import static seedu.carvicim.logic.parser.ParserUtil.parseInteger;
+import static seedu.carvicim.model.remark.Remark.MESSAGE_REMARKS_CONSTRAINTS;
+import static seedu.carvicim.model.remark.Remark.isValidRemark;
 
 import seedu.carvicim.commons.exceptions.IllegalValueException;
 import seedu.carvicim.logic.commands.AcceptCommand;
@@ -25,15 +28,12 @@ public class AcceptCommandParser implements Parser<AcceptCommand> {
         String comment = "";
         if (arguments.length == 2) {
             comment = arguments[1].trim();
+            checkArgument(isValidRemark(comment), MESSAGE_REMARKS_CONSTRAINTS);
         }
         try {
             int jobNumber = parseInteger(arguments[0]);
             return new AcceptCommand(jobNumber, comment);
         } catch (IllegalValueException ive) {
-            for (String a : arguments) {
-                System.out.println(a);
-            }
-            System.out.println(args);
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AcceptCommand.MESSAGE_USAGE));
         }
     }

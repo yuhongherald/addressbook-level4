@@ -51,6 +51,7 @@ public class ImportSessionTest {
     @Test
     public void import_testFileWithErrorCorrection_success() throws Exception {
         setup(ERROR_INPUT_FILE, ERROR_RESULT_FILE, ERROR_OUTPUT_FILE);
+        importAll();
         assertOutputResultEqual();
         cleanup();
     }
@@ -58,6 +59,7 @@ public class ImportSessionTest {
     @Test
     public void import_testFileWithMultipleSheets_success() throws Exception {
         setup(MULTIPLE_INPUT_FILE, MULTIPLE_RESULT_FILE, MULTIPLE_OUTPUT_FILE);
+        importAll();
         assertOutputResultEqual();
         cleanup();
     }
@@ -65,6 +67,7 @@ public class ImportSessionTest {
     @Test
     public void import_testFileWithCorruptEntry_success() throws Exception {
         setup(CORRUPT_INPUT_FILE, CORRUPT_RESULT_FILE, CORRUPT_OUTPUT_FILE);
+        importAll();
         assertOutputResultEqual();
         cleanup();
     }
@@ -77,7 +80,6 @@ public class ImportSessionTest {
      * asserts output file from importAll of input file is the same as result file
      */
     protected void assertOutputResultEqual() throws Exception {
-        importAll();
         assertEquals(expectedOutputFile.getAbsolutePath(), outputFile.getAbsolutePath());
         ImportSession.getInstance().getSessionData().freeResources();
         assertExcelFilesEquals(testFile, outputFile);

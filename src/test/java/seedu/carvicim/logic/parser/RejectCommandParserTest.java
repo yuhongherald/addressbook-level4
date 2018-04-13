@@ -6,26 +6,28 @@ import static seedu.carvicim.logic.parser.CommandParserTestUtil.assertParseSucce
 
 import org.junit.Test;
 
-import seedu.carvicim.logic.commands.AcceptCommand;
+import seedu.carvicim.logic.commands.RejectCommand;
+
+
 
 //@@author yuhongherald
-public class AcceptCommandParserTest {
-    private AcceptCommandParser parser = new AcceptCommandParser();
+public class RejectCommandParserTest {
+    private RejectCommandParser parser = new RejectCommandParser();
 
     @Test
-    public void parse_acceptWithoutComment_success() {
-        assertParseSuccess(parser, " 1", new AcceptCommand(1, ""));
+    public void parse_rejectWithoutComment_success() {
+        assertParseSuccess(parser, " 1", new RejectCommand(1, ""));
     }
 
     @Test
-    public void parse_acceptWithComment_success() {
+    public void parse_rejectWithComment_success() {
         String comment = "comment";
-        assertParseSuccess(parser, " 1 " + comment, new AcceptCommand(1, comment));
+        assertParseSuccess(parser, " 1 " + comment, new RejectCommand(1, comment));
     }
 
     @Test
     public void parse_invalidNumber_failure() {
-        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AcceptCommand.MESSAGE_USAGE);
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, RejectCommand.MESSAGE_USAGE);
         assertParseFailure(parser, "", expectedMessage);
     }
 }
