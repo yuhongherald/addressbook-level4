@@ -1,6 +1,5 @@
 package seedu.carvicim.logic.parser;
 
-import static seedu.carvicim.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.carvicim.logic.parser.ParserUtil.MESSAGE_INSUFFICIENT_WORDS;
 import static seedu.carvicim.logic.parser.ParserUtil.parseWords;
 

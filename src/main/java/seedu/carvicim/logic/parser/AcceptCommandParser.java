@@ -1,6 +1,5 @@
 package seedu.carvicim.logic.parser;
 
-import static seedu.carvicim.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.carvicim.commons.core.Messages.MESSAGE_INVALID_JOB_INDEX;
 import static seedu.carvicim.commons.util.AppUtil.checkArgument;
 import static seedu.carvicim.logic.parser.ParserUtil.parseInteger;
