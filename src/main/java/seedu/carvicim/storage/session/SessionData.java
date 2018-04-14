@@ -59,7 +59,6 @@ public class SessionData {
     private final ArrayList<JobEntry> unreviewedJobEntries;
     private final ArrayList<JobEntry> reviewedJobEntries;
     private final ArrayList<SheetWithHeaderFields> sheets;
-    // implement a logger
 
     private File importFile;
     private Workbook workbook; // write comments to column after last row, with approval status
@@ -427,6 +426,7 @@ public class SessionData {
         JobEntry jobEntry = unreviewedJobEntries.get(listIndex);
         jobEntry.review(approved, comments);
         unreviewedJobEntries.remove(jobEntry);
+        reviewedJobEntries.add(jobEntry);
         SheetWithHeaderFields sheet = sheets.get(jobEntry.getSheetNumber());
         sheet.commentJobEntry(jobEntry.getRowNumber(), jobEntry.getCommentsAsString());
         if (approved) {

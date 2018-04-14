@@ -70,7 +70,7 @@ public abstract class ImportCommandTestEnv extends ImportSessionTestEnv {
                 }
                 if (!(otherJob.getClient().equals(job.getClient())
                         && otherJob.getVehicleNumber().equals(job.getVehicleNumber())
-                        // && otherJob.getJobNumber().equals(job.getJobNumber()) not strict
+                        && otherJob.getJobNumber().equals(job.getJobNumber())
                         && otherJob.getAssignedEmployeesAsSet().equals(job.getAssignedEmployeesAsSet())
                         && otherJob.getStatus().equals(job.getStatus())
                         && otherJob.getRemarkList().equals(job.getRemarkList()))) {
