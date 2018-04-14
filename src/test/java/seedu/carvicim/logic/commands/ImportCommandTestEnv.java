@@ -85,6 +85,7 @@ public abstract class ImportCommandTestEnv extends ImportSessionTestEnv {
      * Clears old -comment files and initializes sessionData with file at (@code inputPath)
      */
     protected void prepareInputFiles() throws Exception {
+        ImportSession.getInstance().getSessionData().freeResources();
         ImportSession.getInstance().setSessionData(new SessionData());
         setup(ERROR_INPUT_FILE, ERROR_RESULT_FILE, ERROR_OUTPUT_FILE);
         ImportSession.getInstance().initializeSession(inputPath);
