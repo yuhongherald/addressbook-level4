@@ -16,32 +16,32 @@ import org.junit.Test;
 
 import seedu.carvicim.logic.commands.exceptions.CommandException;
 import seedu.carvicim.storage.session.ImportSession;
+import seedu.carvicim.storage.session.SessionData;
+import seedu.carvicim.storage.session.SheetParser;
 import seedu.carvicim.storage.session.exceptions.FileAccessException;
 import seedu.carvicim.storage.session.exceptions.FileFormatException;
+import seedu.carvicim.storage.session.exceptions.InvalidDataException;
 
 //@@author yuhongherald
 public class ImportSessionTest {
-    protected static final String ERROR_INPUT_FILE = "storage/session/ImportSessionTest/CS2103-testsheet.xlsx";
-    protected static final String ERROR_RESULT_FILE =
-            "storage/session/ImportSessionTest/CS2103-testsheet-results.xlsx";
-    protected static final String ERROR_OUTPUT_FILE =
-            "storage/session/ImportSessionTest/CS2103-testsheet-comments.xlsx";
-    protected static final String MULTIPLE_INPUT_FILE =
-            "storage/session/ImportSessionTest/CS2103-testsheet-multiple.xlsx";
-    protected static final String MULTIPLE_RESULT_FILE =
-            "storage/session/ImportSessionTest/CS2103-testsheet-multiple-results.xlsx";
-    protected static final String MULTIPLE_OUTPUT_FILE =
-            "storage/session/ImportSessionTest/CS2103-testsheet-multiple-comments.xlsx";
-    protected static final String CORRUPT_INPUT_FILE =
-            "storage/session/ImportSessionTest/CS2103-testsheet-corrupt.xlsx";
-    protected static final String CORRUPT_RESULT_FILE =
-            "storage/session/ImportSessionTest/CS2103-testsheet-corrupt-results.xlsx";
-    protected static final String CORRUPT_OUTPUT_FILE =
-            "storage/session/ImportSessionTest/CS2103-testsheet-corrupt-comments.xlsx";
+    protected static final String RESOURCE_PATH = "storage/session/ImportSessionTest/";
+    protected static final String ERROR_INPUT_FILE = "CS2103-testsheet.xlsx";
+    protected static final String ERROR_RESULT_FILE = "CS2103-testsheet-results.xlsx";
+    protected static final String ERROR_OUTPUT_FILE = "CS2103-testsheet-comments.xlsx";
+    protected static final String MULTIPLE_INPUT_FILE = "CS2103-testsheet-multiple.xlsx";
+    protected static final String MULTIPLE_RESULT_FILE = "CS2103-testsheet-multiple-results.xlsx";
+    protected static final String MULTIPLE_OUTPUT_FILE = "CS2103-testsheet-multiple-comments.xlsx";
+    protected static final String CORRUPT_INPUT_FILE = "CS2103-testsheet-corrupt.xlsx";
+    protected static final String CORRUPT_RESULT_FILE = "CS2103-testsheet-corrupt-results.xlsx";
+    protected static final String CORRUPT_OUTPUT_FILE = "CS2103-testsheet-corrupt-comments.xlsx";
+    protected static final String NON_EXCEL_FILE = "non-excel-file.xlsx";
+    protected static final String MISSING_HEADER_FIELD_FILE = "missing_header_field.xlsx";
 
-    private String inputPath;
-    private String outputPath;
-    private String resultPath;
+    private static final String EMPLOYEE_EMAIL_FIELD = "employee email, ";
+
+    protected String inputPath;
+    protected String outputPath;
+    protected String resultPath;
     private File testFile;
     private File outputFile;
     private File expectedOutputFile;
@@ -72,6 +72,26 @@ public class ImportSessionTest {
         cleanup();
     }
 
+    @Test
+    public void import_missingEmployeeEmail_failure() throws Exception {
+        setup(MISSING_HEADER_FIELD_FILE, MISSING_HEADER_FIELD_FILE, null);
+        try {
+            importAll();
+        } catch (InvalidDataException e) {
+            assertEquals(SheetParser.ERROR_MESSAGE_MISSING_FIELDS + EMPLOYEE_EMAIL_FIELD, e.getMessage());
+        }
+    }
+
+    @Test
+    public void import_notExcelSheet_failure() throws Exception {
+        setup(NON_EXCEL_FILE, NON_EXCEL_FILE, null);
+        try {
+            importAll();
+        } catch (FileFormatException e) {
+            assertEquals(SessionData.ERROR_MESSAGE_FILE_FORMAT, e.getMessage());
+        }
+    }
+
     protected void cleanup() throws IOException {
         deleteFile(outputFilePath);
     }
@@ -89,7 +109,7 @@ public class ImportSessionTest {
     /**
      * Imports all job entries from excel file by accepting them
      */
-    private void importAll() throws FileAccessException, FileFormatException, CommandException {
+    private void importAll() throws FileAccessException, FileFormatException, CommandException, InvalidDataException {
         ClassLoader classLoader = getClass().getClassLoader();
         ImportSession importSession = ImportSession.getInstance();
         File inputFile = new File(inputPath);
@@ -104,11 +124,11 @@ public class ImportSessionTest {
 
     protected void setup(String inputPath, String resultPath, String outputPath) throws IOException {
         ClassLoader classLoader = getClass().getClassLoader();
-        this.inputPath = classLoader.getResource(inputPath).getPath();
-        this.resultPath = classLoader.getResource(resultPath).getPath();
-        this.expectedOutputPath = outputPath;
+        this.inputPath = classLoader.getResource(RESOURCE_PATH + inputPath).getPath();
+        this.resultPath = classLoader.getResource(RESOURCE_PATH + resultPath).getPath();
+        this.expectedOutputPath = RESOURCE_PATH + outputPath;
         try {
-            this.outputPath = classLoader.getResource(outputPath).getPath();
+            this.outputPath = classLoader.getResource(RESOURCE_PATH + outputPath).getPath();
             deleteFile(this.outputPath);
         } catch (NullPointerException e) {
             ;

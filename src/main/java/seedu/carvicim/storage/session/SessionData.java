@@ -25,6 +25,7 @@ import seedu.carvicim.model.job.Job;
 import seedu.carvicim.storage.session.exceptions.DataIndexOutOfBoundsException;
 import seedu.carvicim.storage.session.exceptions.FileAccessException;
 import seedu.carvicim.storage.session.exceptions.FileFormatException;
+import seedu.carvicim.storage.session.exceptions.InvalidDataException;
 import seedu.carvicim.storage.session.exceptions.UninitializedException;
 
 //@@author yuhongherald
@@ -138,7 +139,7 @@ public class SessionData {
      * Attempts load file specified at (@code filePath) if there is no currently open file and
      * specified file exists, is readable and is an excel file
      */
-    public void loadFile(String filePath) throws FileAccessException, FileFormatException {
+    public void loadFile(String filePath) throws FileAccessException, FileFormatException, InvalidDataException {
         if (isInitialized()) {
             // this check has been removed, can import to overwrite current import session
         }
@@ -153,7 +154,7 @@ public class SessionData {
 
         try {
             setWorkBook(file);
-        } catch (InvalidFormatException e) {
+        } catch (InvalidFormatException | IllegalArgumentException e) {
             throw new FileFormatException(ERROR_MESSAGE_FILE_FORMAT);
         } catch (IOException e) {
             throw new FileFormatException(ERROR_MESSAGE_IO_EXCEPTION);
@@ -164,7 +165,7 @@ public class SessionData {
     /**
      * Loads a workbook from a previous snapshot
      */
-    public void loadTempWorkBook() throws FileAccessException, FileFormatException {
+    public void loadTempWorkBook() throws FileAccessException, FileFormatException, InvalidDataException {
         if (tempFile == null) {
             return;
         }
@@ -175,7 +176,7 @@ public class SessionData {
             setWorkBook(tempFile);
         } catch (IOException e) {
             throw new FileAccessException(ERROR_MESSAGE_IO_EXCEPTION);
-        } catch (InvalidFormatException e) {
+        } catch (InvalidFormatException | IllegalArgumentException e) {
             throw new FileFormatException(ERROR_MESSAGE_FILE_FORMAT);
         }
         initializeSessionData();
@@ -186,7 +187,7 @@ public class SessionData {
     /**
      * Attempts to create and set (@code Workbook) for a given (@code File)
      */
-    private void setWorkBook(File file) throws IOException, InvalidFormatException {
+    private void setWorkBook(File file) throws IOException, InvalidFormatException, IllegalArgumentException {
         requireNonNull(file);
         saveFile = generateSaveFile();
         if (saveFile.exists()) {
@@ -209,7 +210,7 @@ public class SessionData {
     /**
      * Attempts to parse the column headers and retrieve job entries
      */
-    public void initializeSessionData() {
+    public void initializeSessionData() throws InvalidDataException {
         SheetWithHeaderFields sheetWithHeaderFields;
         SheetParser sheetParser;
         Sheet sheet;
@@ -396,30 +397,6 @@ public class SessionData {
         }
         entry.confirmLastReview();
         return entry;
-    }
-
-
-    /**
-     * Reviews (@code jobNumber) if present and returns review JobEntry
-     */
-    private boolean reviewJobNumberIfPresent(int jobNumber, boolean approved, String comments,
-                                             JobEntry entry, int i) throws CommandException {
-        if (entry.getJobNumber().asInteger() == jobNumber) {
-            try {
-                reviewJobEntry(i, approved, comments);
-            } catch (DataIndexOutOfBoundsException e) {
-                throw new CommandException(e.getMessage());
-            }
-            try {
-                saveDataToSaveFile();
-            } catch (IOException e) {
-                throw new CommandException(ERROR_MESSAGE_IO_EXCEPTION);
-            } catch (UninitializedException e) {
-                throw new CommandException(ERROR_MESSAGE_UNINITIALIZED);
-            }
-            return true;
-        }
-        return false;
     }
 
     /**

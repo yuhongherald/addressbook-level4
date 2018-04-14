@@ -2,9 +2,6 @@ package seedu.carvicim.logic.commands;
 
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
-import static seedu.carvicim.commons.core.Messages.MESSAGE_JOB_NOT_FOUND;
-import static seedu.carvicim.logic.commands.CommandTestUtil.assertCommandFailure;
-import static seedu.carvicim.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.carvicim.testutil.TypicalEmployees.getTypicalCarvicimWithAssignedJobs;
 
 import org.junit.Test;
@@ -14,65 +11,66 @@ import seedu.carvicim.logic.UndoRedoStack;
 import seedu.carvicim.model.Model;
 import seedu.carvicim.model.ModelManager;
 import seedu.carvicim.model.UserPrefs;
-import seedu.carvicim.model.job.Job;
-import seedu.carvicim.model.job.JobNumber;
-import seedu.carvicim.model.remark.Remark;
+import seedu.carvicim.storage.ImportSessionTest;
+import seedu.carvicim.storage.session.ImportSession;
 
 //@@author yuhongherald
-public class AcceptCommandTest {
+public class AcceptCommandTest extends ImportSessionTest {
 
     private Model model = new ModelManager(getTypicalCarvicimWithAssignedJobs(), new UserPrefs());
 
     @Test
     public void equals() {
-        RemarkCommand remarkCommand1 = prepareCommand("abc", "1");
-        RemarkCommand remarkCommand2 = prepareCommand("def", "2");
+        String comment = "comment";
+        AcceptCommand acceptCommand1 = prepareCommand(1, comment);
+        AcceptCommand remarkCommand1Copy = prepareCommand(1, comment);
+        AcceptCommand acceptCommand2 = prepareCommand(2, comment);
+        AcceptCommand acceptCommand3 = prepareCommand(1, "");
 
         // same object -> returns true
-        assertTrue(remarkCommand1.equals(remarkCommand1));
+        assertTrue(acceptCommand1.equals(acceptCommand1));
 
         // same values -> returns true
-        RemarkCommand remarkCommandCopy = new RemarkCommand(new Remark("abc"), new JobNumber("1"));
-        assertTrue(remarkCommand1.equals(remarkCommandCopy));
+        assertTrue(acceptCommand1.equals(remarkCommand1Copy));
 
         // different types -> returns false
-        assertFalse(remarkCommand1.equals(1));
+        assertFalse(acceptCommand1.equals(1));
 
-        // different jobs -> return false
-        assertFalse(remarkCommand1.equals(remarkCommand2));
+        // different job index -> return false
+        assertFalse(acceptCommand1.equals(acceptCommand2));
+
+        // different comments -> return false
+        assertFalse(acceptCommand1.equals(acceptCommand3));
 
         // null -> return false
-        assertFalse(remarkCommand1.equals(null));
+        assertFalse(acceptCommand1.equals(null));
     }
 
     @Test
-    public void execute_remarkSuccess() throws Exception {
-        RemarkCommand remarkCommand = prepareCommand("abc", "1");
-        // Get first job
-        Job targetJob = model.getFilteredJobList().get(0);
-        Job updatedJob = RemarkCommand.createUpdatedJob(targetJob, new Remark("abc"));
-
-        String expectedMessage = String.format(RemarkCommand.MESSAGE_REMARK_SUCCESS, new Remark("abc"),
-                new JobNumber("1"));
-
-        ModelManager expectedModel = new ModelManager(model.getCarvicim(), new UserPrefs());
-        expectedModel.addRemark(targetJob, updatedJob);
-
-        assertCommandSuccess(remarkCommand, model, expectedMessage, expectedModel);
+    public void execute_acceptWithoutComment_success() throws Exception {
+        setup(ERROR_INPUT_FILE, ERROR_RESULT_FILE, ERROR_OUTPUT_FILE);
+        ImportSession.getInstance().initializeSession(inputPath);
+        AcceptCommand command = prepareCommand(1, "");
+        command.execute();
+        // check model, check -comments file
+        cleanup();
     }
 
     @Test
-    public void execute_remarkFailure() {
-        RemarkCommand remarkCommand = prepareCommand("abc", "100");
-        // Get first job
-        Job targetJob = model.getFilteredJobList().get(0);
-
-        assertCommandFailure(remarkCommand, model, MESSAGE_JOB_NOT_FOUND);
+    public void execute_acceptWithComment_success() {
     }
 
-    private RemarkCommand prepareCommand(String remark, String jobNumber) {
-        RemarkCommand remarkCommand = new RemarkCommand(new Remark(remark), new JobNumber(jobNumber));
-        remarkCommand.setData(model, new CommandHistory(), new UndoRedoStack());
-        return remarkCommand;
+    @Test
+    public void execute_acceptOutOfBounds_failure() {
+    }
+
+    @Test
+    public void execute_acceptWithoutImport_failure() {
+    }
+
+    private AcceptCommand prepareCommand(int jobIndex, String comments) {
+        AcceptCommand acceptCommand = new AcceptCommand(jobIndex, comments);
+        acceptCommand.setData(model, new CommandHistory(), new UndoRedoStack());
+        return acceptCommand;
     }
 }

@@ -9,6 +9,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
 import seedu.carvicim.storage.session.exceptions.FileFormatException;
+import seedu.carvicim.storage.session.exceptions.InvalidDataException;
 
 //@@author yuhongherald
 /**
@@ -71,7 +72,7 @@ public class SheetParser {
     /**
      * Reads the (@code Sheet) and converts it into (@code SheetWithHeaderFields)
      */
-    public SheetWithHeaderFields parseSheetWithHeaderField() throws FileFormatException {
+    public SheetWithHeaderFields parseSheetWithHeaderField() throws FileFormatException, InvalidDataException {
         parseFirstRow();
         if (!missingCompulsoryFields.isEmpty()) {
             StringBuilder stringBuilder = new StringBuilder(ERROR_MESSAGE_MISSING_FIELDS);
@@ -79,7 +80,7 @@ public class SheetParser {
                 stringBuilder.append(field);
                 stringBuilder.append(MESSAGE_SEPARATOR);
             }
-            throw new FileFormatException(stringBuilder.toString());
+            throw new InvalidDataException(stringBuilder.toString());
         }
         createCommentField(APPROVAL_STATUS, APPROVAL_STATUS_INDEX);
         createCommentField(COMMENTS, COMMENTS_INDEX);

@@ -9,6 +9,7 @@ import seedu.carvicim.logic.commands.exceptions.CommandException;
 import seedu.carvicim.storage.session.exceptions.FileAccessException;
 import seedu.carvicim.storage.session.exceptions.FileFormatException;
 
+import seedu.carvicim.storage.session.exceptions.InvalidDataException;
 import seedu.carvicim.storage.session.exceptions.UninitializedException;
 
 //@@author yuhongherald
@@ -55,7 +56,7 @@ public class ImportSession {
             this.sessionData.closeWorkBook();
             sessionData.loadTempWorkBook();
             this.sessionData = sessionData;
-        } catch (FileAccessException | FileFormatException e) {
+        } catch (FileAccessException | FileFormatException | InvalidDataException e) {
             //this.sessionData.reloadFile();
             throw new CommandException(e.getMessage());
         }
@@ -64,7 +65,8 @@ public class ImportSession {
     /**
      *  Opens excel file specified by (@code filepath) and initializes (@code SessionData) to support import operations
      */
-    public void initializeSession(String filePath) throws FileAccessException, FileFormatException {
+    public void initializeSession(String filePath) throws FileAccessException, FileFormatException,
+            InvalidDataException {
         sessionData.loadFile(filePath);
     }
 
