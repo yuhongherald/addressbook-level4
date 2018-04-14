@@ -46,13 +46,16 @@ public class AcceptCommandTest extends ImportCommandTestEnv {
         UniqueEmployeeList uniqueEmployeeList = new UniqueEmployeeList();
         uniqueEmployeeList.add(jim);
         Remark existingExcelRemark = new Remark("Haha");
+        Remark existingExcelRemark2 = new Remark("whew");
         RemarkList excelRemarkList = new RemarkList();
         excelRemarkList.add(existingExcelRemark);
-        Job job = new Job(client, new VehicleNumber("SXX1234X"), new JobNumber("1"), new Date(), uniqueEmployeeList,
-                new Status(Status.STATUS_ONGOING), excelRemarkList);
+        excelRemarkList.add(existingExcelRemark2);
+        Job job = new Job(client, new VehicleNumber("SXX1234X"), new JobNumber("1"), new Date(),
+                uniqueEmployeeList, new Status(Status.STATUS_ONGOING), excelRemarkList);
         comment = new Remark("good job!");
         RemarkList remarkList = new RemarkList();
         remarkList.add(existingExcelRemark);
+        remarkList.add(existingExcelRemark2);
         remarkList.add(comment);
         Job jobWithComment = new Job(client, new VehicleNumber("SXX1234X"), new JobNumber("1"), new Date(),
                 uniqueEmployeeList, new Status(Status.STATUS_ONGOING), remarkList);

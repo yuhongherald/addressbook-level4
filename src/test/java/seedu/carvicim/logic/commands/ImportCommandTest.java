@@ -70,10 +70,10 @@ public class ImportCommandTest extends ImportCommandTestEnv {
     }
 
     /**
-     * Returns AcceptCommand with (@code jobIndex) and (@code comments), with default data
+     * Returns ImportCommand with (@code filePath), with default data
      */
     protected ImportCommand prepareCommand(String filePath) throws Exception {
-        JobNumber.initialize(0);
+        JobNumber.initialize(1);
         ImportCommand command = new ImportCommand(filePath);
         command.setData(new ModelManager(), new CommandHistory(), new UndoRedoStack());
         return command;

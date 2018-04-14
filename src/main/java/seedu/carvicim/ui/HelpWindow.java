@@ -16,7 +16,6 @@ public class HelpWindow extends UiPart<Stage> {
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
     private static final String FXML = "HelpWindow.fxml";
-    private static HelpWindow instance;
 
     @FXML
     private WebView browser;
@@ -26,7 +25,7 @@ public class HelpWindow extends UiPart<Stage> {
      *
      * @param root Stage to use as the root of the HelpWindow.
      */
-    public HelpWindow(Stage root) {
+    private HelpWindow(Stage root) {
         super(FXML, root);
 
         String userGuideUrl = getClass().getResource(USERGUIDE_FILE_PATH).toString();
@@ -36,15 +35,8 @@ public class HelpWindow extends UiPart<Stage> {
     /**
      * Creates a new HelpWindow.
      */
-    private HelpWindow() {
+    public HelpWindow() {
         this(new Stage());
-    }
-
-    public static HelpWindow getInstance() {
-        if (instance == null) {
-            instance = new HelpWindow();
-        }
-        return instance;
     }
 
     /**
@@ -67,7 +59,6 @@ public class HelpWindow extends UiPart<Stage> {
      */
     public void show() {
         logger.fine("Showing help page about the application.");
-        getRoot().close();
         getRoot().show();
     }
 }

@@ -19,7 +19,7 @@ import seedu.carvicim.storage.session.ImportSession;
 import seedu.carvicim.storage.session.SessionData;
 
 //@@author yuhongherald
-public class RejectCommandTest extends ImportCommandTestEnv {
+public class RejectAllCommandTest extends ImportCommandTestEnv {
     private Remark comment;
     private ModelIgnoreJobDates expectedModel;
     @Before
@@ -31,10 +31,9 @@ public class RejectCommandTest extends ImportCommandTestEnv {
     @Test
     public void equals() throws Exception {
         String comment = "comment";
-        RejectCommand rejectCommand1 = prepareCommand(1, comment);
-        RejectCommand rejectCommandCopy = prepareCommand(1, comment);
-        RejectCommand rejectCommand2 = prepareCommand(2, comment);
-        RejectCommand rejectCommand3 = prepareCommand(1, "");
+        RejectAllCommand rejectCommand1 = prepareCommand(comment);
+        RejectAllCommand rejectCommandCopy = prepareCommand(comment);
+        RejectAllCommand rejectCommand2 = prepareCommand("");
 
         // same object -> returns true
         assertTrue(rejectCommand1.equals(rejectCommand1));
@@ -45,11 +44,8 @@ public class RejectCommandTest extends ImportCommandTestEnv {
         // different types -> returns false
         assertFalse(rejectCommand1.equals(1));
 
-        // different job index -> return false
-        assertFalse(rejectCommand1.equals(rejectCommand2));
-
         // different comments -> return false
-        assertFalse(rejectCommand1.equals(rejectCommand3));
+        assertFalse(rejectCommand1.equals(rejectCommand2));
 
         // null -> return false
         assertFalse(rejectCommand1.equals(null));
@@ -58,7 +54,7 @@ public class RejectCommandTest extends ImportCommandTestEnv {
     @Test
     public void execute_rejectWithoutComment_success() throws Exception {
         prepareInputFiles();
-        RejectCommand command = prepareCommand(1, "");
+        RejectAllCommand command = prepareCommand("");
         command.execute();
         prepareOutputFiles();
         assertTrue(expectedModel.equals(command.model));
@@ -67,9 +63,9 @@ public class RejectCommandTest extends ImportCommandTestEnv {
     }
 
     @Test
-    public void execute_rejectWithComment_success() throws Exception {
+    public void execute_rejectAllWithComment_success() throws Exception {
         prepareInputFiles();
-        RejectCommand command = prepareCommand(1, comment.toString());
+        RejectAllCommand command = prepareCommand(comment.toString());
         command.execute();
         prepareOutputFiles();
         assertTrue(expectedModel.equals(command.model));
@@ -78,21 +74,9 @@ public class RejectCommandTest extends ImportCommandTestEnv {
     }
 
     @Test
-    public void execute_rejectOutOfBounds_failure() throws Exception {
-        prepareInputFiles();
-        RejectCommand command = prepareCommand(3, comment.toString());
-        try {
-            command.execute();
-        } catch (CommandException e) {
-            assertEquals(ERROR_MESSAGE_INVALID_JOB_INDEX, e.getMessage());
-        }
-        commandCleanup(command);
-    }
-
-    @Test
-    public void execute_rejectWithoutImport_failure() throws Exception {
+    public void execute_rejectAllWithoutImport_failure() throws Exception {
         ImportSession.getInstance().setSessionData(new SessionData());
-        RejectCommand command = prepareCommand(1, comment.toString());
+        RejectAllCommand command = prepareCommand(comment.toString());
         try {
             command.execute();
         } catch (CommandException e) {
@@ -102,11 +86,11 @@ public class RejectCommandTest extends ImportCommandTestEnv {
     }
 
     /**
-     * Returns RejectCommand with (@code jobIndex) and (@code comments), with default data
+     * Returns RejectCommand with (@code comments), with default data
      */
-    protected RejectCommand prepareCommand(int jobIndex, String comments) throws Exception {
+    protected RejectAllCommand prepareCommand(String comments) throws Exception {
         JobNumber.initialize(1);
-        RejectCommand command = new RejectCommand(jobIndex, comments);
+        RejectAllCommand command = new RejectAllCommand(comments);
         command.setData(new ModelManager(), new CommandHistory(), new UndoRedoStack());
         return command;
     }

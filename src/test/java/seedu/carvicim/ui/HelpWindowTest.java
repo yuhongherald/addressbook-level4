@@ -19,7 +19,7 @@ public class HelpWindowTest extends GuiUnitTest {
 
     @Before
     public void setUp() throws Exception {
-        guiRobot.interact(() -> helpWindow = HelpWindow.getInstance());
+        guiRobot.interact(() -> helpWindow = new HelpWindow());
         Stage helpWindowStage = FxToolkit.setupStage((stage) -> stage.setScene(helpWindow.getRoot().getScene()));
         FxToolkit.showStage();
         helpWindowHandle = new HelpWindowHandle(helpWindowStage);

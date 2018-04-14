@@ -70,6 +70,7 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private StackPane statusbarPlaceholder;
+    private HelpWindow helpWindow;
 
     public MainWindow(Stage primaryStage, Config config, UserPrefs prefs, Logic logic) {
         super(FXML, primaryStage);
@@ -186,8 +187,13 @@ public class MainWindow extends UiPart<Stage> {
      */
     @FXML
     public void handleHelp() {
-        HelpWindow helpWindow = HelpWindow.getInstance();
-        helpWindow.show();
+        if (helpWindow == null) {
+            helpWindow = new HelpWindow();
+        }
+        if (!helpWindow.getRoot().isShowing()) {
+            helpWindow.show();
+        }
+        helpWindow.getRoot().requestFocus();
     }
 
     //@@author

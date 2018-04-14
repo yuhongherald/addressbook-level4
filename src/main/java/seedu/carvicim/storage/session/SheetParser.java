@@ -109,12 +109,7 @@ public class SheetParser {
         // traverse the row from the back to assist detecting end of row
         for (int i = firstRow.getLastCellNum(); i >= firstRow.getFirstCellNum(); i--) {
             currentField = dataFormatter.formatCellValue(firstRow.getCell(i)).toLowerCase();
-            if (currentField.equals(lastField)) {
-                continue;
-            }
-            if (!isFieldPresent(currentField)) {
-                lastField = INVALID_FIELD;
-                lastFieldIndex = i - 1;
+            if (lastField.equals(currentField) || !isFieldPresent(currentField)) {
                 continue;
             }
             addHeaderField(currentField, new RowData(i, lastFieldIndex));
