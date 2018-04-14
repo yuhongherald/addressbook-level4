@@ -70,9 +70,14 @@ public class AcceptAllCommandTest extends ImportCommandTestEnv {
         jobList.add(job2);
 
         comment = new Remark("good job!");
-        RemarkList remarkList1 = new RemarkList(excelRemarkList1.getRemarks());
-        RemarkList remarkList2 = new RemarkList(excelRemarkList2.getRemarks());
+        RemarkList remarkList1 = new RemarkList();
+        RemarkList remarkList2 = new RemarkList();
+        remarkList1.add(new Remark("Haha"));
+        remarkList1.add(new Remark("whew"));
         remarkList1.add(comment);
+        remarkList2.add(new Remark("first"));
+        remarkList2.add(new Remark("second"));
+        remarkList2.add(new Remark("last"));
         remarkList2.add(comment);
 
         Job jobWithComment1 = new Job(client, new VehicleNumber("SXX1234X"), new JobNumber("1"), new Date(),

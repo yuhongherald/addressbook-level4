@@ -1,12 +1,14 @@
 package seedu.carvicim.logic.parser;
 
 import static seedu.carvicim.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.carvicim.commons.core.Messages.MESSAGE_INVALID_JOB_INDEX;
 import static seedu.carvicim.commons.util.AppUtil.checkArgument;
 import static seedu.carvicim.logic.parser.ParserUtil.parseInteger;
 import static seedu.carvicim.model.remark.Remark.MESSAGE_REMARKS_CONSTRAINTS;
 import static seedu.carvicim.model.remark.Remark.isValidRemark;
 
 import seedu.carvicim.commons.exceptions.IllegalValueException;
+import seedu.carvicim.logic.commands.AcceptCommand;
 import seedu.carvicim.logic.commands.RejectCommand;
 import seedu.carvicim.logic.parser.exceptions.ParseException;
 
@@ -33,17 +35,13 @@ public class RejectCommandParser implements Parser<RejectCommand> {
         String comment = "";
         if (arguments.length == NUMBER_OF_ARGUMENTS) {
             comment = arguments[COMMENTS_INDEX].trim();
-            try {
-                checkArgument(isValidRemark(comment), MESSAGE_REMARKS_CONSTRAINTS);
-            } catch (IllegalArgumentException e) {
-                throw new ParseException(e.getMessage());
-            }
+            checkArgument(isValidRemark(comment), MESSAGE_REMARKS_CONSTRAINTS);
         }
         try {
             int jobNumber = parseInteger(arguments[JOB_INDEX_INDEX]);
             return new RejectCommand(jobNumber, comment);
         } catch (IllegalValueException ive) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, RejectCommand.MESSAGE_USAGE));
+            throw new ParseException(MESSAGE_INVALID_JOB_INDEX + "\n" + AcceptCommand.MESSAGE_USAGE);
         }
     }
 

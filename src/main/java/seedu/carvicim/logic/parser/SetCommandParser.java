@@ -1,6 +1,7 @@
 package seedu.carvicim.logic.parser;
 
 import static seedu.carvicim.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.carvicim.logic.parser.ParserUtil.MESSAGE_INSUFFICIENT_WORDS;
 import static seedu.carvicim.logic.parser.ParserUtil.parseWords;
 
 import seedu.carvicim.commons.exceptions.IllegalValueException;
@@ -24,7 +25,7 @@ public class SetCommandParser implements Parser<SetCommand> {
             String[] commandWords = parseWords(args);
             return new SetCommand(commandWords[0], commandWords[1]);
         } catch (IllegalValueException ive) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SetCommand.MESSAGE_USAGE));
+            throw new ParseException(MESSAGE_INSUFFICIENT_WORDS + "\n" + SetCommand.MESSAGE_USAGE);
         }
     }
 
