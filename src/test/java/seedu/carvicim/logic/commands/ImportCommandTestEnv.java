@@ -68,11 +68,9 @@ public abstract class ImportCommandTestEnv extends ImportSessionTestEnv {
                 if (job != otherJob && job == null || otherJob == null) {
                     return false;
                 }
-                System.out.println(job.toString());
-                System.out.println(otherJob.toString());
                 if (!(otherJob.getClient().equals(job.getClient())
                         && otherJob.getVehicleNumber().equals(job.getVehicleNumber())
-                        && otherJob.getJobNumber().equals(job.getJobNumber())
+                        // && otherJob.getJobNumber().equals(job.getJobNumber()) not strict
                         && otherJob.getAssignedEmployeesAsSet().equals(job.getAssignedEmployeesAsSet())
                         && otherJob.getStatus().equals(job.getStatus())
                         && otherJob.getRemarkList().equals(job.getRemarkList()))) {
