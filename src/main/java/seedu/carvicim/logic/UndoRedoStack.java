@@ -29,7 +29,7 @@ public class UndoRedoStack {
     }
 
     private static void cleanStack(Stack<UndoableCommand> stack) {
-        while(!stack.isEmpty()) {
+        while (!stack.isEmpty()) {
             stack.pop().releaseResources();
         }
     }

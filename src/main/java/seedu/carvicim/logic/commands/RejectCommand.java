@@ -1,5 +1,7 @@
 package seedu.carvicim.logic.commands;
 
+import static seedu.carvicim.commons.core.Messages.MESSAGE_NO_JOB_ENTRIES;
+
 import seedu.carvicim.logic.commands.exceptions.CommandException;
 import seedu.carvicim.model.job.Job;
 import seedu.carvicim.storage.session.ImportSession;
@@ -35,7 +37,7 @@ public class RejectCommand extends UndoableCommand {
     public CommandResult executeUndoableCommand() throws CommandException {
         SessionData sessionData = ImportSession.getInstance().getSessionData();
         if (sessionData.getUnreviewedJobEntries().isEmpty()) {
-            throw new CommandException("There are no job entries to review!");
+            throw new CommandException(MESSAGE_NO_JOB_ENTRIES);
         }
         Job job = sessionData.reviewJobEntryUsingJobIndex(jobIndex, false, comment);
 
