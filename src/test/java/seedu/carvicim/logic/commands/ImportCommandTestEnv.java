@@ -21,6 +21,10 @@ public abstract class ImportCommandTestEnv extends ImportSessionTestEnv {
      * as it is dependent on time of command execution.
      */
     protected class ModelIgnoreJobDates extends ModelManager {
+        public ModelIgnoreJobDates() {
+            super();
+        }
+
         public ModelIgnoreJobDates(Employee employee, Job job) throws DuplicateEmployeeException {
             super();
             addPerson(employee);

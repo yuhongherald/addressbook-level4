@@ -40,7 +40,6 @@ public class AcceptCommandTest extends ImportCommandTestEnv {
 
     @Before
     public void setup() throws Exception {
-        cleanup();
         Employee jim = new Employee(new Name("Jim"), new Phone("87654321"), new Email("jim@gmail.com"),
                 Collections.emptySet());
         Person client = new Person(new Name("JD"), new Phone("91234567"), new Email("jd@gmail.com"));
@@ -65,7 +64,7 @@ public class AcceptCommandTest extends ImportCommandTestEnv {
     public void equals() throws Exception {
         String comment = "comment";
         AcceptCommand acceptCommand1 = prepareCommand(1, comment);
-        AcceptCommand remarkCommand1Copy = prepareCommand(1, comment);
+        AcceptCommand acceptCommand1Copy = prepareCommand(1, comment);
         AcceptCommand acceptCommand2 = prepareCommand(2, comment);
         AcceptCommand acceptCommand3 = prepareCommand(1, "");
 
@@ -73,7 +72,7 @@ public class AcceptCommandTest extends ImportCommandTestEnv {
         assertTrue(acceptCommand1.equals(acceptCommand1));
 
         // same values -> returns true
-        assertTrue(acceptCommand1.equals(remarkCommand1Copy));
+        assertTrue(acceptCommand1.equals(acceptCommand1Copy));
 
         // different types -> returns false
         assertFalse(acceptCommand1.equals(1));
@@ -139,8 +138,8 @@ public class AcceptCommandTest extends ImportCommandTestEnv {
      */
     protected AcceptCommand prepareCommand(int jobIndex, String comments) throws Exception {
         JobNumber.initialize(0);
-        AcceptCommand acceptCommand = new AcceptCommand(jobIndex, comments);
-        acceptCommand.setData(new ModelManager(), new CommandHistory(), new UndoRedoStack());
-        return acceptCommand;
+        AcceptCommand command = new AcceptCommand(jobIndex, comments);
+        command.setData(new ModelManager(), new CommandHistory(), new UndoRedoStack());
+        return command;
     }
 }
