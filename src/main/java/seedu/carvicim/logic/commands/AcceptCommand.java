@@ -1,5 +1,7 @@
 package seedu.carvicim.logic.commands;
 
+import java.util.ArrayList;
+
 import seedu.carvicim.logic.commands.exceptions.CommandException;
 import seedu.carvicim.model.job.Job;
 import seedu.carvicim.storage.session.ImportSession;
@@ -38,7 +40,9 @@ public class AcceptCommand extends UndoableCommand {
             throw new CommandException("There are no job entries to review!");
         }
         Job job = sessionData.reviewJobEntryUsingJobIndex(jobIndex, true, comment);
-        model.addJob(job);
+        ArrayList<Job> jobs = new ArrayList<>();
+        jobs.add(job);
+        model.addJobs(jobs);
 
         if (!model.isViewingImportedJobs()) {
             model.switchJobView();

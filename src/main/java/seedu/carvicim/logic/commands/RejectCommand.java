@@ -38,7 +38,6 @@ public class RejectCommand extends UndoableCommand {
             throw new CommandException("There are no job entries to review!");
         }
         Job job = sessionData.reviewJobEntryUsingJobIndex(jobIndex, false, comment);
-        model.addJob(job);
 
         if (!model.isViewingImportedJobs()) {
             model.switchJobView();
