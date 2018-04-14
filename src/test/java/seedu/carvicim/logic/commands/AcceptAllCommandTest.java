@@ -129,17 +129,6 @@ public class AcceptAllCommandTest extends ImportCommandTestEnv {
     }
 
     @Test
-    public void execute_acceptAllWithComment_success() throws Exception {
-        prepareInputFiles();
-        AcceptAllCommand command = prepareCommand(comment.toString());
-        command.execute();
-        prepareOutputFiles();
-        assertTrue(expectedModelWithComment.equals(command.model));
-        assertOutputResultFilesEqual();
-        commandCleanup(command);
-    }
-
-    @Test
     public void execute_acceptAllWithoutImport_failure() throws Exception {
         ImportSession.getInstance().setSessionData(new SessionData());
         AcceptAllCommand command = prepareCommand(comment.toString());
