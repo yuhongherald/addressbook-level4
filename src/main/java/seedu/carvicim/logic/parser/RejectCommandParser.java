@@ -6,7 +6,6 @@ import static seedu.carvicim.logic.parser.ParserUtil.parseInteger;
 import static seedu.carvicim.model.remark.Remark.MESSAGE_REMARKS_CONSTRAINTS;
 import static seedu.carvicim.model.remark.Remark.isValidRemark;
 
-import seedu.carvicim.commons.core.index.Index;
 import seedu.carvicim.commons.exceptions.IllegalValueException;
 import seedu.carvicim.logic.commands.RejectCommand;
 import seedu.carvicim.logic.parser.exceptions.ParseException;

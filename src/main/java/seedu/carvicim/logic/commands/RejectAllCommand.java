@@ -1,5 +1,7 @@
 package seedu.carvicim.logic.commands;
 
+import static seedu.carvicim.commons.core.Messages.MESSAGE_NO_JOB_ENTRIES;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,8 +9,6 @@ import seedu.carvicim.logic.commands.exceptions.CommandException;
 import seedu.carvicim.model.job.Job;
 import seedu.carvicim.storage.session.ImportSession;
 import seedu.carvicim.storage.session.SessionData;
-
-import static seedu.carvicim.commons.core.Messages.MESSAGE_NO_JOB_ENTRIES;
 
 //@@author yuhongherald
 
