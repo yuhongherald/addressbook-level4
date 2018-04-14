@@ -22,6 +22,7 @@ public class RejectCommandParser implements Parser<RejectCommand> {
     public static final int NUMBER_OF_ARGUMENTS = 2;
     public static final int COMMENTS_INDEX = 1;
     public static final int JOB_INDEX_INDEX = 0;
+    public static final String ERROR_MESSAGE = MESSAGE_INVALID_JOB_INDEX + "\n" + AcceptCommand.MESSAGE_USAGE;
 
     /**
      * Parses the given {@code String} of arg
@@ -40,7 +41,7 @@ public class RejectCommandParser implements Parser<RejectCommand> {
             int jobNumber = parseInteger(arguments[JOB_INDEX_INDEX]);
             return new RejectCommand(jobNumber, comment);
         } catch (IllegalValueException ive) {
-            throw new ParseException(MESSAGE_INVALID_JOB_INDEX + "\n" + AcceptCommand.MESSAGE_USAGE);
+            throw new ParseException(ERROR_MESSAGE);
         }
     }
 

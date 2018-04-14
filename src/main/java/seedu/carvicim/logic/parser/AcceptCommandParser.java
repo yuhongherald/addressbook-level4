@@ -20,6 +20,7 @@ public class AcceptCommandParser implements Parser<AcceptCommand> {
     public static final int NUMBER_OF_ARGUMENTS = 2;
     public static final String SPACE = " ";
     public static final int COMMENTS_INDEX = 1;
+    public static final String ERROR_MESSAGE = MESSAGE_INVALID_JOB_INDEX + "\n" + AcceptCommand.MESSAGE_USAGE;
 
     /**
      * Parses the given {@code String} of arg
@@ -38,7 +39,7 @@ public class AcceptCommandParser implements Parser<AcceptCommand> {
             int jobNumber = parseInteger(arguments[0]);
             return new AcceptCommand(jobNumber, comment);
         } catch (IllegalValueException ive) {
-            throw new ParseException(MESSAGE_INVALID_JOB_INDEX + "\n" + AcceptCommand.MESSAGE_USAGE);
+            throw new ParseException(ERROR_MESSAGE);
         }
     }
 

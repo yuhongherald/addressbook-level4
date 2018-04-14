@@ -1,6 +1,6 @@
 package seedu.carvicim.logic.parser;
 
-import static seedu.carvicim.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.carvicim.logic.parser.AcceptCommandParser.ERROR_MESSAGE;
 import static seedu.carvicim.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.carvicim.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
@@ -25,7 +25,6 @@ public class AcceptCommandParserTest {
 
     @Test
     public void parse_invalidNumber_failure() {
-        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AcceptCommand.MESSAGE_USAGE);
-        assertParseFailure(parser, "", expectedMessage);
+        assertParseFailure(parser, "", ERROR_MESSAGE);
     }
 }
