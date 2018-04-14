@@ -1,6 +1,12 @@
 package seedu.carvicim.logic.commands;
 
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static seedu.carvicim.storage.session.SessionData.ERROR_MESSAGE_FILE_FORMAT;
+
 import org.junit.Test;
+
 import seedu.carvicim.logic.CommandHistory;
 import seedu.carvicim.logic.UndoRedoStack;
 import seedu.carvicim.logic.commands.exceptions.CommandException;
@@ -10,10 +16,6 @@ import seedu.carvicim.model.job.JobNumber;
 import seedu.carvicim.storage.session.ImportSession;
 import seedu.carvicim.storage.session.SessionData;
 
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static seedu.carvicim.storage.session.SessionData.ERROR_MESSAGE_FILE_FORMAT;
 
 //@@author yuhongherald
 public class ImportAllCommandTest extends ImportCommandTestEnv {
@@ -22,9 +24,9 @@ public class ImportAllCommandTest extends ImportCommandTestEnv {
     public void equals() throws Exception {
         String filePath = "CS2103-testsheet.xlsx";
         String altFilePath = "CS2103-testsheet-corrupt.xlsx";
-        ImportCommand importCommand1 = prepareCommand(filePath);
-        ImportCommand importCommand1Copy = prepareCommand(filePath);
-        ImportCommand importCommand2 = prepareCommand(altFilePath);
+        ImportAllCommand importCommand1 = prepareCommand(filePath);
+        ImportAllCommand importCommand1Copy = prepareCommand(filePath);
+        ImportAllCommand importCommand2 = prepareCommand(altFilePath);
 
         // same object -> returns true
         assertTrue(importCommand1.equals(importCommand1));
@@ -45,10 +47,11 @@ public class ImportAllCommandTest extends ImportCommandTestEnv {
     @Test
     public void execute_importValidExcelFile_success() throws Exception {
         Model expectedModel = new ModelManager();
+        expectedModel.addJobsAndNewEmployees(null);
         ImportSession.getInstance().setSessionData(new SessionData());
         setup(ERROR_INPUT_FILE, ERROR_IMPORTED_FILE, ERROR_OUTPUT_FILE);
 
-        ImportCommand command = prepareCommand(inputPath);
+        ImportAllCommand command = prepareCommand(inputPath);
         command.execute();
         prepareOutputFiles();
         assertTrue(expectedModel.equals(command.model));
@@ -60,7 +63,7 @@ public class ImportAllCommandTest extends ImportCommandTestEnv {
     public void execute_importInvalidExcelFile_failure() throws Exception {
         ImportSession.getInstance().setSessionData(new SessionData());
         setup(NON_EXCEL_FILE, NON_EXCEL_FILE, NON_EXCEL_OUTPUT_FILE);
-        ImportCommand command = prepareCommand(inputPath);
+        ImportAllCommand command = prepareCommand(inputPath);
         try {
             command.execute();
         } catch (CommandException e) {
@@ -71,9 +74,9 @@ public class ImportAllCommandTest extends ImportCommandTestEnv {
     /**
      * Returns AcceptCommand with (@code jobIndex) and (@code comments), with default data
      */
-    protected ImportCommand prepareCommand(String filePath) throws Exception {
+    protected ImportAllCommand prepareCommand(String filePath) throws Exception {
         JobNumber.initialize(0);
-        ImportCommand command = new ImportCommand(filePath);
+        ImportAllCommand command = new ImportAllCommand(filePath);
         command.setData(new ModelManager(), new CommandHistory(), new UndoRedoStack());
         return command;
     }
