@@ -45,6 +45,7 @@ public class AcceptAllCommand extends UndoableCommand {
         model.addJobsAndNewEmployees(jobs);
         if (model.isViewingImportedJobs()) {
             model.switchJobView();
+            model.resetJobView();
         }
         return new CommandResult(getMessageSuccess(jobs.size()));
     }

@@ -189,10 +189,11 @@ public class SessionData {
             throw new FileAccessException(ERROR_MESSAGE_IO_EXCEPTION);
         } catch (InvalidFormatException | IllegalArgumentException e) {
             throw new FileFormatException(ERROR_MESSAGE_FILE_FORMAT);
+        } finally {
+            tempFile.delete();
+            tempFile = null;
         }
         initializeSessionData();
-        tempFile.delete();
-        tempFile = null;
     }
 
     /**
@@ -291,20 +292,22 @@ public class SessionData {
         if (workbook == null) {
             return;
         }
-        File newFile;
+        File newFile = new File(CURRENT_DIRECTORY + getTimeStamp() + TEMPWORKBOOKFILE_NAME);
         try {
-            newFile = new File(CURRENT_DIRECTORY + getTimeStamp() + TEMPWORKBOOKFILE_NAME);
             FileOutputStream fileOutputStream = new FileOutputStream(newFile);
             workbook.write(fileOutputStream);
+            fileOutputStream.close();
         } catch (FileNotFoundException e) {
             throw new FileAccessException(ERROR_MESSAGE_IO_EXCEPTION);
         } catch (IOException e) {
             throw new FileAccessException(ERROR_MESSAGE_IO_EXCEPTION);
-        }
-        try {
-            workbook.close();
-        } catch (IOException e) {
-            throw new FileAccessException(ERROR_MESSAGE_IO_EXCEPTION);
+        } finally {
+            try {
+                workbook.close();
+                newFile.delete();
+            } catch (IOException e) {
+                throw new FileAccessException(ERROR_MESSAGE_IO_EXCEPTION);
+            }
         }
     }
 

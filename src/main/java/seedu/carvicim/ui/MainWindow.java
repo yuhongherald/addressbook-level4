@@ -180,15 +180,17 @@ public class MainWindow extends UiPart<Stage> {
                 (int) primaryStage.getX(), (int) primaryStage.getY());
     }
 
+    //@@author yuhongherald
     /**
      * Opens the help window.
      */
     @FXML
     public void handleHelp() {
-        HelpWindow helpWindow = new HelpWindow();
+        HelpWindow helpWindow = HelpWindow.getInstance();
         helpWindow.show();
     }
 
+    //@@author
     void show() {
         primaryStage.show();
     }

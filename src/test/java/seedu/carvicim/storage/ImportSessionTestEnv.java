@@ -25,6 +25,7 @@ public abstract class ImportSessionTestEnv {
     protected static final String ERROR_INPUT_FILE = "CS2103-testsheet.xlsx";
     protected static final String ERROR_RESULT_FILE = "CS2103-testsheet-results.xlsx";
     protected static final String ERROR_OUTPUT_FILE = "CS2103-testsheet-comments.xlsx";
+    protected static final String ERROR_IMPORTED_FILE = "CS2103-testsheet-import.xlsx";
     protected static final String MULTIPLE_INPUT_FILE = "CS2103-testsheet-multiple.xlsx";
     protected static final String MULTIPLE_RESULT_FILE = "CS2103-testsheet-multiple-results.xlsx";
     protected static final String MULTIPLE_OUTPUT_FILE = "CS2103-testsheet-multiple-comments.xlsx";
