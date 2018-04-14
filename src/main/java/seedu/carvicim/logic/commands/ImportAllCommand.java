@@ -47,7 +47,7 @@ public class ImportAllCommand extends UndoableCommand {
         }
         List<Job> jobs = new ArrayList<>(importSession.getSessionData()
                 .reviewAllRemainingJobEntries(true, ""));
-        model.addJobs(jobs);
+        model.addJobsAndNewEmployees(jobs);
         importSession.closeSession();
         return new CommandResult(getMessageSuccess(jobs.size()));
     }

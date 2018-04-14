@@ -282,28 +282,15 @@ public class SessionData {
             newFile = new File("." + getTimeStamp() + TEMPWORKBOOKFILE_NAME);
             FileOutputStream fileOutputStream = new FileOutputStream(newFile);
             workbook.write(fileOutputStream);
-            newWorkBook = WorkbookFactory.create(newFile);
         } catch (FileNotFoundException e) {
             throw new FileAccessException(ERROR_MESSAGE_IO_EXCEPTION);
         } catch (IOException e) {
             throw new FileAccessException(ERROR_MESSAGE_IO_EXCEPTION);
-        } catch (InvalidFormatException e) {
-            throw new FileFormatException(ERROR_MESSAGE_FILE_FORMAT);
         }
         try {
             workbook.close();
         } catch (IOException e) {
             throw new FileAccessException(ERROR_MESSAGE_IO_EXCEPTION);
-        }
-        workbook = newWorkBook;
-    }
-
-    /**
-     * Attempts to reload (@code workBook) into (@code saveFile)
-     */
-    public void reloadFile() {
-        if (workbook == null) {
-            return;
         }
     }
 

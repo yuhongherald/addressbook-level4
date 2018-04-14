@@ -7,6 +7,8 @@ import seedu.carvicim.model.job.Job;
 import seedu.carvicim.storage.session.ImportSession;
 import seedu.carvicim.storage.session.SessionData;
 
+import static seedu.carvicim.commons.core.Messages.MESSAGE_NO_JOB_ENTRIES;
+
 //@@author yuhongherald
 
 /**
@@ -37,12 +39,12 @@ public class AcceptCommand extends UndoableCommand {
     public CommandResult executeUndoableCommand() throws CommandException {
         SessionData sessionData = ImportSession.getInstance().getSessionData();
         if (sessionData.getUnreviewedJobEntries().isEmpty()) {
-            throw new CommandException("There are no job entries to review!");
+            throw new CommandException(MESSAGE_NO_JOB_ENTRIES);
         }
         Job job = sessionData.reviewJobEntryUsingJobIndex(jobIndex, true, comment);
         ArrayList<Job> jobs = new ArrayList<>();
         jobs.add(job);
-        model.addJobs(jobs);
+        model.addJobsAndNewEmployees(jobs);
 
         if (!model.isViewingImportedJobs()) {
             model.switchJobView();

@@ -21,7 +21,7 @@ public class ImportSessionTest extends ImportSessionTestEnv {
     public void import_testFileWithErrorCorrection_success() throws Exception {
         setup(ERROR_INPUT_FILE, ERROR_RESULT_FILE, ERROR_OUTPUT_FILE);
         importAll();
-        assertOutputResultEqual();
+        assertOutputResultFilesEqual();
         cleanup();
     }
 
@@ -29,7 +29,7 @@ public class ImportSessionTest extends ImportSessionTestEnv {
     public void import_testFileWithMultipleSheets_success() throws Exception {
         setup(MULTIPLE_INPUT_FILE, MULTIPLE_RESULT_FILE, MULTIPLE_OUTPUT_FILE);
         importAll();
-        assertOutputResultEqual();
+        assertOutputResultFilesEqual();
         cleanup();
     }
 
@@ -37,7 +37,7 @@ public class ImportSessionTest extends ImportSessionTestEnv {
     public void import_testFileWithCorruptEntry_success() throws Exception {
         setup(CORRUPT_INPUT_FILE, CORRUPT_RESULT_FILE, CORRUPT_OUTPUT_FILE);
         importAll();
-        assertOutputResultEqual();
+        assertOutputResultFilesEqual();
         cleanup();
     }
 

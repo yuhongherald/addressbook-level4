@@ -12,22 +12,15 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.junit.Test;
 
-import seedu.carvicim.logic.commands.exceptions.CommandException;
 import seedu.carvicim.storage.session.ImportSession;
-import seedu.carvicim.storage.session.SessionData;
-import seedu.carvicim.storage.session.SheetParser;
-import seedu.carvicim.storage.session.exceptions.FileAccessException;
-import seedu.carvicim.storage.session.exceptions.FileFormatException;
-import seedu.carvicim.storage.session.exceptions.InvalidDataException;
 
 //@@author yuhongherald
 
 /**
  * Used to test classes that manipulate sessionData in importSession
  */
-public class ImportSessionTestEnv {
+public abstract class ImportSessionTestEnv {
     protected static final String RESOURCE_PATH = "storage/session/ImportSessionTest/";
     protected static final String ERROR_INPUT_FILE = "CS2103-testsheet.xlsx";
     protected static final String ERROR_RESULT_FILE = "CS2103-testsheet-results.xlsx";
@@ -56,9 +49,7 @@ public class ImportSessionTestEnv {
      * Attempts to delete -comments file if found
      */
     protected void cleanup() throws IOException {
-        ClassLoader classLoader = getClass().getClassLoader();
         try {
-            String outputPath = classLoader.getResource(expectedOutputPath).getPath();
             deleteFile(outputPath);
         } catch (NullPointerException e) {
             ;
@@ -68,7 +59,7 @@ public class ImportSessionTestEnv {
     /**
      * asserts output file from importAll of input file is the same as result file
      */
-    protected void assertOutputResultEqual() throws Exception {
+    protected void assertOutputResultFilesEqual() throws Exception {
         assertEquals(expectedOutputFile.getAbsolutePath(), outputFile.getAbsolutePath());
         ImportSession.getInstance().getSessionData().freeResources();
         assertExcelFilesEquals(testFile, outputFile);
@@ -80,7 +71,7 @@ public class ImportSessionTestEnv {
         this.resultPath = classLoader.getResource(RESOURCE_PATH + resultPath).getPath();
         this.expectedOutputPath = RESOURCE_PATH + outputPath;
         try {
-            this.outputPath = classLoader.getResource(RESOURCE_PATH + outputPath).getPath();
+            this.outputPath = classLoader.getResource(expectedOutputPath).getPath();
             deleteFile(this.outputPath);
         } catch (NullPointerException e) {
             ;
@@ -105,6 +96,8 @@ public class ImportSessionTestEnv {
             sheet2 = workbook2.getSheetAt(workbook1.getFirstVisibleTab() + i);
             assertSheetEquals(sheet1, sheet2);
         }
+        workbook1.close();
+        workbook2.close();
     }
 
     /**

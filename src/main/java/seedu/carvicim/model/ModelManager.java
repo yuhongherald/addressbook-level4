@@ -196,7 +196,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void addJobs(List<Job> jobs) {
+    public void addJobsAndNewEmployees(List<Job> jobs) {
         for (Job job : jobs) {
             addMissingEmployees(job.getAssignedEmployeesAsSet());
             addJob(job);

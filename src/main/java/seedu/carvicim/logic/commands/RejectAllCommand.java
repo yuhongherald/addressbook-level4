@@ -39,7 +39,7 @@ public class RejectAllCommand extends UndoableCommand {
             throw new CommandException("There are no job entries to review!");
         }
         List<Job> jobs = new ArrayList<>(sessionData.reviewAllRemainingJobEntries(false, comment));
-        model.addJobs(jobs);
+        model.addJobsAndNewEmployees(jobs);
         if (model.isViewingImportedJobs()) {
             model.switchJobView();
         }
