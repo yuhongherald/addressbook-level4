@@ -171,7 +171,7 @@ image::SDforDeletePerson.png[width="800"]
 
 ====
 [NOTE]
-Note how the `Model` simply raises a `AddressBookChangedEvent` when the Address Book data are changed, instead of asking the `Storage` to save the updates to the hard disk.
+Note how the `Model` simply raises a `CarvicimChangedEvent` when the Carvicim data are changed, instead of asking the `Storage` to save the updates to the hard disk.
 ====
 
 The diagram below (figure 4) shows how the `EventsCenter` reacts to that event, which eventually results in the updates being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time.
@@ -195,7 +195,7 @@ image::UiClassDiagram.png[width="800"]
 
 <<api, *API*>> : link:{repoURL}/src/main/java/seedu/address/ui/Ui.java[`Ui.java`]
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter`, `BrowserPanel` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class (figure 5).
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `JobListPanel`, `BrowserPanel` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class (figure 5).
 
 The `UI` component uses https://en.wikipedia.org/wiki/JavaFX[JavaFx] UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
 
@@ -246,8 +246,8 @@ image::ModelClassDiagram.png[width="800"]
 The `Model` (figure 9),
 
 * stores a `UserPref` object that represents the user's preferences.
-* stores the Address Book data.
-* exposes an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
+* stores the Carvicim data.
+* exposes an unmodifiable `ObservableList<Employee>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * does not depend on any of the other three components.
 
 [[Design-Storage]]
@@ -263,7 +263,8 @@ image::StorageClassDiagram.png[width="800"]
 The `Storage` component (figure 10),
 
 * can save `UserPref` objects in json format and read it back.
-* can save the Address Book data in xml format and read it back.
+* can save the Carvicim data in xml format and read it back.
+* can save the ArchiveJob data in xml format and read it back.
 
 [[Design-Commons]]
 === Common classes
