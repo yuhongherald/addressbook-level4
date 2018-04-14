@@ -4,7 +4,6 @@ import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static seedu.carvicim.commons.core.Messages.MESSAGE_NO_JOB_ENTRIES;
-import static seedu.carvicim.storage.session.SessionData.ERROR_MESSAGE_INVALID_JOB_INDEX;
 
 import org.junit.Before;
 import org.junit.Test;
