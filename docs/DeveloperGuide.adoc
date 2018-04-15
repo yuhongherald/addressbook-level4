@@ -577,17 +577,83 @@ image::RemarkCommand_execute_SeqDiag.png[width="400"]
 // end::remark[]
 
 // tag::set[]
-=== Set command feature
+=== Supporting setting of command word alias feature
 ==== Current Implementation
 
 .Class Diagram with CommandWords
 image::SetCommandClassDiagram.png[width="400"]
 
+The user can set a command word alias using the command `set`, specifying the old command
+word and new command word. This is how `set` command handles user requests using `currentWord`
+and `newWord` respectively.
+
+[source,java]
+----
+    public CommandResult executeUndoableCommand() throws CommandException {
+        requireNonNull(model);
+        try {
+            model.getCommandWords().setCommandWord(currentWord, newWord);
+        } catch (CommandWordException e) {
+            throw new CommandException(e.getMessage());
+        }
+        if (CommandWords.isDefaultCommandWord(currentWord)) {
+            return new CommandResult(getMessageDefaultSuccess());
+        } else if (CommandWords.isDefaultCommandWord(newWord)) {
+            return new CommandResult(getMessageRemoveAliasSuccess());
+        }
+        return new CommandResult(getMessageAliasSuccess());
+    }
+----
+
+The command splits into 3 cases:
+
+. When
+[source,java]
++
+----
+CommandWords.isDefaultCommandWord(currentWord)
+----
+
+. Com
+[source,java]
++
+----
+CommandWords.isDefaultCommandWord(newWord)
+----
+. If `currentWord` and `newWord` are both new alias, the old alias will be replaced by the new alias.
+
+[NOTE]
+=====
+The command will fail if one of the following occurs
+
+* `currentWord` and `newWord` is the same
+* `newWord` overwrites another alias or command word
+
+[source,java]
+----
+    private void isCommandWordsValid(String currentWord, String newWord) throws CommandWordException {
+        if (currentWord.equals(newWord)) {
+            throw new CommandWordException(getMessageNoChange());
+        }
+        if (isDefaultCommandWord(newWord)
+                && !commands.get(newWord).equals(currentWord)) {
+            throw new CommandWordException(getMessageOverwriteDefault(newWord));
+        }
+        if (commands.containsValue(newWord)) {
+            throw new CommandWordException(getMessageUsed(newWord));
+        }
+    }
+----
+
+* `currentWord` is not an existing alias or command word. This is checked by iterating through commands.
+
+=====
+
 `set` command makes use of class `CommandWords` to manage the custom command words.
 `SetCommand` keeps 2 lists of command words:
 
 * The default command words stored as a class level reference `COMMANDS`
-* The custom user command words stored as a field `commands` in the object
+* The command word aliases are stored as a field `commands` in the object
 
 Both are managed by the class `CommandWords`.
 
