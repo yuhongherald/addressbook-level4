@@ -24,7 +24,7 @@ from different sources, which managers often do from admins, hence saving time a
 ** Highlights: This enhancement supports autosave feature and handles IOException thoroughly. Job entries with empty
 fields will inherit their empty fields from the previous entry. Column headers can be added if necessary,
 and does not enforce strict order.
-** Credits: Apache POI library is used to support excel file handling.
+** Credits: Apache POI and POI-ooxml library are used to support excel file handling.
 * *Minor enhancement*: added a set command that allows the user to have a customized set of keywords as an
 alternative to the original.
 
