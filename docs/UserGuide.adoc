@@ -596,8 +596,25 @@ Format: `set OLD_COMMAND_WORD NEW_COMMAND_WORD`
 * The OLD_COMMAND_WORD can be either a default command word or one which user has set previously.
 * The NEW_COMMAND_WORD must be 1 word, with no spacing.
 
-* Any default words or words currently set by users are not allowed.
+* Any default words or custom words already in use are not allowed.
 ====
+
+[TIP]
+====
+* To remove the custom word associated with a command, type the custom word as OLD_COMMAND_WORD and
+COMMAND_WORD of the command as `newWord`
++
+e.g.
++
+`set adde a`
++
+To remove `a`, type:
++
+`set a adde`
+====
+
+You don't have to worry if you forgot your custom words! They will displayed in the result display
+whenever you make a mistake!
 
 Examples:
 
@@ -605,13 +622,14 @@ Examples:
 +
 `set adde a` +
 Sets `adde` command word to `a` using default. +
-You will see "adde has been replaced with a!" in the result display.
+You will see "a has been set as an alternative for adde!" in the result display.
 
 * Example 2: +
 +
 `set deletee d` +
-Sets `deletee` command word to `d` using default. +
-You will see "deletee has been replaced with d!" in the result display.
+`set d delete` +
+Sets `d` to `delete` using default. +
+You will see "d has been replaced with delete!" in the result display.
 // end::set[]
 
 // tag::theme[]

@@ -607,14 +607,16 @@ and `newWord` respectively.
 
 The command splits into 3 cases:
 
-. When
+. When `currentWord` is a command word and `newWord` is an alias, `newWord` will be set as alias
+for command specified by `currentWord`
 [source,java]
 +
 ----
 CommandWords.isDefaultCommandWord(currentWord)
 ----
 
-. Com
+. When `newWord` is a command word and `currentWord` is an alias, `currentWord` will be removed
+and the alias for command specified by `newWord` will be reset
 [source,java]
 +
 ----

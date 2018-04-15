@@ -140,7 +140,7 @@ public class CommandWords implements Serializable {
      */
     public void setCommandWord(String currentWord, String newWord) throws CommandWordException {
         requireNonNull(currentWord, newWord);
-        isCommandWordsValid(currentWord, newWord);
+        throwCommanwWordExceptionIfWordsNotValid(currentWord, newWord);
         if (isDefaultCommandWord(currentWord)) {
             commands.remove(currentWord);
             commands.put(currentWord, newWord);
@@ -165,7 +165,8 @@ public class CommandWords implements Serializable {
      * 2. {@code newWord} overwrites the default word for another command
      * 3. {@code newWord} is already in use
      */
-    private void isCommandWordsValid(String currentWord, String newWord) throws CommandWordException {
+    private void throwCommanwWordExceptionIfWordsNotValid(String currentWord, String newWord) throws
+            CommandWordException {
         if (currentWord.equals(newWord)) {
             throw new CommandWordException(getMessageNoChange());
         }
@@ -236,7 +237,7 @@ public class CommandWords implements Serializable {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("Commands: \n");
+        builder.append("Default commands : custom word \n");
         Iterator<Map.Entry<String, String>> commandList = commands.entrySet().iterator();
         Map.Entry<String, String> currentCommand;
         ArrayList<String> lines = new ArrayList<>();
