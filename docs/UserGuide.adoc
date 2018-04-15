@@ -759,7 +759,7 @@ Format: `undo`
 
 [NOTE]
 ====
-Undoable commands: those commands that modify CarviciM's content (`addj, `closej`, `adde`, `deletee` and `remarkj`).
+Undoable commands: those commands that modify CarviciM's content (`addj`, `closej`, `adde`, `deletee` `remarkj`, and `sort`).
 ====
 
 

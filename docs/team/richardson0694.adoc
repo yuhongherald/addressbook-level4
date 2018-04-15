@@ -42,7 +42,7 @@ With this feature, the manager would be able to organise and locate the employee
 *** Added in images for adding and deleting of employee in User Guide: (Pull request https://github.com/CS2103JAN2018-W09-B1/main/pull/190[#190])
 *** Updated existing images of the Developer Guide: (Pull requests https://github.com/CS2103JAN2018-W09-B1/main/pull/182[#182], https://github.com/CS2103JAN2018-W09-B1/main/pull/183[#183], https://github.com/CS2103JAN2018-W09-B1/main/pull/190[#190])
 ** Community:
-*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com/CS2103JAN2018-W15-B2/main/issues/169, https://github.com/CS2103JAN2018-W15-B2/main/issues/178, https://github.com/CS2103JAN2018-W15-B2/main/issues/174)
+*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com/CS2103JAN2018-W15-B2/main/issues/169[#169], https://github.com/CS2103JAN2018-W15-B2/main/issues/174[#174], https://github.com/CS2103JAN2018-W15-B2/main/issues/178[#178])
 
 == Contributions to the User Guide
 
