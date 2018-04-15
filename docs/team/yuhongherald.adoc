@@ -8,13 +8,6 @@
 
 image::../images/CarviciM_logo.PNG[width="150", align="left"]
 
-
-efficient
-systematic
-free
-
-ability to import
-
 https://github.com/CS2103JAN2018-W09-B1/main[CarviciM] is a fast and robust desktop application for car servicing managers
 monitoring and approving large volumes of job entries. It features importing
 job entries from excel files, displaying job entries as eas-to-read-cards and
@@ -24,6 +17,8 @@ the ability to send reminders to employees through email.
 Built on the link:https://github.com/nus-cs2103-AY1718S2/addressbook-level4[AddressBook - Level 4] project, which is used for teaching Software Engineering principles.
 the application uses JavaFX to create a Guided User Interface (GUI) with a Command Line Interface (CLI) as the main
 medium of interaction. It is written in Java, and has about 10 kLoC.
+
+This portfolio acts as a summary of my contributions to CarviciM. It showcases the software engineering skills acquired and applied throughout the project.
 
 === Summary of contributions
 
