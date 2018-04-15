@@ -538,7 +538,7 @@ Example:
 Auto-generated emails containing the job details of the job at index 1 of the job list panel will be sent from your Gmail account to all employees assigned to the job.
 
 // tag::importexport[]
-=== Importing jobs from an excel file
+=== Importing jobs from an excel file `importAll`, `import`, `accept`, `reject`, `acceptAll`, `rejectAll`, `switch`
 ==== Importing and accepting all job entries in an excel file: `importAll`
 
 To import all jobs into CarviciM directly, use this command as follows:
