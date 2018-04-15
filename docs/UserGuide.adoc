@@ -665,6 +665,7 @@ Format: `set OLD_COMMAND_WORD NEW_COMMAND_WORD`
 ====
 * The OLD_COMMAND_WORD can be either a default command word or one which user has set previously.
 * The NEW_COMMAND_WORD must be 1 word, with no spacing.
+
 * Any default words or words currently set by users are not allowed.
 ====
 
