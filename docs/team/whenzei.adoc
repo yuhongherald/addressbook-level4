@@ -34,7 +34,6 @@ This portfolio summarize my contributions for the development of CarviciM. It sh
 *** Improved on the user-friendliness of the User Guide by adding screenshots and restructuring the sections to have a better flow. (Pull request https://github.com/CS2103JAN2018-W09-B1/main/pull/179[#179])
 
 
-
 == Contributions to the User Guide
 
 |===
