@@ -556,7 +556,7 @@ You should see:
 
 image::importAll-example.png[width="1200"]
 
-==== Importing job entries discretely
+==== Importing job entries discretely `import`, `accept`, `reject`, `acceptAll`, `rejectAll`, `switch`
 To discretely import job entries, here are the steps you should follow:
 
 . <<import-command, import>> a file
