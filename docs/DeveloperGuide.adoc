@@ -279,13 +279,16 @@ This section describes some noteworthy details on how certain features are imple
 === Add job feature
 ==== Current Implementation
 
-To implement the job management feature, new classes are added to the `Model` component. `Job` is part of the `Model` component which is made up of `Person`, `JobNumber, `VehicleNumber`, `Status`, `Date`, `UniqueEmployeeList` and `RemarkList` as shown below.
+To implement the job management feature, new classes has been added to the `Model` component. `Job` is part of the `Model` component which is made up of `Person`, `JobNumber, `VehicleNumber`, `Status`, `Date`, `UniqueEmployeeList` and `RemarkList` as shown below.
 
 .Class Diagram of Model component
 image::ModelClassDiagram.png[width="800"]
 [none]
 
 `Person` represents the client of a job. `JobNumber` represents the number of a job and is responsible for generating a running number for each job. `Status` represents the status of a job which holds value of either `ongoing` or `closed` that is used for categorizing jobs. `Date` represents the date of creation for the job. `RemarkList` holds all `Remark` belonging to the job. `UniqueEmployeeList` of the job represents the employees assigned.
+
+New classes has also been added in the Storage component, `XmlAdaptedJob` and `XmlAdaptedRemark`, to support the saving of job entries into the data file.
+
 
 The job adding mechanism is facilitated by a `AddJobCommand` which is an `UndoableCommand`. `AddJobCommandParser` is responsible for parsing the input arguments. It utilizes `ParserUtil` for the validation of `NAME`, `PHONE`, `EMAIL`, `VEHICLE_NUMBER` and `ASSIGNED_EMPLOYEE_INDEX` and creates `AddJobCommand` object which prepares the `Job` object.
 
@@ -544,7 +547,7 @@ If the paramters are invalid, `remark` command will return an invalid message, w
     }
 ----
 
-`executeUndoableCommand` method code snippet in `RemarkCommand`, which updates the job list with the job copy created and posts an `JobDisplayPanelUpdateRequestEvent`:
+`executeUndoableCommand` method code snippet in `RemarkCommand`, which updates the job list with the job copy created:
 [source,java]
 ----
     public CommandResult executeUndoableCommand() {
@@ -555,7 +558,6 @@ If the paramters are invalid, `remark` command will return an invalid message, w
         } catch (JobNotFoundException jnfe) {
             throw new AssertionError("The target job cannot be missing");
         }
-        EventsCenter.getInstance().post(new JobDisplayPanelUpdateRequestEvent(updatedJob));
         return new CommandResult(String.format(MESSAGE_REMARK_SUCCESS, remark));
     }
 ----
@@ -883,6 +885,40 @@ If there is no `INDEX` present, `theme` command will return an invalid message, 
 ** Pros: Easy to implement.
 ** Cons: Violates Law of Demeter as `ThemeCommand` has knowledge and access to `Stage`.
 // end::theme[]
+
+// tag::findbytag[]
+=== Find by tag feature
+
+==== Current Implementation
+
+When the user enters `findt` followed by some keywords, for each existing employee, the employee's tags will be concatenated to form a String, with a space in between each tag. The `stream` method of `List` class will then be used to check if any of the keywords entered by the user matches any word in the concatenated string. The code for this algorithm is shown below:
+[source,java]
+----
+public boolean test(Employee employee) {
+    Set<Tag> employeeTags = employee.getTags();
+    String tagsConcatenated = "";
+    for (Tag tag: employeeTags) {
+        tagsConcatenated = tagsConcatenated + tag.getTagName() + " ";
+    }
+    final String allTagNames = tagsConcatenated;
+
+    return keywords.stream()
+            .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(allTagNames, keyword));
+}
+----
+
+This algorithm is then repeated for all existing employees.
+
+==== Design Considerations
+
+===== Aspect: Number of keyword matches
+* **Current choice:** Only at least 1 keyword match is needed for the employee to appear on the filtered list.
+** Pros: Useful for users who wish to see employees who only have at least 1 keyword as their tag in the filtered list.
+** Cons: May not be useful for users who wish to search for employees that have all the keywords as their tags.
+* _Alternative:_ All keywords have to match for the employee to appear on the filtered list.
+** Pros: Useful for users who wish to search for employees that have all the keywords as their tags.
+** Cons: May not be useful for users who wish to see employees who only have at least 1 keyword as their tag in the filtered list.
+// end::findbytag[]
 
 // tag::sort[]
 === Sort feature
@@ -1231,46 +1267,59 @@ image::UndoRedoActivityDiagram.png[width="650"]
 ===== Aspect: Data structure to support the undo/redo commands
 
 * Current choice:** Use separate stack for undo and redo
-** Pros: Easy to understand for new Computer Science student undergraduates to understand, who are likely to be * the new incoming developers of our project.
+** Pros: Easy to understand for new Computer Science undergraduates to understand, who are likely to be * the new incoming developers of our project.
 ** Cons: Logic is duplicated twice. For example, when a new command is executed, we must remember to update * both `HistoryManager` and `UndoRedoStack`.
 * _Alternative:_ Use `HistoryManager` for undo/redo
 ** Pros: We do not need to maintain a separate stack, and just reuse what is already in the codebase.
 ** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two * different things.
 // end::undoredo[]
 
-// tag::sendemailtoemployee[]
-=== Send Email to Employees about Job
+// tag::logintogmail[]
+=== Login to Gmail
 
 ==== Current Implementation
 
-This feature is implemented using Gmail <<api, API>>.
+This feature is implemented using https://developers.google.com/gmail/api/[Gmail API].
 
-The following dependencies are used:
+When the user enters the `login` command, a new GmailAuthenticator object will be created which builds an authorized Gmail client service, as seen in the diagram below.
 
-* com.google.api-client:google-api-client:1.23.0
-* com.google.oauth-client:google-oauth-client-jetty:1.23.0
-* com.google.apis:google-api-services-gmail:v1-rev82-1.23.0
+.Login sequence diagram
+image::LoginCommand_SeqDiagram.png[width="550"]
 
-===== Authorization
+In the `authorize` method, a `GoogleAuthorizationCodeFlow` object is created to build the authorization code flow and trigger user authorization request. It then manages and persists user `Credential` by saving it in the file path `./src/main/resources/.credentials/carvicim-gmail`. For more details, look at the the code snippet below.
 
-Suppose that the user typed the first email command.
+The `authorize` method:
+[source,java]
+----
+public static Credential authorize() throws IOException {
+    InputStream in = GmailAuthenticator.class.getResourceAsStream("/client_secret.json");
+    GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
-.Email authorization sequence diagram
-image::EmailAuthorization.png[width="650"]
+    GoogleAuthorizationCodeFlow flow =
+            new GoogleAuthorizationCodeFlow.Builder(
+                    httpTransport, JSON_FACTORY, clientSecrets, Arrays.asList(scope))
+                    .setDataStoreFactory(dataStoreFactory)
+                    .setAccessType("offline")
+                    .build();
+    Credential credential = new AuthorizationCodeInstalledApp(
+            flow, new LocalServerReceiver()).authorize("user");
+    System.out.println("Credentials saved to " + DATA_STORE_DIR.getAbsolutePath());
+    return credential;
+}
+----
+// end::logintogmail[]
 
-. `GoogleAuthorizationCodeFlow` is used to build the authorization code flow and trigger user authorization request. It then manages and persists user `Credential`.
+// tag::sendemails[]
+=== Send Emails to Employees about Job
 
-. `Credential` is then saved into a `File` so that the user need not repeatedly key in his or her authorization information before sending each email.
+This feature is implemented using https://developers.google.com/gmail/api/[Gmail API].
 
-===== Sending an email
+A general overview of how this feature is implemented is shown in the sequence diagram below.
 
-. An empty `Properties` list is created, which is used to create an email `Session`
-. A `MimeMessage`, a class in the `javax.mail.internet` package is created using that `Session`.
-. Attributes `from`, `recipient`, `subject` and `text` of the `MimeMessage` are set. The `Text` set contains information extracted from the particular `Job`.
-. `MimeMessage` is encoded using base64url.
-. A `Message` object is instantiated.
-. The value of the `raw` property of the `Message` is set to the encoded `MimeMessage`.
-. Make a call to `messages.send` to send the email.
+.Email sequence diagram
+image::EmailCommand_SeqDiagram.png[width="550"]
+
+To explain the sequence of events in greater detail, when the user enters the `email j/JOB_NUMBER` command, a `UniqueEmployeeList` of `JOB_NUMBER` job is obtained from the `Job` object. Using a `for` loop, an email is sent to each employee in the `UniqueEmployeeList`. To craft an email, an empty `Properties` list is created, which is used to create an email `Session`. A `MimeMessage`, a class in the `javax.mail.internet` package is created using that `Session`. The body of the `MimeMessage` contains details extracted from the particular `Job`, and is then encoded using https://en.wikipedia.org/wiki/Base64[base64url] and repackaged into a `Message` by setting the value of the `raw` property of the `Message` to the encoded `MimeMessage`. Finally, this `Message` is sent by making a call to `messages.send`.
 
 ==== Design Considerations
 
@@ -1286,13 +1335,12 @@ image::EmailAuthorization.png[width="650"]
 ===== Aspect: Authorization information
 
 * **Current choice:** Stored in file system so subsequent executions will not prompt for authorization
-** Pros: More convenient for user as the user only needs to key in his or her authorization information once
-** Cons: Unsafe
+** Pros: More convenient for the user as the user only needs to key in his or her authorization information once
+** Cons: Unsafe if the computer used is a shared one as another person can send out emails from the logged in user's account.
 * _Alternative:_ Prompt for authorization for every subsequent executions
-** Pros: Safe
-** Cons: Inconvenient for user as user needs to always key in authorization information before sending each email
-
-// end::sendemailtoemployee[]
+** Pros: Safer as another person cannot simply send out emails from the logged in user's account, even on a shared computer.
+** Cons: Inconvenient for user as user needs to always key in authorization information before sending emails for each job.
+// end::sendemails[]
 
 // tag::dataencryption[]
 === [Proposed] Data Encryption
@@ -1919,23 +1967,33 @@ Priorities::
 
 |`* * *` |user |view all employees |decide which employee to assign a job
 
-|`* *` |user |sort by employees' name |sort employee list alphabetically
-
 |`* * *` |user |add a new job entry |manage job entries
 
-|`* * *` |user |close an ongoing job entry |remove completed job and add it to jobs history
+|`* * *` |user |close an ongoing job entry |indicate that a job is completed
 
 |`* * *` |user |find a job entry by its assigned job id |locate details of a job without having to go through the list of ongoing jobs
-
-|`* *` |user |find job entries by the assigned employee's name |locate details of all jobs that are handled by an employee without having to go through the lists of jobs
-
-|`* *` |user |find job entries by client's name |locate details of all jobs belonging to a client without having to go through the lists of jobs
-
-|`* *` |user |find job entries by car number |locate details of all jobs related to a car number without having to go through the lists of jobs
 
 |`* * *` |user |add remarks to ongoing job entry |take note of details that are specific to the job
 
 |`* * *` |user |import job entries |add multiple job entries at once
+
+|`* *` |user |sort by employees' name |sort employee list alphabetically
+
+|`* *` |user |find job entries by the assigned employee's name |locate details of all jobs that are handled by an employee without having to go through the list of jobs
+
+|`* *` |user |find job entries by client's name |locate details of all jobs belonging to a client without having to go through the list of jobs
+
+|`* *` |user |find job entries by car number |locate details of all jobs related to a car number without having to go through the list of jobs
+
+|`* *` |user |archive job entries |extract job entries within the selected range for archiving
+
+|`* *` |user |analyse job entries |keep track of employees' workload
+
+|`* *` |user |change the colour label of job status |easily differentiate between the job statuses
+
+|`* *` |user who likes customization |change the theme of the application |customize the theme to my preference
+
+|`* *` |user who likes customization |change the command words of the application |improve ease of use
 
 |`* *` |user |accept and reject imported changes |have control when over bulk imports
 
@@ -1946,16 +2004,6 @@ Priorities::
 |`* *` |user |export changes |provide feedback to employees regarding the changes
 
 |`*` |user |export completed jobs to other formats |print out all the completed job entries and view it with a better program
-
-|`**` |user |archive job entries |extract job entries within the selected range for archiving
-
-|`**` |user |analyse job entries |keep track of employees' workload
-
-|`* *` |user |change the colour label of job status |easily differentiate between the job statuses
-
-|`* *` |user who likes customization |change the theme of the application |customize the theme to my preference
-
-|`* *` |user who likes customization |change the command words of the application |improve ease of use
 
 |=======================================================================
 
@@ -2010,6 +2058,16 @@ Use case ends.
 ** 3a1. CarviciM shows an error message.
 +
 Use case resumes at step 2.
+
+[none]
+* 3b. The given employee is assigned to an ongoing job.
++
+[none]
+** 3b1. CarviciM shows an error message.
++
+Use case resumes at step 3.
++
+Use case ends.
 
 [discrete]
 === Use case: Find an employee by name
@@ -2362,7 +2420,7 @@ _{More to be added}_
 *  Should respond to user command within 2 seconds.
 *  Should be usable by a novice who has never used an electronic job management app before.
 *  User interface should be intuitive enough for users who are not IT-savvy.
-*  View should fit the screen of any computer with minimum screen size of 1366 by 768 pixels.
+*  View should fit the screen of any computer with minimum screen size of 1280 by 720 pixels.
 
 _{More to be added}_
 
@@ -2397,23 +2455,6 @@ Pull Request
 Single Layer of Abstraction Principle: extraction of methods, fields and constants to keep details at the same level in a method.
 
 [appendix]
-== Product Survey
-
-*Product Name*
-
-Author: ...
-
-Pros:
-
-* ...
-* ...
-
-Cons:
-
-* ...
-* ...
-
-[appendix]
 == Instructions for Manual Testing
 
 Given below are instructions to test the app manually.
@@ -2435,28 +2476,37 @@ These instructions only provide a starting point for testers to work on; testers
 .. Re-launch the app by double-clicking the jar file. +
    Expected: The most recent window size and location is retained.
 
-_{ more test cases ... }_
-
 === Deleting a employee
 
 . Deleting a employee while all employees are listed
 
-.. Prerequisites: List all employees using the `list` command. Multiple employees in the list.
-.. Test case: `delete 1` +
+.. Prerequisites: List all employees using the `liste` command. Multiple employees in the list.
+.. Test case: `deletee 1` +
    Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
-.. Test case: `delete 0` +
+.. Test case: `deletee 0` +
    Expected: No employee is deleted. Error details shown in the status message. Status bar remains the same.
-.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) _{give more}_ +
+.. Other incorrect delete commands to try: `deletee`, `deletee x` (where x is larger than the list size) _{give more}_ +
    Expected: Similar to previous.
 
-_{ more test cases ... }_
+=== Closing a job
 
-=== Saving data
+. Closing a job while all jobs are listed
 
-. Dealing with missing/corrupted data files
+.. Prerequisites: List all ongoing jobs using the `listoj` command. Multiple ongoing jobs in the list.
+.. Test case: `closej j/1` +
+   Expected: Job with job number 1 has its status change from "ongoing" to "closed". Details of the closed job shown in the status message. Job list shows updated job. Timestamp in the status bar is updated.
+.. Test case: `closej j/0` +
+   Expected: No job is closed. Error details shown in the status message. Status bar remains the same.
 
-.. _{explain how to simulate a missing/corrupted file and the expected behavior}_
+=== Adding remark to a job
 
-_{ more test cases ... }_
+. Adding a remark to an ongoing job, while all ongoing jobs are listed
+
+.. Prerequisites: List all jobs using the `listoj` command. Multiple ongoing jobs in the list.
+.. Test case: `remark j/1 r/Urgent` +
+   Expected: Remark "Urgent" added to job number 1. Details of remark added to job shown in the status message. Timestamp in the status bar is updated.
+.. Test case: `remark j/0 r/Urgent` +
+   Expected: Remark not added to the specified job. Error details shown in the status message. Status bar remains the same.
+
 
 
