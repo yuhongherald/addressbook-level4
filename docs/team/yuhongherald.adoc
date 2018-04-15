@@ -1,4 +1,4 @@
-== Yu Hong Herald - Project Portfolio
+= Yu Hong Herald - Project Portfolio
 :imagesDir: ../images
 :stylesDir: ../stylesheets
 
