@@ -1118,7 +1118,7 @@ public class ImportSession {
     }
 
     /**
-     * Flushes feedback to {@return pathToOutfile} and releases resources.
+     * Flushes feedback to {@code pathToOutfile} and releases resources.
      */
     public String closeSession() throws CommandException {
         logger.info("Attempting to close session:");
