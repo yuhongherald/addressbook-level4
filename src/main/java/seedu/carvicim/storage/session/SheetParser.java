@@ -13,7 +13,7 @@ import seedu.carvicim.storage.session.exceptions.InvalidDataException;
 
 //@@author yuhongherald
 /**
- * a
+ * Used to parse a Sheet from a an Excel Workbook into (@link SheetWithHeaderFields)
  */
 public class SheetParser {
     public static final String INVALID_FIELD = "INVALID_FIELD";
