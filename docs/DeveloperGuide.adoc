@@ -582,7 +582,6 @@ image::RemarkCommand_execute_SeqDiag.png[width="400"]
 
 .Object Diagram of CommandWords at runtime
 image::SetCommandObjectDiagram.png[width="800"]
-[none]
 
 `SetCommand` keeps 2 lists of command words:
 
@@ -1023,7 +1022,6 @@ The undo/redo mechanism is facilitated by an `UndoRedoStack`, which resides insi
 
 .Inheritance diagram for commands
 image::LogicCommandClassDiagram.png[width="800"]
-[none]
 
 As you can see from the diagram above, `UndoableCommand` adds an extra layer between the abstract `Command` class and concrete commands that can be undone, such as the `DeleteCommand`. Note that extra tasks need to be done when executing a command in an _undoable_ way, such as saving the state of the address book before execution. `UndoableCommand` contains the high-level algorithm for those extra tasks while the child classes implements the details of how to execute the specific command. Note that this technique of putting the high-level algorithm in the parent class and lower-level steps of the algorithm in child classes is also known as the https://www.tutorialspoint.com/design_pattern/template_pattern.htm[template pattern].
 
