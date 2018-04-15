@@ -544,7 +544,7 @@ Auto-generated emails containing the job details of the job at index 1 of the jo
 // end::sendemails[]
 
 // tag::importexport[]
-=== Importing jobs from an excel file
+=== Importing jobs from an excel file `importAll`, `import`, `accept`, `reject`, `acceptAll`, `rejectAll`, `switch`
 ==== Importing and accepting all job entries in an excel file: `importAll`
 
 To import all jobs into CarviciM directly, use this command as follows:
@@ -562,11 +562,14 @@ You should see:
 
 image::importAll-example.png[width="1200"]
 
-[[import-command]]
-==== Importing a new excel file: `import`
+==== Importing job entries discretely `import`, `accept`, `reject`, `acceptAll`, `rejectAll`, `switch`
+To discretely import job entries, here are the steps you should follow:
 
-To discretely import job entries, you must first import a file, then <<accept-reject, `accept` and `reject`>>
-job entries.
+. <<import-command, import>> a file
+. <<accept-reject, `accept` and `reject`>> job entries.
+
+[[import-command]]
+===== Importing a new excel file: `import`
 
 To start import a file, use this command as follows: +
 Format: `import FILE_PATH`
@@ -617,7 +620,7 @@ Imports the example file excel-file.xlsx shown above. You should see:
 image::import-example.png[width="1200"]
 
 
-==== Switching views between unreviewed jobs and jobs in CarviciM: `switch`
+===== Switching views between unreviewed jobs and jobs in CarviciM: `switch`
 
 You can use this command to switch between the list of unreviewed jobs and jobs in CarviciM. +
 Format: `switch`
@@ -626,7 +629,7 @@ Format: `switch`
 You can see the current job list in the job list indicator.
 
 [[accept-reject]]
-==== Accepting and rejecting changes
+===== Accepting and rejecting changes
 
 You can use 4 commands when reviewing changes:
 
@@ -635,7 +638,7 @@ You can use 4 commands when reviewing changes:
 * `acceptAll`
 * `rejectAll`
 
-===== Accepting 1 job: `accept`
+====== Accepting 1 job: `accept`
 
 To accept a job with job index `NUMBER` in the imported list, use this command as follows:
 Format: `accept NUMBER`
@@ -646,7 +649,7 @@ Example:
 Accepts the job entry with job index number 1 and removes it from imported list.
 
 [[acceptAll-command]]
-===== Accepting all remaining imported jobs: `acceptAll`
+====== Accepting all remaining imported jobs: `acceptAll`
 
 To accept all remaining jobs, use this command as follows:
 Format: `acceptAll`
@@ -656,7 +659,7 @@ Example:
 `acceptAll` +
 Accepts all remaining job entries and clears the imported list.
 
-===== Rejecting 1 job: `reject`
+====== Rejecting 1 job: `reject`
 
 To reject a job with job index `NUMBER` in the imported list, use this command as follows:
 Format: `reject NUMBER`
@@ -666,7 +669,7 @@ Example:
 `reject 1` +
 Rejects job entry with job index number 1 and removes it from imported list. It is not added to CarviciM.
 
-===== Rejecting all remaining imported jobs: `rejectAll`
+====== Rejecting all remaining imported jobs: `rejectAll`
 
 To reject all remaining jobs in the imported list, use this command as follows:
 Format: `rejectAll`
@@ -676,7 +679,7 @@ Example:
 `rejectAll` +
 Rejects all remaining job entries and clears the imported list.
 
-==== Writing comments to your reviews
+===== Writing comments to your reviews
 
 While accepting or rejecting changes, you can enter your comments behind the command.
 
@@ -748,7 +751,7 @@ To remove `a`, type:
 `set a adde`
 ====
 
-You don't have to worry if you forgot your custom words! They will displayed in the result display
+You don't have to worry if you forgot your custom words! They will be displayed in the result display
 whenever you make a mistake!
 
 Examples:
