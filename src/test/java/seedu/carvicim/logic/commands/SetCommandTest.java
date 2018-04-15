@@ -176,7 +176,7 @@ public class SetCommandTest {
     }
 
     /**
-     * Generates a new {@code SetCommand} which upon execution replaces (@code currentWord) with (@code newWord).
+     * Generates a new {@code SetCommand} which upon execution replaces {@code currentWord} with {@code newWord}.
      */
     private SetCommand prepareCommand(Model model, String currentWord, String newWord) {
         SetCommand command = new SetCommand(currentWord, newWord);
