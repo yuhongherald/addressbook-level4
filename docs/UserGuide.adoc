@@ -538,6 +538,18 @@ job entries.
 To start import a file, use this command as follows: +
 Format: `import FILE_PATH`
 
+[TIP]
+====
+If your imported file does not reflect correctly, there is an old save file from the <<save-command, autosave feature>>. To rectify the
+problem:
+
+1. Close CarviciM.
+2. Look for a file in the same folder with the same filename, with `-comments.xlsx` or
+`-comments.xls` behind.
+3. Delete the file.
+4. Start CarviciM and try again.
+====
+
 [NOTE]
 ====
 * Filepath: A text representation of the location of the file used by the computer.
@@ -546,7 +558,11 @@ Format: `import FILE_PATH`
 ====
 
 [WARNING]
-The excel file must not be password-protected
+====
+* The excel file must not be password-protected
+* It is preferable to only import files within this application's folder, as other programs
+outside the folder might affect CarviciM's performance
+====
 
 Here is an example of an excel sheet that can be imported:
 
@@ -663,8 +679,12 @@ Rejects all remaining imported jobs and attaches "Please check the customer deta
 ==== Sharing your feedback with your employees:
 
 To send your feedback to the job list providers, look for the save file generated after importing and reviewing your jobs.
-CarviciM autosaves your comments to an excel file with -comments.xls or -comments.xlsx appended,
+CarviciM autosaves your comments to an excel file with `-comments.xls` or `-comments.xlsx` appended,
 in the same directory.
+
+[WARNING]
+When copying `-comments.xls` or `-comments.xlsx` files, try to keep the original copy in the folder. It helps to prevent
+reimporting the same jobs from the a file with the same name twice.
 // end::importexport[]
 
 // tag::set[]
