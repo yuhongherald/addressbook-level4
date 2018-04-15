@@ -580,55 +580,62 @@ image::RemarkCommand_execute_SeqDiag.png[width="400"]
 === Set command feature
 ==== Current Implementation
 
-.Object Diagram of CommandWords at runtime
-image::SetCommandObjectDiagram.png[width="800"]
+.Class Diagram with CommandWords
+image::SetCommandClassDiagram.png[width="400"]
 
+`set` command makes use of class `CommandWords` to manage the custom command words.
 `SetCommand` keeps 2 lists of command words:
 
 * The default command words stored as a class level reference `COMMANDS`
 * The custom user command words stored as a field `commands` in the object
+
 Both are managed by the class `CommandWords`.
 
-`CommandWords` is in the `Logic` component, under `Commands`,
-as it is required to parse commands in `AddressBookParser`.
+CarvicimParser makes a reference to `CommandWords` to facilitate retrieval of alias command words.
+However, `CommandWords` resides in `Model` (Figure 12). This is to facilitate the saving of data.
 
-`CommandWords` only deal with commands that have their default command word declared in the class level reference.
+CommandWords also has a method `checkIntegrity()`, which ensures that object command words are 1 to 1 with class command words.
+This allows forward compatibility when new command words are introduced, and old ones removed,
+and protects against data corruption to some extent.
 
-CarviciMParser makes a reference to CommandWords.
-However, `CommandWords` resides in `UserPrefs` in the `Model` component (figure 12).
-This is to facilitate the saving of data. CommandWords also has a method `checkIntegrity()`,
-which ensures that object command words are 1 to 1 with class command words.
-This allows forward compatibility, and protects against data corruption to some extent.
+.Class Diagram with CommandWords
+image::SetCommandSequenceDiagram.png[width="800"]
+
+At runtime, CarvicimParser checks if the command word provided by the user matches any of the alias before proceeding
+parsing a command, as shown in Figure 13.
 
 ==== Design Considerations
-
 ===== Aspect: Where to put CommandWords for storage
+
+//diagram
 
 * **Current choice:** Place `CommandWords` in `UserPrefs`
 ** Pros: Single Responsibility Principle is maintained as custom command words in `CommandWords` is a user preference.
-** Cons: More coupling is required for the AddressBook to retrieve the custom command words.
-* _Alternative:_ Place `CommandWords` in `AddressBook`
-** Pros: Direct access to custom words in commands.
-** Cons: Single Responsibility Principle will be violated.
+CommandWords is also Serializable, which makes it compatible with `JsonUserPrefsStorage`.
+** Cons: `CommandWords` is now coupled with `UserPrefs`
+* _Alternative:_ Place `CommandWords` into a separate Storage class
+** Pros: Reduced coupling.
+** Cons: More files will be created in the application directory, making it more cluttered and cumbersome to backup.
 
 ===== Aspect: Access to CommandWords
 
-* **Current choice:** Provide direct access to `CommandWords` when more details are needed and keep minimal <<api, API>> on `ModelManager`.
-** Pros: Easy to implement, and is neat.
-** Cons: Accidental modification can lead to bugs.
-* _Alternative:_ `ModelManager` and member variables gets access and provides <<api, API>> to access `CommandWords`.
-** Pros: Write protection.
-** Cons: `CommandWords` is frequently accessed, so many more <<api, APIs>> are required.
+* **Current choice:** Create getters and setters and provide a copy of `CommandWords` when more detail is needed.
+** Pros: Easy to enforce rules on the changing of the alias in `CommandWords`.
+** Cons: Need to modify getters and setters to change the implementation of `CommandWords`.
+* _Alternative:_ Create `CommandWords` like an augmented `HashMap`
+** Pros: Minimal new <<api, APIs>> are required, and flexibility is given to classes accessing `CommandWords`.
+** Cons: Difficult to enforce rules, breaking the rules of mapped words can lead to bugs.
 
 
 ===== Aspect: Storing the list of default command words
 
 * **Current choice:** Store the default list in `CommandWords`.
 ** Pros: Easier to maintain the Open-Closed Principle, also follows the Single Responsibility Principle.
-** Cons: Increased coupling.
-* _Alternative:_ Store the default list in `Commands`.
-** Pros: Reduced coupling.
-** Cons: `Commands` is an abstract class, it is not appropriate to reference class variables.
+** Cons: Command words have to be explicitly declared under class reference to support alias
+* _Alternative:_ Store the default list in `Command`.
+** Pros: `Command` is the super class of all commands, a method to enforce declaration of the command word
+can be done easily.
+** Cons: `Command` is an abstract class, it is not appropriate to reference class variables.
 // end::set[]
 
 // tag::importexport[]
@@ -902,7 +909,7 @@ New classes has been added to the storage component to allow Carvicim to archive
 .`ArchiveCommand` Storage Component Diagram
 image::ArchiveStorageComponentDiagram.png[width="800"]
 
-As seen from Figure 17, `XmlSerializableArchiveJob` is used to serialize the archive job entries into a xml format based on `XmlAdaptedJob`.
+As seen from Figure 18, `XmlSerializableArchiveJob` is used to serialize the archive job entries into a xml format based on `XmlAdaptedJob`.
 The access of information to the archive job xml file is control by `XmlArchiveJobStorage`.
 The `StorageManager` manages both the storage of Carvicim and archive data.
 
