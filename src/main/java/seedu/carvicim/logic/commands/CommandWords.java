@@ -51,7 +51,7 @@ public class CommandWords implements Serializable {
         ImportAllCommand.COMMAND_WORD
     };
 
-    public final HashMap<String, String> commands;
+    private final HashMap<String, String> commands;
     /**
      * Creates a data structure to maintain used command words.
      */
@@ -69,7 +69,7 @@ public class CommandWords implements Serializable {
     }
 
     /**
-     * Returns whether (@code commandWord) is in (@code COMMANDS)
+     * Returns whether {@code commandWord} is in {@code COMMANDS}
      */
     public static boolean isDefaultCommandWord(String commandWord) {
         for (String command: COMMANDS) {
@@ -94,6 +94,10 @@ public class CommandWords implements Serializable {
 
     public static String getMessageNoChange() {
         return MESSAGE_NO_CHANGE;
+    }
+
+    public HashMap<String, String> getCommands() {
+        return new HashMap<>(commands);
     }
 
     /**
@@ -136,7 +140,7 @@ public class CommandWords implements Serializable {
      */
     public void setCommandWord(String currentWord, String newWord) throws CommandWordException {
         requireNonNull(currentWord, newWord);
-        throwExceptionIfCommandWordsNotValid(currentWord, newWord);
+        throwCommanwWordExceptionIfWordsNotValid(currentWord, newWord);
         if (isDefaultCommandWord(currentWord)) {
             commands.remove(currentWord);
             commands.put(currentWord, newWord);
@@ -156,12 +160,13 @@ public class CommandWords implements Serializable {
     }
 
     /**
-     * throws a (@code CommandWordException) if:
+     * throws a {@code CommandWordException} if:
      * 1. Both words are the same
-     * 2. (@code newWord) overwrites the default word for another command
-     * 3. (@code newWord) is already in use
+     * 2. {@code newWord} overwrites the default word for another command
+     * 3. {@code newWord} is already in use
      */
-    private void throwExceptionIfCommandWordsNotValid(String currentWord, String newWord) throws CommandWordException {
+    private void throwCommanwWordExceptionIfWordsNotValid(String currentWord, String newWord) throws
+            CommandWordException {
         if (currentWord.equals(newWord)) {
             throw new CommandWordException(getMessageNoChange());
         }
@@ -175,8 +180,8 @@ public class CommandWords implements Serializable {
     }
 
     /**
-     * Copies key and value of (@code command) from (@code commands)
-     * to (@code verifiedCommands). Creates a new entry with default
+     * Copies key and value of {@code command} from {@code commands}
+     * to {@code verifiedCommands}. Creates a new entry with default
      * key = value if missing.
      */
     private void moveVerifiedWord(String command, HashMap<String, String> verifiedCommands) {
@@ -232,7 +237,7 @@ public class CommandWords implements Serializable {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("Commands: \n");
+        builder.append("Default commands : custom word \n");
         Iterator<Map.Entry<String, String>> commandList = commands.entrySet().iterator();
         Map.Entry<String, String> currentCommand;
         ArrayList<String> lines = new ArrayList<>();

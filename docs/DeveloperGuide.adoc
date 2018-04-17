@@ -9,12 +9,19 @@
 ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
+:warning-caption: :warning:
 endif::[]
 :repoURL: https://github.com/CS2103JAN2018-W09-B1/main/tree/master
 
 By: `W09-GroupB1`      Since: `FEB 2018`      Licence: `MIT`
 
+== Introduction
+
+Welcome on board the CarviciM project! This guide will provide you with all the information you need to start contributing to CarviciM.
+
 == Setting up
+
+Before you can get started, here are some things you will need to do.
 
 === Prerequisites
 
@@ -40,6 +47,7 @@ Do not disable them. If you have disabled them, go to `File` > `Settings` > `Plu
 
 === Setting up the project in your computer
 
+Here are the steps you can take to set up the project:
 . Fork this repo, and clone the fork to your computer
 . Open IntelliJ (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project dialog first)
 . Set up the correct JDK version for Gradle
@@ -119,11 +127,11 @@ When you are ready to start coding,
 [[Design-Architecture]]
 === Architecture
 
+The *_Architecture Diagram_* below (figure 1) explains the high-level design of the App. Read this section (section 2) to get a quick overview of each component.
+
 .Architecture Diagram
 image::Architecture.png[width="600"]
 [none]
-
-The *_Architecture Diagram_* (figure 1) given above explains the high-level design of the App. Read this section (section 2) to get a quick overview of each component.
 
 ====
 [TIP]
@@ -222,15 +230,15 @@ link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
 
 
 Here is what happens when the UI makes an `execute()` call to Logic:
-.  `Logic` uses the `AddressBookParser` class to parse the user command.
-.  This results in a `Command` object which is executed by the `LogicManager`.
+.  `Logic` uses the `CarvicimParser` class to parse the user command.
+.  This results in a `Command` object which is executed by the `LogicManager`
 .  The command execution can affect the `Model` (e.g. adding a employee) and/or raise events.
 .  The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui` (figure 6).
 
 
-For a more specific example of the steps above, given below (figure 8) is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` <<api, API>> call.
+For a more specific example of the steps above, given below (figure 8) is the Sequence Diagram for interactions within the `Logic` component for the `execute("deletee 1")` <<api, API>> call.
 
-.Interactions Inside the Logic Component for the `delete 1` Command
+.Interactions Inside the Logic Component for the `deletee 1` Command
 image::DeletePersonSdForLogic.png[width="800"]
 
 [[Design-Model]]
@@ -279,13 +287,16 @@ This section describes some noteworthy details on how certain features are imple
 === Add job feature
 ==== Current Implementation
 
-To implement the job management feature, new classes are added to the `Model` component. `Job` is part of the `Model` component which is made up of `Person`, `JobNumber, `VehicleNumber`, `Status`, `Date`, `UniqueEmployeeList` and `RemarkList` as shown below.
+To implement the job management feature, new classes are added to the `Model` component. `Job` is part of the `Model` component which is made up of `Person`, `JobNumber`, `VehicleNumber`, `Status`, `Date`, `UniqueEmployeeList` and `RemarkList` as shown below.
 
 .Class Diagram of Model component
 image::ModelClassDiagram.png[width="800"]
 [none]
 
 `Person` represents the client of a job. `JobNumber` represents the number of a job and is responsible for generating a running number for each job. `Status` represents the status of a job which holds value of either `ongoing` or `closed` that is used for categorizing jobs. `Date` represents the date of creation for the job. `RemarkList` holds all `Remark` belonging to the job. `UniqueEmployeeList` of the job represents the employees assigned.
+
+New classes has also been added in the Storage component, `XmlAdaptedJob` and `XmlAdaptedRemark`, to support the saving of job entries into the data file.
+
 
 The job adding mechanism is facilitated by a `AddJobCommand` which is an `UndoableCommand`. `AddJobCommandParser` is responsible for parsing the input arguments. It utilizes `ParserUtil` for the validation of `NAME`, `PHONE`, `EMAIL`, `VEHICLE_NUMBER` and `ASSIGNED_EMPLOYEE_INDEX` and creates `AddJobCommand` object which prepares the `Job` object.
 
@@ -397,9 +408,9 @@ The close job mechanisim is facilitated by a `CloseJobCommand`. `CloseJobCommand
 
 Since `CloseJobCommand` is an undoable command, it overrides the `preprocessUndoableCommand` method of `UndoableCommand`, to check if the specified job can be closed.
 
-[NOTE]
 ====
-If the provided `JOB_NUMBER` belongs to a closed job or does not match any job in the job list, `CloseJobCommand` will return an invalid message. `CloseJobCommand` creates a copy of the job if it is found, and sets the status of the duplicate job to be "closed". This is to complement the undo feature.
+[NOTE]
+If the provided `JOB_NUMBER` belongs to a closed job or does not match any job in the job list, `CloseJobCommand` will return an invalid message. `CloseJobCommand` creates a copy of the job if it is found, and sets the status of the duplicate job to be "closed". This is to support the undo feature.
 ====
 
 `preprocessUndoableCommand` method code snippet in `CloseJobCommand`, which checks for the respective job for closing:
@@ -480,8 +491,9 @@ image::CloseJobCommand_execute_SeqDiag.png[width="400"]
 The remark feature is facilitated by `RemarkCommand` which is an `UndoableCommand`. `RemarkCommandParser` is responsible for parsing the input arguments. It utilizes `ParserUtil` for the validation of `JOB_NUMBER` and `REMARK` input, and creates the `RemarkCommand` object.
 
 Similar to the `CloseJobCommand`, the `RemarkCommand` is also an undoable command which overrides the `preprocessUndoableCommand` method of `UndoableCommand`. It checks if the specified job can have a remark added.
-[NOTE]
+
 ====
+[NOTE]
 If the paramters are invalid, `remark` command will return an invalid message, which shows the usage information to the user.
 ====
 
@@ -544,7 +556,7 @@ If the paramters are invalid, `remark` command will return an invalid message, w
     }
 ----
 
-`executeUndoableCommand` method code snippet in `RemarkCommand`, which updates the job list with the job copy created and posts an `JobDisplayPanelUpdateRequestEvent`:
+`executeUndoableCommand` method code snippet in `RemarkCommand`, which updates the job list with the job copy created:
 [source,java]
 ----
     public CommandResult executeUndoableCommand() {
@@ -555,7 +567,6 @@ If the paramters are invalid, `remark` command will return an invalid message, w
         } catch (JobNotFoundException jnfe) {
             throw new AssertionError("The target job cannot be missing");
         }
-        EventsCenter.getInstance().post(new JobDisplayPanelUpdateRequestEvent(updatedJob));
         return new CommandResult(String.format(MESSAGE_REMARK_SUCCESS, remark));
     }
 ----
@@ -577,63 +588,143 @@ image::RemarkCommand_execute_SeqDiag.png[width="400"]
 // end::remark[]
 
 // tag::set[]
-=== Set command feature
+=== Supporting setting of command word alias feature
 ==== Current Implementation
 
-.Object Diagram of CommandWords at runtime
-image::SetCommandObjectDiagram.png[width="800"]
-[none]
+.Class Diagram with CommandWords
+image::SetCommandClassDiagram.png[width="400"]
 
+The user can set a command word alias using the command `set`, specifying the old command
+word and new command word. This is how `set` command handles user requests using `currentWord`
+and `newWord` respectively.
+
+[source,java]
+----
+    public CommandResult executeUndoableCommand() throws CommandException {
+        requireNonNull(model);
+        try {
+            model.getCommandWords().setCommandWord(currentWord, newWord);
+        } catch (CommandWordException e) {
+            throw new CommandException(e.getMessage());
+        }
+        if (CommandWords.isDefaultCommandWord(currentWord)) {
+            return new CommandResult(getMessageDefaultSuccess());
+        } else if (CommandWords.isDefaultCommandWord(newWord)) {
+            return new CommandResult(getMessageRemoveAliasSuccess());
+        }
+        return new CommandResult(getMessageAliasSuccess());
+    }
+----
+
+The command splits into 3 cases:
+
+. When `currentWord` is a command word and `newWord` is an alias, `newWord` will be set as alias
+for command specified by `currentWord`
+[source,java]
++
+----
+CommandWords.isDefaultCommandWord(currentWord)
+----
+
+. When `newWord` is a command word and `currentWord` is an alias, `currentWord` will be removed
+and the alias for command specified by `newWord` will be reset
+[source,java]
++
+----
+CommandWords.isDefaultCommandWord(newWord)
+----
+. If `currentWord` and `newWord` are both new alias, the old alias will be replaced by the new alias.
+
+[NOTE]
+=====
+The command will fail if one of the following occurs
+
+* `currentWord` and `newWord` is the same
+* `newWord` overwrites another alias or command word
+
+[source,java]
+----
+    private void isCommandWordsValid(String currentWord, String newWord) throws CommandWordException {
+        if (currentWord.equals(newWord)) {
+            throw new CommandWordException(getMessageNoChange());
+        }
+        if (isDefaultCommandWord(newWord)
+                && !commands.get(newWord).equals(currentWord)) {
+            throw new CommandWordException(getMessageOverwriteDefault(newWord));
+        }
+        if (commands.containsValue(newWord)) {
+            throw new CommandWordException(getMessageUsed(newWord));
+        }
+    }
+----
+
+* `currentWord` is not an existing alias or command word. This is checked by iterating through commands.
+
+=====
+
+`set` command makes use of class `CommandWords` to manage the custom command words.
 `SetCommand` keeps 2 lists of command words:
-* the default command words
-** stored as a class level reference `COMMANDS`
-* the custom user command words
-** stored as a field `commands` in the object
+
+* The default command words stored as a class level reference `COMMANDS`
+* The command word aliases are stored as a field `commands` in the object
+
 Both are managed by the class `CommandWords`.
 
-`CommandWords` is in the `Logic` component, under `Commands`, as it is required to parse commands in `AddressBookParser`.
+CarvicimParser makes a reference to `CommandWords` to facilitate retrieval of alias command words.
+However, `CommandWords` resides in `Model` (Figure 12). This is to facilitate the saving of data.
 
-`CommandWords` only deal with commands that have their default command word declared in the class level reference.
+CommandWords also has a method `checkIntegrity()`, which ensures that object command words are 1 to 1 with class command words.
+This allows forward compatibility when new command words are introduced, and old ones removed,
+and protects against data corruption to some extent.
 
-AddressBookParser makes a reference to CommandWords. However, `CommandWords` resides in `UserPrefs` in the `Model` component (figure 12). This is to facilitate the saving of data. CommandWords also has a method checkIntegrity, which ensures that object command words are 1 to 1 with class command words. This allows forward compatibility, as well as protects against data corruption to some extent.
+.Class Diagram with CommandWords
+image::SetCommandSequenceDiagram.png[width="800"]
+
+At runtime, CarvicimParser checks if the command word provided by the user matches any of the alias before proceeding
+parsing a command, as shown in Figure 13.
 
 ==== Design Considerations
-
 ===== Aspect: Where to put CommandWords for storage
 
 * **Current choice:** Place `CommandWords` in `UserPrefs`
 ** Pros: Single Responsibility Principle is maintained as custom command words in `CommandWords` is a user preference.
-** Cons: More coupling is required for the AddressBook to retrieve the custom command words.
-* _Alternative:_ Place `CommandWords` in `AddressBook`
-** Pros: Direct access to custom words in commands.
-** Cons: Single Responsibility Principle will be violated.
+CommandWords is also Serializable, which makes it compatible with `JsonUserPrefsStorage`.
+** Cons: `CommandWords` is now coupled with `UserPrefs`
+* _Alternative:_ Place `CommandWords` into a separate Storage class
+** Pros: Reduced coupling.
+** Cons: More files will be created in the application directory, making it more cluttered and cumbersome to backup.
 
 ===== Aspect: Access to CommandWords
 
-* **Current choice:** Provide direct access to `CommandWords` when more details are needed and keep minimal <<api, API>> on `ModelManager`.
-** Pros: Easy to implement, and is neat.
-** Cons: Accidental modification can lead to bugs.
-* _Alternative:_ `ModelManager` and member variables gets access and provides <<api, API>> to access `CommandWords`.
-** Pros: Write protection.
-** Cons: `CommandWords` is frequently accessed, so many more <<api, APIs>> are required.
+* **Current choice:** Create getters and setters and provide a copy of `CommandWords` when more detail is needed.
+** Pros: Easy to enforce rules on the changing of the alias in `CommandWords`.
+** Cons: Need to modify getters and setters to change the implementation of `CommandWords`.
+* _Alternative:_ Create `CommandWords` like an augmented `HashMap`
+** Pros: Minimal new <<api, APIs>> are required, and flexibility is given to classes accessing `CommandWords`.
+** Cons: Difficult to enforce rules, breaking the rules of mapped words can lead to bugs.
 
 
 ===== Aspect: Storing the list of default command words
 
 * **Current choice:** Store the default list in `CommandWords`.
 ** Pros: Easier to maintain the Open-Closed Principle, also follows the Single Responsibility Principle.
-** Cons: Increased coupling.
-* _Alternative:_ Store the default list in `Commands`.
-** Pros: Reduced coupling.
-** Cons: `Commands` is an abstract class, it is not appropriate to reference class variables.
+** Cons: Command words have to be explicitly declared under class reference to support alias
+* _Alternative:_ Store the default list in `Command`.
+** Pros: `Command` is the super class of all commands, a method to enforce declaration of the command word
+can be done easily.
+** Cons: `Command` is an abstract class, it is not appropriate to reference class variables.
 // end::set[]
 
 // tag::importexport[]
-=== Import/Save feature
+=== Import feature
 ==== Current Implementation
 
-.Object Diagram of `session` component
+.Class Diagram of `session` component
 image::SessionComponentClassDiagram.png[width="800"]
+
+`ImportSession` resides in the `Session` component in the `Storage` component as shown above. The
+`Session` component is responsible for processing excel files, as well as keeping the state of the excel
+files during runtime, in the form of `SessionData`.
 
 `ImportSession` uses a Singleton design pattern. It is responsible for initializing and closing the session.
 `ImportSession` has 4 methods:
@@ -645,17 +736,16 @@ image::SessionComponentClassDiagram.png[width="800"]
  with a timestamp added to the back of the filename.
 
 `ImportSession` is designed to be stateless on its own, with all data stored in `SessionData`. This helps to
-support `UndoableCommand`. Currently, `SessionData` is not persistent in the event of a crash.
-
+support `UndoableCommand`.
 The flow of using `ImportSession` is as follows:
 
 ===== Loading a file into `ImportSession`
 
-* Figure 14 below shows the process of initializing ImportSession. On the `import` command,
+* Figure 15 below shows the process of initializing ImportSession. On the `import` command,
 `getInstance` is used to retrieve the `importSession` instance, before it calls
 `initialize(fileName)`. A new `SheetParser` is created to populate `sessionData` with excel sheet data
 as shown in Figure 11, which comes as:
-1. `SheetWithHeaderField`: augmented `Sheet` that provides API to indicate approval status and
+1. `SheetWithHeaderField`: Augmented `Sheet` that provides API to indicate approval status and
 write comments.
 2. `JobEntry`: Augmented `Job` stores the sheet number and row number for writing into the excel file.
 `JobEntry` also contains the `Job` data which will be imported upon approval.
@@ -665,7 +755,7 @@ image::sessionInitializationSequenceDiagram.png[width="800"]
 
 ===== Reviewing job entries
 
-* Figure 15 below shows the process of reviewing job entries in an import session. On the `review`
+* Figure 16 below shows the process of reviewing job entries in an import session. On the `review`
 command, `sessionData` updates the relevant `jobEntry` and retrieves the sheet and row number,
 which is used to update `sheetWithHeaderFields`. Upon reviewing a job, CarviciM will add the job and
 any employees not present in the application.
@@ -675,47 +765,76 @@ image::sessionReviewSequenceDiagram.png[width="800"]
 
 ===== Saving feedback from an `ImportSession`
 
-`SessionData` autosaves the comments to an excel file with -comments.xls or -comments.xlsx appended,
+`SessionData` autosaves the comments to an excel file with the same file name and `-comments.xls` or `-comments.xlsx` appended,
 in the same directory.
 
 ==== Design Considerations
 ===== Aspect: Supporting UndoableCommand
 
-* **Current choice:** Add the previous instance of `sessionData` when setting data for `Command`, with a
-`SaveFileStack` as shown in Figure 11. Load this `sessionData` on `undo` or `redo` command.
+* **Current choice:** Save a copy of the previous instance of `sessionData` using `createCopy()` whenever an
+`UndoableCommand` is executed, then load the previous instance on undo. Data in the copy will be written to
+a `.temp` file, with a timestamp prepended to its name to make it unique. Most of the `.temp` files will be
+wiped on application exit.
 ** Pros: `sessionData` stores data for `importSession`, making it appropriate to be used as data in `undo`
-and `redo`. Modification is only limited to `UndoableCommand`. Single Responsibility Principle is maintained,
-as the storage of save file locations is limited to `SaveFileStack`.
-** Cons: `sessionData` will have to store the boolean `initialized` in `sessionData` so that it will
-stay up-to-date with the `UndoRedoStack`.
+and `redo`. Modification is only limited to `UndoableCommand`. Code for `undo` can be reused for any commands that
+affect `sessionData` in the future, respecting Open Closed Principle.
+** Cons: IOException still has to be handled in `sessionData` on undo. `undo` and `redo` can fail now because of IOException and they have to be modified. `.temp` files
+can also cause home folder to bloat in size during runtime after many commands are entered.
 
 * _Alternative:_ `importSession` provides API to `undo` and `redo`.
-** Pros: Open Closed Principle is respected, there is no need to modify `UndoableCommand`.
-** Cons: Commands that modify `sessionData` have to be written differently from other commands to support
-`undo` and `redo`. The delimiter rule is also violated as `importSession` is unnecessarily involved.
+** Pros: `ImportSession` can effectively handle `undo` and `redo` on its own without additional dependencies.
+Open Closed Principle is respected, there is no need to modify `UndoableCommand`.
+** Cons: Difficult to coordinate with `UndoRedoStack` as jobs and employees in `model` are also affected. IOExceptions
+thrown also need to be handled, requiring `UndoableCommand` to be modified for handling of Exceptions.
 
-===== Aspect: Supporting mass add methods addJobs/addMissingEmployees
+===== Aspect: Supporting mass add method addJobsAndNewEmployees
 
 * **Current choice:** Add the methods to `Model`
 ** Pros: Cohesion is maximized, these methods can also be reused by other classes.
 ** Cons: Open Closed Principle is violated and adding these methods may result in confusion on the
 behavior of `Model`.
 
-* _Alternative:_ Add the methods to `ImportSession`
-** Pros: The behavior of these methods can be tailored specifically to `ImportSession`.
-** Cons: Unnecessary coupling between `Model` and `ImportSession` when `Command` is already coupled to `Model`.
-The Single Responsibility Principle is also violated.
+* _Alternative:_ Add the methods to an abstract `ReviewCommand` and inherit the methods for `AcceptAll`/`RejectAll` commands.
+** Pros: The behavior of these methods can be tailored specifically to `AcceptAll`/`RejectAll` commands.
+** Cons: Modifying the implementation of `Model` may affect the behavior of `ReviewCommand` without knowing, leading to
+potential regressions.
 
-===== Aspect: Persistent Data
+===== Aspect: Reading of first row headers from excel files
 
-* **Current choice:** Keep all data from `ImportSession` on `sessionData` and use it to initialize on startup.
-** Pros: `ImportSession` gets to stay as a `Singleton`, preventing confusion.
-** Cons: There will be increased coupling between `Session` and `Storage`.
+* **Current choice:** Allow compulsory and optional fields, with variable number of columns and variable order.
+** Pros: Flexible on format of imported excel files. Also allows future expansion of single column fields.
+** Cons: User may not appreciate the flexibility if he or she can enforce the format of the excel files received.
+Flexibility provided is not enough for unknown headers.
 
-* _Alternative:_ Combine `ImportSession` and `SessionData` into 1 single class and store
-it directly.
-** Pros: `ImportSession` can be directly initialized on startup and coupling is reduced.
-** Cons: Confusion may occur due to allowing more than one `ImportSession`.
+* _Alternative:_ Fix the format of the headers.
+** Pros: Confusion can be reduced, importing errors can also be minimized.
+** Cons: Users cannot further customize job entries on import with optional fields, optional field data will be lost.
+
+===== Aspect: Reading of job entries from excel files
+
+* **Current choice:** Find the first complete job entry. Subsequently, whenever the next job entry is read, if there
+are empty fields, take those fields from the previous job entry. Missing fields will be added to remarks and comments.
+Repeat until there are no job entries in the file.
+** Pros: Allows excel sheet providers to save time on filling reused data between adjacent job entries.
+** Cons: Unintentional blanks may result in job entries with wrong data being imported, requiring the user to look
+through the remarks of the imported job entries.
+
+* _Alternative:_ Only import complete job entries
+** Pros: Incomplete job entries will not be errorneously imported into CarviciM.
+** Cons: User will not be able to review incomplete job entries in the CarviciM as only complete jobs are imported.
+
+===== Aspect: Uniqueness of job entries
+
+* **Current choice:** Use `jobNumber` in the application on import. To prevent reimporting the same excel
+file twice, a file with the same name and a `-comments.xls` or `-comments.xlsx` appended, and every subsequent import reads from this file if
+** Pros: Job entry number is controlled by CarviciM and can stay unique. Job entries from excel files can
+also stay unique if there are no duplicates within or across excel files.
+** Cons: User might import the same file if the `-comments.xls` or `-comments.xlsx gets misplaced, and become confused.
+The `jobNumber` associated with the same imported job might also change on every different import.
+
+* _Alternative:_ Use a hash function to decide the `jobNumber` of a job. When there is a collision, add a suffix to make the `jobNumber` unique.
+** Pros: `jobNumber` stays the same on import, independent of when it is imported.
+** Cons: `JobNumber` has to be modified to support this implementation.
 // end::importexport[]
 
 // tag::theme[]
@@ -806,6 +925,40 @@ If there is no `INDEX` present, `theme` command will return an invalid message, 
 ** Cons: Violates Law of Demeter as `ThemeCommand` has knowledge and access to `Stage`.
 // end::theme[]
 
+// tag::findbytag[]
+=== Find by tag feature
+
+==== Current Implementation
+
+When the user enters `findt` followed by some keywords, for each existing employee, the employee's tags will be concatenated to form a String, with a space in between each tag. The `stream` method of `List` class will then be used to check if any of the keywords entered by the user matches any word in the concatenated string. The code for this algorithm is shown below:
+[source,java]
+----
+public boolean test(Employee employee) {
+    Set<Tag> employeeTags = employee.getTags();
+    String tagsConcatenated = "";
+    for (Tag tag: employeeTags) {
+        tagsConcatenated = tagsConcatenated + tag.getTagName() + " ";
+    }
+    final String allTagNames = tagsConcatenated;
+
+    return keywords.stream()
+            .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(allTagNames, keyword));
+}
+----
+
+This algorithm is then repeated for all existing employees to get the filtered list.
+
+==== Design Considerations
+
+===== Aspect: Number of keyword matches
+* **Current choice:** Only at least 1 keyword match is needed for the employee to appear on the filtered list.
+** Pros: Useful for users who wish to see employees who only have at least 1 keyword as their tag in the filtered list.
+** Cons: May not be useful for users who wish to search for employees that have all the keywords as their tags.
+* _Alternative:_ All keywords have to match for the employee to appear on the filtered list.
+** Pros: Useful for users who wish to search for employees that have all the keywords as their tags.
+** Cons: May not be useful for users who wish to see employees who only have at least 1 keyword as their tag in the filtered list.
+// end::findbytag[]
+
 // tag::sort[]
 === Sort feature
 ==== Current Implementation
@@ -847,6 +1000,30 @@ image::SortSequenceDiagram.png[width="800"]
 ==== Current Implementation
 
 The `ArchiveCommand` is facilitated by a `AddJobCommandParser`, which is responsible for parsing the input starting `Date` and ending `Date`.
+
+`ArchiveCommandParser` code snippet that parses the starting and ending `Date`:
+[source,java]
+----
+public ArchiveCommand parse(String args) throws ParseException {
+    ArgumentMultimap argMultimap =
+            ArgumentTokenizer.tokenize(args, PREFIX_START_DATE, PREFIX_END_DATE);
+
+    if (!arePrefixesPresent(argMultimap, PREFIX_START_DATE, PREFIX_END_DATE)
+            || !argMultimap.getPreamble().isEmpty()) {
+        throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ArchiveCommand.MESSAGE_USAGE));
+    }
+
+    try {
+        Date startDate = ParserUtil.parseDate(argMultimap.getValue(PREFIX_START_DATE)).get();
+        Date endDate = ParserUtil.parseDate(argMultimap.getValue(PREFIX_END_DATE)).get();
+
+        DateRange dateRange = new DateRange(startDate, endDate);
+        return new ArchiveCommand(dateRange);
+    } catch (IllegalValueException ive) {
+        throw new ParseException(ive.getMessage(), ive);
+    }
+}
+----
 
 The `ArchiveCommand` is implemented this way to ensure that the specified starting date is earlier than the ending date:
 [source,java]
@@ -899,7 +1076,7 @@ New classes has been added to the storage component to allow Carvicim to archive
 .`ArchiveCommand` Storage Component Diagram
 image::ArchiveStorageComponentDiagram.png[width="800"]
 
-As seen from Figure 17, `XmlSerializableArchiveJob` is used to serialize the archive job entries into a xml format based on `XmlAdaptedJob`.
+As seen from Figure 18, `XmlSerializableArchiveJob` is used to serialize the archive job entries into a xml format based on `XmlAdaptedJob`.
 The access of information to the archive job xml file is control by `XmlArchiveJobStorage`.
 The `StorageManager` manages both the storage of Carvicim and archive data.
 
@@ -1019,7 +1196,6 @@ The undo/redo mechanism is facilitated by an `UndoRedoStack`, which resides insi
 
 .Inheritance diagram for commands
 image::LogicCommandClassDiagram.png[width="800"]
-[none]
 
 As you can see from the diagram above, `UndoableCommand` adds an extra layer between the abstract `Command` class and concrete commands that can be undone, such as the `DeleteCommand`. Note that extra tasks need to be done when executing a command in an _undoable_ way, such as saving the state of the address book before execution. `UndoableCommand` contains the high-level algorithm for those extra tasks while the child classes implements the details of how to execute the specific command. Note that this technique of putting the high-level algorithm in the parent class and lower-level steps of the algorithm in child classes is also known as the https://www.tutorialspoint.com/design_pattern/template_pattern.htm[template pattern].
 
@@ -1153,47 +1329,75 @@ image::UndoRedoActivityDiagram.png[width="650"]
 
 ===== Aspect: Data structure to support the undo/redo commands
 
-* Current choice:** Use separate stack for undo and redo
-** Pros: Easy to understand for new Computer Science student undergraduates to understand, who are likely to be * the new incoming developers of our project.
+* **Current choice:** Use separate stack for undo and redo
+** Pros: Easy to understand for new Computer Science undergraduates to understand, who are likely to be * the new incoming developers of our project.
 ** Cons: Logic is duplicated twice. For example, when a new command is executed, we must remember to update * both `HistoryManager` and `UndoRedoStack`.
 * _Alternative:_ Use `HistoryManager` for undo/redo
 ** Pros: We do not need to maintain a separate stack, and just reuse what is already in the codebase.
 ** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two * different things.
 // end::undoredo[]
 
-// tag::sendemailtoemployee[]
-=== Send Email to Employees about Job
+// tag::logintogmail[]
+=== Login to Gmail
 
 ==== Current Implementation
 
-This feature is implemented using Gmail <<api, API>>.
+This feature is implemented using https://developers.google.com/gmail/api/[Gmail API].
 
-The following dependencies are used:
+When the user enters the `login` command, a new GmailAuthenticator object will be created which builds an authorized Gmail client service, as seen in the diagram below.
 
-* com.google.api-client:google-api-client:1.23.0
-* com.google.oauth-client:google-oauth-client-jetty:1.23.0
-* com.google.apis:google-api-services-gmail:v1-rev82-1.23.0
+.Login sequence diagram
+image::LoginCommand_SeqDiagram.PNG[width="550"]
 
-===== Authorization
+In the `authorize` method, a `GoogleAuthorizationCodeFlow` object is created to build the authorization code flow and trigger user authorization request. It then manages and persists user `Credential` by saving it in the file path `./src/main/resources/.credentials/carvicim-gmail`. For more details, look at the the code snippet below.
 
-Suppose that the user typed the first email command.
+The `authorize` method:
+[source,java]
+----
+public static Credential authorize() throws IOException {
+    InputStream in = GmailAuthenticator.class.getResourceAsStream("/client_secret.json");
+    GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
-.Email authorization sequence diagram
-image::EmailAuthorization.png[width="650"]
+    GoogleAuthorizationCodeFlow flow =
+            new GoogleAuthorizationCodeFlow.Builder(
+                    httpTransport, JSON_FACTORY, clientSecrets, Arrays.asList(scope))
+                    .setDataStoreFactory(dataStoreFactory)
+                    .setAccessType("offline")
+                    .build();
+    Credential credential = new AuthorizationCodeInstalledApp(
+            flow, new LocalServerReceiver()).authorize("user");
+    System.out.println("Credentials saved to " + DATA_STORE_DIR.getAbsolutePath());
+    return credential;
+}
+----
+// end::logintogmail[]
 
-. `GoogleAuthorizationCodeFlow` is used to build the authorization code flow and trigger user authorization request. It then manages and persists user `Credential`.
+// tag::sendemails[]
+=== Send Emails to Employees about Job
 
-. `Credential` is then saved into a `File` so that the user need not repeatedly key in his or her authorization information before sending each email.
+This feature is implemented using https://developers.google.com/gmail/api/[Gmail API].
 
-===== Sending an email
+A general overview of how this feature is implemented is shown in the sequence diagram below.
 
-. An empty `Properties` list is created, which is used to create an email `Session`
-. A `MimeMessage`, a class in the `javax.mail.internet` package is created using that `Session`.
-. Attributes `from`, `recipient`, `subject` and `text` of the `MimeMessage` are set. The `Text` set contains information extracted from the particular `Job`.
-. `MimeMessage` is encoded using base64url.
-. A `Message` object is instantiated.
-. The value of the `raw` property of the `Message` is set to the encoded `MimeMessage`.
-. Make a call to `messages.send` to send the email.
+.Email sequence diagram
+image::EmailCommand_SeqDiagram.PNG[width="550"]
+
+To explain the sequence of events in greater detail, when the user enters the `email j/JOB_NUMBER` command, a `UniqueEmployeeList` of `JOB_NUMBER` job is obtained from the `Job` object. Using a `for` loop, an email is sent to each employee in the `UniqueEmployeeList`.
+
+To craft an email, an empty `Properties` list is created, which is used to create an email `Session`. A `MimeMessage`, a class in the `javax.mail.internet` package is created using that `Session`. The body of the `MimeMessage` contains details extracted from the particular `Job`, and is then encoded using https://en.wikipedia.org/wiki/Base64[base64url] and repackaged into a `Message` by setting the value of the `raw` property of the `Message` to the encoded `MimeMessage`. How the repacking is done is shown in the code snippet below:
+[source,java]
+----
+public static Message createMessageWithEmail(MimeMessage emailContent) throws MessagingException, IOException {
+    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+    emailContent.writeTo(buffer);
+    byte[] bytes = buffer.toByteArray();
+    String encodedEmail = Base64.encodeBase64URLSafeString(bytes);
+    Message message = new Message();
+    message.setRaw(encodedEmail);
+    return message;
+}
+----
+Finally, this `Message` is sent by making a call to `messages.send`.
 
 ==== Design Considerations
 
@@ -1209,13 +1413,12 @@ image::EmailAuthorization.png[width="650"]
 ===== Aspect: Authorization information
 
 * **Current choice:** Stored in file system so subsequent executions will not prompt for authorization
-** Pros: More convenient for user as the user only needs to key in his or her authorization information once
-** Cons: Unsafe
+** Pros: More convenient for the user as the user only needs to key in his or her authorization information once
+** Cons: Unsafe if the computer used is a shared one as another person can send out emails from the logged in user's account.
 * _Alternative:_ Prompt for authorization for every subsequent executions
-** Pros: Safe
-** Cons: Inconvenient for user as user needs to always key in authorization information before sending each email
-
-// end::sendemailtoemployee[]
+** Pros: Safer as another person cannot simply send out emails from the logged in user's account, even on a shared computer.
+** Cons: Inconvenient for user as user needs to always key in authorization information before sending emails for each job.
+// end::sendemails[]
 
 // tag::dataencryption[]
 === [Proposed] Data Encryption
@@ -1813,7 +2016,7 @@ A convenient App for car servicing managers to organize servicing jobs and assig
 * Archiving and analysing job entries. (Major)
 +
 [none]
-** User can archive that may be needed for future reference. Job entries can also be analyse to keep track of the the employees' performance.
+** User can archive that may be needed for future reference. Job entries can also be analyse to keep track of the the employees' workload.
 
 
 [appendix]
@@ -1842,25 +2045,25 @@ Priorities::
 
 |`* * *` |user |view all employees |decide which employee to assign a job
 
-|`* *` |user |sort by employees' name |sort employee list alphabetically
-
 |`* * *` |user |add a new job entry |manage job entries
 
-|`* * *` |user |close an ongoing job entry |remove completed job and add it to jobs history
+|`* * *` |user |close an ongoing job entry |indicate that a job is completed
 
 |`* * *` |user |find a job entry by its assigned job id |locate details of a job without having to go through the list of ongoing jobs
-
-|`* *` |user |find job entries by the assigned employee's name |locate details of all jobs that are handled by an employee without having to go through the lists of jobs
-
-|`* *` |user |find job entries by client's name |locate details of all jobs belonging to a client without having to go through the lists of jobs
-
-|`* *` |user |find job entries by car number |locate details of all jobs related to a car number without having to go through the lists of jobs
 
 |`* * *` |user |add remarks to ongoing job entry |take note of details that are specific to the job
 
 |`* * *` |user |import job entries |add multiple job entries at once
 
-|`* *` |user |accept and reject imported changes |have control when over bulk imports
+|`* *` |user |login to Gmail |email employees about the assigned job details
+
+|`* *` |user |send emails to employees about the assigned job details |inform my employees of which jobs they are in charge of.
+
+|`* *` |busy user |send auto-generated emails to employees about the assigned job details |reduce the amount of time spent informing my employees of which jobs they are in charge of.
+
+|`* *` |user |find employees by their tags |find the employee with the matching skills for the job.
+
+|`* *` |user |accept and reject imported changes |have control over bulk imports
 
 |`* *` |user |modify imported job entries |import incomplete or invalid job entries
 
@@ -1868,20 +2071,27 @@ Priorities::
 
 |`* *` |user |export changes |provide feedback to employees regarding the changes
 
-|`*` |user |export completed jobs to other formats |print out all the completed job entries and view it with a better program
+|`* *` |user |find job entries by the assigned employee's name |locate details of all jobs that are handled by an employee without having to go through the list of jobs
 
-|`**` |user |archive job entries |extract job entries within the selected range for archiving
+|`* *` |user |find job entries by client's name |locate details of all jobs belonging to a client without having to go through the list of jobs
 
-|`**` |user |analyse job entries |keep track of employees' workload
+|`* *` |user |find job entries by car number |locate details of all jobs related to a car number without having to go through the list of jobs
+
+|`* *` |user |archive job entries |extract job entries within the selected range for archiving
+
+|`* *` |user |analyse job entries |keep track of employees' workload
+
+|`* *` |user |sort by employees' name |sort employee list alphabetically
 
 |`* *` |user |change the colour label of job status |easily differentiate between the job statuses
 
 |`* *` |user who likes customization |change the theme of the application |customize the theme to my preference
 
-|`* *` |user who likes customization |change the command words of the application |improve ease of use
+|`* *` |user who likes customization |set alternate command words in the application |improve ease of use
+
+|`*` |user |export completed jobs to other formats |print out all the completed job entries and view it with a better program
 
 |=======================================================================
-
 _{More to be added}_
 
 [appendix]
@@ -1933,6 +2143,16 @@ Use case ends.
 ** 3a1. CarviciM shows an error message.
 +
 Use case resumes at step 2.
+
+[none]
+* 3b. The given employee is assigned to an ongoing job.
++
+[none]
+** 3b1. CarviciM shows an error message.
++
+Use case resumes at step 3.
++
+Use case ends.
 
 [discrete]
 === Use case: Find an employee by name
@@ -2285,7 +2505,7 @@ _{More to be added}_
 *  Should respond to user command within 2 seconds.
 *  Should be usable by a novice who has never used an electronic job management app before.
 *  User interface should be intuitive enough for users who are not IT-savvy.
-*  View should fit the screen of any computer with minimum screen size of 1366 by 768 pixels.
+*  View should fit the screen of any computer with minimum screen size of 1280 by 720 pixels.
 
 _{More to be added}_
 
@@ -2320,23 +2540,6 @@ Pull Request
 Single Layer of Abstraction Principle: extraction of methods, fields and constants to keep details at the same level in a method.
 
 [appendix]
-== Product Survey
-
-*Product Name*
-
-Author: ...
-
-Pros:
-
-* ...
-* ...
-
-Cons:
-
-* ...
-* ...
-
-[appendix]
 == Instructions for Manual Testing
 
 Given below are instructions to test the app manually.
@@ -2358,28 +2561,37 @@ These instructions only provide a starting point for testers to work on; testers
 .. Re-launch the app by double-clicking the jar file. +
    Expected: The most recent window size and location is retained.
 
-_{ more test cases ... }_
-
 === Deleting a employee
 
-. Deleting a employee while all employees are listed
+. Deleting an employee's record while all employees are listed
 
-.. Prerequisites: List all employees using the `list` command. Multiple employees in the list.
-.. Test case: `delete 1` +
-   Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
-.. Test case: `delete 0` +
+.. Prerequisites: List all employees using the `liste` command. Multiple employees in the list.
+.. Test case: `deletee 1` +
+   Expected: First contact is deleted from the list. Details of the deleted contact is shown in the status message. Timestamp in the status bar is updated.
+.. Test case: `deletee 0` +
    Expected: No employee is deleted. Error details shown in the status message. Status bar remains the same.
-.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) _{give more}_ +
+.. Other incorrect delete commands to try: `deletee`, `deletee x` (where x is larger than the list size) _{give more}_ +
    Expected: Similar to previous.
 
-_{ more test cases ... }_
+=== Closing a job
 
-=== Saving data
+. Closing a job while all jobs are listed
 
-. Dealing with missing/corrupted data files
+.. Prerequisites: List all ongoing jobs using the `listoj` command. Multiple ongoing jobs in the list.
+.. Test case: `closej j/1` +
+   Expected: Job with job number 1 has its status change from "ongoing" to "closed". Details of the closed job shown in the status message. Job list shows updated job. Timestamp in the status bar is updated.
+.. Test case: `closej j/0` +
+   Expected: No job is closed. Error details shown in the status message. Status bar remains the same.
 
-.. _{explain how to simulate a missing/corrupted file and the expected behavior}_
+=== Adding remark to a job
 
-_{ more test cases ... }_
+. Adding a remark to an ongoing job, while all ongoing jobs are listed
+
+.. Prerequisites: List all jobs using the `listoj` command. Multiple ongoing jobs in the list.
+.. Test case: `remark j/1 r/Urgent` +
+   Expected: Remark "Urgent" added to job number 1. Details of remark added to job shown in the status message. Timestamp in the status bar is updated.
+.. Test case: `remark j/0 r/Urgent` +
+   Expected: Remark not added to the specified job. Error details shown in the status message. Status bar remains the same.
+
 
 
